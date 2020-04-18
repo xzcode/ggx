@@ -56,13 +56,13 @@
 	    <dependencies>
 	    
 	    	<dependency>
-				<groupId>xzcode</groupId>
+				<groupId>com.xzcode</groupId>
 				<artifactId>ggserver-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>xzcode</groupId>
+				<groupId>com.xzcode</groupId>
 				<artifactId>ggserver-game</artifactId>
 				<version>${project.version}</version>
 			</dependency>
