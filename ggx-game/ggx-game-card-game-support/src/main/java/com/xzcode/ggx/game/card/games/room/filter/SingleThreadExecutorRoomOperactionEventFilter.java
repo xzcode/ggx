@@ -1,8 +1,8 @@
 package com.xzcode.ggx.game.card.games.room.filter;
 
-import com.xzcode.ggserver.core.common.event.IEventManager;
+import com.xzcode.ggserver.core.common.event.EventManager;
 import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.filter.IEventFilter;
+import com.xzcode.ggserver.core.common.filter.EventFilter;
 import com.xzcode.ggserver.core.common.session.GGSession;
 import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggx.game.card.games.house.House;
@@ -25,13 +25,13 @@ public class SingleThreadExecutorRoomOperactionEventFilter
 P extends RoomPlayer<P, R, H>,
 R extends SingleThreadExecutorRoom<P, R, H>,
 H extends House<P, R, H>
-> implements IEventFilter {
+> implements EventFilter {
 	
-	protected IEventManager eventManager;
+	protected EventManager eventManager;
 	
 	protected String playerSessionKey;
 
-	public SingleThreadExecutorRoomOperactionEventFilter(String playerSessionKey, IEventManager eventManager) {
+	public SingleThreadExecutorRoomOperactionEventFilter(String playerSessionKey, EventManager eventManager) {
 		this.playerSessionKey = playerSessionKey;
 		this.eventManager = eventManager;
 	}

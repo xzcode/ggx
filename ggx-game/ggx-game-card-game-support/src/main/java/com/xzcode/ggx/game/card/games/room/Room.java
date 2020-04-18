@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.xzcode.ggserver.core.server.IGGServer;
+import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggx.game.card.games.house.House;
 import com.xzcode.ggx.game.card.games.player.RoomPlayer;
 import com.xzcode.ggx.game.card.games.room.listener.IPlayerEnterListener;
@@ -28,7 +28,7 @@ H extends House<P, R, H>
 	/**
 	 * ggserver对象
 	 */
-	protected IGGServer ggserver;
+	protected GGServer ggserver;
 	
 	/**
 	 * 大厅
@@ -194,12 +194,12 @@ H extends House<P, R, H>
 
 	
 	
-	public IGGServer getGGserver() {
+	public GGServer getGGserver() {
 		return ggserver;
 	}
 
 
-	public void setGGserver(IGGServer server) {
+	public void setGGserver(GGServer server) {
 		this.ggserver = server;
 	}
 	

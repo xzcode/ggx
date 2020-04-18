@@ -2,9 +2,9 @@ package com.xzcode.ggx.game.card.games.room;
 
 import java.nio.charset.Charset;
 
-import com.xzcode.ggserver.core.common.executor.ITaskExecutor;
+import com.xzcode.ggserver.core.common.executor.TaskExecutor;
 import com.xzcode.ggserver.core.common.executor.support.IExecutorSupport;
-import com.xzcode.ggserver.core.common.filter.IFilterManager;
+import com.xzcode.ggserver.core.common.filter.FilterManager;
 import com.xzcode.ggserver.core.common.handler.serializer.ISerializer;
 import com.xzcode.ggserver.core.common.session.manager.ISessionManager;
 import com.xzcode.ggx.game.card.games.house.House;
@@ -35,9 +35,9 @@ IExecutorSupport
 	/**
 	 * 单线程执行器
 	 */
-	protected ITaskExecutor taskExecutor;
+	protected TaskExecutor taskExecutor;
 
-	public SingleThreadExecutorRoom(ITaskExecutor singleThreadExecutor) {
+	public SingleThreadExecutorRoom(TaskExecutor singleThreadExecutor) {
 		this.taskExecutor = singleThreadExecutor;
 	}
 	
@@ -55,7 +55,7 @@ IExecutorSupport
 	
 
 	@Override
-	public ITaskExecutor getTaskExecutor() {
+	public TaskExecutor getTaskExecutor() {
 		//此处使用房间内的任务执行器
 		return this.taskExecutor;
 	}
@@ -76,7 +76,7 @@ IExecutorSupport
 	}
 
 	@Override
-	public IFilterManager getFilterManager() {
+	public FilterManager getFilterManager() {
 		return getGGserver().getFilterManager();
 	}
 

@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 import com.xzcode.ggserver.core.common.executor.support.IExecutorSupport;
 import com.xzcode.ggserver.core.common.message.model.IMessage;
-import com.xzcode.ggserver.core.common.message.response.support.ISendMessageSupport;
+import com.xzcode.ggserver.core.common.message.response.support.SendMessageSupport;
 import com.xzcode.ggx.game.card.games.house.House;
-import com.xzcode.ggx.game.card.games.interfaces.condition.ICheckCondition;
 import com.xzcode.ggx.game.card.games.player.RoomPlayer;
 import com.xzcode.ggx.game.card.games.room.Room;
+import com.xzcode.ggx.game.core.interfaces.condition.ICheckCondition;
 
 /**
  * 房间游戏控制器接口
@@ -34,7 +34,7 @@ P extends RoomPlayer<P, R, H>,
 R extends Room<P, R, H>, 
 H extends House<P, R, H>
 >
-extends IExecutorSupport, ISendMessageSupport {
+extends IExecutorSupport, SendMessageSupport {
 	
 	
 	

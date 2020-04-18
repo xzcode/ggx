@@ -3,10 +3,10 @@ package com.xzcode.ggx.game.card.games.room.manager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.xzcode.ggserver.core.common.executor.ITaskExecutor;
+import com.xzcode.ggserver.core.common.executor.TaskExecutor;
 import com.xzcode.ggserver.core.common.executor.SingleThreadTaskExecutor;
 import com.xzcode.ggserver.core.common.future.IGGFuture;
-import com.xzcode.ggserver.core.server.IGGServer;
+import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggx.game.card.games.house.House;
 import com.xzcode.ggx.game.card.games.player.RoomPlayer;
 import com.xzcode.ggx.game.card.games.player.factory.IPlayerFactory;
@@ -32,7 +32,7 @@ H extends House<P, R, H>
 	/**
 	 * ggserver对象
 	 */
-	protected IGGServer ggserver;
+	protected GGServer ggserver;
 	
 	/**
 	 * 大厅集合Map<houseNo, house>
@@ -48,7 +48,7 @@ H extends House<P, R, H>
 	/**
 	 * 任务执行器
 	 */
-	protected ITaskExecutor executor;
+	protected TaskExecutor executor;
 	
 	
 	protected IPlayerFactory<P> playerFactory;
@@ -61,7 +61,7 @@ H extends House<P, R, H>
 	 * @param designPlayerSize 预计总玩家数量
 	 */
 	public RoomGameManager(
-			IGGServer ggserver,
+			GGServer ggserver,
 			int designPlayerSize,
 			IPlayerFactory<P> playerFactory,
 			IRoomFactory<R> roomFactory
@@ -179,11 +179,11 @@ H extends House<P, R, H>
 	}
 	
 	@Override
-	public ITaskExecutor getTaskExecutor() {
+	public TaskExecutor getTaskExecutor() {
 		return executor;
 	}
 	
-	public IGGServer getGGserver() {
+	public GGServer getGGserver() {
 		return ggserver;
 	}
 

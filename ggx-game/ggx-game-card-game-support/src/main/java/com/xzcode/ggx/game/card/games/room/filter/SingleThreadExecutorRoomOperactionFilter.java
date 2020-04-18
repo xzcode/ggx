@@ -1,8 +1,8 @@
 package com.xzcode.ggx.game.card.games.room.filter;
 
-import com.xzcode.ggserver.core.common.filter.IRequestFilter;
+import com.xzcode.ggserver.core.common.filter.ReceiveMessageFilter;
 import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.manager.IRequestMessageManager;
+import com.xzcode.ggserver.core.common.message.request.manager.ReceiveMessageManager;
 import com.xzcode.ggserver.core.common.session.GGSession;
 import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggx.game.card.games.house.House;
@@ -25,13 +25,13 @@ public class SingleThreadExecutorRoomOperactionFilter
 P extends RoomPlayer<P, R, H>,
 R extends SingleThreadExecutorRoom<P, R, H>,
 H extends House<P, R, H>
-> implements IRequestFilter {
+> implements ReceiveMessageFilter {
 	
-	protected IRequestMessageManager requestMessageManager;
+	protected ReceiveMessageManager requestMessageManager;
 	
 	protected String playerSessionKey;
 
-	public SingleThreadExecutorRoomOperactionFilter(String playerSessionKey, IRequestMessageManager requestMessageManager) {
+	public SingleThreadExecutorRoomOperactionFilter(String playerSessionKey, ReceiveMessageManager requestMessageManager) {
 		this.playerSessionKey = playerSessionKey;
 		this.requestMessageManager = requestMessageManager;
 	}
