@@ -2,6 +2,7 @@ package com.xzcode.ggcloud.router.client.config;
 
 import java.util.UUID;
 
+import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
 import com.xzcode.ggcloud.router.client.RouterClient;
 import com.xzcode.ggcloud.router.client.filter.RouteReceiveMessageFilter;
@@ -11,7 +12,6 @@ import com.xzcode.ggcloud.router.client.router.service.impl.DefaultDiscoveryServ
 import com.xzcode.ggcloud.router.client.router.service.impl.DefaultServicePorvider;
 import com.xzcode.ggcloud.router.common.constant.GGRouterConstant;
 import com.xzcode.ggcloud.router.common.constant.RouterServiceCustomDataKeys;
-import com.xzcode.ggserver.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
 

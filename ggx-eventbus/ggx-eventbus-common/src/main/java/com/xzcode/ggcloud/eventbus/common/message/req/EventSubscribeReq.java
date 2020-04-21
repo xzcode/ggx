@@ -2,8 +2,8 @@ package com.xzcode.ggcloud.eventbus.common.message.req;
 
 import java.util.List;
 
+import com.ggx.core.common.message.model.IMessage;
 import com.xzcode.ggcloud.eventbus.common.constant.EventbusConstant;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
 
 /**
  * 事件订阅请求

@@ -1,7 +1,7 @@
 package com.xzcode.ggcloud.router.client.router.service.impl;
 
+import com.ggx.core.common.message.Pack;
 import com.xzcode.ggcloud.router.client.router.service.IRouterServiceMatcher;
-import com.xzcode.ggserver.core.common.message.Pack;
 
 /**
  * 默认action前缀路由服务匹配器

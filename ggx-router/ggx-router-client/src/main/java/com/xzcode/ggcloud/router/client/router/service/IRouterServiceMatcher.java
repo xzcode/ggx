@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.router.client.router.service;
 
-import com.xzcode.ggserver.core.common.message.Pack;
+import com.ggx.core.common.message.Pack;
 
 /**
  * 服务匹配器

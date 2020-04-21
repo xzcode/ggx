@@ -1,11 +1,11 @@
 package com.xzcode.ggcloud.session.group.server.handler;
 
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.session.group.common.message.req.AuthReq;
 import com.xzcode.ggcloud.session.group.common.message.resp.AuthResp;
 import com.xzcode.ggcloud.session.group.server.config.SessionGroupServerConfig;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 客户端认证请求

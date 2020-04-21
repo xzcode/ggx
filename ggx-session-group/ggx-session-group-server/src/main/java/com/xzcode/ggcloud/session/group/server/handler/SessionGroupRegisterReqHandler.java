@@ -1,13 +1,13 @@
 package com.xzcode.ggcloud.session.group.server.handler;
 
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.session.group.common.group.manager.GGSessionGroupManager;
 import com.xzcode.ggcloud.session.group.common.message.req.SessionGroupRegisterReq;
 import com.xzcode.ggcloud.session.group.common.message.resp.SessionGroupRegisterResp;
 import com.xzcode.ggcloud.session.group.server.config.SessionGroupServerConfig;
 import com.xzcode.ggcloud.session.group.server.constant.SessionGroupServerSessionKeys;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 内置ping处理器

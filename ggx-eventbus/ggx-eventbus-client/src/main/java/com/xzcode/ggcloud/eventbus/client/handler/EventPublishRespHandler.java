@@ -1,9 +1,9 @@
 package com.xzcode.ggcloud.eventbus.client.handler;
 
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.xzcode.ggcloud.eventbus.client.config.EventbusClientConfig;
 import com.xzcode.ggcloud.eventbus.common.message.resp.EventPublishResp;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
 
 /**
  * 事件发布响应

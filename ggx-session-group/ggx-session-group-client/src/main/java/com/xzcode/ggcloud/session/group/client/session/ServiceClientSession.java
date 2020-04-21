@@ -1,15 +1,15 @@
 package com.xzcode.ggcloud.session.group.client.session;
 
+import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.future.GGDefaultFuture;
+import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.impl.AbstractAttrMapSession;
 import com.xzcode.ggcloud.session.group.common.group.manager.GGSessionGroupManager;
 import com.xzcode.ggcloud.session.group.common.message.req.DataTransferReq;
-import com.xzcode.ggserver.core.common.config.GGConfig;
-import com.xzcode.ggserver.core.common.event.GGEvents;
-import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.future.GGDefaultFuture;
-import com.xzcode.ggserver.core.common.future.IGGFuture;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.Pack;
-import com.xzcode.ggserver.core.common.session.impl.AbstractAttrMapSession;
 
 import io.netty.channel.Channel;
 

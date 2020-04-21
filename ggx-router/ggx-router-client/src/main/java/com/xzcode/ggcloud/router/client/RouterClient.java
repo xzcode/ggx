@@ -1,7 +1,7 @@
 package com.xzcode.ggcloud.router.client;
 
-import com.xzcode.ggserver.core.common.future.IGGFuture;
-import com.xzcode.ggserver.core.common.message.Pack;
+import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.message.Pack;
 
 /**
  * 网关路由器统一接口

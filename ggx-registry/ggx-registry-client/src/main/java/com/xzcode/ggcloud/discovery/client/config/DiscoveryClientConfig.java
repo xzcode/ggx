@@ -6,16 +6,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.ggx.core.client.GGClient;
+import com.ggx.core.common.executor.DefaultTaskExecutor;
+import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
 import com.xzcode.ggcloud.discovery.client.registry.RegistryInfo;
 import com.xzcode.ggcloud.discovery.client.registry.RegistryManager;
 import com.xzcode.ggcloud.discovery.common.constant.DiscoveryConstant;
 import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
 import com.xzcode.ggcloud.discovery.common.util.DiscoveryServiceIdUtil;
-import com.xzcode.ggserver.core.client.GGClient;
-import com.xzcode.ggserver.core.common.executor.DefaultTaskExecutor;
-import com.xzcode.ggserver.core.common.executor.TaskExecutor;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 配置

@@ -3,13 +3,13 @@ package com.xzcode.ggcloud.session.group.client.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.session.group.client.config.SessionGroupClientConfig;
 import com.xzcode.ggcloud.session.group.common.constant.GGSessionGroupEventConstant;
 import com.xzcode.ggcloud.session.group.common.message.resp.SessionGroupRegisterResp;
-import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 内置pingpong处理器

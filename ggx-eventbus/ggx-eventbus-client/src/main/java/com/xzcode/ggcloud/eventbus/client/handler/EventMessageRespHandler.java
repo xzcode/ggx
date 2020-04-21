@@ -1,14 +1,14 @@
 package com.xzcode.ggcloud.eventbus.client.handler;
 
+import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggcloud.eventbus.client.config.EventbusClientConfig;
 import com.xzcode.ggcloud.eventbus.client.subscriber.SubscriberInfo;
 import com.xzcode.ggcloud.eventbus.client.subscriber.SubscriberManager;
 import com.xzcode.ggcloud.eventbus.common.message.resp.EventMessageResp;
 import com.xzcode.ggcloud.eventbus.common.message.resp.EventSubscribeResp;
-import com.xzcode.ggserver.core.common.handler.serializer.ISerializer;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 
 /**
  * 消息接收处理器

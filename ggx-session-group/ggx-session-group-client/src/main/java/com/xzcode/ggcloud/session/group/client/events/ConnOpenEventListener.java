@@ -1,14 +1,14 @@
 package com.xzcode.ggcloud.session.group.client.events;
 
+import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.manager.ISessionManager;
 import com.xzcode.ggcloud.session.group.client.config.SessionGroupClientConfig;
 import com.xzcode.ggcloud.session.group.client.session.ServiceClientSession;
 import com.xzcode.ggcloud.session.group.common.group.manager.GGSessionGroupManager;
 import com.xzcode.ggcloud.session.group.common.message.req.AuthReq;
-import com.xzcode.ggserver.core.client.config.GGClientConfig;
-import com.xzcode.ggserver.core.common.event.EventListener;
-import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.session.GGSession;
-import com.xzcode.ggserver.core.common.session.manager.ISessionManager;
 
 /**
  * 连接打开事件监听

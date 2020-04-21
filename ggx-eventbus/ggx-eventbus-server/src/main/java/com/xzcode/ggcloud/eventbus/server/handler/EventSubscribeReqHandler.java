@@ -2,11 +2,11 @@ package com.xzcode.ggcloud.eventbus.server.handler;
 
 import java.util.List;
 
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.eventbus.common.message.req.EventSubscribeReq;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 客户端认证请求

@@ -1,8 +1,8 @@
 package com.xzcode.ggserver.core.server;
 
-import com.xzcode.ggserver.core.common.config.GGConfigSupport;
-import com.xzcode.ggserver.core.common.control.IGGContolSupport;
-import com.xzcode.ggserver.core.common.future.IGGFuture;
+import com.ggx.core.common.config.GGConfigSupport;
+import com.ggx.core.common.control.IGGContolSupport;
+import com.ggx.core.common.future.IGGFuture;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
 /**

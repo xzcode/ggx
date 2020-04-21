@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.discovery.common.message.req;
 
-import com.xzcode.ggserver.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.IMessage;
 
 public class DiscoveryServiceListReq  implements IMessage{
 	

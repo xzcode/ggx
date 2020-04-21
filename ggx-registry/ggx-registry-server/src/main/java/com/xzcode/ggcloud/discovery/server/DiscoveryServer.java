@@ -1,5 +1,8 @@
 package com.xzcode.ggcloud.discovery.server;
 
+import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggcloud.discovery.common.message.req.DiscoveryServiceListReq;
 import com.xzcode.ggcloud.discovery.common.message.req.DiscoveryServiceRegisterReq;
 import com.xzcode.ggcloud.discovery.common.message.req.DiscoveryServiceUpdateReq;
@@ -9,9 +12,6 @@ import com.xzcode.ggcloud.discovery.server.events.ConnCloseEventListener;
 import com.xzcode.ggcloud.discovery.server.handler.RegisterReqHandler;
 import com.xzcode.ggcloud.discovery.server.handler.ServiceListReqHandler;
 import com.xzcode.ggcloud.discovery.server.handler.ServiceUpdateReqHandler;
-import com.xzcode.ggserver.core.common.constant.ProtocolTypeConstants;
-import com.xzcode.ggserver.core.common.event.GGEvents;
-import com.xzcode.ggserver.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 import com.xzcode.ggserver.core.server.impl.GGDefaultServer;

@@ -2,6 +2,16 @@ package com.xzcode.ggcloud.session.group.client;
 
 import java.nio.charset.Charset;
 
+import com.ggx.core.client.GGClient;
+import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.EventManager;
+import com.ggx.core.common.event.EventSupport;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.message.response.support.IMakePackSupport;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggcloud.session.group.client.config.SessionGroupClientConfig;
 import com.xzcode.ggcloud.session.group.client.events.ConnCloseEventListener;
 import com.xzcode.ggcloud.session.group.client.events.ConnOpenEventListener;
@@ -14,16 +24,6 @@ import com.xzcode.ggcloud.session.group.common.message.resp.AuthResp;
 import com.xzcode.ggcloud.session.group.common.message.resp.DataTransferResp;
 import com.xzcode.ggcloud.session.group.common.message.resp.SessionGroupRegisterResp;
 import com.xzcode.ggcloud.session.group.common.session.SessionGroupSessionFactory;
-import com.xzcode.ggserver.core.client.GGClient;
-import com.xzcode.ggserver.core.client.config.GGClientConfig;
-import com.xzcode.ggserver.core.common.constant.ProtocolTypeConstants;
-import com.xzcode.ggserver.core.common.event.GGEvents;
-import com.xzcode.ggserver.core.common.event.EventManager;
-import com.xzcode.ggserver.core.common.event.EventSupport;
-import com.xzcode.ggserver.core.common.executor.thread.GGThreadFactory;
-import com.xzcode.ggserver.core.common.handler.serializer.ISerializer;
-import com.xzcode.ggserver.core.common.message.response.support.IMakePackSupport;
-import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 
 /**
  * 会话组客户端

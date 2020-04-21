@@ -1,14 +1,14 @@
 package com.xzcode.ggcloud.discovery.server.events;
 
+import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggcloud.discovery.common.message.resp.DiscoveryServiceUnregisterResp;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
 import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
 import com.xzcode.ggcloud.discovery.server.config.DiscoveryServerConfig;
 import com.xzcode.ggcloud.discovery.server.constant.DiscoveryServerSessionKeys;
-import com.xzcode.ggserver.core.common.event.EventListener;
-import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.session.GGSession;
-import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	

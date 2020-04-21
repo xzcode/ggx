@@ -2,11 +2,11 @@ package com.xzcode.ggcloud.session.group.client.config;
 
 import java.util.concurrent.ThreadFactory;
 
+import com.ggx.core.client.GGClient;
+import com.ggx.core.common.utils.RandomIdUtil;
 import com.xzcode.ggcloud.session.group.client.SessionGroupClient;
 import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
 import com.xzcode.ggcloud.session.group.common.group.manager.GGSessionGroupManager;
-import com.xzcode.ggserver.core.client.GGClient;
-import com.xzcode.ggserver.core.common.utils.RandomIdUtil;
 import com.xzcode.ggserver.core.server.GGServer;
 
 import io.netty.channel.EventLoopGroup;

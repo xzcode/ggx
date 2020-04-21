@@ -1,6 +1,6 @@
 package com.xzcode.ggserver.core.server.impl;
 
-import com.xzcode.ggserver.core.common.future.IGGFuture;
+import com.ggx.core.common.future.IGGFuture;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 import com.xzcode.ggserver.core.server.starter.IGGServerStarter;

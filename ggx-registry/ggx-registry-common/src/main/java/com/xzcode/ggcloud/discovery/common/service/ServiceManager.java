@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.discovery.common.service.listener.IRegisterServiceListener;
 import com.xzcode.ggcloud.discovery.common.service.listener.IUnregisterServiceListener;
 import com.xzcode.ggcloud.discovery.common.service.listener.IUpdateServiceListener;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 服务管理器

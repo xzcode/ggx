@@ -2,12 +2,12 @@ package com.xzcode.ggserver.core.server.config;
 
 import java.util.concurrent.ThreadFactory;
 
-import com.xzcode.ggserver.core.common.config.GGConfig;
-import com.xzcode.ggserver.core.common.event.GGEvents;
-import com.xzcode.ggserver.core.common.executor.thread.GGThreadFactory;
-import com.xzcode.ggserver.core.common.message.pingpong.GGPingPongServerEventListener;
-import com.xzcode.ggserver.core.common.message.pingpong.GGPingRequestHandler;
-import com.xzcode.ggserver.core.common.message.pingpong.model.GGPing;
+import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
+import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
+import com.ggx.core.common.message.pingpong.model.GGPing;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

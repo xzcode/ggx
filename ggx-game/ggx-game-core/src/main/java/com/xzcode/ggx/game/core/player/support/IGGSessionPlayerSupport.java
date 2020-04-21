@@ -1,10 +1,10 @@
 package com.xzcode.ggx.game.core.player.support;
 
-import com.xzcode.ggserver.core.common.future.GGFailedFuture;
-import com.xzcode.ggserver.core.common.future.IGGFuture;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
-import com.xzcode.ggserver.core.common.session.GGSession;
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.session.GGSession;
 
 /**
  * 玩家支持接口

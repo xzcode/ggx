@@ -6,14 +6,14 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.xzcode.ggserver.core.common.future.GGDefaultFuture;
-import com.xzcode.ggserver.core.common.future.GGFailedFuture;
-import com.xzcode.ggserver.core.common.future.IGGFuture;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.Pack;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
-import com.xzcode.ggserver.core.common.message.response.support.IMakePackSupport;
-import com.xzcode.ggserver.core.common.session.GGSession;
+import com.ggx.core.common.future.GGDefaultFuture;
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.response.support.IMakePackSupport;
+import com.ggx.core.common.session.GGSession;
 
 /**
  * 会话组

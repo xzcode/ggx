@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.message.Pack;
 import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
 import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
@@ -17,7 +18,6 @@ import com.xzcode.ggcloud.router.client.router.service.listener.IAddRouterServic
 import com.xzcode.ggcloud.router.client.router.service.listener.IRemoveRouterServiceListener;
 import com.xzcode.ggcloud.router.client.router.service.listener.IRouterServiceListener;
 import com.xzcode.ggcloud.router.common.constant.RouterServiceCustomDataKeys;
-import com.xzcode.ggserver.core.common.message.Pack;
 
 /**
  * 默认路由服务提供者

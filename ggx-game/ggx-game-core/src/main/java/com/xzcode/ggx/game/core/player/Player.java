@@ -1,6 +1,6 @@
 package com.xzcode.ggx.game.core.player;
 
-import com.xzcode.ggserver.core.common.session.GGSession;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggx.game.core.player.support.IGGSessionPlayerSupport;
 
 /**

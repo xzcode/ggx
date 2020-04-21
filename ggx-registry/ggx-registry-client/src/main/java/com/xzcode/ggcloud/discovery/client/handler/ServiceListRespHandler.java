@@ -2,12 +2,12 @@ package com.xzcode.ggcloud.discovery.client.handler;
 
 import java.util.List;
 
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.xzcode.ggcloud.discovery.client.config.DiscoveryClientConfig;
 import com.xzcode.ggcloud.discovery.common.message.resp.DiscoveryServiceListResp;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
 import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
 
 /**
  * 服务列表推送处理

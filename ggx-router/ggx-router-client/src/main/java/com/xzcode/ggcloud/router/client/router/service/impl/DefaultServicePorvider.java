@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.message.Pack;
 import com.xzcode.ggcloud.router.client.config.RouterClientConfig;
 import com.xzcode.ggcloud.router.client.router.service.IRouterService;
 import com.xzcode.ggcloud.router.client.router.service.IRouterServiceProvider;
 import com.xzcode.ggcloud.router.client.router.service.listener.IAddRouterServiceListener;
 import com.xzcode.ggcloud.router.client.router.service.listener.IRemoveRouterServiceListener;
 import com.xzcode.ggcloud.router.client.router.service.listener.IRouterServiceListener;
-import com.xzcode.ggserver.core.common.message.Pack;
 
 /**
  * 默认路由服务提供者

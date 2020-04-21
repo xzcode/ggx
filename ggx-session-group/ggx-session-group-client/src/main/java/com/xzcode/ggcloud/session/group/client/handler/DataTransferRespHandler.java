@@ -1,15 +1,15 @@
 package com.xzcode.ggcloud.session.group.client.handler;
 
+import com.ggx.core.client.GGClient;
+import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.request.task.MessageDataTask;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.manager.ISessionManager;
 import com.xzcode.ggcloud.session.group.client.config.SessionGroupClientConfig;
 import com.xzcode.ggcloud.session.group.common.message.resp.DataTransferResp;
-import com.xzcode.ggserver.core.client.GGClient;
-import com.xzcode.ggserver.core.client.config.GGClientConfig;
-import com.xzcode.ggserver.core.common.message.MessageData;
-import com.xzcode.ggserver.core.common.message.Pack;
-import com.xzcode.ggserver.core.common.message.request.action.MessageDataHandler;
-import com.xzcode.ggserver.core.common.message.request.task.MessageDataTask;
-import com.xzcode.ggserver.core.common.session.GGSession;
-import com.xzcode.ggserver.core.common.session.manager.ISessionManager;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 

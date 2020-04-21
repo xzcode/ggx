@@ -1,9 +1,9 @@
 package com.xzcode.ggcloud.discovery.client.events;
 
+import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.model.EventData;
 import com.xzcode.ggcloud.discovery.client.config.DiscoveryClientConfig;
 import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
-import com.xzcode.ggserver.core.common.event.EventListener;
-import com.xzcode.ggserver.core.common.event.model.EventData;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	

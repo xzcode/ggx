@@ -1,12 +1,12 @@
 package com.xzcode.ggcloud.discovery.client.events;
 
+import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.discovery.client.config.DiscoveryClientConfig;
 import com.xzcode.ggcloud.discovery.common.message.req.DiscoveryServiceRegisterReq;
 import com.xzcode.ggcloud.discovery.common.message.req.model.ServiceInfoModel;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
-import com.xzcode.ggserver.core.common.event.EventListener;
-import com.xzcode.ggserver.core.common.event.model.EventData;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 public class ConnOpenEventListener implements EventListener<Void>{
 

@@ -1,5 +1,6 @@
 package com.xzcode.ggcloud.eventbus.server;
 
+import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggcloud.eventbus.common.constant.EventbusConstant;
 import com.xzcode.ggcloud.eventbus.common.message.req.EventPublishReq;
 import com.xzcode.ggcloud.eventbus.common.message.req.EventSubscribeReq;
@@ -9,7 +10,6 @@ import com.xzcode.ggcloud.eventbus.server.handler.EventSubscribeReqHandler;
 import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
 import com.xzcode.ggcloud.session.group.server.SessionGroupServer;
 import com.xzcode.ggcloud.session.group.server.config.SessionGroupServerConfig;
-import com.xzcode.ggserver.core.common.executor.thread.GGThreadFactory;
 import com.xzcode.ggserver.core.server.GGServer;
 
 public class EventbusServer {

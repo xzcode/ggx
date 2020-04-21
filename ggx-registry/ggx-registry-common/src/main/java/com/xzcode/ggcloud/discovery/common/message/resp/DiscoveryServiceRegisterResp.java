@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.discovery.common.message.resp;
 
-import com.xzcode.ggserver.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.IMessage;
 
 /**
  * 客户端注册响应

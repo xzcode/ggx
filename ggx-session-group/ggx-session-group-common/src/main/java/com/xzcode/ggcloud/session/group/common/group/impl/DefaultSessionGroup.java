@@ -4,10 +4,10 @@ import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.session.group.common.group.GGSessionGroup;
-import com.xzcode.ggserver.core.common.config.GGConfig;
-import com.xzcode.ggserver.core.common.handler.serializer.ISerializer;
-import com.xzcode.ggserver.core.common.session.GGSession;
 
 /**
  * 抽象会话组

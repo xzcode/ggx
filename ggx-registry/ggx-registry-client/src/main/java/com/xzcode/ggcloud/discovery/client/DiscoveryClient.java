@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.ggx.core.client.GGClient;
+import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.xzcode.ggcloud.discovery.client.config.DiscoveryClientConfig;
 import com.xzcode.ggcloud.discovery.client.events.ConnCloseEventListener;
 import com.xzcode.ggcloud.discovery.client.events.ConnOpenEventListener;
@@ -23,12 +29,6 @@ import com.xzcode.ggcloud.discovery.common.message.resp.DiscoveryServiceRegister
 import com.xzcode.ggcloud.discovery.common.message.resp.DiscoveryServiceUnregisterResp;
 import com.xzcode.ggcloud.discovery.common.message.resp.DiscoveryServiceUpdateResp;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
-import com.xzcode.ggserver.core.client.GGClient;
-import com.xzcode.ggserver.core.client.config.GGClientConfig;
-import com.xzcode.ggserver.core.common.constant.ProtocolTypeConstants;
-import com.xzcode.ggserver.core.common.event.GGEvents;
-import com.xzcode.ggserver.core.common.session.GGSession;
-import com.xzcode.ggserver.core.common.utils.logger.GGLoggerUtil;
 
 public class DiscoveryClient {
 	

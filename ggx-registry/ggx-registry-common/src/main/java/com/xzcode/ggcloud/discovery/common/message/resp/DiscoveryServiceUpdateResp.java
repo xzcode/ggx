@@ -1,7 +1,7 @@
 package com.xzcode.ggcloud.discovery.common.message.resp;
 
+import com.ggx.core.common.message.model.IMessage;
 import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
 
 /**
  * 服务更新推送

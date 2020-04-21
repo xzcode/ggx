@@ -1,7 +1,7 @@
 package com.xzcode.ggcloud.eventbus.common.message.resp;
 
+import com.ggx.core.common.message.model.IMessage;
 import com.xzcode.ggcloud.eventbus.common.constant.EventbusConstant;
-import com.xzcode.ggserver.core.common.message.model.IMessage;
 
 /**
  * 事件订发布响应
