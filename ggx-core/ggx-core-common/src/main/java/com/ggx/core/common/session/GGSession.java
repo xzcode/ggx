@@ -1,8 +1,8 @@
 package com.ggx.core.common.session;
 
 import com.ggx.core.common.event.EventSupport;
-import com.ggx.core.common.executor.support.IExecutorSupport;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.executor.support.ExecutorSupport;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.response.support.ISessionSendMessageSupport;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 
@@ -14,7 +14,7 @@ import io.netty.channel.Channel;
  * 
  * @author zai 2019-11-16 23:35:39
  */
-public interface GGSession extends ISessionSendMessageSupport, IExecutorSupport, EventSupport {
+public interface GGSession extends ISessionSendMessageSupport, ExecutorSupport, EventSupport {
 
 	/**
 	 * 添加属性
@@ -65,7 +65,7 @@ public interface GGSession extends ISessionSendMessageSupport, IExecutorSupport,
 	 * @author zai
 	 * 2020-04-08 11:30:08
 	 */
-	IGGFuture disconnect();
+	GGFuture disconnect();
 	
 	/**
 	 * 获取会话域名

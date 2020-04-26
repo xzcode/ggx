@@ -8,7 +8,7 @@ import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.client.starter.IGGClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
@@ -69,7 +69,7 @@ public class DefaultClientStarter implements IGGClientStarter {
 	}
     
     
-    public IGGFuture connect(String host, int port) {
+    public GGFuture connect(String host, int port) {
         try {
         	Bootstrap boot = config.getBootstrap();
             // 连接服务器
@@ -83,7 +83,7 @@ public class DefaultClientStarter implements IGGClientStarter {
     
 
 	@Override
-	public IGGFuture disconnect(GGSession session) {
+	public GGFuture disconnect(GGSession session) {
 		return session.disconnect();
 	}
 	

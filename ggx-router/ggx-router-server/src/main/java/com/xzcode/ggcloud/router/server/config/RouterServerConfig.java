@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.router.server.config;
 
-import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
+import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.router.common.constant.GGRouterConstant;
 import com.xzcode.ggcloud.router.server.RouterServer;
 import com.xzcode.ggcloud.session.group.server.SessionGroupServer;
@@ -44,14 +44,14 @@ public class RouterServerConfig {
 
 	protected String actionIdPrefix;
 
-	protected DiscoveryClient discoveryClient;
+	protected RegistryClient registryClient;
 
-	public void setDiscoveryClient(DiscoveryClient discoveryClient) {
-		this.discoveryClient = discoveryClient;
+	public void setRegistryClient(RegistryClient discoveryClient) {
+		this.registryClient = discoveryClient;
 	}
 
-	public DiscoveryClient getDiscoveryClient() {
-		return discoveryClient;
+	public RegistryClient getRegistryClient() {
+		return registryClient;
 	}
 
 	public String getRouterGroupId() {

@@ -2,7 +2,7 @@ package com.xzcode.ggcloud.router.client.router.service;
 
 import java.util.Map;
 
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 
 /**
@@ -57,7 +57,7 @@ public interface IRouterService {
 	 * @author zai
 	 * 2019-11-11 21:40:46
 	 */
-	IGGFuture dispatch(Pack pack);
+	GGFuture dispatch(Pack pack);
 	
 	/**
 	 * 移除额外数据

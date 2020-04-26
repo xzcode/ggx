@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.message.Pack;
-import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
-import com.xzcode.ggcloud.discovery.common.service.ServiceInfo;
-import com.xzcode.ggcloud.discovery.common.service.ServiceManager;
+import com.ggx.registry.client.RegistryClient;
+import com.ggx.registry.common.service.ServiceInfo;
+import com.ggx.registry.common.service.ServiceManager;
 import com.xzcode.ggcloud.router.client.config.RouterClientConfig;
 import com.xzcode.ggcloud.router.client.router.service.IRouterService;
 import com.xzcode.ggcloud.router.client.router.service.IRouterServiceProvider;
@@ -59,7 +59,7 @@ public class DefaultDiscoveryServicePorvider implements IRouterServiceProvider{
 	
 	
 	public DefaultDiscoveryServicePorvider(RouterClientConfig config) {
-		DiscoveryClient discoveryClient = config.getDiscoveryClient();
+		RegistryClient discoveryClient = config.getRegistryClient();
 		this.config = config;
 		this.serviceManager = discoveryClient.getConfig().getServiceManager();
 		

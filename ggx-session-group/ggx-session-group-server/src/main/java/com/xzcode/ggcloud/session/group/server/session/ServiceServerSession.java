@@ -4,7 +4,7 @@ import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
@@ -45,7 +45,7 @@ public class ServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 
 
 	@Override
-	public IGGFuture send(Pack pack) {
+	public GGFuture send(Pack pack) {
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
@@ -54,7 +54,7 @@ public class ServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 	}
 
 	@Override
-	public IGGFuture disconnect() {
+	public GGFuture disconnect() {
 		
 		triggerDisconnectListeners();
 		

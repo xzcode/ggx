@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.xzcode.ggcloud.router.client.RouterClient;
 import com.xzcode.ggcloud.router.client.config.RouterClientConfig;
@@ -32,7 +32,7 @@ public class DefaultRouterClient implements RouterClient{
 	}
 	
 	@Override
-	public IGGFuture route(Pack pack) {
+	public GGFuture route(Pack pack) {
 		try {
 			//进行服务匹配
 			IRouterService matchService = config.getServiceProvider().matchService(pack);

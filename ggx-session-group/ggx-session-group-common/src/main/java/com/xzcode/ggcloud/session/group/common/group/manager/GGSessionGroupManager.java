@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.session.group.common.group.GGSessionGroup;
 import com.xzcode.ggcloud.session.group.common.group.impl.DefaultSessionGroup;
@@ -86,7 +86,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-08 16:23:40
 	 */
-	public IGGFuture sendToAll(String groupId, Pack pack) {
+	public GGFuture sendToAll(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToAll(pack);
@@ -102,7 +102,7 @@ public class GGSessionGroupManager {
 	 * @return
 	 * @author zai 2020-04-07 14:49:06
 	 */
-	public IGGFuture sendToRandomOne(String groupId, Pack pack) {
+	public GGFuture sendToRandomOne(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(pack);
@@ -118,7 +118,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	public IGGFuture sendToRandomOne(String groupId, IMessage message) {
+	public GGFuture sendToRandomOne(String groupId, Message message) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(message);

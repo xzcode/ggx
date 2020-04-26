@@ -14,9 +14,9 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  *
  * @author zai 2020-04-07 14:26:57
  */
-public class GGDefaultFuture implements IGGFuture {
+public class GGDefaultFuture implements GGFuture {
 
-	private Set<IGGFutureListener<IGGFuture>> listeners = new LinkedHashSet<>(2);
+	private Set<IGGFutureListener<GGFuture>> listeners = new LinkedHashSet<>(2);
 
 	private boolean success;
 
@@ -27,7 +27,7 @@ public class GGDefaultFuture implements IGGFuture {
 	private GGSession session;
 
 	@Override
-	public void addListener(IGGFutureListener<IGGFuture> listener) {
+	public void addListener(IGGFutureListener<GGFuture> listener) {
 		synchronized (this) {
 			if (this.done) {
 				triggerListener(listener);
@@ -109,12 +109,12 @@ public class GGDefaultFuture implements IGGFuture {
 	}
 
 	private void triggerListeners() {
-		for (IGGFutureListener<IGGFuture> listener : listeners) {
+		for (IGGFutureListener<GGFuture> listener : listeners) {
 			triggerListener(listener);
 		}
 	}
 
-	private void triggerListener(IGGFutureListener<IGGFuture> listener) {
+	private void triggerListener(IGGFutureListener<GGFuture> listener) {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {

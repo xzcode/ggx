@@ -3,7 +3,7 @@ package com.xzcode.ggcloud.router.client.config;
 import java.util.UUID;
 
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
+import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.router.client.RouterClient;
 import com.xzcode.ggcloud.router.client.filter.RouteReceiveMessageFilter;
 import com.xzcode.ggcloud.router.client.router.service.IRouterPackHandler;
@@ -34,7 +34,7 @@ public class RouterClientConfig {
 	/**
 	 * 注册中心客户端
 	 */
-	protected DiscoveryClient discoveryClient;
+	protected RegistryClient RegistryClient;
 
 	// routerClient对象
 	protected RouterClient routerClient;
@@ -113,8 +113,8 @@ public class RouterClientConfig {
 			routerGroupId = UUID.randomUUID().toString();
 		}
 
-		if (this.discoveryClient != null) {
-			this.discoveryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP,getRouterGroupId());
+		if (this.RegistryClient != null) {
+			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP,getRouterGroupId());
 			setServiceProvider(new DefaultDiscoveryServicePorvider(this));
 		}
 
@@ -177,12 +177,12 @@ public class RouterClientConfig {
 	}
 
 
-	public DiscoveryClient getDiscoveryClient() {
-		return discoveryClient;
+	public RegistryClient getRegistryClient() {
+		return RegistryClient;
 	}
 
-	public void setDiscoveryClient(DiscoveryClient discoveryClient) {
-		this.discoveryClient = discoveryClient;
+	public void setRegistryClient(RegistryClient discoveryClient) {
+		this.RegistryClient = discoveryClient;
 	}
 
 	public boolean isPrintPingPongInfo() {

@@ -1,9 +1,9 @@
 package com.xzcode.ggx.game.core.player.support;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
 
 /**
@@ -31,7 +31,7 @@ public interface IGGSessionPlayerSupport{
 	 * @author zzz
 	 * 2019-09-22 10:29:42
 	 */
-	default IGGFuture send(String actionId, Object message) {
+	default GGFuture send(String actionId, Object message) {
 		GGSession session = getSession();
 		if (session == null) {
 			return null;
@@ -47,7 +47,7 @@ public interface IGGSessionPlayerSupport{
 	 * @author zai
 	 * 2019-12-25 12:04:20
 	 */
-	default IGGFuture send(IMessage message) {
+	default GGFuture send(Message message) {
 		GGSession session = getSession();
 		if (session == null) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
@@ -62,7 +62,7 @@ public interface IGGSessionPlayerSupport{
 	 * @author zzz
 	 * 2019-09-22 10:29:42
 	 */
-	default IGGFuture send(String actionId) {
+	default GGFuture send(String actionId) {
 		GGSession session = getSession();
 		if (session != null) {
 			return session.send(new MessageData<>(session, actionId, null));			
@@ -76,7 +76,7 @@ public interface IGGSessionPlayerSupport{
 	 * @author zzz
 	 * 2019-09-22 10:33:22
 	 */
-	default IGGFuture disconnect() {
+	default GGFuture disconnect() {
 		return getSession().disconnect();
 	}
 	

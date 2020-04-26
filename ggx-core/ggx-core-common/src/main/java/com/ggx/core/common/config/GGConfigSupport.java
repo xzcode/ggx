@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.support.IExecutorSupport;
+import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.FilterSupport;
 import com.ggx.core.common.handler.serializer.ISerializer;
@@ -25,7 +25,7 @@ extends
 SendMessageSupport, 
 ReceiveMessageSupport, 
 FilterSupport, 
-IExecutorSupport, 
+ExecutorSupport, 
 EventSupport
 
 {

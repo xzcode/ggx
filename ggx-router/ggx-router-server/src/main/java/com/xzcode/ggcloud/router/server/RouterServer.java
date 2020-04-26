@@ -5,17 +5,17 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.support.IExecutorSupport;
+import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.FilterSupport;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.request.support.ReceiveMessageSupport;
 import com.ggx.core.common.message.response.support.SendMessageSupport;
 import com.ggx.core.common.session.manager.ISessionManager;
-import com.xzcode.ggcloud.discovery.client.DiscoveryClient;
+import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggcloud.router.server.config.RouterServerConfig;
 import com.xzcode.ggcloud.session.group.server.SessionGroupServer;
@@ -30,7 +30,7 @@ import com.xzcode.ggserver.core.server.config.GGServerConfig;
  */
 public class RouterServer implements
 
-		SendMessageSupport, ReceiveMessageSupport, FilterSupport, IExecutorSupport, EventSupport {
+		SendMessageSupport, ReceiveMessageSupport, FilterSupport, ExecutorSupport, EventSupport {
 
 	private RouterServerConfig config;
 
@@ -40,7 +40,7 @@ public class RouterServer implements
 
 		this.config = config;
 
-		DiscoveryClient discoveryClient = config.getDiscoveryClient();
+		RegistryClient discoveryClient = config.getRegistryClient();
 		if (discoveryClient != null) {
 			discoveryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP,config.getRouterGroupId());
 			discoveryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
@@ -78,7 +78,7 @@ public class RouterServer implements
 		return config;
 	}
 
-	public IGGFuture start() {
+	public GGFuture start() {
 		return this.config.getSessionGroupServer().start();
 	}
 

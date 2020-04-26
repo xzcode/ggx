@@ -14,7 +14,7 @@ import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.manager.ISessionManager;
 import com.xzcode.ggcloud.router.client.config.RouterClientConfig;
@@ -53,7 +53,7 @@ public class DefaultRouterService implements IRouterService{
 	protected TaskExecutor executor;
 	
 	
-	protected IGGFuture checkConnectionsFuture;
+	protected GGFuture checkConnectionsFuture;
 	
 	/**
 	 * 绑定的连接客户端
@@ -146,7 +146,7 @@ public class DefaultRouterService implements IRouterService{
 	 * @author zai
 	 * 2019-11-07 17:53:00
 	 */
-	public IGGFuture dispatch(Pack pack) {
+	public GGFuture dispatch(Pack pack) {
 		if (!isAvailable()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
@@ -245,7 +245,7 @@ public class DefaultRouterService implements IRouterService{
 	public boolean isShutdown() {
 		return shutdown;
 	}
-	public IGGFuture getCheckConnectionsFuture() {
+	public GGFuture getCheckConnectionsFuture() {
 		return checkConnectionsFuture;
 	}
 	public String getServcieName() {

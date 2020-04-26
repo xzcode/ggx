@@ -23,11 +23,11 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2019-11-24 17:54:50
  */
-public class GGNettyFuture implements IGGFuture {
+public class GGNettyFuture implements GGFuture {
 	
 	private io.netty.util.concurrent.Future<?> nettyFuture;
 	
-	private Set<IGGFutureListener<IGGFuture>> listeners;
+	private Set<IGGFutureListener<GGFuture>> listeners;
 	
 	public GGNettyFuture() {
 		listeners = new LinkedHashSet<>(2);
@@ -45,7 +45,7 @@ public class GGNettyFuture implements IGGFuture {
 			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;			
 		}
 		if (listeners != null && listeners.size() > 0) {
-			for (IGGFutureListener<IGGFuture> listener : listeners) {
+			for (IGGFutureListener<GGFuture> listener : listeners) {
 				nettyFuture.addListener((f) -> {
 					listener.operationComplete(this);
 				});
@@ -54,7 +54,7 @@ public class GGNettyFuture implements IGGFuture {
 	}
 
 	@Override
-	public void addListener(IGGFutureListener<IGGFuture> listener) {
+	public void addListener(IGGFutureListener<GGFuture> listener) {
 		try {
 				synchronized (this) {
 					if (nettyFuture == null) {

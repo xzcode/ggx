@@ -2,7 +2,7 @@ package com.xzcode.ggserver.core.server;
 
 import com.ggx.core.common.config.GGConfigSupport;
 import com.ggx.core.common.control.IGGContolSupport;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
 /**
@@ -17,7 +17,7 @@ public interface GGServer extends GGConfigSupport<GGServerConfig> , IGGContolSup
 	 * 
 	 * @author zai 2019-12-05 10:41:09
 	 */
-	IGGFuture start();
+	GGFuture start();
 
 	/**
 	 * 关闭服务器

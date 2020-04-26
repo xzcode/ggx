@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
@@ -43,7 +43,7 @@ public class DefaultGGServerStarter implements IGGServerStarter {
     	this.config = config;
     }
     
-    public IGGFuture start() {
+    public GGFuture start() {
     	
         try {
         	

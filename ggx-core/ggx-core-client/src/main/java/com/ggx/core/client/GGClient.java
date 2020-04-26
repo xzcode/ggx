@@ -5,7 +5,7 @@ import com.ggx.core.client.starter.IGGClientStarter;
 import com.ggx.core.client.starter.impl.DefaultClientStarter;
 import com.ggx.core.common.config.GGConfigSupport;
 import com.ggx.core.common.control.IGGContolSupport;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 
 /**
  * 客户端
@@ -23,7 +23,7 @@ implements
 	
 	private IGGClientStarter clientStarter;
 	
-	public IGGFuture connect(String host, int port) {
+	public GGFuture connect(String host, int port) {
 		return clientStarter.connect(host, port);
 	}
 	

@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.session.group.common.message.resp;
 
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
 
 /**
@@ -9,7 +9,7 @@ import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
  * @author zai
  * 2020-04-06 19:01:38
  */
-public class AuthResp implements IMessage{
+public class AuthResp implements Message{
 	
 	public static final String ACTION_ID = GGSesssionGroupConstant.ACTION_ID_PREFIX + "AUTH.RESP";
 	

@@ -1,10 +1,10 @@
 package com.ggx.core.common.message.response.support;
 
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.ISessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -73,7 +73,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-11-27 22:09:31
 	 */
-	default IGGFuture send(GGSession session, Pack pack) {
+	default GGFuture send(GGSession session, Pack pack) {
 		return session.send(pack);
 	}
 	
@@ -88,7 +88,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:24:23
 	 */
-	default IGGFuture send(GGSession session, String action, Object message) {
+	default GGFuture send(GGSession session, String action, Object message) {
 		return send(new MessageData<>(session, action, message));
 	}
 	
@@ -104,7 +104,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:23:47
 	 */
-	default IGGFuture send(GGSession session, IMessage message) {
+	default GGFuture send(GGSession session, Message message) {
 		return send(new MessageData<>(session, message.getActionId(), message));
 	}
 
@@ -119,7 +119,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-11-27 21:53:08
 	 */
-	default IGGFuture send(MessageData<?> messageData) {
+	default GGFuture send(MessageData<?> messageData) {
 		GGSession session = messageData.getSession();
 		if (session != null) {
 			try {
@@ -143,7 +143,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-12-16 10:20:47
 	 */
-	default IGGFuture send(Pack pack) {
+	default GGFuture send(Pack pack) {
 		return send(null, pack);
 	}
 	

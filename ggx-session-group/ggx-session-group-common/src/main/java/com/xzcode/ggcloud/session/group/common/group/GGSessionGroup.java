@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.response.support.IMakePackSupport;
 import com.ggx.core.common.session.GGSession;
 
@@ -46,7 +46,7 @@ public interface GGSessionGroup extends IMakePackSupport {
 	 * @return
 	 * @author zai 2020-04-07 14:45:01
 	 */
-	default IGGFuture sendToAll(Pack pack) {
+	default GGFuture sendToAll(Pack pack) {
 		Map<String, GGSession> sessionMap = getSessionMap();
 		GGDefaultFuture defaultFuture = new GGDefaultFuture();
 		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
@@ -77,7 +77,7 @@ public interface GGSessionGroup extends IMakePackSupport {
 	 * @author zai 2020-04-07 14:49:06
 	 */
 	@SuppressWarnings("unchecked")
-	default IGGFuture sendToRandomOne(Pack pack) {
+	default GGFuture sendToRandomOne(Pack pack) {
 		Map<String, GGSession> sessionMap = getSessionMap();
 		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
@@ -110,7 +110,7 @@ public interface GGSessionGroup extends IMakePackSupport {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	default IGGFuture sendToRandomOne(IMessage message) {
+	default GGFuture sendToRandomOne(Message message) {
 		return sendToRandomOne(makePack(new MessageData<>(null, message.getActionId(), message)));
 	}
 

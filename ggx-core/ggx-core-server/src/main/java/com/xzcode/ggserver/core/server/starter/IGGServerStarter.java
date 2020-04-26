@@ -1,6 +1,6 @@
 package com.xzcode.ggserver.core.server.starter;
 
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
 /**
@@ -18,7 +18,7 @@ public interface IGGServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:27:57
 	 */
-	IGGFuture start();
+	GGFuture start();
 	
 	/**
 	 * 关闭

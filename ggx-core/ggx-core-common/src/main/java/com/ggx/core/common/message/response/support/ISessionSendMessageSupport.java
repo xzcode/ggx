@@ -8,10 +8,10 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.json.GGServerJsonUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -63,7 +63,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-12-17 18:44:14
 	 */
-	default IGGFuture send(String action) {
+	default GGFuture send(String action) {
 		return send(new MessageData<>((GGSession) this, action, null));
 	}
 	
@@ -76,7 +76,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-12-17 18:44:20
 	 */
-	default IGGFuture send(String action, Object message) {
+	default GGFuture send(String action, Object message) {
 		return send(new MessageData<>((GGSession) this, action, message));
 	}
 	
@@ -88,7 +88,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-12-25 11:57:05
 	 */
-	default IGGFuture send(IMessage message) {
+	default GGFuture send(Message message) {
 		return send(new MessageData<>((GGSession) this, message.getActionId(), message));
 	}
 	
@@ -102,7 +102,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:26:11
 	 */
-	default IGGFuture send(GGSession session, String action, Object message) {
+	default GGFuture send(GGSession session, String action, Object message) {
 		return send(new MessageData<>(session,  action, message));
 	}
 	
@@ -115,7 +115,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * @author zai
 	 * 2019-12-25 11:57:44
 	 */
-	default IGGFuture send(GGSession session, IMessage message) {
+	default GGFuture send(GGSession session, Message message) {
 		return send(new MessageData<>(session, message.getActionId(), message));
 	}
 	
@@ -130,7 +130,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * 
 	 * @author zai 2019-11-24 17:29:24
 	 */
-	default IGGFuture send(MessageData<?> messageData) {
+	default GGFuture send(MessageData<?> messageData) {
 		// 发送过滤器
 		if (!getFilterManager().doResponseFilters(messageData)) {
 			return null;
@@ -148,7 +148,7 @@ public interface ISessionSendMessageSupport extends IMakePackSupport {
 	 * 
 	 * @author zai 2019-11-24 23:08:36
 	 */
-	default IGGFuture send(Pack pack) {
+	default GGFuture send(Pack pack) {
 		
 		GGSession session = pack.getSession();
 		

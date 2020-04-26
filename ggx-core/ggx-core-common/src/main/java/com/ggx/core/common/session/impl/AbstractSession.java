@@ -10,7 +10,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
@@ -115,7 +115,7 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 	}
 
 	@Override
-	public IGGFuture disconnect() {
+	public GGFuture disconnect() {
 		if (this.getChannel() != null) {
 			GGNettyFuture future = new GGNettyFuture(this.getChannel().close());
 			future.addListener(f -> {

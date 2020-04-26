@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.session.group.common.message.req;
 
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
 
 /**
@@ -9,7 +9,7 @@ import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
  * @author zai
  * 2020-04-06 18:53:46
  */
-public class AuthReq implements IMessage {
+public class AuthReq implements Message {
 	
 	public static final String ACTION = GGSesssionGroupConstant.ACTION_ID_PREFIX + "AUTH.REQ";
 	

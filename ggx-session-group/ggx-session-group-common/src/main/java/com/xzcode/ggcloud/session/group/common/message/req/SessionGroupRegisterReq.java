@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.session.group.common.message.req;
 
-import com.ggx.core.common.message.model.IMessage;
+import com.ggx.core.common.message.model.Message;
 import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
 
 /**
@@ -8,7 +8,7 @@ import com.xzcode.ggcloud.session.group.common.constant.GGSesssionGroupConstant;
  *
  * @author zai 2020-04-07 16:45:30
  */
-public class SessionGroupRegisterReq implements IMessage{
+public class SessionGroupRegisterReq implements Message{
 	public static final String ACTION_ID = GGSesssionGroupConstant.ACTION_ID_PREFIX + "REGISTER.REQ";
 	
 	@Override

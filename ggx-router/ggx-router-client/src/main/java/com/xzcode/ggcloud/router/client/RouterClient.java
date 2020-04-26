@@ -1,6 +1,6 @@
 package com.xzcode.ggcloud.router.client;
 
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 
 /**
@@ -22,7 +22,7 @@ public interface RouterClient {
 	 * @author zai
 	 * 2019-11-06 17:48:12
 	 */
-	IGGFuture route(Pack pack);
+	GGFuture route(Pack pack);
 	
 	
 }

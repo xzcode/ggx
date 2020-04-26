@@ -16,7 +16,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * @author zai
  * 2019-12-01 16:28:44
  */
-public class GGSuccessFuture<V> implements IGGFuture {
+public class GGSuccessFuture<V> implements GGFuture {
 	
 	public static final GGSuccessFuture<?> DEFAULT_SUCCESS_FUTURE = new GGSuccessFuture<>();
 	
@@ -46,7 +46,7 @@ public class GGSuccessFuture<V> implements IGGFuture {
 	}
 
 	@Override
-	public void addListener(IGGFutureListener<IGGFuture> listener) {
+	public void addListener(IGGFutureListener<GGFuture> listener) {
 		try {
 			listener.operationComplete(DEFAULT_SUCCESS_FUTURE);
 		} catch (Exception e) {

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.session.GGSession;
-import com.xzcode.ggcloud.eventbus.common.message.resp.EventMessageResp;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 
 /**

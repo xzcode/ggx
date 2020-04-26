@@ -3,7 +3,7 @@ package com.xzcode.ggx.game.core.player.support;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.xzcode.ggx.game.core.interfaces.IGGServerSupport;
 import com.xzcode.ggx.game.core.player.Player;
 
@@ -22,7 +22,7 @@ public interface IPlayerSchduleTaskSupport<P extends Player> extends IGGServerSu
 	 * @author zzz
 	 * 2019-09-22 11:42:55
 	 */
-	Map<Object, IGGFuture> getScheduleTaskFutures();
+	Map<Object, GGFuture> getScheduleTaskFutures();
 	
 	/**
 	 * 执行计划任务
@@ -36,7 +36,7 @@ public interface IPlayerSchduleTaskSupport<P extends Player> extends IGGServerSu
 	 * 2019-09-22 11:48:29
 	 */
 	default void schedule(Object taskKey, long delayMs, TimeUnit timeUnit, Runnable runnable) {
-		IGGFuture taskFuture = getGGServer().schedule(delayMs, timeUnit, runnable);
+		GGFuture taskFuture = getGGServer().schedule(delayMs, timeUnit, runnable);
 		getScheduleTaskFutures().put(taskKey, taskFuture);
 		taskFuture.addListener((e) -> {
 			getScheduleTaskFutures().remove(taskKey);
@@ -64,7 +64,7 @@ public interface IPlayerSchduleTaskSupport<P extends Player> extends IGGServerSu
 	 * 2019-11-30 12:37:27
 	 */
 	default void cancelScheduleTask(Object taskKey) {
-		IGGFuture taskFuture = getScheduleTaskFutures().get(taskKey);
+		GGFuture taskFuture = getScheduleTaskFutures().get(taskKey);
 		if (taskFuture != null) {
 			taskFuture.cancel(false);
 		}

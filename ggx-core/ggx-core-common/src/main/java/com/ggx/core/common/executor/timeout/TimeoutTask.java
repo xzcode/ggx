@@ -1,7 +1,7 @@
 package com.ggx.core.common.executor.timeout;
 
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.future.IGGFuture;
+import com.ggx.core.common.future.GGFuture;
 
 /**
  * 超时等待模型
@@ -22,7 +22,7 @@ public class TimeoutTask{
 	/**
 	 * 计时器未来对象
 	 */
-	protected IGGFuture timeoutFuture;
+	protected GGFuture timeoutFuture;
 	
 	/**
 	 * 超时延迟 ms
@@ -95,7 +95,7 @@ public class TimeoutTask{
 	}
 	
 	
-	public IGGFuture getTimeoutFuture() {
+	public GGFuture getTimeoutFuture() {
 		return timeoutFuture;
 	}
 	
@@ -110,7 +110,7 @@ public class TimeoutTask{
 		if (this.timeoutFuture == null) {
 			return true;
 		}
-		IGGFuture future = this.timeoutFuture;
+		GGFuture future = this.timeoutFuture;
 		this.timeoutFuture = null;
 		return future.cancel(false);			
 	}
