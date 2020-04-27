@@ -15,7 +15,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * 
  * @author zai 2019-02-09 14:50:27
  */
-public interface SendMessageSupport extends IMakePackSupport {
+public interface SendMessageSupport extends MakePackSupport {
 	
 	/**
 	 * 获取会话管理器
@@ -46,7 +46,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 	default void sendToAll(MessageData<?> response) {
 		try {
 			// 发送过滤器
-			if (!getFilterManager().doResponseFilters(response)) {
+			if (!getFilterManager().doSendFilters(response)) {
 				return;
 			}
 
@@ -124,7 +124,7 @@ public interface SendMessageSupport extends IMakePackSupport {
 		if (session != null) {
 			try {
 			// 发送过滤器
-			if (!getFilterManager().doResponseFilters(messageData)) {
+			if (!getFilterManager().doSendFilters(messageData)) {
 				return null;
 			}
 				session.send(makePack(messageData));

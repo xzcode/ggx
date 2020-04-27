@@ -15,9 +15,9 @@ public interface FilterManager {
 
 	boolean doBeforeDeserializeFilters(Pack pack);
 
-	boolean doRequestFilters(MessageData<?> request);
+	boolean doReceiveFilters(MessageData<?> request);
 
-	boolean doResponseFilters(MessageData<?> response);
+	boolean doSendFilters(MessageData<?> response);
 
 	boolean doAfterSerializeFilters(Pack pack);
 	
@@ -29,9 +29,9 @@ public interface FilterManager {
 
 	void addBeforeDeserializeFilter(BeforeDeserializeFilter filter);
 
-	void addRequestFilter(ReceiveMessageFilter filter);
+	void addReceiveFilter(ReceiveMessageFilter filter);
 
-	void addResponseFilter(SendMessageFilter filter);
+	void addSendFilter(SendMessageFilter filter);
 	
 	void addAfterSerializeFilter(AfterSerializeFilter filter);
 	
@@ -42,9 +42,9 @@ public interface FilterManager {
 
 	void removeBeforeDeserializeFilter(BeforeDeserializeFilter filter);
 
-	void removeResponseFilter(SendMessageFilter filter);
+	void removeSendFilter(SendMessageFilter filter);
 
-	void removeRequestFilter(ReceiveMessageFilter filter);
+	void removeReceiveFilter(ReceiveMessageFilter filter);
 
 	void removeAfterSerializeFilter(AfterSerializeFilter filter);
 	

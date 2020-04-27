@@ -34,7 +34,7 @@ public class RegistryClientConfig {
 	//GGClient对象
 	protected GGClient ggclient;
 	
-	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("discovery-client-", 1);
+	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("registry-client-", 1);
 	
 	//GGSession对象
 	protected GGSession session;

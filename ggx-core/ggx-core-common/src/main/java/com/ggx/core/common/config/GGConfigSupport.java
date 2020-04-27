@@ -42,26 +42,31 @@ EventSupport
 	default ISerializer getSerializer() {
 		return getConfig().getSerializer();
 	}
+
 	@Override
 	default EventManager getEventManagerImpl() {
 		return getConfig().getEventManager();
 	}
+
 	@Override
 	default TaskExecutor getTaskExecutor() {
 		return getConfig().getTaskExecutor();
 	}
+
 	@Override
-	default ReceiveMessageManager getRequestMessageManager() {
-		return getConfig().getRequestMessageManager();
+	default ReceiveMessageManager getReceiveMessageManager() {
+		return getConfig().getReceiveMessageManager();
 	}
 
 	default ISessionManager getSessionManager() {
 		return getConfig().getSessionManager();
 	}
+
 	@Override
 	default FilterManager getFilterManager() {
 		return getConfig().getFilterManager();
 	}
+
 	@Override
 	default Charset getCharset() {
 		return getConfig().getCharset();

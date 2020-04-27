@@ -10,13 +10,13 @@ import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPing;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
-import com.ggx.core.common.message.response.support.IMakePackSupport;
+import com.ggx.core.common.message.response.support.MakePackSupport;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 
 
-public class GGPingPongClientEventListener implements EventListener<Void>, IMakePackSupport{
+public class GGPingPongClientEventListener implements EventListener<Void>, MakePackSupport{
 	
 	protected GGConfig config;
 	

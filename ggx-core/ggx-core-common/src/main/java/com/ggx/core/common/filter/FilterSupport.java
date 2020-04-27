@@ -28,13 +28,13 @@ public interface FilterSupport extends FilterManager{
 	}
 
 	@Override
-	default boolean doRequestFilters(MessageData<?> request) {
-		return getFilterManager().doRequestFilters(request);
+	default boolean doReceiveFilters(MessageData<?> request) {
+		return getFilterManager().doReceiveFilters(request);
 	}
 
 	@Override
-	default boolean doResponseFilters(MessageData<?> messageData) {
-		return getFilterManager().doResponseFilters(messageData);
+	default boolean doSendFilters(MessageData<?> messageData) {
+		return getFilterManager().doSendFilters(messageData);
 	}
 
 	@Override
@@ -45,23 +45,23 @@ public interface FilterSupport extends FilterManager{
 	default void addBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
 		getFilterManager().addBeforeDeserializeFilter(filter);
 	}
-	default void addRequestFilter(ReceiveMessageFilter filter) {
-		getFilterManager().addRequestFilter(filter);
+	default void addReceiveFilter(ReceiveMessageFilter filter) {
+		getFilterManager().addReceiveFilter(filter);
 	}
-	default void addResponseFilter(SendMessageFilter filter) {
-		getFilterManager().addResponseFilter(filter);
+	default void addSendFilter(SendMessageFilter filter) {
+		getFilterManager().addSendFilter(filter);
 	}
 	
 	default void removeBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
 		getFilterManager().removeBeforeDeserializeFilter(filter);
 	}
 
-	default void removeResponseFilter(SendMessageFilter filter) {
-		getFilterManager().removeResponseFilter(filter);
+	default void removeSendFilter(SendMessageFilter filter) {
+		getFilterManager().removeSendFilter(filter);
 	}
 
-	default void removeRequestFilter(ReceiveMessageFilter filter) {
-		getFilterManager().removeRequestFilter(filter);
+	default void removeReceiveFilter(ReceiveMessageFilter filter) {
+		getFilterManager().removeReceiveFilter(filter);
 	}
 
 	default void addAfterSerializeFilter(AfterSerializeFilter filter) {

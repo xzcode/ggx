@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.group.common.group.GGSessionGroup;
+import com.ggx.group.common.group.impl.DefaultSessionGroup;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
-import com.xzcode.ggcloud.session.group.common.group.GGSessionGroup;
-import com.xzcode.ggcloud.session.group.common.group.impl.DefaultSessionGroup;
 
 /***
  * 订阅信息

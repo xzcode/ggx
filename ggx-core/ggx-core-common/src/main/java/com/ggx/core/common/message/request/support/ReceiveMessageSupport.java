@@ -19,7 +19,7 @@ public interface ReceiveMessageSupport {
 	 * @author zai
 	 * 2019-12-11 14:19:44
 	 */
-	ReceiveMessageManager getRequestMessageManager();
+	ReceiveMessageManager getReceiveMessageManager();
 	
 	
 
@@ -33,7 +33,7 @@ public interface ReceiveMessageSupport {
 	 * @param <T>
 	 */
 	default <T> void onMessage(String actionId, MessageDataHandler<T> messageAcion) {
-		getRequestMessageManager().onMessage(actionId, messageAcion);
+		getReceiveMessageManager().onMessage(actionId, messageAcion);
 	}
 
 }

@@ -13,7 +13,7 @@ import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.message.response.support.IMakePackSupport;
+import com.ggx.core.common.message.response.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.ISessionManager;
 import com.ggx.core.common.utils.GenericClassUtil;
@@ -26,10 +26,10 @@ import com.ggx.eventbus.client.handler.EventSubscribeRespHandler;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.client.subscriber.SubscriberInfo;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
-import com.xzcode.ggcloud.session.group.client.SessionGroupClient;
-import com.xzcode.ggcloud.session.group.client.config.SessionGroupClientConfig;
-import com.xzcode.ggcloud.session.group.client.session.ServiceClientSession;
-import com.xzcode.ggcloud.session.group.common.constant.GGSessionGroupEventConstant;
+import com.ggx.group.common.constant.GGSessionGroupEventConstant;
+import com.ggx.session.group.client.SessionGroupClient;
+import com.ggx.session.group.client.config.SessionGroupClientConfig;
+import com.ggx.session.group.client.session.ServiceClientSession;
 
 public class EventbusClient{
 	

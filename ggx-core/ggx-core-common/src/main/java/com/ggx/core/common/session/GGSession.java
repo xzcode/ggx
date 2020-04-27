@@ -3,7 +3,7 @@ package com.ggx.core.common.session;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.future.GGFuture;
-import com.ggx.core.common.message.response.support.ISessionSendMessageSupport;
+import com.ggx.core.common.message.response.support.SessionSendMessageSupport;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 
 import io.netty.channel.Channel;
@@ -14,7 +14,7 @@ import io.netty.channel.Channel;
  * 
  * @author zai 2019-11-16 23:35:39
  */
-public interface GGSession extends ISessionSendMessageSupport, ExecutorSupport, EventSupport {
+public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, EventSupport {
 
 	/**
 	 * 添加属性

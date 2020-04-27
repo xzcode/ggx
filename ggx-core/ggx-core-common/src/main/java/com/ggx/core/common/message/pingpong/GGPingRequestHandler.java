@@ -10,7 +10,7 @@ import com.ggx.core.common.message.pingpong.model.GGPing;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.GGPong;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
-import com.ggx.core.common.message.response.support.IMakePackSupport;
+import com.ggx.core.common.message.response.support.MakePackSupport;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -21,7 +21,7 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class GGPingRequestHandler implements MessageDataHandler<GGPing> , IMakePackSupport{
+public class GGPingRequestHandler implements MessageDataHandler<GGPing> , MakePackSupport{
 	
 	protected GGConfig config;
 	

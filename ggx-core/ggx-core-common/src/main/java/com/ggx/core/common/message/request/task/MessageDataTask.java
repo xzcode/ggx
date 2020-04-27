@@ -57,7 +57,7 @@ public class MessageDataTask implements Runnable{
 			action = new String(pack.getAction(), config.getCharset());
 			
 			if (pack.getMessage() != null) {
-				ReceiveMessageHandlerInfo messageHandler = config.getRequestMessageManager().getMessageHandler(action);
+				ReceiveMessageHandlerInfo messageHandler = config.getReceiveMessageManager().getMessageHandler(action);
 				if (messageHandler != null) {
 					message = serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
 				}
@@ -69,11 +69,11 @@ public class MessageDataTask implements Runnable{
 			request.setChannel(channel);
 			
 			//反序列化后的消息过滤器
-			if (!messageFilterManager.doRequestFilters(request)) {
+			if (!messageFilterManager.doReceiveFilters(request)) {
 				return;
 			}
 			
-			config.getRequestMessageManager().handle(request);
+			config.getReceiveMessageManager().handle(request);
 			
 		} catch (Exception e) {
 			GGLoggerUtil.getLogger().error("Request Message Task ERROR!! -- actionId: {}, error: {}", action, e);

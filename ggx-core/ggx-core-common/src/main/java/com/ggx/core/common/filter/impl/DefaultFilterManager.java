@@ -32,13 +32,13 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public void addRequestFilter(ReceiveMessageFilter filter) {
+	public void addReceiveFilter(ReceiveMessageFilter filter) {
 		requestFilters.add(filter);
 	}
 
 
 	@Override
-	public void addResponseFilter(SendMessageFilter filter) {
+	public void addSendFilter(SendMessageFilter filter) {
 
 		responseFilters.add(filter);
 	}
@@ -75,13 +75,13 @@ public class DefaultFilterManager implements FilterManager {
 
 
 	@Override
-	public void removeResponseFilter(SendMessageFilter filter) {
+	public void removeSendFilter(SendMessageFilter filter) {
 		responseFilters.remove(filter);
 	}
 
 
 	@Override
-	public void removeRequestFilter(ReceiveMessageFilter filter) {
+	public void removeReceiveFilter(ReceiveMessageFilter filter) {
 		requestFilters.remove(filter);
 	}
 	
@@ -112,7 +112,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public boolean doRequestFilters(MessageData<?> request) {
+	public boolean doReceiveFilters(MessageData<?> request) {
 		for (ReceiveMessageFilter filter : requestFilters) {
 			if (!filter.doFilter(request)) {
 				return false;
@@ -122,7 +122,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public boolean doResponseFilters(MessageData<?> response) {
+	public boolean doSendFilters(MessageData<?> response) {
 		for (SendMessageFilter filter : responseFilters) {
 			if (!filter.doFilter(response)) {
 				return false;

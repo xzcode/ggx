@@ -98,7 +98,7 @@ public class GGConfig {
 
 	protected IReceivePackHandler receivePackHandler;
 
-	protected ReceiveMessageManager requestMessageManager;
+	protected ReceiveMessageManager receiveMessageManager;
 	protected FilterManager filterManager;
 	protected EventManager eventManager;
 	protected ISessionManager sessionManager;
@@ -117,7 +117,7 @@ public class GGConfig {
 	protected PackLogger packLogger = new PackLogger(this);
 
 	public void init() {
-		requestMessageManager = new DefaultRequestMessageManager();
+		receiveMessageManager = new DefaultRequestMessageManager();
 		filterManager = new DefaultFilterManager();
 		eventManager = new DefaultEventManager();
 
@@ -296,12 +296,12 @@ public class GGConfig {
 		this.eventManager = eventManager;
 	}
 
-	public ReceiveMessageManager getRequestMessageManager() {
-		return requestMessageManager;
+	public ReceiveMessageManager getReceiveMessageManager() {
+		return receiveMessageManager;
 	}
 
-	public void setRequestMessageManager(ReceiveMessageManager requestMessageManager) {
-		this.requestMessageManager = requestMessageManager;
+	public void setReceiveMessageManager(ReceiveMessageManager requestMessageManager) {
+		this.receiveMessageManager = requestMessageManager;
 	}
 
 	public boolean isUseSSL() {

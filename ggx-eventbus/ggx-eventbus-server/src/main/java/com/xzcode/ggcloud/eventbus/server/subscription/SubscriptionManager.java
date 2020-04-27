@@ -57,6 +57,9 @@ public class SubscriptionManager {
 	 * 2020-04-12 15:54:32
 	 */
 	public void addSubscription(List<String> eventIds, GGSession session) {
+		if (eventIds == null || session == null) {
+			return;
+		}
 		for (String evtid : eventIds) {
 			this.addSubscription(evtid, session);
 			session.addDisconnectListener(se -> {
