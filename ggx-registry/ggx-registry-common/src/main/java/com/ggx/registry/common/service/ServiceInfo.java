@@ -14,25 +14,16 @@ import com.ggx.core.common.session.GGSession;
  */
 public class ServiceInfo {
 	
-	/**
-	 * 会话
-	 */
-	
+	//会话
 	protected transient GGSession session;
 	
-	/**
-	 * 服务id
-	 */
+	//服务id
 	protected String serviceId;
 	
-	/**
-	 * 服务名称
-	 */
-	protected String serviceName;
+	//服务组id
+	protected String serviceGroupId;
 	
-	/**
-	 * 服务ip地址
-	 */
+	//服务ip地址
 	protected String host;
 	
 	//所在地区
@@ -41,19 +32,13 @@ public class ServiceInfo {
 	//所在分区
 	protected String zone = "default";
 	
-	/**
-	 * 自定义数据
-	 */
+	//自定义数据
 	protected Map<String, String> customData = new LinkedHashMap<>();;
 	
-	/**
-	 * 服务过期延迟（毫秒）
-	 */
+	//服务过期延迟（毫秒）
 	protected long timeoutDelay;
 	
-	/**
-	 * 超时时间戳
-	 */
+	//超时时间戳
 	protected long timeoutTimestamp;
 	
 	/**
@@ -89,11 +74,11 @@ public class ServiceInfo {
 		return timeoutTimestamp < System.currentTimeMillis();
 	}
 	
-	public String getServiceName() {
-		return serviceName;
+	public String getServiceGroupId() {
+		return serviceGroupId;
 	}
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setServiceGroupId(String serviceName) {
+		this.serviceGroupId = serviceName;
 	}
 
 	public String getHost() {

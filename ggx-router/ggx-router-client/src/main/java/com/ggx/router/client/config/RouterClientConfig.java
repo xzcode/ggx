@@ -6,11 +6,11 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.filter.RouteReceiveMessageFilter;
-import com.ggx.router.client.router.service.IRouterPackHandler;
-import com.ggx.router.client.router.service.IRouterServiceProvider;
-import com.ggx.router.client.router.service.impl.DefaultDiscoveryServicePorvider;
-import com.ggx.router.client.router.service.impl.DefaultServicePorvider;
-import com.ggx.router.common.constant.GGRouterConstant;
+import com.ggx.router.client.service.RouterPackHandler;
+import com.ggx.router.client.service.RouterServiceProvider;
+import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
+import com.ggx.router.client.service.impl.DefaultServicePorvider;
+import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
@@ -54,13 +54,13 @@ public class RouterClientConfig {
 
 
 	// 服务端地址
-	protected String serverHost = GGRouterConstant.DEFAULT_SERVER_HOST;
+	protected String serverHost = RouterConstant.DEFAULT_SERVER_HOST;
 
 	// 服务端端口
-	protected int port = GGRouterConstant.DEFAULT_SERVER_PORT;
+	protected int port = RouterConstant.DEFAULT_SERVER_PORT;
 
 	// 验证token
-	protected String authToken = GGRouterConstant.DEFAULT_AUTH_TOKEN;
+	protected String authToken = RouterConstant.DEFAULT_AUTH_TOKEN;
 
 	/**
 	 * 消息将被路由的服务器对象
@@ -76,12 +76,12 @@ public class RouterClientConfig {
 	/**
 	 * 路由服务提供者
 	 */
-	private IRouterServiceProvider serviceProvider;
+	private RouterServiceProvider serviceProvider;
 
 	/**
 	 * 路由包处理器
 	 */
-	private IRouterPackHandler packHandler;
+	private RouterPackHandler packHandler;
 	
 	/**
 	 * 共享的线程组
@@ -115,7 +115,7 @@ public class RouterClientConfig {
 
 		if (this.RegistryClient != null) {
 			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP,getRouterGroupId());
-			setServiceProvider(new DefaultDiscoveryServicePorvider(this));
+			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 
 		if (serviceProvider == null) {
@@ -124,11 +124,11 @@ public class RouterClientConfig {
 
 	}
 
-	public IRouterServiceProvider getServiceProvider() {
+	public RouterServiceProvider getServiceProvider() {
 		return serviceProvider;
 	}
 
-	public void setServiceProvider(IRouterServiceProvider serviceProvider) {
+	public void setServiceProvider(RouterServiceProvider serviceProvider) {
 		this.serviceProvider = serviceProvider;
 	}
 
@@ -152,11 +152,11 @@ public class RouterClientConfig {
 		this.routingServer = routingServer;
 	}
 
-	public IRouterPackHandler getPackHandler() {
+	public RouterPackHandler getPackHandler() {
 		return packHandler;
 	}
 
-	public void setPackHandler(IRouterPackHandler packHandler) {
+	public void setPackHandler(RouterPackHandler packHandler) {
 		this.packHandler = packHandler;
 	}
 

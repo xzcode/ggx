@@ -5,8 +5,8 @@ import java.util.List;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.registry.common.message.req.DiscoveryServiceListReq;
-import com.ggx.registry.common.message.resp.DiscoveryServiceListResp;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
+import com.ggx.registry.common.message.resp.RegistryServiceListResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.server.config.RegistryServerConfig;
 
@@ -17,7 +17,7 @@ import com.ggx.registry.server.config.RegistryServerConfig;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceListReqHandler implements MessageDataHandler<DiscoveryServiceListReq>{
+public class ServiceListReqHandler implements MessageDataHandler<RegistryServiceListReq>{
 	
 	private RegistryServerConfig config;
 
@@ -26,10 +26,10 @@ public class ServiceListReqHandler implements MessageDataHandler<DiscoveryServic
 	}
 
 	@Override
-	public void handle(MessageData<DiscoveryServiceListReq> request) {
+	public void handle(MessageData<RegistryServiceListReq> request) {
 		GGSession session = request.getSession();
 		List<ServiceInfo> serviceList = config.getServiceManager().getServiceList();
-		DiscoveryServiceListResp resp = new DiscoveryServiceListResp(serviceList);
+		RegistryServiceListResp resp = new RegistryServiceListResp(serviceList);
 		session.send(resp);
 	}
 

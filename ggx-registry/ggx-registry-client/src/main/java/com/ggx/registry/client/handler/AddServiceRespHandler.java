@@ -3,7 +3,7 @@ package com.ggx.registry.client.handler;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
-import com.ggx.registry.common.message.resp.DiscoveryAddServiceResp;
+import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 
 /**
  * 新增服务推送处理器
@@ -11,7 +11,7 @@ import com.ggx.registry.common.message.resp.DiscoveryAddServiceResp;
  * @author zai
  * 2020-02-10 19:57:04
  */
-public class AddServiceRespHandler implements MessageDataHandler<DiscoveryAddServiceResp>{
+public class AddServiceRespHandler implements MessageDataHandler<RegistryAddServiceResp>{
 	
 	private RegistryClientConfig config;
 	
@@ -23,9 +23,9 @@ public class AddServiceRespHandler implements MessageDataHandler<DiscoveryAddSer
 
 
 	@Override
-	public void handle(MessageData<DiscoveryAddServiceResp> request) {
+	public void handle(MessageData<RegistryAddServiceResp> request) {
 		
-		DiscoveryAddServiceResp resp = request.getMessage();
+		RegistryAddServiceResp resp = request.getMessage();
 		config.getServiceManager().registerService(resp.getServiceInfo());
 		
 	}

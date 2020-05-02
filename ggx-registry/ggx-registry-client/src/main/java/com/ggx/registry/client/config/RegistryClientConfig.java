@@ -10,12 +10,13 @@ import com.ggx.core.client.GGClient;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.client.registry.RegistryManager;
-import com.ggx.registry.common.constant.DiscoveryConstant;
+import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
-import com.ggx.registry.common.util.DiscoveryServiceIdUtil;
+import com.ggx.registry.common.util.RegistryServiceIdUtil;
 
 /**
  * 配置
@@ -61,13 +62,13 @@ public class RegistryClientConfig {
 	protected long tryRegisterInterval = 10L * 1000L;
 	
 	//验证token
-	protected String authToken = DiscoveryConstant.DEFAULT_AUTH_TOKEN;
+	protected String authToken = RegistryConstant.DEFAULT_AUTH_TOKEN;
 
 	//服务id
-	protected String serviceId = DiscoveryServiceIdUtil.newServiceId();
+	protected String serviceId = GGXIdUtil.newRandomStringId24();
 	
-	//服务名称
-	protected String serviceName = "default_service";
+	//服务组id
+	protected String serviceGroupId = "default_service_group";
 	
 	//所在地区
 	protected String region = "default";
@@ -193,12 +194,12 @@ public class RegistryClientConfig {
 		this.serviceId = serviceId;
 	}
 	
-	public String getServiceName() {
-		return serviceName;
+	public String getServiceGroupId() {
+		return serviceGroupId;
 	}
 	
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setServiceGroupId(String serviceName) {
+		this.serviceGroupId = serviceName;
 	}
 	
 	public void setSession(GGSession session) {

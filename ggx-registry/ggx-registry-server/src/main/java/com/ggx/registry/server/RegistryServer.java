@@ -3,9 +3,9 @@ package com.ggx.registry.server;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.registry.common.message.req.DiscoveryServiceListReq;
-import com.ggx.registry.common.message.req.DiscoveryServiceRegisterReq;
-import com.ggx.registry.common.message.req.DiscoveryServiceUpdateReq;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
+import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
+import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.events.ConnActiveEventListener;
 import com.ggx.registry.server.events.ConnCloseEventListener;
@@ -43,9 +43,9 @@ public class RegistryServer {
 		
 		ggServer.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		
-		ggServer.onMessage(DiscoveryServiceRegisterReq.ACTION, new RegisterReqHandler(config));
-		ggServer.onMessage(DiscoveryServiceListReq.ACTION, new ServiceListReqHandler(config));
-		ggServer.onMessage(DiscoveryServiceUpdateReq.ACTION, new ServiceUpdateReqHandler(config));
+		ggServer.onMessage(RegistryServiceRegisterReq.ACTION_ID, new RegisterReqHandler(config));
+		ggServer.onMessage(RegistryServiceListReq.ACTION_ID, new ServiceListReqHandler(config));
+		ggServer.onMessage(RegistryServiceUpdateReq.ACTION_ID, new ServiceUpdateReqHandler(config));
 		
 		ggServer.start();
 		

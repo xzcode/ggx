@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.registry.common.service.listener.IRegisterServiceListener;
-import com.ggx.registry.common.service.listener.IUnregisterServiceListener;
-import com.ggx.registry.common.service.listener.IUpdateServiceListener;
+import com.ggx.registry.common.service.listener.RegisterServiceListener;
+import com.ggx.registry.common.service.listener.UnregisterServiceListener;
+import com.ggx.registry.common.service.listener.UpdateServiceListener;
 
 /**
  * 服务管理器
@@ -29,17 +29,17 @@ public class ServiceManager {
 	/**
 	 * 注册监听器
 	 */
-	private List<IRegisterServiceListener> registerListeners = new ArrayList<>(5);
+	private List<RegisterServiceListener> registerListeners = new ArrayList<>(5);
 	
 	/**
 	 * 取消注册监听器
 	 */
-	private List<IUnregisterServiceListener> unregisterListeners = new ArrayList<>(5);
+	private List<UnregisterServiceListener> unregisterListeners = new ArrayList<>(5);
 	
 	/**
 	 * 服务更新监听器
 	 */
-	private List<IUpdateServiceListener> updateListeners = new ArrayList<>(5);
+	private List<UpdateServiceListener> updateListeners = new ArrayList<>(5);
 	
 	
 	/**
@@ -49,7 +49,7 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-06 15:15:56
 	 */
-	public void addRegisterListener(IRegisterServiceListener listener) {
+	public void addRegisterListener(RegisterServiceListener listener) {
 		this.registerListeners.add(listener);
 	}
 	
@@ -60,7 +60,7 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-06 15:16:06
 	 */
-	public void addUnregisterListener(IUnregisterServiceListener listener) {
+	public void addUnregisterListener(UnregisterServiceListener listener) {
 		this.unregisterListeners.add(listener);
 	}
 	
@@ -71,7 +71,7 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-06 15:16:06
 	 */
-	public void addUpdateListener(IUpdateServiceListener listener) {
+	public void addUpdateListener(UpdateServiceListener listener) {
 		this.updateListeners.add(listener);
 	}
 	
@@ -83,20 +83,20 @@ public class ServiceManager {
 	 * 2020-02-04 14:33:41
 	 */
 	public void registerService(ServiceInfo service) {
-		ServiceGroup group = serviceGroups.get(service.getServiceName());
+		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
 			synchronized (serviceGroups) {
-				group = serviceGroups.get(service.getServiceName());
+				group = serviceGroups.get(service.getServiceGroupId());
 				if (group == null) {
 					group = new ServiceGroup();
-					serviceGroups.put(service.getServiceName(), group);
+					serviceGroups.put(service.getServiceGroupId(), group);
 				}
 			}
 			
 		}
 		group.addServiceInfo(service);
 		if (this.registerListeners != null) {
-			for (IRegisterServiceListener listener : registerListeners) {
+			for (RegisterServiceListener listener : registerListeners) {
 				listener.onRegister(service);						
 			}
 		}
@@ -111,11 +111,11 @@ public class ServiceManager {
 	 * 2020-02-04 14:33:48
 	 */
 	public void removeService(ServiceInfo service) {
-		ServiceGroup groups = serviceGroups.get(service.getServiceName());
+		ServiceGroup groups = serviceGroups.get(service.getServiceGroupId());
 		if (groups != null) {
 			groups.removeServiceInfo(service.getServiceId());
 			if (this.unregisterListeners != null) {
-				for (IUnregisterServiceListener listener : unregisterListeners) {
+				for (UnregisterServiceListener listener : unregisterListeners) {
 					listener.onUnregister(service);						
 				}
 			}
@@ -130,14 +130,14 @@ public class ServiceManager {
 	 * 2020-02-06 17:22:06
 	 */
 	public void updateService(ServiceInfo service) {
-		ServiceGroup group = serviceGroups.get(service.getServiceName());
+		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group != null) {
 			ServiceInfo oldService = group.getServiceInfo(service.getServiceId());
 			if (oldService != null) {
 				oldService.setCustomData(service.getCustomData());
 				
 				if (this.updateListeners != null) {
-					for (IUpdateServiceListener listener : updateListeners) {
+					for (UpdateServiceListener listener : updateListeners) {
 						listener.onUpdate(service);						
 					}
 				}
@@ -161,7 +161,7 @@ public class ServiceManager {
 				return;
 			}
 			if (this.unregisterListeners != null) {
-				for (IUnregisterServiceListener listener : unregisterListeners) {
+				for (UnregisterServiceListener listener : unregisterListeners) {
 					listener.onUnregister(service);						
 				}
 			}

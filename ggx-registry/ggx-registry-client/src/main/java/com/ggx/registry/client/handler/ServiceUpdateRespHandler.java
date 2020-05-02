@@ -3,8 +3,7 @@ package com.ggx.registry.client.handler;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
-import com.ggx.registry.common.message.req.model.ServiceInfoModel;
-import com.ggx.registry.common.message.resp.DiscoveryServiceUpdateResp;
+import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 
@@ -15,7 +14,7 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceUpdateRespHandler implements MessageDataHandler<DiscoveryServiceUpdateResp>{
+public class ServiceUpdateRespHandler implements MessageDataHandler<RegistryServiceUpdateResp>{
 	
 	private RegistryClientConfig config;
 	
@@ -27,9 +26,9 @@ public class ServiceUpdateRespHandler implements MessageDataHandler<DiscoverySer
 
 
 	@Override
-	public void handle(MessageData<DiscoveryServiceUpdateResp> request) {
+	public void handle(MessageData<RegistryServiceUpdateResp> request) {
 		
-		DiscoveryServiceUpdateResp resp = request.getMessage();
+		RegistryServiceUpdateResp resp = request.getMessage();
 		ServiceInfo updateModel = resp.getServiceInfo();
 		if (updateModel == null) {
 			return;

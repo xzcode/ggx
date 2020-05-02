@@ -3,7 +3,7 @@ package com.ggx.registry.client.handler;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
-import com.ggx.registry.common.message.resp.DiscoveryServiceUnregisterResp;
+import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.service.ServiceManager;
 
 /**
@@ -13,7 +13,7 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceUnregisterRespHandler implements MessageDataHandler<DiscoveryServiceUnregisterResp>{
+public class ServiceUnregisterRespHandler implements MessageDataHandler<RegistryServiceUnregisterResp>{
 	
 	private RegistryClientConfig config;
 	
@@ -26,8 +26,8 @@ public class ServiceUnregisterRespHandler implements MessageDataHandler<Discover
 
 
 	@Override
-	public void handle(MessageData<DiscoveryServiceUnregisterResp> request) {
-		DiscoveryServiceUnregisterResp resp = request.getMessage();
+	public void handle(MessageData<RegistryServiceUnregisterResp> request) {
+		RegistryServiceUnregisterResp resp = request.getMessage();
 		String serviceName = resp.getServiceName();
 		String serviceId = resp.getServiceId();
 		ServiceManager serviceManager = config.getServiceManager();

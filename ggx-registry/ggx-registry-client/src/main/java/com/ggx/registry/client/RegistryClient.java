@@ -21,13 +21,13 @@ import com.ggx.registry.client.handler.ServiceUnregisterRespHandler;
 import com.ggx.registry.client.handler.ServiceUpdateRespHandler;
 import com.ggx.registry.client.listener.IClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
-import com.ggx.registry.common.message.req.DiscoveryServiceListReq;
-import com.ggx.registry.common.message.req.DiscoveryServiceUpdateReq;
-import com.ggx.registry.common.message.resp.DiscoveryAddServiceResp;
-import com.ggx.registry.common.message.resp.DiscoveryServiceListResp;
-import com.ggx.registry.common.message.resp.DiscoveryServiceRegisterResp;
-import com.ggx.registry.common.message.resp.DiscoveryServiceUnregisterResp;
-import com.ggx.registry.common.message.resp.DiscoveryServiceUpdateResp;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
+import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
+import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
+import com.ggx.registry.common.message.resp.RegistryServiceListResp;
+import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
+import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
+import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
 
 public class RegistryClient {
@@ -52,11 +52,11 @@ public class RegistryClient {
 		GGClient ggClient = new GGClient(ggConfig);
 		config.setGGclient(ggClient);
 		
-		ggClient.onMessage(DiscoveryServiceRegisterResp.ACTION, new RegisterRespHandler(config));
-		ggClient.onMessage(DiscoveryServiceListResp.ACTION, new ServiceListRespHandler(config));
-		ggClient.onMessage(DiscoveryServiceUpdateResp.ACTION, new ServiceUpdateRespHandler(config));
-		ggClient.onMessage(DiscoveryServiceUnregisterResp.ACTION, new ServiceUnregisterRespHandler(config));
-		ggClient.onMessage(DiscoveryAddServiceResp.ACTION, new AddServiceRespHandler(config));
+		ggClient.onMessage(RegistryServiceRegisterResp.ACTION_ID, new RegisterRespHandler(config));
+		ggClient.onMessage(RegistryServiceListResp.ACTION_ID, new ServiceListRespHandler(config));
+		ggClient.onMessage(RegistryServiceUpdateResp.ACTION_ID, new ServiceUpdateRespHandler(config));
+		ggClient.onMessage(RegistryServiceUnregisterResp.ACTION_ID, new ServiceUnregisterRespHandler(config));
+		ggClient.onMessage(RegistryAddServiceResp.ACTION_ID, new AddServiceRespHandler(config));
 		
 		ggClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
@@ -102,13 +102,13 @@ public class RegistryClient {
 		.addListener(f -> {
 			if (!f.isSuccess()) {
 				//连接失败，进行进行重连操作
-				GGLoggerUtil.getLogger(this).info("Discovery Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
+				GGLoggerUtil.getLogger(this).info("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
 				ggClient.schedule(config.getTryRegisterInterval(), () -> {
 					connect();
 				});
 				return;
 			}
-			GGLoggerUtil.getLogger(this).info("Discovery Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+			GGLoggerUtil.getLogger(this).info("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
 		});
 	}
 	
@@ -123,14 +123,14 @@ public class RegistryClient {
 		if (session == null) {
 			return;
 		}
-		DiscoveryServiceUpdateReq req = new DiscoveryServiceUpdateReq();
+		RegistryServiceUpdateReq req = new RegistryServiceUpdateReq();
 		
 		ServiceInfo serviceInfo = new ServiceInfo();
 		
 		serviceInfo.setRegion(config.getRegion());
 		serviceInfo.setZone(config.getZone());
 		serviceInfo.setServiceId(config.getServiceId());
-		serviceInfo.setServiceName(config.getServiceName());
+		serviceInfo.setServiceGroupId(config.getServiceGroupId());
 		
 		serviceInfo.setCustomData(config.getCustomData());
 		
@@ -142,7 +142,7 @@ public class RegistryClient {
 	public void syncServiceInfos() {
 		GGSession session = config.getSession();
 		if (session != null) {
-			session.send(DiscoveryServiceListReq.DEFAULT_INSTANT);
+			session.send(RegistryServiceListReq.DEFAULT_INSTANT);
 		}
 	}
 	

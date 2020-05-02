@@ -4,7 +4,7 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
-import com.ggx.registry.common.message.resp.DiscoveryServiceUnregisterResp;
+import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
@@ -32,14 +32,14 @@ public class ConnCloseEventListener implements EventListener<Void>{
 			return;
 		}
 		config.getServiceManager().removeService(serviceInfo);
-		DiscoveryServiceUnregisterResp resp = new DiscoveryServiceUnregisterResp();
-		resp.setServiceName(serviceInfo.getServiceName());
+		RegistryServiceUnregisterResp resp = new RegistryServiceUnregisterResp();
+		resp.setServiceName(serviceInfo.getServiceGroupId());
 		resp.setServiceId(serviceInfo.getServiceId());
 		
 		ServiceManager serviceManager = config.getServiceManager();
 		serviceManager.sendToAllServices(resp);
 		
-		GGLoggerUtil.getLogger(this).warn("Service unregristry! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
+		GGLoggerUtil.getLogger(this).warn("Service unregristry! serviceName: {}, serviceId: {}", serviceInfo.getServiceGroupId(), serviceInfo.getServiceId());
 		
 	}
 

@@ -2,7 +2,7 @@ package com.ggx.router.server.config;
 
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
-import com.ggx.router.common.constant.GGRouterConstant;
+import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.server.RouterServer;
 
 import io.netty.channel.EventLoopGroup;
@@ -35,12 +35,12 @@ public class RouterServerConfig {
 	private EventLoopGroup sharedEventLoopGroup;
 
 	// 服务端口
-	private int port = GGRouterConstant.DEFAULT_SERVER_PORT;
+	private int port = RouterConstant.DEFAULT_SERVER_PORT;
 
 	// 认证token
-	private String authToken = GGRouterConstant.DEFAULT_AUTH_TOKEN;
+	private String authToken = RouterConstant.DEFAULT_AUTH_TOKEN;
 
-	protected String routerGroupId = GGRouterConstant.DEFAULT_ROUTER_GROUP;
+	protected String routerGroupId = RouterConstant.DEFAULT_ROUTER_GROUP;
 
 	protected String actionIdPrefix;
 

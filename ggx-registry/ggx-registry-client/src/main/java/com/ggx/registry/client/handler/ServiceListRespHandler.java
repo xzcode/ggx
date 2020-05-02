@@ -5,7 +5,7 @@ import java.util.List;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
-import com.ggx.registry.common.message.resp.DiscoveryServiceListResp;
+import com.ggx.registry.common.message.resp.RegistryServiceListResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 
@@ -16,7 +16,7 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceListRespHandler implements MessageDataHandler<DiscoveryServiceListResp>{
+public class ServiceListRespHandler implements MessageDataHandler<RegistryServiceListResp>{
 	
 	private RegistryClientConfig config;
 	
@@ -28,9 +28,9 @@ public class ServiceListRespHandler implements MessageDataHandler<DiscoveryServi
 
 
 	@Override
-	public void handle(MessageData<DiscoveryServiceListResp> request) {
+	public void handle(MessageData<RegistryServiceListResp> request) {
 		
-		DiscoveryServiceListResp resp = request.getMessage();
+		RegistryServiceListResp resp = request.getMessage();
 		//检查获取服务集合,内容属性存在null值问题
 		List<ServiceInfo> serviceList = resp.getServiceList();
 		

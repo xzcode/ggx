@@ -7,8 +7,8 @@ import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.listener.IClientRegisterSuccessListener;
-import com.ggx.registry.common.message.req.DiscoveryServiceListReq;
-import com.ggx.registry.common.message.resp.DiscoveryServiceRegisterResp;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
+import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
 
 /**
  * 客户端注册请求处理
@@ -17,7 +17,7 @@ import com.ggx.registry.common.message.resp.DiscoveryServiceRegisterResp;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class RegisterRespHandler implements MessageDataHandler<DiscoveryServiceRegisterResp>{
+public class RegisterRespHandler implements MessageDataHandler<RegistryServiceRegisterResp>{
 	
 	private RegistryClientConfig config;
 	
@@ -30,10 +30,10 @@ public class RegisterRespHandler implements MessageDataHandler<DiscoveryServiceR
 
 
 	@Override
-	public void handle(MessageData<DiscoveryServiceRegisterResp> request) {
-		DiscoveryServiceRegisterResp resp = request.getMessage();
+	public void handle(MessageData<RegistryServiceRegisterResp> messageData) {
+		RegistryServiceRegisterResp resp = messageData.getMessage();
 		if (resp.isSuccess()) {
-			config.getSession().send(DiscoveryServiceListReq.DEFAULT_INSTANT);
+			config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);
 			RegistryClient discoveryClient = config.getDiscoveryClient();
 			List<IClientRegisterSuccessListener> registerSuccessListeners = discoveryClient.getRegisterSuccessListeners();
 			for (IClientRegisterSuccessListener listener : registerSuccessListeners) {

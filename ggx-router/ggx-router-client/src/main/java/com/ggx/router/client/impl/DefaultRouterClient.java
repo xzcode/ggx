@@ -8,8 +8,8 @@ import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.router.service.IRouterService;
-import com.ggx.router.client.router.service.IRouterServiceProvider;
+import com.ggx.router.client.service.RouterService;
+import com.ggx.router.client.service.RouterServiceProvider;
 import com.xzcode.ggserver.core.server.GGServer;
 
 /**
@@ -35,7 +35,7 @@ public class DefaultRouterClient implements RouterClient{
 	public GGFuture route(Pack pack) {
 		try {
 			//进行服务匹配
-			IRouterService matchService = config.getServiceProvider().matchService(pack);
+			RouterService matchService = config.getServiceProvider().matchService(pack);
 			if (matchService != null) {
 				return matchService.dispatch(pack);
 			}

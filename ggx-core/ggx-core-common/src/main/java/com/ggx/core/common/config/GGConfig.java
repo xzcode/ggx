@@ -18,7 +18,7 @@ import com.ggx.core.common.handler.codec.impl.DefaultEncodeHandler;
 import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
+import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.message.pingpong.model.GGPing;
 import com.ggx.core.common.message.pingpong.model.GGPong;
 import com.ggx.core.common.message.request.manager.DefaultRequestMessageManager;
@@ -66,8 +66,6 @@ public class GGConfig {
 
 	protected String protocolType = ProtocolTypeConstants.MIXED;
 
-	protected String serializerType = SerializerFactory.SerializerType.PROTO_STUFF;
-
 	protected String websocketPath = "/websocket";
 
 	protected Charset charset = Charset.forName("utf-8");
@@ -91,7 +89,7 @@ public class GGConfig {
 	protected ChannelSessionFactory sessionFactory;
 	protected ISessionIdGenerator sessionIdGenerator;
 
-	protected ISerializer serializer = SerializerFactory.geSerializer(serializerType);
+	protected ISerializer serializer;
 
 	protected IDecodeHandler decodeHandler;
 	protected IEncodeHandler encodeHandler;
@@ -143,7 +141,7 @@ public class GGConfig {
 			receivePackHandler = new DefaultReceivePackHandler(this);
 		}
 		if (serializer == null) {
-			serializer = SerializerFactory.geSerializer(serializerType);
+			this.serializer = new ProtoStuffSerializer();
 		}
 
 		if (sessionManager == null) {
@@ -275,17 +273,6 @@ public class GGConfig {
 
 	public void setWebsocketPath(String websocketPath) {
 		this.websocketPath = websocketPath;
-	}
-
-	public String getSerializerType() {
-		return serializerType;
-	}
-
-	public void setSerializerType(String serializerType) {
-		if (serializerType == null || serializerType == "") {
-			return;
-		}
-		this.serializerType = serializerType;
 	}
 
 	public EventManager getEventManager() {

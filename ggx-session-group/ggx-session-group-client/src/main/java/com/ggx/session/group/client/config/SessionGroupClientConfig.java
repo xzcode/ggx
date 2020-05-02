@@ -3,7 +3,7 @@ package com.ggx.session.group.client.config;
 import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.client.GGClient;
-import com.ggx.core.common.utils.RandomIdUtil;
+import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.session.group.client.SessionGroupClient;
@@ -70,7 +70,7 @@ public class SessionGroupClientConfig {
 	protected boolean printSessionGroupPackLog = false;
 
 	// 会话组id
-	protected String sessionGroupId = RandomIdUtil.newRandomStringId24();
+	protected String sessionGroupId = GGXIdUtil.newRandomStringId24();
 
 
 	// 验证token

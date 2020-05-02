@@ -1,6 +1,6 @@
 package com.ggx.registry.server.config;
 
-import com.ggx.registry.common.constant.DiscoveryConstant;
+import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
 import com.xzcode.ggserver.core.server.GGServer;
 
@@ -26,7 +26,7 @@ public class RegistryServerConfig {
 	private int port = 19394;
 	
 	//认证token
-	private String authToken = DiscoveryConstant.DEFAULT_AUTH_TOKEN;
+	private String authToken = RegistryConstant.DEFAULT_AUTH_TOKEN;
 	
 	//客户端汇报周期(毫秒)
 	private long clientReportInterval = 30L * 1000L;
