@@ -17,6 +17,6 @@
   </dependencies>
   <modules>
 	<module>ggx-game-core</module>
-  	<module>ggx-game-card-game-supprot</module>	
+  	<module>ggx-game-card-game-support</module>	
   </modules>
 </project>
