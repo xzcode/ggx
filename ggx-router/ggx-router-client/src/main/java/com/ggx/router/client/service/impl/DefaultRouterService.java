@@ -47,13 +47,7 @@ public class DefaultRouterService implements RouterService{
 	
 	protected int port;
 	
-	protected RouterServiceMatcher serviceMatcher;
-	
-	
 	protected TaskExecutor executor;
-	
-	
-	protected GGFuture checkConnectionsFuture;
 	
 	/**
 	 * 绑定的连接客户端
@@ -182,16 +176,6 @@ public class DefaultRouterService implements RouterService{
 	}
 
 	
-	public void setServiceMatcher(RouterServiceMatcher serviceMatcher) {
-		this.serviceMatcher = serviceMatcher;
-	}
-	
-
-	@Override
-	public RouterServiceMatcher getServiceMatcher() {
-		return this.serviceMatcher;
-	}
-	
 	@Override
 	public String getServiceId() {
 		return this.serviceId;
@@ -244,9 +228,6 @@ public class DefaultRouterService implements RouterService{
 	}
 	public boolean isShutdown() {
 		return shutdown;
-	}
-	public GGFuture getCheckConnectionsFuture() {
-		return checkConnectionsFuture;
 	}
 	public String getServcieName() {
 		return servcieName;

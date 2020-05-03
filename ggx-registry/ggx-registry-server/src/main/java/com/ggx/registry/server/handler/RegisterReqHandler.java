@@ -9,7 +9,7 @@ import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
-import com.ggx.registry.server.constant.DiscoveryServerSessionKeys;
+import com.ggx.registry.server.constant.RegistryServerSessionKeys;
 
 /**
  * 客户端注册请求处理
@@ -45,7 +45,7 @@ public class RegisterReqHandler implements MessageDataHandler<RegistryServiceReg
 			
 		}
 		ServiceInfo infoModel = req.getServiceInfo();
-		ServiceInfo serviceInfo = session.getAttribute(DiscoveryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
+		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
 		
 		ServiceManager serviceManager = config.getServiceManager();
 		
@@ -55,7 +55,7 @@ public class RegisterReqHandler implements MessageDataHandler<RegistryServiceReg
 			serviceInfo.setTimeoutDelay(config.getServiceTimeoutDelay());
 			serviceInfo.setSession(session);
 			serviceManager.registerService(serviceInfo);
-			session.addAttribute(DiscoveryServerSessionKeys.SERVICE_INFO, serviceInfo);
+			session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, serviceInfo);
 		}
 		session.send(new RegistryServiceRegisterResp(true));
 		

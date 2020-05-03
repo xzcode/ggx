@@ -1,5 +1,5 @@
 package com.ggx.registry.server.constant;
 
-public interface DiscoveryServerSessionKeys {
+public interface RegistryServerSessionKeys {
 	String SERVICE_INFO = "SERVICE_INFO";
 }

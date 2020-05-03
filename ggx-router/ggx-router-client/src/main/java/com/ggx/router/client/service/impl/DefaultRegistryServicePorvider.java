@@ -14,9 +14,11 @@ import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
+import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
+import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 
 /**
@@ -48,14 +50,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	protected List<RemoveRouterServiceListener> removeRouterServiceListeners = new ArrayList<>();
 	
 	/**
-	 * 服务集合<服务id,路由服务对象>
+	 * 路由服务管理器
 	 */
-	protected Map<String, RouterService> services = new ConcurrentHashMap<>();
+	protected RouterServiceManager routerServiceManager;
+	
 	
 	/**
-	 * actionId对应路由服务缓存,<actionId,路由服务对象>
+	 * actionId对应路由服务组缓存,<actionId,路由服务组对象>
 	 */
-	protected Map<String, RouterService> actionServiceCache = new ConcurrentHashMap<>();
+	protected Map<String, RouterServiceGroup> actionServiceCache = new ConcurrentHashMap<>();
 	
 	
 	public DefaultRegistryServicePorvider(RouterClientConfig config) {
@@ -63,14 +66,17 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		this.config = config;
 		this.serviceManager = registryClient.getConfig().getServiceManager();
 		
-		//添加连接注册中心成功回调
+		//添加本服务注册成功回调
 		registryClient.addRegisterSuccessListener(() -> {
+			
 			for (Entry<String, RouterService> entry : services.entrySet()) {
 				RouterService routerService = entry.getValue();
 				if (!routerService.isAvailable()) {
 					removeService(routerService.getServiceId());
 				}
 			}
+			
+			
 		});
 		
 		//添加注册中心服务管器的服务注册监听器
@@ -81,13 +87,13 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		
 		//添加注册中心服务管器的服务取消注册监听器
 		this.serviceManager.addUnregisterListener(service -> {
-			removeService(service.getServiceId());
+			removeService(service.getServiceGroupId(), service.getServiceId());
 		});
 		
 		//添加注册中心服务管器的服务更新监听器
 		this.serviceManager.addUpdateListener(service -> {
 			
-			RouterService routerService = getService(service.getServiceId());
+			RouterService routerService = getService(service.getServiceGroupId(), service.getServiceId());
 			if (routerService != null) {
 				routerService.addAllExtraData(service.getCustomData());
 			}else {
@@ -106,8 +112,10 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 * 2020-02-06 18:24:17
 	 */
 	private void registerRouterService(ServiceInfo service) {
+		
+		//获取自定义参数
 		Map<String, String> customData = service.getCustomData();
-		String routerGroup = customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP);
+		String routerGroup = customData.get(RouterServiceCustomDataKeys.ROUTER_GROUP_ID);
 		if (!config.getRouterGroupId().equals(routerGroup)) {
 			return;
 		}
@@ -118,10 +126,18 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		}
 		Integer servicePort = Integer.valueOf(servicePortString);
 		
+		String serviceGroupId = service.getServiceGroupId();
+		
 		String serviceId = service.getServiceId();
 		
+		RouterServiceGroup serviceGroup = this.routerServiceManager.getServiceGroup(serviceGroupId);
+		
+		if (serviceGroup != null) {
+			
+		}
+		
 		//检查是否存在id一样的旧服务
-		RouterService oldService = getService(serviceId);
+		RouterService oldService = getService(serviceGroupId, serviceId);
 		if (oldService != null) {
 			RouterServiceActionPrefixMatcher serviceMatcher = (RouterServiceActionPrefixMatcher) oldService.getServiceMatcher();
 			if (!actionIdPrefix.equals(serviceMatcher.getPrefix())) {
@@ -149,29 +165,28 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
         routerService.setServcieName(service.getServiceGroupId());
         routerService.addAllExtraData(service.getCustomData());
         routerService.setServiceMatcher(new RouterServiceActionPrefixMatcher(actionIdPrefix));
-        addService(routerService);
+        this.routerServiceManager.addService(routerService);
         
         routerService.init();
 	}
 
 	@Override
-	public RouterService getService(String serviceId) {
-		return services.get(serviceId);
+	public RouterService getService(String serviceGroupId, String serviceId) {
+		return this.routerServiceManager.getServiceGroup(serviceGroupId)
 	}
 
 	@Override
-	public RouterService addService(RouterService service) {
-		return services.put(service.getServiceId(), service);
+	public void addService(RouterService service) {
+		this.routerServiceManager.addService(service);
 	}
 
 	@Override
-	public RouterService removeService(String serviceId) {
-		RouterService service = services.remove(serviceId);
+	public void removeService(String serviceGroupId, String serviceId) {
+		this.routerServiceManager.removeService(serviceGroupId, serviceId);
 		if (service != null) {
 			service.shutdown();
 			removeActionServiceCache(service);
 		}
-		return service;
 	}
 	
 	private void removeActionServiceCache(RouterService service) {
@@ -188,17 +203,26 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	@Override
 	public RouterService matchService(Pack pack) {
 		String actionId = pack.getActionString();
+		RouterService routerService;
 		//尝试从缓存中获取服务
-		RouterService service = actionServiceCache.get(actionId);
-		if (service != null) {
-			return service;
+		RouterServiceGroup routerServiceGroup = actionServiceCache.get(actionId);
+		if (routerServiceGroup != null) {
+			//TODO 获取服务组，并通过负载均衡策略，获取适用的服务对象，进行返回
+			
+			
+			return routerService;
 		}
+		
+		Map<String, RouterServiceGroup> serviceGroups = this.routerServiceManager.getServiceGroups();
+		
 		//遍历进行服务匹配
-		for (Entry<String, RouterService> entry : services.entrySet()) {
-			service = entry.getValue();
-			if (service.getServiceMatcher().match(pack)) {
-				actionServiceCache.put(actionId, service);
-				return service;
+		for (Entry<String, RouterServiceGroup> entry : serviceGroups.entrySet()) {
+			routerServiceGroup = entry.getValue();
+			if (routerServiceGroup != null) {
+				//TODO 获取服务组，并通过负载均衡策略，获取适用的服务对象，进行返回
+				
+				//添加服务组到缓存
+				actionServiceCache.put(actionId, routerServiceGroup);
 			}
 		}
 		return null;

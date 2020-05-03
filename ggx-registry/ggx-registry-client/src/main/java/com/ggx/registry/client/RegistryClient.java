@@ -19,7 +19,7 @@ import com.ggx.registry.client.handler.RegisterRespHandler;
 import com.ggx.registry.client.handler.ServiceListRespHandler;
 import com.ggx.registry.client.handler.ServiceUnregisterRespHandler;
 import com.ggx.registry.client.handler.ServiceUpdateRespHandler;
-import com.ggx.registry.client.listener.IClientRegisterSuccessListener;
+import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
@@ -34,7 +34,7 @@ public class RegistryClient {
 	
 	private RegistryClientConfig config;
 	
-	protected List<IClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
+	protected List<ClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
 	
 	public RegistryClient(RegistryClientConfig config) {
 		this.config = config;
@@ -139,18 +139,11 @@ public class RegistryClient {
 
 	}
 	
-	public void syncServiceInfos() {
-		GGSession session = config.getSession();
-		if (session != null) {
-			session.send(RegistryServiceListReq.DEFAULT_INSTANT);
-		}
-	}
-	
-	public void addRegisterSuccessListener(IClientRegisterSuccessListener listener) {
+	public void addRegisterSuccessListener(ClientRegisterSuccessListener listener) {
 		this.registerSuccessListeners.add(listener);
 	}
 	
-	public List<IClientRegisterSuccessListener> getRegisterSuccessListeners() {
+	public List<ClientRegisterSuccessListener> getRegisterSuccessListeners() {
 		return registerSuccessListeners;
 	}
 	

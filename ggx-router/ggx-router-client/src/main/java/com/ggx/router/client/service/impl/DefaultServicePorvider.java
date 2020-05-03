@@ -10,9 +10,11 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
+import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
+import com.ggx.router.client.service.manager.RouterServiceManager;
 
 /**
  * 默认路由服务提供者
@@ -29,25 +31,29 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 	
 	protected List<RemoveRouterServiceListener> removeRouterServiceListeners = new ArrayList<>();
 	
-	protected Map<String, RouterService> services = new ConcurrentHashMap<>(100);
+	protected RouterServiceManager routerServiceManager;
 	
 	public DefaultServicePorvider(RouterClientConfig config) {
 		this.config = config;
 	}
 
 	@Override
-	public RouterService getService(String serviceId) {
-		return services.get(serviceId);
+	public RouterService getService(String serviceGroupId, String serviceId) {
+		RouterServiceGroup group = routerServiceManager.getServiceGroup(serviceGroupId);
+		if (group != null) {
+			return group.getService(serviceId);
+		}
+		return null;
 	}
 
 	@Override
-	public RouterService addService(RouterService service) {
-		return services.put(service.getServiceId(), service);
+	public void addService(RouterService service) {
+		routerServiceManager.addService(service);
 	}
 
 	@Override
-	public RouterService removeService(String serviceId) {
-		return services.remove(serviceId);
+	public void removeService(String serviceGroupId, String serviceId) {
+		routerServiceManager.removeService(serviceGroupId, serviceId);
 	}
 
 	@Override

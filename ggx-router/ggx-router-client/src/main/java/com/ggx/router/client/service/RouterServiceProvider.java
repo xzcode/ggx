@@ -18,7 +18,7 @@ public interface RouterServiceProvider {
 	 * @author zai
 	 * 2019-10-12 15:01:39
 	 */
-	RouterService getService(String serviceId);
+	RouterService getService(String serviceGroupId, String serviceId);
 	
 
 
@@ -30,7 +30,7 @@ public interface RouterServiceProvider {
 	 * @author zai
 	 * 2019-10-22 18:22:01
 	 */
-	RouterService removeService(String serviceId);
+	void removeService(String serviceGroupId, String serviceId);
 	
 	/**
 	 * 匹配服务
@@ -51,7 +51,7 @@ public interface RouterServiceProvider {
 	 * @author zai
 	 * 2019-10-22 18:21:53
 	 */
-	RouterService addService(RouterService service);
+	void addService(RouterService service);
 	
 	/**
 	 * 添加监听器

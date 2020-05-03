@@ -1,6 +1,6 @@
 package com.ggx.registry.client.listener;
 
-public interface IClientRegisterSuccessListener {
+public interface ClientRegisterSuccessListener {
 	
 	void onRegisterSuccess();
 	

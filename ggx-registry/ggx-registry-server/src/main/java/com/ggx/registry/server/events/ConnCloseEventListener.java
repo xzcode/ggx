@@ -8,7 +8,7 @@ import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
-import com.ggx.registry.server.constant.DiscoveryServerSessionKeys;
+import com.ggx.registry.server.constant.RegistryServerSessionKeys;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	
@@ -27,7 +27,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 	public void onEvent(EventData<Void> eventData) {
 		//连接关闭.立即移除服务信息
 		GGSession session = eventData.getSession();
-		ServiceInfo serviceInfo = session.getAttribute(DiscoveryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
+		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
 		if (serviceInfo == null) {
 			return;
 		}

@@ -114,7 +114,7 @@ public class RouterClientConfig {
 		}
 
 		if (this.RegistryClient != null) {
-			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_GROUP,getRouterGroupId());
+			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 

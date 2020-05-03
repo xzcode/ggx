@@ -22,14 +22,6 @@ public interface RouterService {
 	 */
 	String getServiceId();
 	
-	/**
-	 * 获取服务匹配器
-	 * 
-	 * @return
-	 * @author zai
-	 * 2019-11-07 16:50:29
-	 */
-	RouterServiceMatcher getServiceMatcher();
 	
 	/**
 	 * 获取服务地址

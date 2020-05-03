@@ -18,8 +18,8 @@ public interface RouterServiceCustomDataKeys {
 	String ROUTER_SERVICE_PORT = "ROUTER_SERVICE_PORT";
 	
 	/**
-	 * 路由服务组
+	 * 路由组
 	 */
-	String ROUTER_SERVICE_GROUP = "ROUTER_SERVICE_GROUP";
+	String ROUTER_GROUP_ID = "ROUTER_GROUP_ID";
 	
 }
