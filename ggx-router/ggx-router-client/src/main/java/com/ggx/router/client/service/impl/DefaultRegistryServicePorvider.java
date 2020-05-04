@@ -13,6 +13,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
+import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
@@ -60,22 +61,30 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 */
 	protected Map<String, RouterServiceGroup> actionServiceCache = new ConcurrentHashMap<>();
 	
-	
+	/**
+	 * 构造函数
+	 * @param config
+	 */
 	public DefaultRegistryServicePorvider(RouterClientConfig config) {
 		RegistryClient registryClient = config.getRegistryClient();
 		this.config = config;
 		this.serviceManager = registryClient.getConfig().getServiceManager();
 		
+		init();
+	}
+	
+	
+	private void init() {
+		
+		RegistryClient registryClient = config.getRegistryClient();
+		
+		
+		
 		//添加本服务注册成功回调
 		registryClient.addRegisterSuccessListener(() -> {
 			
-			for (Entry<String, RouterService> entry : services.entrySet()) {
-				RouterService routerService = entry.getValue();
-				if (!routerService.isAvailable()) {
-					removeService(routerService.getServiceId());
-				}
-			}
-			
+			//移除所有不可用的路由服务
+			this.routerServiceManager.removeAllUnavaliableRouterServices();
 			
 		});
 		
@@ -101,7 +110,6 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 			}
 			
 		});
-		
 	}
 	
 	/**
@@ -134,45 +142,45 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		
 		if (serviceGroup != null) {
 			
-		}
-		
-		//检查是否存在id一样的旧服务
-		RouterService oldService = getService(serviceGroupId, serviceId);
-		if (oldService != null) {
-			RouterServiceActionPrefixMatcher serviceMatcher = (RouterServiceActionPrefixMatcher) oldService.getServiceMatcher();
-			if (!actionIdPrefix.equals(serviceMatcher.getPrefix())) {
-				//移除信息不一致的旧服务
-				removeService(serviceId);
+			//检查是否存在id一样的旧服务
+			RouterService oldService = serviceGroup.getService(serviceId);
+			if (oldService != null) {
+				RouterServiceActionPrefixMatcher serviceMatcher = (RouterServiceActionPrefixMatcher) oldService.getServiceMatcher();
+				if (!actionIdPrefix.equals(serviceMatcher.getPrefix())) {
+					//移除信息不一致的旧服务
+					removeService(serviceGroupId, serviceId);
+				}
+				else if (servicePort != oldService.getPort()) {
+					//移除端口信息不一致的旧服务
+					removeService(serviceGroupId, serviceId);
+				}
+				else if (!oldService.isAvailable()) {
+					//移除不可用的旧服务
+					removeService(serviceGroupId, serviceId);
+				}else {
+					return;
+				}
 			}
-			else if (servicePort != oldService.getPort()) {
-				//移除端口信息不一致的旧服务
-				removeService(serviceId);
-			}
-			else if (!oldService.isAvailable()) {
-				//移除不可用的旧服务
-				removeService(serviceId);
-			}else {
-				return;
-			}
-		}
-		
-		
-		//创建新服务对象
-		DefaultRouterService routerService = new DefaultRouterService(config, serviceId);
-        routerService.setHost(service.getHost());
-        routerService.setPort(servicePort);
-        routerService.setServiceId(service.getServiceId());
-        routerService.setServcieName(service.getServiceGroupId());
-        routerService.addAllExtraData(service.getCustomData());
-        routerService.setServiceMatcher(new RouterServiceActionPrefixMatcher(actionIdPrefix));
-        this.routerServiceManager.addService(routerService);
+			
+			
+			//创建新服务对象
+			DefaultRouterService routerService = new DefaultRouterService(config, serviceId);
+	        routerService.setHost(service.getHost());
+	        routerService.setPort(servicePort);
+	        routerService.setServiceId(service.getServiceId());
+	        routerService.setServcieName(service.getServiceGroupId());
+	        routerService.addAllExtraData(service.getCustomData());
+	        routerService.setServiceMatcher(new RouterServiceActionPrefixMatcher(actionIdPrefix));
+	        this.routerServiceManager.addService(routerService);
+	        
+	        routerService.init();
         
-        routerService.init();
+		}
 	}
 
 	@Override
 	public RouterService getService(String serviceGroupId, String serviceId) {
-		return this.routerServiceManager.getServiceGroup(serviceGroupId)
+		return this.routerServiceManager.getService(serviceGroupId, serviceId);
 	}
 
 	@Override
@@ -183,10 +191,6 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	@Override
 	public void removeService(String serviceGroupId, String serviceId) {
 		this.routerServiceManager.removeService(serviceGroupId, serviceId);
-		if (service != null) {
-			service.shutdown();
-			removeActionServiceCache(service);
-		}
 	}
 	
 	private void removeActionServiceCache(RouterService service) {

@@ -21,7 +21,6 @@ import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.listener.RouterServiceActiveListener;
 import com.ggx.router.client.service.listener.RouterServiceInActiveListener;
 import com.ggx.session.group.client.SessionGroupClient;
@@ -77,6 +76,7 @@ public class DefaultRouterService implements RouterService{
 	 */
 	protected List<RouterServiceInActiveListener> inActiveListeners = new ArrayList<>();
 	
+	
 	/**
 	 * 是否已关闭
 	 */
@@ -107,13 +107,6 @@ public class DefaultRouterService implements RouterService{
 		
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
-		
-		//添加会话注册成功监听
-		sessionGroupClient.addEventListener(GGSessionGroupEventConstant.SESSION_REGISTER_SUCCESS, e -> {
-			
-			
-			
-		});
 		
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
@@ -152,6 +145,13 @@ public class DefaultRouterService implements RouterService{
 		return serviceClient.send(pack);
 	}
 	
+
+	@Override
+	public boolean isAvailable() {
+		return this.sessionGroupClient.getAvaliableConnections() > 0;
+	}
+
+	
 	/**
 	 * 关闭
 	 * 
@@ -160,10 +160,11 @@ public class DefaultRouterService implements RouterService{
 	 */
 	@Override
 	public void shutdown() {
+		if (this.shutdown) {
+			return;
+		}
 		this.shutdown = true;
-		ISessionManager sessionManager = this.serviceClient.getSessionManager();
-		sessionManager.disconnectAllSession();
-		config.getRoutingServer().emitEvent(new EventData<RouterService>(RouterClientEvents.RouterService.SHUTDOWN, this));
+		this.sessionGroupClient.shutdown(false);
 	}
 	
 	
@@ -235,11 +236,6 @@ public class DefaultRouterService implements RouterService{
 	
 	public void setServcieName(String servcieName) {
 		this.servcieName = servcieName;
-	}
-
-	@Override
-	public boolean isAvailable() {
-		return true;
 	}
 
 

@@ -1,9 +1,12 @@
 package com.ggx.router.client.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.router.client.service.listener.RouterServiceOnRemoveListener;
 
 /**
  * 路由服务统一接口
@@ -88,6 +91,8 @@ public interface RouterService {
 	 */
 	public void addAllExtraData(Map<String, String> extraData);
 	
+	
+
 	/**
 	 * 获取额外数据集合
 	 * 

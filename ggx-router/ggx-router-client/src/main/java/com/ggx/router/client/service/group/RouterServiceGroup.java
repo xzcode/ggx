@@ -24,7 +24,6 @@ public class RouterServiceGroup {
 	 */
 	protected final Map<String, RouterService> services = new ConcurrentHashMap<>();
 	
-	
 	/**
 	 * 服务匹配器
 	 */
@@ -42,12 +41,23 @@ public class RouterServiceGroup {
 		this.services.put(service.getServiceId(), service);
 	}
 	
+	
 	public RouterService getService(String serviceId) {
 		return this.services.get(serviceId);
 	}
 	
+	/**
+	 * 移除服务
+	 *
+	 * @param serviceId
+	 * @author zai
+	 * 2020-05-04 17:39:11
+	 */
 	public void reomoveService(String serviceId) {
-		this.services.remove(serviceId);
+		RouterService routerService = this.services.remove(serviceId);
+		if (routerService != null) {
+			routerService.shutdown();
+		}
 	}
 	
 	public String getServiceGroupId() {
@@ -64,6 +74,10 @@ public class RouterServiceGroup {
 	
 	public void setServiceMatcher(RouterServiceMatcher serviceMatcher) {
 		this.serviceMatcher = serviceMatcher;
+	}
+	
+	public Map<String, RouterService> getServices() {
+		return services;
 	}
 
 }

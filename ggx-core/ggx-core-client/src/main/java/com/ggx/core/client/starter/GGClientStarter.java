@@ -4,7 +4,7 @@ import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.session.GGSession;
 
-public interface IGGClientStarter {
+public interface GGClientStarter {
 	
 	GGFuture connect(String host, int port);
 	
@@ -12,5 +12,5 @@ public interface IGGClientStarter {
 	
 	void setConfig(GGClientConfig config);
 	
-	void shutdown();
+	GGFuture shutdown();
 }

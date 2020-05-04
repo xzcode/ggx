@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.config.GGClientConfig;
-import com.ggx.core.client.starter.IGGClientStarter;
+import com.ggx.core.client.starter.GGClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
@@ -20,8 +20,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.concurrent.Future;
 
-public class DefaultClientStarter implements IGGClientStarter {
+public class DefaultClientStarter implements GGClientStarter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DefaultClientStarter.class);
 	
@@ -87,12 +88,15 @@ public class DefaultClientStarter implements IGGClientStarter {
 		return session.disconnect();
 	}
 	
-	public void shutdown() {
+	public GGFuture shutdown() {
+		GGNettyFuture ggFuture = new GGNettyFuture();
 		try {
-			config.getWorkerGroup().shutdownGracefully().sync();
+			Future<?> future = config.getWorkerGroup().shutdownGracefully();
+			ggFuture.setFuture(future);
 		} catch (Exception e) {
 			logger.error("Shutdown error!", e);
 		}
+		return ggFuture;
 	}
     
     public void setConfig(GGClientConfig config) {

@@ -1,7 +1,7 @@
 package com.ggx.core.client;
 
 import com.ggx.core.client.config.GGClientConfig;
-import com.ggx.core.client.starter.IGGClientStarter;
+import com.ggx.core.client.starter.GGClientStarter;
 import com.ggx.core.client.starter.impl.DefaultClientStarter;
 import com.ggx.core.common.config.GGConfigSupport;
 import com.ggx.core.common.control.IGGContolSupport;
@@ -21,7 +21,7 @@ implements
 	
 	private GGClientConfig config;
 	
-	private IGGClientStarter clientStarter;
+	private GGClientStarter clientStarter;
 	
 	public GGFuture connect(String host, int port) {
 		return clientStarter.connect(host, port);
@@ -41,8 +41,8 @@ implements
 		return config;
 	}
 	
-	public void shutdown() {
-		clientStarter.shutdown();
+	public GGFuture shutdown() {
+		return clientStarter.shutdown();
 	}
 
 }

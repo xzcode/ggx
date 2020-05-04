@@ -2,6 +2,7 @@ package com.ggx.router.client.service.impl;
 
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterServiceMatcher;
+import com.ggx.router.client.service.group.RouterServiceGroup;
 
 /**
  * 默认action前缀路由服务匹配器
@@ -11,24 +12,17 @@ import com.ggx.router.client.service.RouterServiceMatcher;
  */
 public class RouterServiceActionPrefixMatcher implements RouterServiceMatcher {
 	
-	private String prefix;
-	
 
 	public RouterServiceActionPrefixMatcher(String prefix) {
 		super();
-		this.prefix = prefix;
 	}
 
 
 
 
 	@Override
-	public boolean match(Pack pack) {
+	public boolean match(Pack pack, RouterServiceGroup routerServiceGroup) {
 		return pack.getActionString().startsWith(prefix);
-	}
-	
-	public String getPrefix() {
-		return prefix;
 	}
 
 }

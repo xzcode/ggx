@@ -7,9 +7,11 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.filter.RouteReceiveMessageFilter;
 import com.ggx.router.client.service.RouterPackHandler;
+import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
+import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -87,6 +89,12 @@ public class RouterClientConfig {
 	 * 共享的线程组
 	 */
 	private EventLoopGroup sharedEventLoopGroup;
+	
+	
+	/**
+	 * 路由服务匹配器
+	 */
+	protected RouterServiceMatcher routerServiceMatcher;
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {
@@ -112,15 +120,23 @@ public class RouterClientConfig {
 		if (routerGroupId == null) {
 			routerGroupId = UUID.randomUUID().toString();
 		}
+		
+		
 
 		if (this.RegistryClient != null) {
 			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
-
+		
+		if (this.routerServiceMatcher != null) {
+			this.routerServiceMatcher = new RouterServiceActionPrefixMatcher();
+		}
+		
 		if (serviceProvider == null) {
 			serviceProvider = new DefaultServicePorvider(this);
 		}
+		
+		
 
 	}
 

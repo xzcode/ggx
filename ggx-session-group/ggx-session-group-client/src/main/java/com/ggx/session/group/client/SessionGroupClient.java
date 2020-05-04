@@ -1,6 +1,7 @@
 package com.ggx.session.group.client;
 
 import java.nio.charset.Charset;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
@@ -8,22 +9,25 @@ import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.response.support.MakePackSupport;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.manager.ISessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
+import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.group.common.message.resp.AuthResp;
 import com.ggx.group.common.message.resp.DataTransferResp;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
 import com.ggx.group.common.session.SessionGroupSessionFactory;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.session.group.client.events.ConnCloseEventListener;
-import com.ggx.session.group.client.events.ConnOpenEventListener;
 import com.ggx.session.group.client.handler.AnthRespHandler;
 import com.ggx.session.group.client.handler.DataTransferRespHandler;
 import com.ggx.session.group.client.handler.SessionGroupRegisterRespHandler;
+import com.ggx.session.group.client.session.ServiceClientSession;
 
 /**
  * 会话组客户端
@@ -34,6 +38,12 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 
 	private SessionGroupClientConfig config;
 
+	//当前可用连接数
+	private AtomicInteger avaliableConnections = new AtomicInteger(0);
+	
+	
+	private boolean shutdown;
+	
 	public SessionGroupClient(SessionGroupClientConfig config) {
 		this.config = config;
 		config.setSessionGroupClient(this);
@@ -81,8 +91,46 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		sessionClient.onMessage(SessionGroupRegisterResp.ACTION_ID, new SessionGroupRegisterRespHandler(this.config));
 		sessionClient.onMessage(DataTransferResp.ACTION_ID, new DataTransferRespHandler(this.config));
 
-		sessionClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(this.config));
-		sessionClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(this.config));
+		//添加断开连接监听器
+		sessionClient.addEventListener(GGEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {
+			avaliableConnections.decrementAndGet();
+			
+			ISessionManager sessionManager = this.config.getServiceClient().getSessionManager();
+			sessionManager.remove(eventData.getSession().getSessonId());
+			
+			//断开连接后，创建新连接
+			this.config.getSessionGroupClient().connectOne(config.getServerHost(), config.getServerPort());
+			
+		}));
+		
+		
+		//添加打开连接监听器
+		sessionClient.addEventListener(GGEvents.Connection.OPENED, (EventData<Void> eventData) -> {
+			
+			avaliableConnections.incrementAndGet();
+			
+			//打开连接，发送认证
+			GGSession groupSession = eventData.getSession();
+			groupSession.send(new AuthReq(config.getAuthToken()));
+			
+			this.config.getSessionGroupManager().addSession(this.config.getSessionGroupId(), groupSession);
+			
+			
+			if (this.config.isEnableServiceClient()) {
+				
+				GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
+				ISessionManager sessionManager = serviceClientConfig.getSessionManager();
+				
+				ServiceClientSession serviceServerSession = new ServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
+				if (addSessionIfAbsent != null) {
+					serviceServerSession = (ServiceClientSession) addSessionIfAbsent;
+				}
+				sessionManager.addSessionIfAbsent(serviceServerSession);
+			}
+			
+			
+		});
 		
 		
 		if (this.config.isEnableServiceClient() && this.config.getServiceClient() == null) {
@@ -128,18 +176,45 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	 * @author zai 2020-04-08 11:45:53
 	 */
 	public void connectOne(String host, int port) {
+		if (shutdown) {
+			return;
+		}
 		GGClient ggclient = config.getSessionClient();
 		ggclient.connect(host, port).addListener(f -> {
+			if (shutdown) {
+				return;
+			}
 			if (!f.isSuccess()) {
 				// 连接失败，进行进行重连操作
-				GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Failed!", host, port);
+				GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
 				ggclient.schedule(config.getReconnectInterval(), () -> {
 					connectOne(host, port);
 				});
 				return;
 			}
-			GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Successfully!", host, port);
+			GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
 		});
+	}
+	
+	/**
+	 * 关闭客户端
+	 *
+	 * @param closeExecutors
+	 * @author zai
+	 * 2020-05-04 18:14:02
+	 */
+	public void shutdown(boolean closeExecutors) {
+		if (shutdown) {
+			return;
+		}
+		this.shutdown = true;
+		GGClient sessionClient = config.getSessionClient();
+		if (closeExecutors) {
+			sessionClient.shutdown();
+		}else {
+			sessionClient.getSessionManager().disconnectAllSession();
+		}
+		
 	}
 	
 	
@@ -169,6 +244,15 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		return this.config.getSessionClient().getSerializer();
 	}
 
-
+	/**
+	 * 获取当前可用连接数
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-05-04 17:17:35
+	 */
+	public int getAvaliableConnections() {
+		return avaliableConnections.get();
+	}
 
 }
