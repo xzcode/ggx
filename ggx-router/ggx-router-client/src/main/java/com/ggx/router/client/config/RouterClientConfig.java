@@ -12,6 +12,8 @@ import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -95,6 +97,16 @@ public class RouterClientConfig {
 	 * 路由服务匹配器
 	 */
 	protected RouterServiceMatcher routerServiceMatcher;
+	
+	/**
+	 * 路由服务匹配器
+	 */
+	protected RouterServiceLoadblancer routerServiceLoadblancer;
+	
+	/**
+	 * 路由服务管理器
+	 */
+	protected RouterServiceManager routerServiceManager;
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {
@@ -264,6 +276,32 @@ public class RouterClientConfig {
 	public void setPrintRouterInfo(boolean printRouterInfo) {
 		this.printRouterInfo = printRouterInfo;
 	}
+	
+	public RouterServiceMatcher getRouterServiceMatcher() {
+		return routerServiceMatcher;
+	}
+	
+	public void setRouterServiceMatcher(RouterServiceMatcher routerServiceMatcher) {
+		this.routerServiceMatcher = routerServiceMatcher;
+	}
+	
+	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
+		return routerServiceLoadblancer;
+	}
+	
+	public void setRouterServiceLoadblancer(RouterServiceLoadblancer routerServiceLoadblancer) {
+		this.routerServiceLoadblancer = routerServiceLoadblancer;
+	}
+	
+	public RouterServiceManager getRouterServiceManager() {
+		return routerServiceManager;
+	}
+	
+	public void setRouterServiceManager(RouterServiceManager routerServiceManager) {
+		this.routerServiceManager = routerServiceManager;
+	}
+	
+	
 	
 	
 

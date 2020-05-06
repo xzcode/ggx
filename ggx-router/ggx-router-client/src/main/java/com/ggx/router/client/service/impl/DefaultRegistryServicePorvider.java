@@ -19,6 +19,7 @@ import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 
@@ -60,6 +61,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 * actionId对应路由服务组缓存,<actionId,路由服务组对象>
 	 */
 	protected Map<String, RouterServiceGroup> actionServiceCache = new ConcurrentHashMap<>();
+	
 	
 	/**
 	 * 构造函数
@@ -145,8 +147,8 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 			//检查是否存在id一样的旧服务
 			RouterService oldService = serviceGroup.getService(serviceId);
 			if (oldService != null) {
-				RouterServiceActionPrefixMatcher serviceMatcher = (RouterServiceActionPrefixMatcher) oldService.getServiceMatcher();
-				if (!actionIdPrefix.equals(serviceMatcher.getPrefix())) {
+				
+				if (!actionIdPrefix.equals(serviceGroup.getActionIdPrefix())) {
 					//移除信息不一致的旧服务
 					removeService(serviceGroupId, serviceId);
 				}
@@ -170,8 +172,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	        routerService.setServiceId(service.getServiceId());
 	        routerService.setServcieName(service.getServiceGroupId());
 	        routerService.addAllExtraData(service.getCustomData());
-	        routerService.setServiceMatcher(new RouterServiceActionPrefixMatcher(actionIdPrefix));
+	        
 	        this.routerServiceManager.addService(routerService);
+	        
+	        routerService.addShutdownListener(s -> {
+	        	RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
+	        	if (loadblancer != null) {
+					loadblancer.
+				}
+	        });
 	        
 	        routerService.init();
         
@@ -193,12 +202,11 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		this.routerServiceManager.removeService(serviceGroupId, serviceId);
 	}
 	
-	private void removeActionServiceCache(RouterService service) {
+	private void removeActionServiceCache(RouterServiceGroup serviceGroup) {
 		Iterator<String> it = actionServiceCache.keySet().iterator();
-		RouterServiceActionPrefixMatcher serviceMatcher = (RouterServiceActionPrefixMatcher) service.getServiceMatcher();
 		while (it.hasNext()) {
 			String actionId  = it.next();
-			if (actionId.startsWith(serviceMatcher.getPrefix())) {
+			if (actionId.startsWith(serviceGroup.getActionIdPrefix())) {
 				it.remove();
 			}
 		}
@@ -207,12 +215,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	@Override
 	public RouterService matchService(Pack pack) {
 		String actionId = pack.getActionString();
-		RouterService routerService;
+		RouterService routerService = null;
+		RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
+		
 		//尝试从缓存中获取服务
 		RouterServiceGroup routerServiceGroup = actionServiceCache.get(actionId);
 		if (routerServiceGroup != null) {
-			//TODO 获取服务组，并通过负载均衡策略，获取适用的服务对象，进行返回
 			
+			//通过负载均衡策略，获取适用的服务对象，进行返回
+			routerService = loadblancer.getRouterService(pack, routerServiceGroup);
 			
 			return routerService;
 		}
@@ -223,13 +234,19 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		for (Entry<String, RouterServiceGroup> entry : serviceGroups.entrySet()) {
 			routerServiceGroup = entry.getValue();
 			if (routerServiceGroup != null) {
-				//TODO 获取服务组，并通过负载均衡策略，获取适用的服务对象，进行返回
-				
-				//添加服务组到缓存
-				actionServiceCache.put(actionId, routerServiceGroup);
+				//匹配服务组
+				boolean match = this.config.getRouterServiceMatcher().match(pack, routerServiceGroup);
+				if (match) {
+					//添加服务组到缓存
+					actionServiceCache.put(actionId, routerServiceGroup);
+					
+					//过负载均衡策略，获取适用的服务对象，进行返回
+					routerService = loadblancer.getRouterService(pack, routerServiceGroup);
+				}
 			}
 		}
-		return null;
+		
+		return routerService;
 	}
 
 

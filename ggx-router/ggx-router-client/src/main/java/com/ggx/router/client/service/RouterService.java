@@ -1,12 +1,11 @@
 package com.ggx.router.client.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.router.client.service.listener.RouterServiceOnRemoveListener;
+import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
 
 /**
  * 路由服务统一接口
@@ -118,4 +117,23 @@ public interface RouterService {
 	 * 2020-02-14 12:41:17
 	 */
 	boolean isAvailable();
+
+
+	/**
+	 * 添加关闭监听器
+	 *
+	 * @param listener
+	 * @author zai
+	 * 2020-05-06 15:30:05
+	 */
+	void addShutdownListener(RouterServiceShutdownListener listener);
+	
+	/**
+	 * 获取当前负载量
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-05-06 17:15:31
+	 */
+	AtomicInteger getLoad();
 }

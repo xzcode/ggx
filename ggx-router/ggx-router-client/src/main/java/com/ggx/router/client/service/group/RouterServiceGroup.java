@@ -1,10 +1,11 @@
 package com.ggx.router.client.service.group;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterServiceMatcher;
 
 /**
  * 路由服务组
@@ -20,15 +21,19 @@ public class RouterServiceGroup {
 	protected String serviceGroupId;
 	
 	/**
+	 * actionId前缀
+	 */
+	protected String actionIdPrefix;
+	
+	/**
 	 * 服务集合Map<服务id, 服务对象>
 	 */
 	protected final Map<String, RouterService> services = new ConcurrentHashMap<>();
 	
 	/**
-	 * 服务匹配器
+	 * 从小到大排列的路由服务列表
 	 */
-	protected RouterServiceMatcher serviceMatcher;
-	
+	protected final List<RouterService> sortedServiceList = new CopyOnWriteArrayList<RouterService>();
 	
 
 	public RouterServiceGroup(String serviceGroupId) {
@@ -39,12 +44,14 @@ public class RouterServiceGroup {
 	
 	public void addService(RouterService service) {
 		this.services.put(service.getServiceId(), service);
+		this.sortedServiceList.add(service);
 	}
 	
 	
 	public RouterService getService(String serviceId) {
 		return this.services.get(serviceId);
 	}
+	
 	
 	/**
 	 * 移除服务
@@ -56,8 +63,51 @@ public class RouterServiceGroup {
 	public void reomoveService(String serviceId) {
 		RouterService routerService = this.services.remove(serviceId);
 		if (routerService != null) {
+			//也从列表中移除
+			this.sortedServiceList.remove(routerService);
+			//重写排序列表
+			this.sortServiceList();
 			routerService.shutdown();
 		}
+	}
+	
+	/**
+	 * 从大到小排列服务列表
+	 *
+	 * @author zai
+	 * 2020-05-06 17:26:15
+	 */
+	private void sortServiceList() {
+		this.sortedServiceList.sort((a, b) -> {
+			return b.getLoad().get() - a.getLoad().get();
+		});
+	}
+	
+	/**
+	 * 获取最低负载的路由服务
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-05-06 17:27:52
+	 */
+	public RouterService getLowLoadingRouterService() {
+		if (this.sortedServiceList.size() > 0) {
+			return this.sortedServiceList.get(0);
+		}
+		return null;
+	}
+	
+	/**
+	 * 增加路由服务负载量信息
+	 *
+	 * @param routerService
+	 * @param incrValue
+	 * @author zai
+	 * 2020-05-06 17:34:53
+	 */
+	public void incrementRouterServiceLoad(RouterService routerService, int incrValue) {
+		routerService.getLoad().addAndGet(incrValue);
+		this.sortServiceList();
 	}
 	
 	public String getServiceGroupId() {
@@ -68,16 +118,17 @@ public class RouterServiceGroup {
 		this.serviceGroupId = serviceGroupId;
 	}
 	
-	public RouterServiceMatcher getServiceMatcher() {
-		return serviceMatcher;
-	}
-	
-	public void setServiceMatcher(RouterServiceMatcher serviceMatcher) {
-		this.serviceMatcher = serviceMatcher;
-	}
-	
 	public Map<String, RouterService> getServices() {
 		return services;
 	}
+	
+	public String getActionIdPrefix() {
+		return actionIdPrefix;
+	}
+	
+	public void setActionIdPrefix(String actionIdPrefix) {
+		this.actionIdPrefix = actionIdPrefix;
+	}
+
 
 }

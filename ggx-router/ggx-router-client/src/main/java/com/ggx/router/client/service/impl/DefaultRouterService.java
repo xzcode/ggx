@@ -10,19 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.GGClient;
-import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.manager.ISessionManager;
-import com.ggx.group.common.constant.GGSessionGroupEventConstant;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.event.RouterClientEvents;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.listener.RouterServiceActiveListener;
-import com.ggx.router.client.service.listener.RouterServiceInActiveListener;
+import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 
@@ -61,26 +57,28 @@ public class DefaultRouterService implements RouterService{
 	 * 是否已准备接收数据
 	 */
 	protected AtomicInteger avaliableConnections = new AtomicInteger(0);
+	
 	/**
 	 * 额外数据
 	 */
 	protected Map<String, String> customData = new ConcurrentHashMap<>();
 	
 	/**
-	 * 服务生效监听
+	 * 服务关闭监听器
 	 */
-	protected List<RouterServiceActiveListener> activeListeners = new ArrayList<>();
-	
-	/**
-	 * 服务失效监听器
-	 */
-	protected List<RouterServiceInActiveListener> inActiveListeners = new ArrayList<>();
+	protected List<RouterServiceShutdownListener> shutdownListeners = new ArrayList<>();
 	
 	
 	/**
 	 * 是否已关闭
 	 */
 	protected boolean shutdown;
+	
+	/**
+	 * 负载量
+	 */
+	protected AtomicInteger load = new AtomicInteger(0);
+	
 	
 
 	public DefaultRouterService(RouterClientConfig config, String serviceId) {
@@ -165,15 +163,19 @@ public class DefaultRouterService implements RouterService{
 		}
 		this.shutdown = true;
 		this.sessionGroupClient.shutdown(false);
+		for (RouterServiceShutdownListener listener : shutdownListeners) {
+			try {
+				listener.onShutdown(this);
+			} catch (Exception e) {
+				GGLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
+			}
+			
+		}
 	}
 	
-	
-	public void addActiveListener(RouterServiceActiveListener listener) {
-		this.activeListeners.add(listener);
-	}
-	
-	public void addInActiveListener(RouterServiceInActiveListener listener) {
-		this.inActiveListeners.add(listener);
+	@Override
+	public void addShutdownListener(RouterServiceShutdownListener listener) {
+		this.shutdownListeners.add(listener);
 	}
 
 	
@@ -236,6 +238,10 @@ public class DefaultRouterService implements RouterService{
 	
 	public void setServcieName(String servcieName) {
 		this.servcieName = servcieName;
+	}
+	
+	public AtomicInteger getLoad() {
+		return load;
 	}
 
 

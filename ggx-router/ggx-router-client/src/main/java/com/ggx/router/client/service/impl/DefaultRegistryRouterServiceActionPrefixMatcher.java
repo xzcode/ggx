@@ -13,12 +13,10 @@ import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
  * 2020-02-07 11:34:00
  */
 public class DefaultRegistryRouterServiceActionPrefixMatcher implements RouterServiceMatcher {
-	
-
 
 	@Override
 	public boolean match(Pack pack, RouterServiceGroup routerServiceGroup) {
-		return pack.getActionString().startsWith(prefix);
+		return pack.getActionString().startsWith(routerServiceGroup.getActionIdPrefix());
 	}
 
 }

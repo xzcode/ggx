@@ -9,11 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
+import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 
 /**
@@ -58,10 +60,13 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 
 	@Override
 	public RouterService matchService(Pack pack) {
-		for (Entry<String, RouterService> entry : services.entrySet()) {
-			RouterService service = entry.getValue();
-			if (service.getServiceMatcher().match(pack)) {
-				return service;
+		RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
+		for (Entry<String, RouterServiceGroup> entry : this.config.getRouterServiceManager().getServiceGroups().entrySet()) {
+			RouterServiceMatcher routerServiceMatcher = this.config.getRouterServiceMatcher();
+			RouterServiceGroup group = entry.getValue();
+			if (routerServiceMatcher.match(pack, group)) {
+				//通过负载均衡策略，获取适用的服务对象，进行返回
+				return loadblancer.getRouterService(pack, group);
 			}
 		}
 		return null;

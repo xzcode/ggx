@@ -13,16 +13,9 @@ import com.ggx.router.client.service.group.RouterServiceGroup;
 public class RouterServiceActionPrefixMatcher implements RouterServiceMatcher {
 	
 
-	public RouterServiceActionPrefixMatcher(String prefix) {
-		super();
-	}
-
-
-
-
 	@Override
 	public boolean match(Pack pack, RouterServiceGroup routerServiceGroup) {
-		return pack.getActionString().startsWith(prefix);
+		return pack.getActionString().startsWith(routerServiceGroup.getActionIdPrefix());
 	}
 
 }
