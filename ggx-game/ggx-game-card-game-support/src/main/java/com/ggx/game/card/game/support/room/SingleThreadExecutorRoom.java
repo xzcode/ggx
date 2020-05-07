@@ -6,7 +6,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.game.card.game.support.house.House;
 import com.ggx.game.card.game.support.player.RoomPlayer;
 import com.ggx.game.card.game.support.room.support.RoomSupport;
@@ -71,7 +71,7 @@ ExecutorSupport
 	}
 
 	@Override
-	public ISessionManager getSessionManager() {
+	public SessionManager getSessionManager() {
 		return getGGserver().getSessionManager();
 	}
 

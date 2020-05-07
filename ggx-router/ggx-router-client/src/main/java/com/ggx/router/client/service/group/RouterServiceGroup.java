@@ -1,5 +1,6 @@
 package com.ggx.router.client.service.group;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,7 +66,7 @@ public class RouterServiceGroup {
 		if (routerService != null) {
 			//也从列表中移除
 			this.sortedServiceList.remove(routerService);
-			//重写排序列表
+			//重新排序列表
 			this.sortServiceList();
 			routerService.shutdown();
 		}
@@ -79,7 +80,7 @@ public class RouterServiceGroup {
 	 */
 	private void sortServiceList() {
 		this.sortedServiceList.sort((a, b) -> {
-			return b.getLoad().get() - a.getLoad().get();
+			return a.getLoad().get() - b.getLoad().get();
 		});
 	}
 	

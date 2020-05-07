@@ -5,7 +5,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.core.common.message.request.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
@@ -42,7 +42,7 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 			//获取传递的sessionid
 			String tranferSessionId = req.getTranferSessionId();
 			
-			ISessionManager sessionManager = serviceServerConfig.getSessionManager();
+			SessionManager sessionManager = serviceServerConfig.getSessionManager();
 			//创建业务服务端session
 			ServiceServerSession serviceSession = (ServiceServerSession) sessionManager.getSession(tranferSessionId);
 			if (serviceSession == null) {

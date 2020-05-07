@@ -54,8 +54,6 @@ public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer
 			return null;
 		}
 		
-		
-		
 		Map<String, RouterService> services = routerServiceGroup.getServices();
 		if (services.size() == 0) {
 			return null;

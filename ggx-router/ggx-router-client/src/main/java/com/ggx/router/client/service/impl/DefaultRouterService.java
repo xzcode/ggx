@@ -15,6 +15,8 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
@@ -138,9 +140,13 @@ public class DefaultRouterService implements RouterService{
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		GGClient serviceClient = this.sessionGroupClient.getConfig().getServiceClient();
+		SessionManager sessionManager = this.serviceClient.getSessionManager();
+		GGSession session = sessionManager.randomGetSession();
+		if (session != null) {
+			return session.send(pack);
+		}
 		
-		return serviceClient.send(pack);
+		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 

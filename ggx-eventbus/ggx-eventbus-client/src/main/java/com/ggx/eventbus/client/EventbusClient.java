@@ -15,7 +15,7 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.response.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -65,7 +65,7 @@ public class EventbusClient{
 			EventSubscribeReq req = new EventSubscribeReq(eventIds);
 			
 			GGClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
-			ISessionManager sessionManager = serviceClientConfig.getSessionManager();
+			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
 			ServiceClientSession serviceClientSession = new ServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
 			
@@ -121,7 +121,7 @@ public class EventbusClient{
 			publishReq.setEventId(eventId);
 			publishReq.setSubscriberId(data.getClass().getName());
 			
-			ISessionManager sessionManager = this.serviceClient.getSessionManager();
+			SessionManager sessionManager = this.serviceClient.getSessionManager();
 			GGSession session = sessionManager.randomGetSession();
 			if (session != null) {
 				session.send(publishReq);

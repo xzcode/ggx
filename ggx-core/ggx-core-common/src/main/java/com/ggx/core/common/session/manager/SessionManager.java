@@ -9,7 +9,7 @@ import com.ggx.core.common.session.GGSession;
  * @author zai
  * 2019-11-16 11:07:13
  */
-public interface ISessionManager{
+public interface SessionManager{
 
 	/**
 	 * 添加会话
@@ -58,7 +58,7 @@ public interface ISessionManager{
 	 * @author zai
 	 * 2019-11-16 11:19:20
 	 */
-	void eachSession(IEachData<GGSession> eachData);
+	void eachSession(EachData<GGSession> eachData);
 	
 	
 	

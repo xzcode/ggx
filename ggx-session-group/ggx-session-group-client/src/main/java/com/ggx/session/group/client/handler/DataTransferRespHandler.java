@@ -7,7 +7,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.request.action.MessageDataHandler;
 import com.ggx.core.common.message.request.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.resp.DataTransferResp;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -41,7 +41,7 @@ public class DataTransferRespHandler implements MessageDataHandler<DataTransferR
 		if (this.config.isEnableServiceClient()) {
 			GGClient serviceClient = this.config.getServiceClient();
 			GGClientConfig serviceClientConfig = serviceClient.getConfig();
-			ISessionManager sessionManager = serviceClient.getSessionManager();
+			SessionManager sessionManager = serviceClient.getSessionManager();
 			GGSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {
 				//提交任务到业务客户端
@@ -55,7 +55,7 @@ public class DataTransferRespHandler implements MessageDataHandler<DataTransferR
 		if (this.config.isEnableServiceServer() && this.config.getServiceServer() != null) {
 			GGServer serviceServer = this.config.getServiceServer();
 			GGServerConfig serviceServerConfig = serviceServer.getConfig();
-			ISessionManager sessionManager = serviceServerConfig.getSessionManager();
+			SessionManager sessionManager = serviceServerConfig.getSessionManager();
 			GGSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {
 				//提交任务到业务客户端

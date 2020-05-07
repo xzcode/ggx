@@ -14,7 +14,7 @@ import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.request.support.ReceiveMessageSupport;
 import com.ggx.core.common.message.response.support.SendMessageSupport;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -62,7 +62,7 @@ public class RouterServer implements
 		sessionGroupServerConfig.setPort(this.config.getPort());
 		sessionGroupServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		sessionGroupServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-serv-", false));
+		sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-router-serv-", false));
 
 		if (this.config.getSharedEventLoopGroup() != null) {
 			sessionGroupServerConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());
@@ -118,7 +118,7 @@ public class RouterServer implements
 	}
 
 	@Override
-	public ISessionManager getSessionManager() {
+	public SessionManager getSessionManager() {
 		return this.getServiceServerConfig().getSessionManager();
 	}
 

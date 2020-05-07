@@ -175,13 +175,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	        
 	        this.routerServiceManager.addService(routerService);
 	        
+	        /*
+	        //添加服务关闭监听器
 	        routerService.addShutdownListener(s -> {
 	        	RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
 	        	if (loadblancer != null) {
-					loadblancer.
+	        		
 				}
 	        });
-	        
+	        */
 	        routerService.init();
         
 		}

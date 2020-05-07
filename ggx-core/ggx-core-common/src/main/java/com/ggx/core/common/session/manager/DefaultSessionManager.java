@@ -17,7 +17,7 @@ import com.ggx.core.common.session.GGSession;
  * @author zai
  * 2019-10-02 23:17:21
  */
-public class DefaultSessionManager implements ISessionManager {
+public class DefaultSessionManager implements SessionManager {
 	
 	private GGConfig config;
 	
@@ -85,7 +85,7 @@ public class DefaultSessionManager implements ISessionManager {
 	}
 
 	@Override
-	public void eachSession(IEachData<GGSession> eachData) {
+	public void eachSession(EachData<GGSession> eachData) {
 		
 		for (Entry<String, GGSession> entry : sessionMap.entrySet()) {
 			if (!eachData.each(entry.getValue())) {

@@ -28,7 +28,7 @@ import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
 import com.ggx.core.common.session.id.DefaultSessionIdGenerator;
 import com.ggx.core.common.session.id.ISessionIdGenerator;
 import com.ggx.core.common.session.manager.DefaultSessionManager;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.PackLogger;
 
 import io.netty.channel.EventLoopGroup;
@@ -99,7 +99,7 @@ public class GGConfig {
 	protected ReceiveMessageManager receiveMessageManager;
 	protected FilterManager filterManager;
 	protected EventManager eventManager;
-	protected ISessionManager sessionManager;
+	protected SessionManager sessionManager;
 
 	protected EventLoopGroup workerGroup;
 
@@ -299,11 +299,11 @@ public class GGConfig {
 		this.useSSL = useSSL;
 	}
 
-	public ISessionManager getSessionManager() {
+	public SessionManager getSessionManager() {
 		return sessionManager;
 	}
 
-	public void setSessionManager(ISessionManager sessionManager) {
+	public void setSessionManager(SessionManager sessionManager) {
 		this.sessionManager = sessionManager;
 	}
 

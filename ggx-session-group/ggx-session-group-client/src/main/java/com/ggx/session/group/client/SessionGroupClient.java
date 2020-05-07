@@ -14,7 +14,7 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.response.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
@@ -95,7 +95,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		sessionClient.addEventListener(GGEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {
 			avaliableConnections.decrementAndGet();
 			
-			ISessionManager sessionManager = this.config.getServiceClient().getSessionManager();
+			SessionManager sessionManager = this.config.getServiceClient().getSessionManager();
 			sessionManager.remove(eventData.getSession().getSessonId());
 			
 			//断开连接后，创建新连接
@@ -119,7 +119,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			if (this.config.isEnableServiceClient()) {
 				
 				GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
-				ISessionManager sessionManager = serviceClientConfig.getSessionManager();
+				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
 				ServiceClientSession serviceServerSession = new ServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);

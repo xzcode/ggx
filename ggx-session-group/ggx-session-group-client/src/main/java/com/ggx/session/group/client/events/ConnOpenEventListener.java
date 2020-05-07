@@ -4,7 +4,7 @@ import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
@@ -37,7 +37,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		if (this.config.isEnableServiceClient()) {
 			
 			GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
-			ISessionManager sessionManager = serviceClientConfig.getSessionManager();
+			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
 			ServiceClientSession serviceServerSession = new ServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 			GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);

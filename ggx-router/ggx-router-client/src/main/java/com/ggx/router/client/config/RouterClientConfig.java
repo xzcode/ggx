@@ -69,43 +69,33 @@ public class RouterClientConfig {
 	/**
 	 * 消息将被路由的服务器对象
 	 */
-	private GGServer routingServer;
+	protected GGServer routingServer;
 
 	/**
 	 * 不参与路由的actionid
 	 * 
 	 */
-	private String[] excludedActionId;
+	protected String[] excludedActionId;
 
 	/**
 	 * 路由服务提供者
 	 */
-	private RouterServiceProvider serviceProvider;
+	protected RouterServiceProvider serviceProvider;
 
-	/**
-	 * 路由包处理器
-	 */
-	private RouterPackHandler packHandler;
+	//路由包处理器
+	protected RouterPackHandler packHandler;
 	
-	/**
-	 * 共享的线程组
-	 */
-	private EventLoopGroup sharedEventLoopGroup;
+	//共享的线程组
+	protected EventLoopGroup sharedEventLoopGroup;
 	
 	
-	/**
-	 * 路由服务匹配器
-	 */
+	//路由服务匹配器
 	protected RouterServiceMatcher routerServiceMatcher;
 	
-	/**
-	 * 路由服务匹配器
-	 */
+	//路由服务匹配器
 	protected RouterServiceLoadblancer routerServiceLoadblancer;
 	
-	/**
-	 * 路由服务管理器
-	 */
+	//路由服务管理器
 	protected RouterServiceManager routerServiceManager;
 
 	public RouterClientConfig(GGServer routingServer) {

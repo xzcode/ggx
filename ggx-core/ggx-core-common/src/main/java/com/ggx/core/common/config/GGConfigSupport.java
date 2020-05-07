@@ -12,7 +12,7 @@ import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.request.support.ReceiveMessageSupport;
 import com.ggx.core.common.message.response.support.SendMessageSupport;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 
 /**
  * 配置获取支持
@@ -58,7 +58,7 @@ EventSupport
 		return getConfig().getReceiveMessageManager();
 	}
 
-	default ISessionManager getSessionManager() {
+	default SessionManager getSessionManager() {
 		return getConfig().getSessionManager();
 	}
 

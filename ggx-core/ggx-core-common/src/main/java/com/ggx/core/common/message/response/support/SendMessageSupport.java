@@ -6,7 +6,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.manager.ISessionManager;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 /**
@@ -24,7 +24,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-11 16:33:54
 	 */
-	ISessionManager getSessionManager();
+	SessionManager getSessionManager();
 	
 	/**
 	 * 获取过滤器管理器
@@ -51,7 +51,7 @@ public interface SendMessageSupport extends MakePackSupport {
 			}
 
 			Pack pack = makePack(response);
-			ISessionManager sessionManager = getSessionManager();
+			SessionManager sessionManager = getSessionManager();
 			sessionManager.eachSession(session -> {
 				session.send(pack);
 				return true;
