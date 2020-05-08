@@ -2,6 +2,7 @@ package com.ggx.router.server.config;
 
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.router.client.RouterClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.server.RouterServer;
 
@@ -16,6 +17,21 @@ public class RouterServerConfig {
 
 	// routerServer对象
 	protected RouterServer routerServer;
+	
+	// 转发路由客户端
+	protected RouterClient forwardRouterClient;
+	
+	// 转发服务端地址
+	protected String forwardHost = RouterConstant.DEFAULT_SERVER_HOST;
+	
+	// 转发服务端端口
+	protected int forwardPort = RouterConstant.DEFAULT_SERVER_PORT;
+	
+	// 是否启用转发路由客户端
+	protected boolean enableForwardRouterClient = false;
+	
+	//转发路由客户端所在路由组
+	protected String forwardRouterClientGroupId = RouterConstant.DEFAULT_FORWARD_ROUTER_GROUP;
 
 	// sessionGroupServer对象
 	protected SessionGroupServer sessionGroupServer;
@@ -132,6 +148,46 @@ public class RouterServerConfig {
 	
 	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
 		this.sharedEventLoopGroup = sharedEventLoopGroup;
+	}
+	
+	public RouterClient getForwardRouterClient() {
+		return forwardRouterClient;
+	}
+	
+	public void setForwardRouterClient(RouterClient forwardRouterClient) {
+		this.forwardRouterClient = forwardRouterClient;
+	}
+
+	public String getForwardHost() {
+		return forwardHost;
+	}
+
+	public void setForwardHost(String forwardHost) {
+		this.forwardHost = forwardHost;
+	}
+
+	public int getForwardPort() {
+		return forwardPort;
+	}
+
+	public void setForwardPort(int forwardPort) {
+		this.forwardPort = forwardPort;
+	}
+
+	public boolean isEnableForwardRouterClient() {
+		return enableForwardRouterClient;
+	}
+
+	public void setEnableForwardRouterClient(boolean enableForwardRouterClient) {
+		this.enableForwardRouterClient = enableForwardRouterClient;
+	}
+	
+	public String getForwardRouterClientGroupId() {
+		return forwardRouterClientGroupId;
+	}
+	
+	public void setForwardRouterClientGroupId(String forwardRouterClientGroupId) {
+		this.forwardRouterClientGroupId = forwardRouterClientGroupId;
 	}
 
 	

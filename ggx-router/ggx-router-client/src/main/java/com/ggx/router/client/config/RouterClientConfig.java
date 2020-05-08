@@ -38,7 +38,7 @@ public class RouterClientConfig {
 	/**
 	 * 注册中心客户端
 	 */
-	protected RegistryClient RegistryClient;
+	protected RegistryClient registryClient;
 
 	// routerClient对象
 	protected RouterClient routerClient;
@@ -61,7 +61,7 @@ public class RouterClientConfig {
 	protected String serverHost = RouterConstant.DEFAULT_SERVER_HOST;
 
 	// 服务端端口
-	protected int port = RouterConstant.DEFAULT_SERVER_PORT;
+	protected int serverPort = RouterConstant.DEFAULT_SERVER_PORT;
 
 	// 验证token
 	protected String authToken = RouterConstant.DEFAULT_AUTH_TOKEN;
@@ -125,8 +125,8 @@ public class RouterClientConfig {
 		
 		
 
-		if (this.RegistryClient != null) {
-			this.RegistryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
+		if (this.registryClient != null) {
+			this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 		
@@ -134,8 +134,8 @@ public class RouterClientConfig {
 			this.routerServiceMatcher = new RouterServiceActionPrefixMatcher();
 		}
 		
-		if (serviceProvider == null) {
-			serviceProvider = new DefaultServicePorvider(this);
+		if (this.serviceProvider == null) {
+			this.serviceProvider = new DefaultServicePorvider(this);
 		}
 		
 		
@@ -196,11 +196,11 @@ public class RouterClientConfig {
 
 
 	public RegistryClient getRegistryClient() {
-		return RegistryClient;
+		return registryClient;
 	}
 
 	public void setRegistryClient(RegistryClient discoveryClient) {
-		this.RegistryClient = discoveryClient;
+		this.registryClient = discoveryClient;
 	}
 
 	public boolean isPrintPingPongInfo() {
@@ -235,12 +235,12 @@ public class RouterClientConfig {
 		this.serverHost = serverHost;
 	}
 
-	public int getPort() {
-		return port;
+	public int getServerPort() {
+		return serverPort;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
+	public void setServerPort(int port) {
+		this.serverPort = port;
 	}
 
 	public String getAuthToken() {

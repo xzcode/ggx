@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadFactory;
 
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
+import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 
 import io.netty.channel.EventLoopGroup;
@@ -30,6 +31,13 @@ public class SessionGroupServerConfig {
 	
 	//会话组管理器
 	private GGSessionGroupManager sessionGroupManager;
+	
+	
+	//自定义数据传输处理器
+	private CustomDataTransferHandler customDataTransferHandler;
+	
+	//是否开启自定义数据传输处理器
+	private boolean enableCustomDataTransferHandler = false;
 	
 	//工作线程数
 	protected int workThreadSize = 8;
@@ -140,6 +148,21 @@ public class SessionGroupServerConfig {
 	public void setWorkEventLoopGroup(EventLoopGroup workEventLoopGroup) {
 		this.workEventLoopGroup = workEventLoopGroup;
 	}
-	
+
+	public CustomDataTransferHandler getCustomDataTransferHandler() {
+		return customDataTransferHandler;
+	}
+
+	public void setCustomDataTransferHandler(CustomDataTransferHandler customDataTransferHandler) {
+		this.customDataTransferHandler = customDataTransferHandler;
+	}
+
+	public boolean isEnableCustomDataTransferHandler() {
+		return enableCustomDataTransferHandler;
+	}
+
+	public void setEnableCustomDataTransferHandler(boolean enableCustomDataTransferHandler) {
+		this.enableCustomDataTransferHandler = enableCustomDataTransferHandler;
+	}
 	
 }

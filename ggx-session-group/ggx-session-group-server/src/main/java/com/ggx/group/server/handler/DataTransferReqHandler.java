@@ -10,6 +10,7 @@ import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
 import com.ggx.group.server.session.ServiceServerSession;
+import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
@@ -28,14 +29,21 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 	}
 
 	@Override
-	public void handle(MessageData<DataTransferReq> request) {
-		DataTransferReq req = request.getMessage();
+	public void handle(MessageData<DataTransferReq> messageData) {
+		DataTransferReq req = messageData.getMessage();
 		
-		GGSession groupSession = request.getSession();
+		GGSession groupSession = messageData.getSession();
 		String groupSessionId = groupSession.getSessonId();
 		
 		GGServer serviceServer = config.getServiceServer();
 		GGServerConfig serviceServerConfig = serviceServer.getConfig();
+		
+		//判断是否开启自定义传输数据处理器
+		if (this.config.isEnableCustomDataTransferHandler() && this.config.getCustomDataTransferHandler() != null) {
+			CustomDataTransferHandler customDataTransferHandler = this.config.getCustomDataTransferHandler();
+			customDataTransferHandler.handle(messageData);
+			return;//开启自定义处理后，不再进行后续处理
+		}
 		
 		//判断是否开启业务服务端
 		if (this.config.isEnableServiceServer()) {
@@ -53,7 +61,7 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 					serviceSession = (ServiceServerSession) addSessionIfAbsent;
 				}else {
 					if (req.getTranferSessionId() == null) {
-						request.getSession().addDisconnectListener(se -> {
+						messageData.getSession().addDisconnectListener(se -> {
 							sessionManager.remove(groupSessionId);
 						});
 					}

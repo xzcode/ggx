@@ -18,6 +18,9 @@ import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.router.client.RouterClient;
+import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.impl.DefaultRouterClient;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -73,6 +76,23 @@ public class RouterServer implements
 		this.config.setSessionGroupServer(sessionGroupServer);
 
 		this.serviceServer = sessionGroupServerConfig.getServiceServer();
+		
+		//是否开启转发
+		if (this.config.isEnableForwardRouterClient()) {
+			RouterClientConfig routerClientConfig = new RouterClientConfig(this.serviceServer);
+			
+			
+			routerClientConfig.setRouterGroupId(this.config.getForwardRouterClientGroupId());
+			routerClientConfig.setServerHost(this.config.getForwardHost());
+			routerClientConfig.setServerPort(this.config.getForwardPort());
+			
+			RouterClient forwardRouterClient = new DefaultRouterClient(routerClientConfig);
+			this.config.setForwardRouterClient(forwardRouterClient);
+			
+			
+			
+			
+		}
 
 	}
 
