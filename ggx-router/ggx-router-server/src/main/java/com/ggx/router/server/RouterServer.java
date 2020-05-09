@@ -89,10 +89,9 @@ public class RouterServer implements
 		if (this.config.isEnableForwardRouterClient()) {
 			RouterClientConfig routerClientConfig = new RouterClientConfig(this.serviceServer);
 			
-			routerClientConfig.setRouterGroupId(this.config.getForwardRouterClientGroupId());
-			routerClientConfig.setServerHost(this.config.getForwardHost());
-			routerClientConfig.setServerPort(this.config.getForwardPort());
+			routerClientConfig.setRouterGroupId(this.config.getForwardRouterGroupId());
 			routerClientConfig.setSharedEventLoopGroup(this.config.getSharedEventLoopGroup());
+			routerClientConfig.setRegistryClient(this.config.getRegistryClient());
 			
 			RouterClient forwardRouterClient = new DefaultRouterClient(routerClientConfig);
 			this.config.setForwardRouterClient(forwardRouterClient);

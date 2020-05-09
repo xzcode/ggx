@@ -9,8 +9,6 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterServiceProvider;
-import com.xzcode.ggserver.core.server.GGServer;
 
 /**
  * 默认网关路由器

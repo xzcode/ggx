@@ -21,17 +21,11 @@ public class RouterServerConfig {
 	// 转发路由客户端
 	protected RouterClient forwardRouterClient;
 	
-	// 转发服务端地址
-	protected String forwardHost = RouterConstant.DEFAULT_SERVER_HOST;
-	
-	// 转发服务端端口
-	protected int forwardPort = RouterConstant.DEFAULT_SERVER_PORT;
-	
 	// 是否启用转发路由客户端
 	protected boolean enableForwardRouterClient = false;
 	
 	//转发路由客户端所在路由组
-	protected String forwardRouterClientGroupId = RouterConstant.DEFAULT_FORWARD_ROUTER_GROUP;
+	protected String forwardRouterGroupId = RouterConstant.DEFAULT_FORWARD_ROUTER_GROUP;
 
 	// sessionGroupServer对象
 	protected SessionGroupServer sessionGroupServer;
@@ -158,22 +152,6 @@ public class RouterServerConfig {
 		this.forwardRouterClient = forwardRouterClient;
 	}
 
-	public String getForwardHost() {
-		return forwardHost;
-	}
-
-	public void setForwardHost(String forwardHost) {
-		this.forwardHost = forwardHost;
-	}
-
-	public int getForwardPort() {
-		return forwardPort;
-	}
-
-	public void setForwardPort(int forwardPort) {
-		this.forwardPort = forwardPort;
-	}
-
 	public boolean isEnableForwardRouterClient() {
 		return enableForwardRouterClient;
 	}
@@ -182,13 +160,15 @@ public class RouterServerConfig {
 		this.enableForwardRouterClient = enableForwardRouterClient;
 	}
 	
-	public String getForwardRouterClientGroupId() {
-		return forwardRouterClientGroupId;
+	public String getForwardRouterGroupId() {
+		return forwardRouterGroupId;
 	}
 	
-	public void setForwardRouterClientGroupId(String forwardRouterClientGroupId) {
-		this.forwardRouterClientGroupId = forwardRouterClientGroupId;
+	public void setForwardRouterGroupId(String forwardRouterClientGroupId) {
+		this.forwardRouterGroupId = forwardRouterClientGroupId;
 	}
+	
+	
 
 	
 }

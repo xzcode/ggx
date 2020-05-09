@@ -30,14 +30,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
  */
 public class RouterClientConfig {
 
-	/**
-	 * 路由组id
-	 */
+	//路由组id
 	protected String routerGroupId;
 
-	/**
-	 * 注册中心客户端
-	 */
+	//注册中心客户端
 	protected RegistryClient registryClient;
 
 	// routerClient对象
@@ -54,7 +50,7 @@ public class RouterClientConfig {
 	protected int workThreadSize = 8;
 
 	// 连接数
-	protected int connectionSize = 4;
+	protected int connectionSize = 8;
 
 
 	// 服务端地址
@@ -71,15 +67,10 @@ public class RouterClientConfig {
 	 */
 	protected GGServer routingServer;
 
-	/**
-	 * 不参与路由的actionid
-	 * 
-	 */
+	//不参与路由的actionid
 	protected String[] excludedActionId;
 
-	/**
-	 * 路由服务提供者
-	 */
+	//路由服务提供者
 	protected RouterServiceProvider serviceProvider;
 
 	//路由包处理器
