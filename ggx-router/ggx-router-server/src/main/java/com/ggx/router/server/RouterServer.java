@@ -26,6 +26,8 @@ import com.ggx.router.server.config.RouterServerConfig;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
+import io.netty.channel.nio.NioEventLoopGroup;
+
 /**
  * 路由服务器对象
  * 
@@ -58,6 +60,10 @@ public class RouterServer implements
 	}
 
 	public void init() {
+		
+		if (this.config.getSharedEventLoopGroup() == null) {
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-router-serv-", false)));
+		}
 
 		SessionGroupServerConfig sessionGroupServerConfig = new SessionGroupServerConfig();
 		sessionGroupServerConfig.setAuthToken(this.config.getAuthToken());
@@ -65,8 +71,10 @@ public class RouterServer implements
 		sessionGroupServerConfig.setPort(this.config.getPort());
 		sessionGroupServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		sessionGroupServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-router-serv-", false));
+		//sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-router-serv-", false));
 
+		
+		
 		if (this.config.getSharedEventLoopGroup() != null) {
 			sessionGroupServerConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());
 
@@ -81,16 +89,13 @@ public class RouterServer implements
 		if (this.config.isEnableForwardRouterClient()) {
 			RouterClientConfig routerClientConfig = new RouterClientConfig(this.serviceServer);
 			
-			
 			routerClientConfig.setRouterGroupId(this.config.getForwardRouterClientGroupId());
 			routerClientConfig.setServerHost(this.config.getForwardHost());
 			routerClientConfig.setServerPort(this.config.getForwardPort());
+			routerClientConfig.setSharedEventLoopGroup(this.config.getSharedEventLoopGroup());
 			
 			RouterClient forwardRouterClient = new DefaultRouterClient(routerClientConfig);
 			this.config.setForwardRouterClient(forwardRouterClient);
-			
-			
-			
 			
 		}
 
