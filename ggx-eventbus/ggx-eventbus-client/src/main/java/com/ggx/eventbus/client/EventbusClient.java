@@ -29,7 +29,7 @@ import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.session.group.client.session.ServiceClientSession;
+import com.ggx.session.group.client.session.GroupServiceClientSession;
 
 public class EventbusClient{
 	
@@ -67,11 +67,11 @@ public class EventbusClient{
 			GGClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			ServiceClientSession serviceClientSession = new ServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
+			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
 			
 			GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
-				serviceClientSession = (ServiceClientSession) addSessionIfAbsent;
+				serviceClientSession = (GroupServiceClientSession) addSessionIfAbsent;
 			}
 			
 			serviceClientSession.send(req);

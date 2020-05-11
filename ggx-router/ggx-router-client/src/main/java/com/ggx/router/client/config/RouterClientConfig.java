@@ -2,6 +2,7 @@ package com.ggx.router.client.config;
 
 import java.util.UUID;
 
+import com.ggx.core.client.GGClient;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
@@ -38,7 +39,7 @@ public class RouterClientConfig {
 
 	// routerClient对象
 	protected RouterClient routerClient;
-
+	
 
 	// 是否输出底层ping pong信息
 	protected boolean printPingPongInfo = false;

@@ -20,11 +20,15 @@ import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.impl.DefaultRouterClient;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
+import com.ggx.router.common.message.req.RouterMessageReq;
+import com.ggx.router.common.message.req.RouterSessionExpireReq;
 import com.ggx.router.server.config.RouterServerConfig;
+import com.ggx.router.server.handler.req.RouterMessageReqHandler;
+import com.ggx.router.server.handler.req.RouterSessionExpireReqHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -39,7 +43,6 @@ public class RouterServer implements
 
 	private RouterServerConfig config;
 
-	private GGServer serviceServer;
 
 	public RouterServer(RouterServerConfig config) {
 
@@ -82,18 +85,36 @@ public class RouterServer implements
 
 		SessionGroupServer sessionGroupServer = new SessionGroupServer(sessionGroupServerConfig);
 		this.config.setSessionGroupServer(sessionGroupServer);
+		
+		
+		GGServer sessionGroupServerServiceServer = sessionGroupServerConfig.getServiceServer();
+		sessionGroupServerServiceServer.onMessage(RouterMessageReq.ACTION_ID, new RouterMessageReqHandler(this.config));
+		sessionGroupServerServiceServer.onMessage(RouterSessionExpireReq.ACTION_ID, new RouterSessionExpireReqHandler(this.config));
+		
+		
+		
+		
+		if (this.config.isEnableServiceServer()) {
+			GGServerConfig serviceServerConfig = new GGServerConfig();
+			serviceServerConfig.setWorkerGroup(this.config.getSharedEventLoopGroup());
+			GGServer serviceServer = new GGDefaultServer(serviceServerConfig);
+			
+			this.config.setServiceServer(serviceServer);
+			
+			
+			
+		}
 
-		this.serviceServer = sessionGroupServerConfig.getServiceServer();
 		
 		//是否开启转发
 		if (this.config.isEnableForwardRouterClient()) {
-			RouterClientConfig routerClientConfig = new RouterClientConfig(this.serviceServer);
+			RouterClientConfig routerClientConfig = new RouterClientConfig(this.config.getServiceServer());
 			
 			routerClientConfig.setRouterGroupId(this.config.getForwardRouterGroupId());
 			routerClientConfig.setSharedEventLoopGroup(this.config.getSharedEventLoopGroup());
 			routerClientConfig.setRegistryClient(this.config.getRegistryClient());
 			
-			RouterClient forwardRouterClient = new DefaultRouterClient(routerClientConfig);
+			RouterClient forwardRouterClient = new RouterClient(routerClientConfig);
 			this.config.setForwardRouterClient(forwardRouterClient);
 			
 		}
@@ -101,7 +122,7 @@ public class RouterServer implements
 	}
 
 	public GGServer getServiceServer() {
-		return serviceServer;
+		return this.config.getServiceServer();
 	}
 
 	public RouterServerConfig getConfig() {
@@ -118,7 +139,7 @@ public class RouterServer implements
 	}
 
 	private GGServerConfig getServiceServerConfig() {
-		return this.serviceServer.getConfig();
+		return this.config.getServiceServer().getConfig();
 	}
 
 	@Override

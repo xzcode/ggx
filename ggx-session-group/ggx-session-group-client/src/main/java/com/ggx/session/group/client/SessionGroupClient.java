@@ -27,7 +27,7 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.handler.AnthRespHandler;
 import com.ggx.session.group.client.handler.DataTransferRespHandler;
 import com.ggx.session.group.client.handler.SessionGroupRegisterRespHandler;
-import com.ggx.session.group.client.session.ServiceClientSession;
+import com.ggx.session.group.client.session.GroupServiceClientSession;
 
 /**
  * 会话组客户端
@@ -121,10 +121,10 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 				GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
-				ServiceClientSession serviceServerSession = new ServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 				if (addSessionIfAbsent != null) {
-					serviceServerSession = (ServiceClientSession) addSessionIfAbsent;
+					serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;
 				}
 				sessionManager.addSessionIfAbsent(serviceServerSession);
 			}

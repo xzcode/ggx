@@ -5,6 +5,7 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.server.RouterServer;
+import com.xzcode.ggserver.core.server.GGServer;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -17,6 +18,13 @@ public class RouterServerConfig {
 
 	// routerServer对象
 	protected RouterServer routerServer;
+	
+	
+	//业务服务端对象
+	protected GGServer serviceServer;
+	
+	//是否开启业务服务端
+	protected boolean enableServiceServer = false;
 	
 	// 转发路由客户端
 	protected RouterClient forwardRouterClient;
@@ -167,6 +175,24 @@ public class RouterServerConfig {
 	public void setForwardRouterGroupId(String forwardRouterClientGroupId) {
 		this.forwardRouterGroupId = forwardRouterClientGroupId;
 	}
+
+	public GGServer getServiceServer() {
+		return serviceServer;
+	}
+
+	public void setServiceServer(GGServer serviceServer) {
+		this.serviceServer = serviceServer;
+	}
+
+	public boolean isEnableServiceServer() {
+		return enableServiceServer;
+	}
+
+	public void setEnableServiceServer(boolean enableServiceServer) {
+		this.enableServiceServer = enableServiceServer;
+	}
+	
+	
 	
 	
 

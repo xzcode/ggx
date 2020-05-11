@@ -9,7 +9,7 @@ import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
-import com.ggx.group.server.session.ServiceServerSession;
+import com.ggx.group.server.session.GroupServiceServerSession;
 import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
@@ -52,13 +52,13 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 			
 			SessionManager sessionManager = serviceServerConfig.getSessionManager();
 			//创建业务服务端session
-			ServiceServerSession serviceSession = (ServiceServerSession) sessionManager.getSession(tranferSessionId);
+			GroupServiceServerSession serviceSession = (GroupServiceServerSession) sessionManager.getSession(tranferSessionId);
 			if (serviceSession == null) {
 				String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
-				serviceSession = new ServiceServerSession(tranferSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
+				serviceSession = new GroupServiceServerSession(tranferSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
 				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceSession);
 				if (addSessionIfAbsent != null) {
-					serviceSession = (ServiceServerSession) addSessionIfAbsent;
+					serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
 				}else {
 					if (req.getTranferSessionId() == null) {
 						messageData.getSession().addDisconnectListener(se -> {

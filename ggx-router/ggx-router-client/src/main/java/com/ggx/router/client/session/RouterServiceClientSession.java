@@ -1,35 +1,32 @@
-package com.ggx.group.server.session;
+package com.ggx.router.client.session;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFuture;
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
-import com.ggx.group.common.group.manager.GGSessionGroupManager;
-import com.ggx.group.common.message.resp.DataTransferResp;
+import com.ggx.session.group.client.session.GroupServiceClientSession;
 
 import io.netty.channel.Channel;
 
 /**
- * 业务服务端session
+ * 路由业务服务端会话
  *
  * @author zai
- * 2020-04-09 10:11:53
+ * 2020-05-11 12:30:35
  */
-public class ServiceServerSession extends AbstractAttrMapSession<GGConfig>{
-	
-	
-	
-	//会话组管理器
-	protected GGSessionGroupManager sessionGroupManager;
+public class RouterServiceClientSession  extends AbstractAttrMapSession<GGConfig>{
 
-	public ServiceServerSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGConfig config) {
+	/**
+	 * 会话组业务服务端会话对象
+	 */
+	protected GroupServiceClientSession groupServiceClientSession;
+	
+	public RouterServiceClientSession(GroupServiceClientSession groupServiceClientSession, String sessionId, GGConfig config) {
 		super(sessionId, config);
-		this.sessionGroupManager = sessionGroupManager;
-		this.groupId = groupId;
+		this.groupServiceClientSession = groupServiceClientSession;
 		setReady(true);
 	}
 
@@ -42,18 +39,11 @@ public class ServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 	public void setChannel(Channel channel) {
 		
 	}
-
-
-	@Override
+	
 	public GGFuture send(Pack pack) {
-		DataTransferResp resp = new DataTransferResp();
-		resp.setAction(pack.getAction());
-		resp.setMessage(pack.getMessage());
-		resp.setTranferSessionId(this.getSessonId());
-		return sessionGroupManager.sendToRandomOne(groupId, makePack(new MessageData<>(resp.getActionId(), resp)));
+		return groupServiceClientSession.send(pack);
 	}
-
-	@Override
+	
 	public GGFuture disconnect() {
 		
 		triggerDisconnectListeners();
@@ -69,5 +59,4 @@ public class ServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 	}
 
 	
-
 }

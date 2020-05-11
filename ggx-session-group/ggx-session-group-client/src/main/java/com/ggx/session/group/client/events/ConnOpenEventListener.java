@@ -8,7 +8,7 @@ import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.session.group.client.session.ServiceClientSession;
+import com.ggx.session.group.client.session.GroupServiceClientSession;
 
 /**
  * 连接打开事件监听
@@ -39,10 +39,10 @@ public class ConnOpenEventListener implements EventListener<Void>{
 			GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			ServiceClientSession serviceServerSession = new ServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 			GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 			if (addSessionIfAbsent != null) {
-				serviceServerSession = (ServiceClientSession) addSessionIfAbsent;
+				serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;
 			}
 			sessionManager.addSessionIfAbsent(serviceServerSession);
 		}

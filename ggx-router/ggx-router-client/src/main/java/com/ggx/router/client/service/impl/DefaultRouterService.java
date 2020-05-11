@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.GGClient;
+import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFailedFuture;
@@ -19,8 +20,13 @@ import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.handler.resp.RouterMessageRespHandler;
+import com.ggx.router.client.handler.resp.RouterSessionExpireRespHandler;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
+import com.ggx.router.common.message.req.RouterMessageReq;
+import com.ggx.router.common.message.resp.RouterMessageResp;
+import com.ggx.router.common.message.resp.RouterSessionExpireResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 
@@ -46,13 +52,12 @@ public class DefaultRouterService implements RouterService{
 	
 	protected TaskExecutor executor;
 	
-	/**
-	 * 绑定的连接客户端
-	 */
+	//业务客户端
+	protected GGClient serviceClient;
+	
+	//绑定的连接客户端
 	protected SessionGroupClient sessionGroupClient;
 	
-	
-	protected GGClient serviceClient;
 	
 	
 	/**
@@ -108,17 +113,23 @@ public class DefaultRouterService implements RouterService{
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 		
-		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
 		this.sessionGroupClient = sessionGroupClient;
 		
 		
 		//包日志输出控制
 		if (!this.config.isPrintRouterInfo()) {
-			this.serviceClient.getConfig().getPackLogger().addPackLogFilter(pack -> {
+			sessionGroupClientConfig.getServiceClient().getConfig().getPackLogger().addPackLogFilter(pack -> {
 				return false;
 			});
 		}
+		
+		GGClientConfig serviceConfig = new GGClientConfig();
+		serviceConfig.setWorkerGroup(this.config.getSharedEventLoopGroup());
+		this.serviceClient = new GGClient(serviceConfig);
+		
+		this.serviceClient.onMessage(RouterMessageResp.ACTION_ID, new RouterMessageRespHandler(this.config));
+		this.serviceClient.onMessage(RouterSessionExpireResp.ACTION_ID, new RouterSessionExpireRespHandler(this.config));
 		
 		
 		sessionGroupClient.start();
@@ -140,10 +151,16 @@ public class DefaultRouterService implements RouterService{
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		SessionManager sessionManager = this.serviceClient.getSessionManager();
+		
+		RouterMessageReq routeMessageReq = new RouterMessageReq();
+		routeMessageReq.setAction(pack.getAction());
+		routeMessageReq.setMessage(pack.getMessage());
+		routeMessageReq.setRouteSessionId(pack.getSession().getSessonId());
+		
+		SessionManager sessionManager = this.sessionGroupClient.getConfig().getServiceClient().getSessionManager();
 		GGSession session = sessionManager.randomGetSession();
 		if (session != null) {
-			return session.send(pack);
+			return session.send(routeMessageReq);
 		}
 		
 		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
