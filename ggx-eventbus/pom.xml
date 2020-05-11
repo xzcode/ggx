@@ -16,6 +16,7 @@
   <modules>
 	<module>ggx-eventbus-server</module>
   	<module>ggx-eventbus-client</module>	
+  	<module>ggx-eventbus-group-client</module>	
 	<module>ggx-eventbus-common</module>
   </modules>
 </project>
