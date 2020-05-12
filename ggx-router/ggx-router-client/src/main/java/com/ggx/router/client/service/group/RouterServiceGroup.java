@@ -1,6 +1,5 @@
 package com.ggx.router.client.service.group;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -96,19 +95,6 @@ public class RouterServiceGroup {
 			return this.sortedServiceList.get(0);
 		}
 		return null;
-	}
-	
-	/**
-	 * 增加路由服务负载量信息
-	 *
-	 * @param routerService
-	 * @param incrValue
-	 * @author zai
-	 * 2020-05-06 17:34:53
-	 */
-	public void incrementRouterServiceLoad(RouterService routerService, int incrValue) {
-		routerService.getLoad().addAndGet(incrValue);
-		this.sortServiceList();
 	}
 	
 	public String getServiceGroupId() {

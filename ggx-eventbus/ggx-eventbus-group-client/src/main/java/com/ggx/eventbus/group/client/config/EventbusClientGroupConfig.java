@@ -1,5 +1,7 @@
 package com.ggx.eventbus.group.client.config;
 
+import com.ggx.common.constant.EventbusConstant;
+import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.registry.client.RegistryClient;
 
 import io.netty.channel.EventLoopGroup;
@@ -18,6 +20,39 @@ public class EventbusClientGroupConfig {
 	//共享线程组
 	protected EventLoopGroup sharedEventLoopGroup;
 	
+	// 订阅者管理器
+	protected SubscriberManager subscribeManager = new SubscriberManager();
 	
+	
+	//事件组id
+	protected String eventbusGroupId = EventbusConstant.DEFAULT_EVENTBUS_GROUP_ID;
 
+	public RegistryClient getRegistryClient() {
+		return registryClient;
+	}
+
+	public void setRegistryClient(RegistryClient registryClient) {
+		this.registryClient = registryClient;
+	}
+
+	public EventLoopGroup getSharedEventLoopGroup() {
+		return sharedEventLoopGroup;
+	}
+
+	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
+		this.sharedEventLoopGroup = sharedEventLoopGroup;
+	}
+	
+	public String getEventbusGroupId() {
+		return eventbusGroupId;
+	}
+	
+	public void setEventbusGroupId(String eventbusGroupId) {
+		this.eventbusGroupId = eventbusGroupId;
+	}
+	
+	public SubscriberManager getSubscribeManager() {
+		return subscribeManager;
+	}
+	
 }

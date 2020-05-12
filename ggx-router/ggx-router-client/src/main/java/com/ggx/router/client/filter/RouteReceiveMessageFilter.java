@@ -18,19 +18,19 @@ public class RouteReceiveMessageFilter implements BeforeDeserializeFilter{
 	
 	private RouterClientConfig config;
 	
-	private GGServer routingServer;
+	private GGServer hostServer;
 	private ReceiveMessageManager requestMessageManager;
 	
 	public RouteReceiveMessageFilter(RouterClientConfig config) {
 		this.config = config;
-		this.routingServer = config.getRoutingServer();
-		this.requestMessageManager = this.routingServer.getReceiveMessageManager();
+		this.hostServer = config.getHostServer();
+		this.requestMessageManager = this.hostServer.getReceiveMessageManager();
 	}
 
 	@Override
 	public boolean doFilter(Pack pack) {
 
-		String actionId = pack.getActionString(routingServer.getCharset());
+		String actionId = pack.getActionString(hostServer.getCharset());
 		//routingServer已定义的actionid,不参与路由
 		if (requestMessageManager.getMessageHandler(actionId) != null) {
 			return true;
@@ -40,7 +40,7 @@ public class RouteReceiveMessageFilter implements BeforeDeserializeFilter{
 		.addListener(f -> {
 			if (!f.isDone()) {
 				//发送失败，触发消息不可达事件
-				this.routingServer.emitEvent(new EventData<>(pack.getSession(), RouterClientEvents.RoutingMessage.MESSAGE_UNREACHABLE, pack));
+				this.hostServer.emitEvent(new EventData<>(pack.getSession(), RouterClientEvents.RoutingMessage.MESSAGE_UNREACHABLE, pack));
 			}
 		});
 		;

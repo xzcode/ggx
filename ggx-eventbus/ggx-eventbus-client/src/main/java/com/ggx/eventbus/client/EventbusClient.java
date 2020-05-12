@@ -1,6 +1,5 @@
 package com.ggx.eventbus.client;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 import com.ggx.common.constant.EventbusConstant;
@@ -12,12 +11,10 @@ import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.message.response.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.GGXIdUtil;
+import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.handler.EventMessageRespHandler;
@@ -45,6 +42,10 @@ public class EventbusClient{
 	}
 
 	public void init() {
+		
+		if (this.config.getSubscribeManager() == null) {
+			this.config.setSubscribeManager(new SubscriberManager());
+		}
 		
 		SessionGroupClientConfig sessionGroupClientConfig = new SessionGroupClientConfig();
 		sessionGroupClientConfig.setEnableServiceClient(true);
@@ -149,6 +150,11 @@ public class EventbusClient{
 		subscriberInfo.setSubscriberId(subscriberClass.getName());
 		
 		this.config.getSubscribeManager().subscribe(eventId, subscriberInfo);
+	}
+
+	public void shutdown() {
+		this.config.getSessionGroupClient().shutdown(false);
+		
 	}
 
 }

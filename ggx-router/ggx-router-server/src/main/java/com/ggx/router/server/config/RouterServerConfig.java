@@ -47,9 +47,7 @@ public class RouterServerConfig {
 	// 连接数
 	protected int connectionSize = 8;
 	
-	/**
-	 * 共享的线程组
-	 */
+	//共享的线程组
 	private EventLoopGroup sharedEventLoopGroup;
 
 	// 服务端口

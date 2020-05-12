@@ -2,6 +2,7 @@ package com.xzcode.ggcloud.eventbus.server.config;
 
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.group.server.SessionGroupServer;
+import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.eventbus.server.EventbusServer;
 import com.xzcode.ggcloud.eventbus.server.subscription.SubscriptionManager;
 
@@ -16,6 +17,14 @@ public class EventbusServerConfig {
 	
 	//eventbusServer对象
 	protected EventbusServer eventbusServer;
+	
+	//注册中心客户端对象
+	protected RegistryClient registryClient;
+	
+	/**
+	 * 事件组id
+	 */
+	protected String eventbusGroupId = EventbusConstant.DEFAULT_EVENTBUS_GROUP_ID;
 	
 	//sessionGroupServer对象
 	protected SessionGroupServer sessionGroupServer;
@@ -114,6 +123,20 @@ public class EventbusServerConfig {
 		this.printEventbusPackLog = printEventbusPackLog;
 	}
 	
+	public RegistryClient getRegistryClient() {
+		return registryClient;
+	}
+	public void setRegistryClient(RegistryClient registryClient) {
+		this.registryClient = registryClient;
+	}
+	
+	public String getEventbusGroupId() {
+		return eventbusGroupId;
+	}
+	
+	public void setEventbusGroupId(String eventbusGroupId) {
+		this.eventbusGroupId = eventbusGroupId;
+	}
 	
 	
 }

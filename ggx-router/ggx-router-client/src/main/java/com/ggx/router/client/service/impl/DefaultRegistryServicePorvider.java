@@ -13,7 +13,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterServiceMatcher;
+import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
@@ -35,11 +35,6 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 * 路由客户端配置
 	 */
 	protected RouterClientConfig config;
-	
-	/**
-	 * 服务管理器
-	 */
-	protected ServiceManager serviceManager;
 	
 	/**
 	 * 添加路由服务监听器
@@ -68,19 +63,16 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 * @param config
 	 */
 	public DefaultRegistryServicePorvider(RouterClientConfig config) {
-		RegistryClient registryClient = config.getRegistryClient();
 		this.config = config;
-		this.serviceManager = registryClient.getConfig().getServiceManager();
-		
 		init();
 	}
 	
 	
 	private void init() {
 		
-		RegistryClient registryClient = config.getRegistryClient();
+		RegistryClient registryClient = this.config.getRegistryClient();
 		
-		
+		ServiceManager serviceManager = registryClient.getConfig().getServiceManager();
 		
 		//添加本服务注册成功回调
 		registryClient.addRegisterSuccessListener(() -> {
@@ -91,18 +83,18 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		});
 		
 		//添加注册中心服务管器的服务注册监听器
-		this.serviceManager.addRegisterListener(service -> {
+		serviceManager.addRegisterListener(service -> {
 			//注册路由服务
 			registerRouterService(service);
 		});
 		
 		//添加注册中心服务管器的服务取消注册监听器
-		this.serviceManager.addUnregisterListener(service -> {
+		serviceManager.addUnregisterListener(service -> {
 			removeService(service.getServiceGroupId(), service.getServiceId());
 		});
 		
 		//添加注册中心服务管器的服务更新监听器
-		this.serviceManager.addUpdateListener(service -> {
+		serviceManager.addUpdateListener(service -> {
 			
 			RouterService routerService = getService(service.getServiceGroupId(), service.getServiceId());
 			if (routerService != null) {
@@ -166,7 +158,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 			
 			
 			//创建新服务对象
-			DefaultRouterService routerService = new DefaultRouterService(config, serviceId);
+			RouterService routerService = new RouterService(config, serviceId);
 	        routerService.setHost(service.getHost());
 	        routerService.setPort(servicePort);
 	        routerService.setServiceId(service.getServiceId());

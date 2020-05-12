@@ -22,10 +22,8 @@ import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.ggx.router.common.message.req.RouterMessageReq;
-import com.ggx.router.common.message.req.RouterSessionExpireReq;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.router.server.handler.req.RouterMessageReqHandler;
-import com.ggx.router.server.handler.req.RouterSessionExpireReqHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
 import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
@@ -89,9 +87,6 @@ public class RouterServer implements
 		
 		GGServer sessionGroupServerServiceServer = sessionGroupServerConfig.getServiceServer();
 		sessionGroupServerServiceServer.onMessage(RouterMessageReq.ACTION_ID, new RouterMessageReqHandler(this.config));
-		sessionGroupServerServiceServer.onMessage(RouterSessionExpireReq.ACTION_ID, new RouterSessionExpireReqHandler(this.config));
-		
-		
 		
 		
 		if (this.config.isEnableServiceServer()) {

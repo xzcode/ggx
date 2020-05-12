@@ -80,6 +80,10 @@ public class RegistryClient {
 		});
 	}
 	
+	public void addCustomData(String key, String value) {
+		this.config.addCustomData(key, value);
+	}
+	
 	/**
 	 * 检查并更新服务信息到注册中心
 	 * 

@@ -6,6 +6,8 @@ import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.session.group.client.SessionGroupClient;
 
+import io.netty.channel.EventLoopGroup;
+
 /**
  * EventbusClient配置
  *
@@ -34,13 +36,13 @@ public class EventbusClientConfig {
 
 
 	// 订阅者管理器
-	protected SubscriberManager subscribeManager = new SubscriberManager();
+	protected SubscriberManager subscribeManager;
 
 	//服务端地址
 	protected String serverHost = "localhost";
 	
 	//服务端端口
-	protected int port = EventbusConstant.DEFAULT_SERVER_PORT;
+	protected int serverPort = EventbusConstant.DEFAULT_SERVER_PORT;
 	
 	// 验证token
 	protected String authToken = EventbusConstant.DEFAULT_AUTH_TOKEN;
@@ -48,6 +50,10 @@ public class EventbusClientConfig {
 	
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
+	
+	//共享线程组
+	protected EventLoopGroup sharedEventLoopGroup;
+
 
 	public EventbusClient getEventbusClient() {
 		return eventbusClient;
@@ -113,12 +119,12 @@ public class EventbusClientConfig {
 		this.serverHost = serverHost;
 	}
 
-	public int getPort() {
-		return port;
+	public int getServerPort() {
+		return serverPort;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
+	public void setServerPort(int port) {
+		this.serverPort = port;
 	}
 
 	public boolean isPrintEventbusPackLog() {
@@ -137,4 +143,12 @@ public class EventbusClientConfig {
 		return defaultClientSession;
 	}
 
+	public EventLoopGroup getSharedEventLoopGroup() {
+		return sharedEventLoopGroup;
+	}
+	
+	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
+		this.sharedEventLoopGroup = sharedEventLoopGroup;
+	}
+	
 }

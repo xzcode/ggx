@@ -7,6 +7,7 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
+import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 import com.xzcode.ggcloud.eventbus.server.handler.EventPublishReqHandler;
 import com.xzcode.ggcloud.eventbus.server.handler.EventSubscribeReqHandler;
@@ -49,6 +50,15 @@ public class EventbusServer {
 		serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
 		serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
 		
+		//获取注册中心客户端
+		RegistryClient registryClient = this.config.getRegistryClient();
+		if (registryClient != null) {
+			//添加自定义参数
+			//添加自定义事件组id
+			registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY, this.config.getEventbusGroupId());
+			//添加自定义事件服务端端口
+			registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_PORT_KEY, String.valueOf(this.config.getPort()));
+		}
 		
 		
 		sessionGroupServer.start();

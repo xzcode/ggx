@@ -12,9 +12,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServiceGroup {
 	
-	private Map<String, ServiceInfo> services = new ConcurrentHashMap<>();
+	//服务组id
+	protected String serviceGroupId;
+	
+	protected Map<String, ServiceInfo> services = new ConcurrentHashMap<>(100);
 	
 	
+	public ServiceGroup(String serviceGroupId) {
+		super();
+		this.serviceGroupId = serviceGroupId;
+	}
+
 	public void addServiceInfo(ServiceInfo serviceInfo) {
 		services.putIfAbsent(serviceInfo.getServiceId(), serviceInfo);
 	}
@@ -29,6 +37,14 @@ public class ServiceGroup {
 	
 	public Map<String, ServiceInfo> getServices() {
 		return services;
+	}
+	
+	public String getServiceGroupId() {
+		return serviceGroupId;
+	}
+	
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 	
 }

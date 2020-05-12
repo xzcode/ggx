@@ -62,13 +62,9 @@ public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer
 		SessionBindRouterServiceInfo info = new SessionBindRouterServiceInfo(session, routerService);
 		SessionBindRouterServiceInfo putIfAbsent = loadblanceInfo.putIfAbsentSessionBindRouterServiceInfo(session, info);
 		if (putIfAbsent == null) {
-			//增加负载量参数
-			routerServiceGroup.incrementRouterServiceLoad(routerService, 1);
 			//session断开后移除关联
 			session.addDisconnectListener(f -> {
 				loadblanceInfo.removeSessionBindRouterServiceInfo(session);
-				//减少负载量参数
-				routerServiceGroup.incrementRouterServiceLoad(routerService, -1);
 			});
 		}
 		

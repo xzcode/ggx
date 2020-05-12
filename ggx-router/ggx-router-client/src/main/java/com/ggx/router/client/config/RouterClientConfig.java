@@ -2,12 +2,10 @@ package com.ggx.router.client.config;
 
 import java.util.UUID;
 
-import com.ggx.core.client.GGClient;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.filter.RouteReceiveMessageFilter;
-import com.ggx.router.client.service.RouterPackHandler;
 import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
@@ -66,7 +64,7 @@ public class RouterClientConfig {
 	/**
 	 * 消息将被路由的服务器对象
 	 */
-	protected GGServer routingServer;
+	protected GGServer hostServer;
 
 	//不参与路由的actionid
 	protected String[] excludedActionId;
@@ -74,9 +72,6 @@ public class RouterClientConfig {
 	//路由服务提供者
 	protected RouterServiceProvider serviceProvider;
 
-	//路由包处理器
-	protected RouterPackHandler packHandler;
-	
 	//共享的线程组
 	protected EventLoopGroup sharedEventLoopGroup;
 	
@@ -94,7 +89,7 @@ public class RouterClientConfig {
 		if (routingServer == null) {
 			throw new NullPointerException("Parameter 'routingServer' cannot be null!!");
 		}
-		this.routingServer = routingServer;
+		this.hostServer = routingServer;
 
 	}
 
@@ -109,13 +104,11 @@ public class RouterClientConfig {
 			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("gg-router-", false));
 		}
 		
-		this.routingServer.addBeforeDeserializeFilter(new RouteReceiveMessageFilter(this));
+		this.hostServer.addBeforeDeserializeFilter(new RouteReceiveMessageFilter(this));
 
 		if (routerGroupId == null) {
 			routerGroupId = UUID.randomUUID().toString();
 		}
-		
-		
 
 		if (this.registryClient != null) {
 			this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
@@ -130,8 +123,6 @@ public class RouterClientConfig {
 			this.serviceProvider = new DefaultServicePorvider(this);
 		}
 		
-		
-
 	}
 
 	public RouterServiceProvider getServiceProvider() {
@@ -142,13 +133,10 @@ public class RouterClientConfig {
 		this.serviceProvider = serviceProvider;
 	}
 
-	public GGServer getRoutingServer() {
-		return routingServer;
+	public GGServer getHostServer() {
+		return hostServer;
 	}
 
-	public void setRoutingServer(GGDefaultServer routingServer) {
-		this.routingServer = routingServer;
-	}
 
 	public String[] getExcludedActionId() {
 		return excludedActionId;
@@ -158,16 +146,8 @@ public class RouterClientConfig {
 		this.excludedActionId = excludedRoutingActionRegex;
 	}
 
-	public void setRoutingServer(GGServer routingServer) {
-		this.routingServer = routingServer;
-	}
-
-	public RouterPackHandler getPackHandler() {
-		return packHandler;
-	}
-
-	public void setPackHandler(RouterPackHandler packHandler) {
-		this.packHandler = packHandler;
+	public void setHostServer(GGServer routingServer) {
+		this.hostServer = routingServer;
 	}
 
 	public RouterClient getRouterClient() {

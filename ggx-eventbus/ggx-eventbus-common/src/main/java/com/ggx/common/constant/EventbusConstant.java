@@ -22,5 +22,22 @@ public interface EventbusConstant {
 	 * 默认验证token
 	 */
 	String DEFAULT_AUTH_TOKEN = "70507975-1bb7-4c7f-be43-a22e4e2540a6";
+	
+	
+	/**
+	 * 注册中心自定义事件组KEY
+	 */
+	String REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY = "REGISTRY_CUSTOM_EVENTBUS_GROUP";
+	
+	/**
+	 * 默认事件组
+	 */
+	String DEFAULT_EVENTBUS_GROUP_ID = "default_eventbus_group";
+	
+	
+	/**
+	 * 注册中心自定义数据端口KEY
+	 */
+	String REGISTRY_CUSTOM_EVENTBUS_PORT_KEY = "REGISTRY_CUSTOM_EVENTBUS_PORT";
 
 }

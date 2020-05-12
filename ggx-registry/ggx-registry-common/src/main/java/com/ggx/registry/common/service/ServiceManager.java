@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGSession;
@@ -29,17 +30,17 @@ public class ServiceManager {
 	/**
 	 * 注册监听器
 	 */
-	private List<RegisterServiceListener> registerListeners = new ArrayList<>(5);
+	private List<RegisterServiceListener> registerListeners = new CopyOnWriteArrayList<>();
 	
 	/**
 	 * 取消注册监听器
 	 */
-	private List<UnregisterServiceListener> unregisterListeners = new ArrayList<>(5);
+	private List<UnregisterServiceListener> unregisterListeners = new CopyOnWriteArrayList<>();
 	
 	/**
 	 * 服务更新监听器
 	 */
-	private List<UpdateServiceListener> updateListeners = new ArrayList<>(5);
+	private List<UpdateServiceListener> updateListeners = new CopyOnWriteArrayList<>();
 	
 	
 	/**
@@ -85,15 +86,13 @@ public class ServiceManager {
 	public void registerService(ServiceInfo service) {
 		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
-			synchronized (serviceGroups) {
-				group = serviceGroups.get(service.getServiceGroupId());
-				if (group == null) {
-					group = new ServiceGroup();
-					serviceGroups.put(service.getServiceGroupId(), group);
+				group = new ServiceGroup(service.getServiceGroupId());
+				ServiceGroup putIfAbsent = serviceGroups.putIfAbsent(service.getServiceGroupId(), group);
+				if (putIfAbsent != null) {
+					group = putIfAbsent;
 				}
-			}
-			
 		}
+		
 		group.addServiceInfo(service);
 		if (this.registerListeners != null) {
 			for (RegisterServiceListener listener : registerListeners) {
