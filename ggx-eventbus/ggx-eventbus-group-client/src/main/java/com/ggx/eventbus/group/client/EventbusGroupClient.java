@@ -12,20 +12,20 @@ import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.client.subscriber.SubscriberInfo;
-import com.ggx.eventbus.group.client.config.EventbusClientGroupConfig;
+import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 
 public class EventbusGroupClient{
 	
-	private EventbusClientGroupConfig config;
+	private EventbusGroupClientConfig config;
 	
 	protected final Map<String, EventbusClient> eventbusClients = new ConcurrentHashMap<String, EventbusClient>();
 	protected final List<EventbusClient> eventbusClientList = new CopyOnWriteArrayList<EventbusClient>();
 	
 	
-	public EventbusGroupClient(EventbusClientGroupConfig config) {
+	public EventbusGroupClient(EventbusGroupClientConfig config) {
 		this.config = config;
 		init();
 	}

@@ -12,7 +12,7 @@ import io.netty.channel.EventLoopGroup;
  * @author zai
  * 2020-04-10 11:58:47
  */
-public class EventbusClientGroupConfig {
+public class EventbusGroupClientConfig {
 
 	//注册中心客户端
 	protected RegistryClient registryClient;

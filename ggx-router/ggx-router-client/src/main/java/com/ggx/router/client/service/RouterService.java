@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
@@ -18,13 +17,12 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.service.handler.resp.RouterMessageRespHandler;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
-import com.ggx.router.common.message.req.RouterMessageReq;
-import com.ggx.router.common.message.resp.RouterMessageResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
+import com.ggx.session.group.client.session.GroupServiceClientSession;
 
 /**
  * 路由服务
@@ -120,11 +118,8 @@ public class RouterService {
 			});
 		}
 		
-		GGClientConfig serviceConfig = new GGClientConfig();
-		serviceConfig.setWorkerGroup(this.config.getSharedEventLoopGroup());
-		this.serviceClient = new GGClient(serviceConfig);
+		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
-		this.serviceClient.onMessage(RouterMessageResp.ACTION_ID, new RouterMessageRespHandler(this.config));
 		
 		
 		sessionGroupClient.start();
@@ -146,17 +141,23 @@ public class RouterService {
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
+		GGSession routeSession = pack.getSession();
+		String routeSessonId = pack.getSession().getSessonId();
 		
-		RouterMessageReq routeMessageReq = new RouterMessageReq();
-		routeMessageReq.setAction(pack.getAction());
-		routeMessageReq.setMessage(pack.getMessage());
-		routeMessageReq.setRouteSessionId(pack.getSession().getSessonId());
 		
-		SessionManager sessionManager = this.sessionGroupClient.getConfig().getServiceClient().getSessionManager();
-		GGSession session = sessionManager.randomGetSession();
-		if (session != null) {
-			return session.send(routeMessageReq);
+		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
+		
+		GGSession serviceClientSession = serviceClientSessionManager.getSession(routeSessonId);
+		
+		if (serviceClientSession == null) {
+			GGSessionGroupManager sessionGroupManager = this.sessionGroupClient.getConfig().getSessionGroupManager();
+			serviceClientSession = new GroupServiceClientSession(routeSessonId, routeSession.getGroupId(), sessionGroupManager, this.serviceClient.getConfig());
+			GGSession addSessionIfAbsent = serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
+			if (addSessionIfAbsent != null) {
+				serviceClientSession = addSessionIfAbsent;
+			}
 		}
+		serviceClientSession.send(pack);
 		
 		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}

@@ -15,12 +15,19 @@
 
 		<dependency>
 			<groupId>com.ggx</groupId>
+			<artifactId>ggx-router-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ggx</groupId>
 			<artifactId>ggx-session-group-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-router-common</artifactId>
+			<artifactId>ggx-eventbus-group-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

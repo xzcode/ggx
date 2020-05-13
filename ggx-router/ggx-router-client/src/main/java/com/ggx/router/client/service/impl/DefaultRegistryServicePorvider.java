@@ -64,6 +64,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 */
 	public DefaultRegistryServicePorvider(RouterClientConfig config) {
 		this.config = config;
+		this.routerServiceManager = config.getRouterServiceManager();
 		init();
 	}
 	

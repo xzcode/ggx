@@ -18,12 +18,13 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-router-client</artifactId>
+			<artifactId>ggx-session-group-server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-session-group-server</artifactId>
+			<artifactId>ggx-eventbus-group-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		

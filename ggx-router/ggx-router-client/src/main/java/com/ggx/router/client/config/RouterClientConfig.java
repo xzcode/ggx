@@ -3,6 +3,7 @@ package com.ggx.router.client.config;
 import java.util.UUID;
 
 import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.filter.RouteReceiveMessageFilter;
@@ -16,7 +17,6 @@ import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -37,6 +37,9 @@ public class RouterClientConfig {
 
 	// routerClient对象
 	protected RouterClient routerClient;
+	
+	// eventbus组客户端
+	protected EventbusGroupClient eventbusGroupClient;
 	
 
 	// 是否输出底层ping pong信息
@@ -83,14 +86,13 @@ public class RouterClientConfig {
 	protected RouterServiceLoadblancer routerServiceLoadblancer;
 	
 	//路由服务管理器
-	protected RouterServiceManager routerServiceManager;
+	protected RouterServiceManager routerServiceManager = new RouterServiceManager();
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {
 			throw new NullPointerException("Parameter 'routingServer' cannot be null!!");
 		}
 		this.hostServer = routingServer;
-
 	}
 
 	/**
@@ -263,7 +265,13 @@ public class RouterClientConfig {
 		this.routerServiceManager = routerServiceManager;
 	}
 	
+	public EventbusGroupClient getEventbusGroupClient() {
+		return eventbusGroupClient;
+	}
 	
+	public void setEventbusGroupClient(EventbusGroupClient eventbusGroupClient) {
+		this.eventbusGroupClient = eventbusGroupClient;
+	}
 	
 	
 

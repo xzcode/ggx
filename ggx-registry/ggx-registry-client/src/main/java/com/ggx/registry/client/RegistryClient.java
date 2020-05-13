@@ -106,13 +106,13 @@ public class RegistryClient {
 		.addListener(f -> {
 			if (!f.isSuccess()) {
 				//连接失败，进行进行重连操作
-				GGLoggerUtil.getLogger(this).info("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
+				GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
 				ggClient.schedule(config.getTryRegisterInterval(), () -> {
 					connect();
 				});
 				return;
 			}
-			GGLoggerUtil.getLogger(this).info("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+			GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
 		});
 	}
 	
