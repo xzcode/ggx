@@ -2,7 +2,7 @@ package com.ggx.game.card.game.support.room.filter;
 
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.game.card.game.support.house.House;

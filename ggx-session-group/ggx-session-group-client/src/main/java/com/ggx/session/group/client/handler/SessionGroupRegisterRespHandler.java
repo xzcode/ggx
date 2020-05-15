@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;

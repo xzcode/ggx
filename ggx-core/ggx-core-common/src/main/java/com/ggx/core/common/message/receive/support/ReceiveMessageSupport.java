@@ -1,7 +1,7 @@
-package com.ggx.core.common.message.request.support;
+package com.ggx.core.common.message.receive.support;
 
-import com.ggx.core.common.message.request.action.MessageDataHandler;
-import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 
 /**
  * 消息发送接口

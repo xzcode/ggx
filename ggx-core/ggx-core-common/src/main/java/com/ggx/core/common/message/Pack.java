@@ -29,9 +29,7 @@ public class Pack {
 	/* 通道 */
 	private Channel channel;
 	
-	/**
-	 * 缓存转换后的actionid
-	 */
+	//缓存转换后的actionid
 	private String cachedActionId;
 	
 	/* 包操作类型*/
@@ -39,6 +37,9 @@ public class Pack {
 	
 	/* 包总长度 */
 	private int totalLength;
+	
+	/* 包操序列化方式*/
+	private String serializeType;
 	
 
 	public Pack(byte[] action, byte[] message) {
@@ -62,14 +63,14 @@ public class Pack {
 	 */
 	public static interface OperType {
 		/**
-		 * 请求包
+		 * 接收包
 		 */
-		int REQUEST = 1;
+		int RECEIVE = 1;
 		
 		/**
-		 * 响应包
+		 * 推送包
 		 */
-		int RESPONSE = 2;
+		int SEND = 2;
 	}
 
 
@@ -138,6 +139,14 @@ public class Pack {
 	
 	public int getTotalLength() {
 		return totalLength;
+	}
+	
+	public String getSerializeType() {
+		return serializeType;
+	}
+	
+	public void setSerializeType(String serializeType) {
+		this.serializeType = serializeType;
 	}
 
 }

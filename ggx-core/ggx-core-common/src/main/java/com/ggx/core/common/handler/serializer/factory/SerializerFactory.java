@@ -36,7 +36,7 @@ public class SerializerFactory {
 	 * @author zai
 	 * 2017-08-12 13:50:07
 	 */
-	public static ISerializer geSerializer(String serializerType) {
+	public static ISerializer getSerializer(String serializerType) {
 		
 		switch (serializerType) {
 		
@@ -47,8 +47,29 @@ public class SerializerFactory {
 			return PROTO_STUFF_SERIALIZER;
 			
 		default:
-			return JSON_SERIALIZER;
+			return null;
 		}
+		
+	}
+	
+	/**
+	 * 通过序列化器获取序列化方式
+	 *
+	 * @param serializer
+	 * @return
+	 * @author zai
+	 * 2020-05-14 17:18:36
+	 */
+	public static String getSerializerType(ISerializer serializer) {
+		
+		if (serializer == PROTO_STUFF_SERIALIZER || serializer.getClass() == PROTO_STUFF_SERIALIZER.getClass()) {
+			return SerializerType.PROTO_STUFF;
+		}
+		
+		if (serializer == JSON_SERIALIZER || serializer.getClass() == JSON_SERIALIZER.getClass()) {
+			return SerializerType.JSON;
+		}
+		return null;
 		
 	}
 

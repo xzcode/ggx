@@ -3,7 +3,7 @@ package com.ggx.core.common.utils;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 
 /**
  * 泛型类工具

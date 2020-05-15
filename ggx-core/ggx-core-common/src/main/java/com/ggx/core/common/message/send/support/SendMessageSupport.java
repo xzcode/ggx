@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.response.support;
+package com.ggx.core.common.message.send.support;
 
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFuture;

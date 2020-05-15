@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.response.support;
+package com.ggx.core.common.message.send.support;
 
 import java.nio.charset.Charset;
 

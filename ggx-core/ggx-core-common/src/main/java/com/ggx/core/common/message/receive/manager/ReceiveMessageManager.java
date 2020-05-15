@@ -1,11 +1,11 @@
-package com.ggx.core.common.message.request.manager;
+package com.ggx.core.common.message.receive.manager;
 
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
-import com.ggx.core.common.message.request.handler.DefaultReceiveMessagerHandlerInfo;
-import com.ggx.core.common.message.request.handler.ReceiveMessageHandlerInfo;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.handler.DefaultReceiveMessagerHandlerInfo;
+import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.utils.GenericClassUtil;
 
 public interface ReceiveMessageManager {

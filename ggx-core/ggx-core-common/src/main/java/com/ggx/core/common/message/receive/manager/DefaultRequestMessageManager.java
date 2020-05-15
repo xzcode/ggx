@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.request.manager;
+package com.ggx.core.common.message.receive.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.handler.ReceiveMessageHandlerInfo;
+import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 

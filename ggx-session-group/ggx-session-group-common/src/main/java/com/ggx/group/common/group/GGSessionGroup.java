@@ -12,7 +12,7 @@ import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.response.support.MakePackSupport;
+import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
 
 /**

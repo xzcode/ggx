@@ -38,7 +38,11 @@ public class RouterService {
 	
 	protected String serviceId;
 	
-	protected String servcieName;
+	protected String serviceGroupId;
+	
+	protected String actionIdPrefix;
+	
+	protected String serviceName;
 	
 	protected String host;
 	
@@ -151,7 +155,7 @@ public class RouterService {
 		
 		if (serviceClientSession == null) {
 			GGSessionGroupManager sessionGroupManager = this.sessionGroupClient.getConfig().getSessionGroupManager();
-			serviceClientSession = new GroupServiceClientSession(routeSessonId, routeSession.getGroupId(), sessionGroupManager, this.serviceClient.getConfig());
+			serviceClientSession = new GroupServiceClientSession(routeSessonId, this.sessionGroupClient.getConfig().getSessionGroupId(), sessionGroupManager, this.serviceClient.getConfig());
 			GGSession addSessionIfAbsent = serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
 				serviceClientSession = addSessionIfAbsent;
@@ -164,7 +168,10 @@ public class RouterService {
 	
 
 	public boolean isAvailable() {
-		return this.sessionGroupClient.getAvaliableConnections() > 0;
+		if (this.sessionGroupClient != null) {
+			return this.sessionGroupClient.getAvaliableConnections() > 0;
+		}
+		return false;
 	}
 
 	
@@ -244,17 +251,35 @@ public class RouterService {
 	public boolean isShutdown() {
 		return shutdown;
 	}
-	public String getServcieName() {
-		return servcieName;
+	public String getServiceGroupId() {
+		return serviceGroupId;
 	}
 	
-	public void setServcieName(String servcieName) {
-		this.servcieName = servcieName;
+	public void setServiceGroupId(String servcieName) {
+		this.serviceGroupId = servcieName;
 	}
 	
 	public AtomicInteger getLoad() {
 		return load;
 	}
 
+	public String getActionIdPrefix() {
+		return actionIdPrefix;
+	}
+
+	public void setActionIdPrefix(String actionIdPrefix) {
+		this.actionIdPrefix = actionIdPrefix;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	
+	
 
 }

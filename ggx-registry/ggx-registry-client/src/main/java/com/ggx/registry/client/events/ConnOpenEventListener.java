@@ -33,6 +33,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		serviceInfo.setZone(config.getZone());
 		serviceInfo.setServiceId(config.getServiceId());
 		serviceInfo.setServiceGroupId(config.getServiceGroupId());
+		serviceInfo.setServiceName(config.getServiceName());
 		serviceInfo.setCustomData(config.getCustomData());
 		
 		req.setServiceInfo(serviceInfo);

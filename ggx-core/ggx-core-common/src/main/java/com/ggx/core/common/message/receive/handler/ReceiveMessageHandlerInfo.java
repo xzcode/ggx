@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.request.handler;
+package com.ggx.core.common.message.receive.handler;
 
 import com.ggx.core.common.message.MessageData;
 

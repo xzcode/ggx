@@ -3,7 +3,7 @@ package com.ggx.registry.server.handler;
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;

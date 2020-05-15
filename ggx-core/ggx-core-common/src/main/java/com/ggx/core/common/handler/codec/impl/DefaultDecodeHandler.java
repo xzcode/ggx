@@ -94,7 +94,7 @@ public class DefaultDecodeHandler implements IDecodeHandler {
 		
 		if (this.config.isEnablePackLogger()) {
 			pack.setChannel(channel);
-			pack.setOperType(Pack.OperType.REQUEST);
+			pack.setOperType(Pack.OperType.RECEIVE);
 			pack.setProtocolType(protocolType);
 			PackLogger packLogger = this.config.getPackLogger();
 			packLogger.logPack(pack);

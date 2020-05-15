@@ -12,7 +12,7 @@ import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.message.response.support.MakePackSupport;
+import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;

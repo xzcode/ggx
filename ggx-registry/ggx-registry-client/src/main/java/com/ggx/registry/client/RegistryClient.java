@@ -9,6 +9,7 @@ import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
@@ -30,6 +31,8 @@ import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
 
+import io.netty.channel.nio.NioEventLoopGroup;
+
 public class RegistryClient {
 	
 	private RegistryClientConfig config;
@@ -45,7 +48,7 @@ public class RegistryClient {
 		GGClientConfig ggConfig = new GGClientConfig();
 		ggConfig.setPingPongEnabled(true);
 		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
-		ggConfig.setTaskExecutor(config.getTaskExecutor());
+		ggConfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
 		ggConfig.setProtocolType(ProtocolTypeConstants.TCP);
 		ggConfig.init();
 		
@@ -75,7 +78,7 @@ public class RegistryClient {
 	 * 2020-02-10 18:58:31
 	 */
 	public void startCheckTask() {
-		this.config.getTaskExecutor().scheduleWithFixedDelay(5, 10, TimeUnit.SECONDS, () -> {
+		this.config.getGGclient().getTaskExecutor().scheduleWithFixedDelay(5, 10, TimeUnit.SECONDS, () -> {
 			checkAndUpdateService();
 		});
 	}
@@ -135,6 +138,7 @@ public class RegistryClient {
 		serviceInfo.setZone(config.getZone());
 		serviceInfo.setServiceId(config.getServiceId());
 		serviceInfo.setServiceGroupId(config.getServiceGroupId());
+		serviceInfo.setServiceName(config.getServiceName());
 		
 		serviceInfo.setCustomData(config.getCustomData());
 		

@@ -1,11 +1,12 @@
-package com.ggx.core.common.message.request.task;
+package com.ggx.core.common.message.receive.task;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.request.handler.ReceiveMessageHandlerInfo;
+import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
@@ -59,7 +60,14 @@ public class MessageDataTask implements Runnable{
 			if (pack.getMessage() != null) {
 				ReceiveMessageHandlerInfo messageHandler = config.getReceiveMessageManager().getMessageHandler(action);
 				if (messageHandler != null) {
-					message = serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+					if (pack.getSerializeType() != null) {
+						ISerializer getSerializer = SerializerFactory.getSerializer(pack.getSerializeType());
+						if (getSerializer != null) {
+							message = getSerializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+						}
+					}else {
+						message = serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+					}
 				}
 			}
 			

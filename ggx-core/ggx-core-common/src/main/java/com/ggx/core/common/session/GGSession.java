@@ -3,7 +3,7 @@ package com.ggx.core.common.session;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.future.GGFuture;
-import com.ggx.core.common.message.response.support.SessionSendMessageSupport;
+import com.ggx.core.common.message.send.support.SessionSendMessageSupport;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 
 import io.netty.channel.Channel;

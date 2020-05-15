@@ -1,8 +1,7 @@
 package com.ggx.router.client.config;
 
-import java.util.UUID;
-
 import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
@@ -13,9 +12,9 @@ import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.loadblance.impl.DefaultRouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
-import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
 
 import io.netty.channel.EventLoopGroup;
@@ -31,7 +30,7 @@ public class RouterClientConfig {
 
 	//路由组id
 	protected String routerGroupId;
-
+	
 	//注册中心客户端
 	protected RegistryClient registryClient;
 
@@ -80,10 +79,10 @@ public class RouterClientConfig {
 	
 	
 	//路由服务匹配器
-	protected RouterServiceMatcher routerServiceMatcher;
+	protected RouterServiceMatcher routerServiceMatcher = new RouterServiceActionPrefixMatcher();
 	
 	//路由服务匹配器
-	protected RouterServiceLoadblancer routerServiceLoadblancer;
+	protected RouterServiceLoadblancer routerServiceLoadblancer = new DefaultRouterServiceLoadblancer();
 	
 	//路由服务管理器
 	protected RouterServiceManager routerServiceManager = new RouterServiceManager();
@@ -109,11 +108,11 @@ public class RouterClientConfig {
 		this.hostServer.addBeforeDeserializeFilter(new RouteReceiveMessageFilter(this));
 
 		if (routerGroupId == null) {
-			routerGroupId = UUID.randomUUID().toString();
+			routerGroupId = GGXIdUtil.newRandomStringId24();
 		}
 
 		if (this.registryClient != null) {
-			this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
+			//this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 		

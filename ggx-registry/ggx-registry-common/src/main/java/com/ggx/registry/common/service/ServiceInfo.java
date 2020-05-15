@@ -23,6 +23,9 @@ public class ServiceInfo {
 	//服务组id
 	protected String serviceGroupId;
 	
+	//服务名称
+	protected String serviceName;
+	
 	//服务ip地址
 	protected String host;
 	
@@ -144,6 +147,13 @@ public class ServiceInfo {
 		this.zone = zone;
 	}
 	
+	public String getServiceName() {
+		return serviceName;
+	}
+	
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
 	
 	
 }

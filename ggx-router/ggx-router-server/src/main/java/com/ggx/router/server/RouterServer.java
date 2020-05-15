@@ -11,9 +11,9 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.FilterSupport;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.serializer.ISerializer;
-import com.ggx.core.common.message.request.manager.ReceiveMessageManager;
-import com.ggx.core.common.message.request.support.ReceiveMessageSupport;
-import com.ggx.core.common.message.response.support.SendMessageSupport;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
+import com.ggx.core.common.message.send.support.SendMessageSupport;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
@@ -30,9 +30,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
  * 
  * @author zai 2019-12-05 10:34:03
  */
-public class RouterServer implements
-
-		SendMessageSupport, ReceiveMessageSupport, FilterSupport, ExecutorSupport, EventSupport {
+public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, FilterSupport, ExecutorSupport, EventSupport {
 
 	private RouterServerConfig config;
 	

@@ -10,7 +10,7 @@ import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPing;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
-import com.ggx.core.common.message.response.support.MakePackSupport;
+import com.ggx.core.common.message.send.support.MakePackSupport;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;

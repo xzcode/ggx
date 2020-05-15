@@ -5,7 +5,7 @@ import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.GGPong;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;

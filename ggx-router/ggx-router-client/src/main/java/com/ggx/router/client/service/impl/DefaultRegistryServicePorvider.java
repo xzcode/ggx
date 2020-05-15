@@ -13,7 +13,6 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
@@ -137,33 +136,35 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		
 		if (serviceGroup != null) {
 			
-			//检查是否存在id一样的旧服务
-			RouterService oldService = serviceGroup.getService(serviceId);
-			if (oldService != null) {
-				
-				if (!actionIdPrefix.equals(serviceGroup.getActionIdPrefix())) {
-					//移除信息不一致的旧服务
-					removeService(serviceGroupId, serviceId);
-				}
-				else if (servicePort != oldService.getPort()) {
-					//移除端口信息不一致的旧服务
-					removeService(serviceGroupId, serviceId);
-				}
-				else if (!oldService.isAvailable()) {
-					//移除不可用的旧服务
-					removeService(serviceGroupId, serviceId);
-				}else {
-					return;
+				//检查是否存在id一样的旧服务
+				RouterService oldService = serviceGroup.getService(serviceId);
+				if (oldService != null) {
+					
+					if (!actionIdPrefix.equals(serviceGroup.getActionIdPrefix())) {
+						//移除信息不一致的旧服务
+						removeService(serviceGroupId, serviceId);
+					}
+					else if (servicePort != oldService.getPort()) {
+						//移除端口信息不一致的旧服务
+						removeService(serviceGroupId, serviceId);
+					}
+					else if (!oldService.isAvailable()) {
+						//移除不可用的旧服务
+						removeService(serviceGroupId, serviceId);
+					}else {
+						return;
+					}
 				}
 			}
-			
 			
 			//创建新服务对象
 			RouterService routerService = new RouterService(config, serviceId);
 	        routerService.setHost(service.getHost());
 	        routerService.setPort(servicePort);
 	        routerService.setServiceId(service.getServiceId());
-	        routerService.setServcieName(service.getServiceGroupId());
+	        routerService.setServiceGroupId(service.getServiceGroupId());
+	        routerService.setActionIdPrefix(actionIdPrefix);
+	        routerService.setServiceName(service.getServiceName());
 	        routerService.addAllExtraData(service.getCustomData());
 	        
 	        this.routerServiceManager.addService(routerService);
@@ -179,7 +180,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	        */
 	        routerService.init();
         
-		}
+		
 	}
 
 	@Override

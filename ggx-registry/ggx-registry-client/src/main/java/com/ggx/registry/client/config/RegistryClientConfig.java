@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGClient;
-import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.GGXIdUtil;
@@ -16,7 +15,6 @@ import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.client.registry.RegistryManager;
 import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
-import com.ggx.registry.common.util.RegistryServiceIdUtil;
 
 /**
  * 配置
@@ -34,8 +32,6 @@ public class RegistryClientConfig {
 	
 	//GGClient对象
 	protected GGClient ggclient;
-	
-	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("registry-client-", 1);
 	
 	//GGSession对象
 	protected GGSession session;
@@ -69,6 +65,9 @@ public class RegistryClientConfig {
 	
 	//服务组id
 	protected String serviceGroupId = "default_service_group";
+	
+	//服务名称
+	protected String serviceName;
 	
 	//所在地区
 	protected String region = "default";
@@ -216,9 +215,6 @@ public class RegistryClientConfig {
 	public void setDiscoveryClient(RegistryClient discoveryClient) {
 		this.discoveryClient = discoveryClient;
 	}
-	public TaskExecutor getTaskExecutor() {
-		return taskExecutor;
-	}
 	
 	public AtomicInteger getCustomDataUpdateTimes() {
 		return customDataUpdateTimes;
@@ -238,6 +234,13 @@ public class RegistryClientConfig {
 	
 	public void setPrintPingPongInfo(boolean printPingPongInfo) {
 		this.printPingPongInfo = printPingPongInfo;
+	}
+	
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+	public String getServiceName() {
+		return serviceName;
 	}
 	
 }

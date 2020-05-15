@@ -51,6 +51,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
+		resp.setSerializeType(pack.getSerializeType());
 		return sessionGroupManager.sendToRandomOne(groupId, makePack(new MessageData<>(resp.getActionId(), resp)));
 	}
 

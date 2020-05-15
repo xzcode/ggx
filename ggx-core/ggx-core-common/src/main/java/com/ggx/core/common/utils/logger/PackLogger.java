@@ -105,10 +105,10 @@ public class PackLogger {
 			fillByteList(totalBytes, message);
 		}
 		int packOperType = pack.getOperType();
-		if (packOperType == Pack.OperType.REQUEST) {
+		if (packOperType == Pack.OperType.RECEIVE) {
 			sb.append("\nReceived Pack  <----");
 		}
-		else if (packOperType == Pack.OperType.RESPONSE) {
+		else if (packOperType == Pack.OperType.SEND) {
 			sb.append("\nSended Pack  ---->");
 		}
 		

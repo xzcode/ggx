@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.request.task.MessageDataTask;
+import com.ggx.core.common.message.receive.task.MessageDataTask;
 
 public class DefaultReceivePackHandler implements IReceivePackHandler {
 	

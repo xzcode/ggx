@@ -4,7 +4,7 @@ import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberInfo;

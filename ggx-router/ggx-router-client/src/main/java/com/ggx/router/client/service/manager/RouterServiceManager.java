@@ -28,10 +28,10 @@ public class RouterServiceManager {
 	 * 2020-05-03 13:31:57
 	 */
 	public void addService(RouterService service) {
-		RouterServiceGroup group = this.serviceGroups.get(service.getServiceId());
+		RouterServiceGroup group = this.serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
-			group = new RouterServiceGroup(service.getServiceId());
-			
+			group = new RouterServiceGroup(service.getServiceGroupId());
+			group.setActionIdPrefix(service.getActionIdPrefix());
 			RouterServiceGroup putIfAbsent = this.serviceGroups.putIfAbsent(group.getServiceGroupId(), group);
 			if (putIfAbsent != null) {
 				group = putIfAbsent;

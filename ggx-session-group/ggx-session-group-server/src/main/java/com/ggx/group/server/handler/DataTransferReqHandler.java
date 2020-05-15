@@ -2,8 +2,8 @@ package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.request.action.MessageDataHandler;
-import com.ggx.core.common.message.request.task.MessageDataTask;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.req.DataTransferReq;
