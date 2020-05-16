@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.router.client.service.RouterService;
 
@@ -93,6 +94,23 @@ public class RouterServiceGroup {
 	public RouterService getLowLoadingRouterService() {
 		if (this.sortedServiceList.size() > 0) {
 			return this.sortedServiceList.get(0);
+		}
+		return null;
+	}
+	
+	/**
+	 * 随机获取服务
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-05-16 19:14:52
+	 */
+	public RouterService getRandomRouterService() {
+		if (this.sortedServiceList.size() == 1) {
+			return this.sortedServiceList.get(0);
+		}
+		if (this.sortedServiceList.size() > 1) {
+			return this.sortedServiceList.get(ThreadLocalRandom.current().nextInt(this.sortedServiceList.size()));
 		}
 		return null;
 	}

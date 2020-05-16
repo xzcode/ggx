@@ -31,11 +31,12 @@ public class RegistryServer {
 		
 		GGServerConfig ggConfig = new GGServerConfig();
 		ggConfig.setPingPongEnabled(true);
-		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
+		ggConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		ggConfig.setProtocolType(ProtocolTypeConstants.TCP);
-		ggConfig.setPort(config.getPort());
-		ggConfig.setBossGroupThreadFactory(new GGThreadFactory("discovery-boss-", false));
-		ggConfig.setWorkerGroupThreadFactory(new GGThreadFactory("discovery-worker-", false));
+		ggConfig.setWorkThreadSize(this.config.getWorkThreadSize());
+		ggConfig.setPort(this.config.getPort());
+		ggConfig.setBossGroupThreadFactory(new GGThreadFactory("gg-registry-boss-", false));
+		ggConfig.setWorkerGroupThreadFactory(new GGThreadFactory("gg-registry-worker-", false));
 		ggConfig.init();
 		GGServer ggServer = new GGDefaultServer(ggConfig);
 		

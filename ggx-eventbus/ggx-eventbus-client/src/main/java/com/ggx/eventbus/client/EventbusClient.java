@@ -47,12 +47,20 @@ public class EventbusClient{
 			this.config.setSubscribeManager(new SubscriberManager());
 		}
 		
+		
+		
 		SessionGroupClientConfig sessionGroupClientConfig = new SessionGroupClientConfig();
 		sessionGroupClientConfig.setEnableServiceClient(true);
 		sessionGroupClientConfig.setAuthToken(this.config.getAuthToken());
 		sessionGroupClientConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-cli-", false));
 		sessionGroupClientConfig.setConnectionSize(this.config.getConnectionSize());
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
+		sessionGroupClientConfig.setServerHost(this.config.getServerHost());
+		sessionGroupClientConfig.setServerPort(this.config.getServerPort());
+		
+		if (this.config.getSharedEventLoopGroup() != null) {
+			sessionGroupClientConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());
+		}
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 		

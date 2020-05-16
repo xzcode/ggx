@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
@@ -16,6 +17,8 @@ import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
+
+import io.netty.channel.nio.NioEventLoopGroup;
 
 public class EventbusGroupClient{
 	
@@ -31,6 +34,10 @@ public class EventbusGroupClient{
 	}
 
 	public void init() {
+		
+		if (this.config.getSharedEventLoopGroup() == null) {
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-evt-group-", false)));
+		}
 		
 		RegistryClient registryClient = this.config.getRegistryClient();
 		ServiceManager serviceManager = registryClient.getConfig().getServiceManager();
@@ -52,7 +59,7 @@ public class EventbusGroupClient{
 	public void addEventbusServerService(ServiceInfo serviceInfo) {
 		
 		Map<String, String> customData = serviceInfo.getCustomData();
-		String eventbugGroupId = customData.get(EventbusConstant.DEFAULT_EVENTBUS_GROUP_ID);
+		String eventbugGroupId = customData.get(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY);
 		if (eventbugGroupId == null || !eventbugGroupId.equals(this.config.getEventbusGroupId())) {
 			return;
 		}
@@ -63,6 +70,7 @@ public class EventbusGroupClient{
 		eventbusClientConfig.setServerHost(serviceInfo.getHost());
 		eventbusClientConfig.setServerPort(port);
 		eventbusClientConfig.setSubscribeManager(this.config.getSubscribeManager());
+		eventbusClientConfig.setSharedEventLoopGroup(this.config.getSharedEventLoopGroup());
 		EventbusClient eventbusClient = new EventbusClient(eventbusClientConfig);
 		
 		EventbusClient putIfAbsent = this.eventbusClients.putIfAbsent(serviceInfo.getServiceId(), eventbusClient);

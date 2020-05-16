@@ -10,6 +10,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.send.support.MakePackSupport;
@@ -44,9 +45,11 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	
 	private boolean shutdown;
 	
+	protected TaskExecutor singleThreadEvecutor;
+	
 	public SessionGroupClient(SessionGroupClientConfig config) {
 		this.config = config;
-		config.setSessionGroupClient(this);
+		this.config.setSessionGroupClient(this);
 		init();
 	}
 	
@@ -85,6 +88,9 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 
 		GGClient sessionClient = new GGClient(sessionClientConfig);
 		this.config.setSessionClient(sessionClient);
+		
+		//获取一个单线程执行器
+		this.singleThreadEvecutor = sessionClient.getTaskExecutor().nextEvecutor();
 
 
 		sessionClient.onMessage(AuthResp.ACTION_ID, new AnthRespHandler(this.config));
@@ -176,23 +182,28 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	 * @author zai 2020-04-08 11:45:53
 	 */
 	public void connectOne(String host, int port) {
-		if (shutdown) {
-			return;
-		}
-		GGClient ggclient = config.getSessionClient();
-		ggclient.connect(host, port).addListener(f -> {
+		this.singleThreadEvecutor.submitTask(() -> {
 			if (shutdown) {
 				return;
 			}
-			if (!f.isSuccess()) {
-				// 连接失败，进行进行重连操作
-				GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
-				ggclient.schedule(config.getReconnectInterval(), () -> {
-					connectOne(host, port);
+			GGClient ggclient = config.getSessionClient();
+			ggclient.connect(host, port).addListener(f -> {
+				this.singleThreadEvecutor.submitTask(() -> {
+					if (shutdown) {
+						return;
+					}
+					if (!f.isSuccess()) {
+						// 连接失败，进行进行重连操作
+						GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
+						ggclient.schedule(config.getReconnectInterval(), () -> {
+							connectOne(host, port);
+						});
+						return;
+					}
+					GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
 				});
-				return;
-			}
-			GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
+				
+			});
 		});
 	}
 	
@@ -204,16 +215,18 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	 * 2020-05-04 18:14:02
 	 */
 	public void shutdown(boolean closeExecutors) {
-		if (shutdown) {
-			return;
-		}
-		this.shutdown = true;
-		GGClient sessionClient = config.getSessionClient();
-		if (closeExecutors) {
-			sessionClient.shutdown();
-		}else {
-			sessionClient.getSessionManager().disconnectAllSession();
-		}
+		this.singleThreadEvecutor.submitTask(() -> {
+			if (shutdown) {
+				return;
+			}
+			this.shutdown = true;
+			GGClient sessionClient = config.getSessionClient();
+			if (closeExecutors) {
+				sessionClient.shutdown();
+			}else {
+				sessionClient.getSessionManager().disconnectAllSession();
+			}
+		});
 		
 	}
 	

@@ -27,6 +27,13 @@ public class EventbusGroupClientConfig {
 	//事件组id
 	protected String eventbusGroupId = EventbusConstant.DEFAULT_EVENTBUS_GROUP_ID;
 
+	
+	// 工作线程数
+	protected int workThreadSize = 8;
+
+	// 连接数
+	protected int connectionSize = 8;
+	
 	public RegistryClient getRegistryClient() {
 		return registryClient;
 	}
@@ -54,5 +61,23 @@ public class EventbusGroupClientConfig {
 	public SubscriberManager getSubscribeManager() {
 		return subscribeManager;
 	}
+
+	public int getWorkThreadSize() {
+		return workThreadSize;
+	}
+
+	public void setWorkThreadSize(int workThreadSize) {
+		this.workThreadSize = workThreadSize;
+	}
+
+	public int getConnectionSize() {
+		return connectionSize;
+	}
+
+	public void setConnectionSize(int connectionSize) {
+		this.connectionSize = connectionSize;
+	}
+	
+	
 	
 }

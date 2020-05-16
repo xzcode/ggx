@@ -40,7 +40,9 @@ public class RegistryServerConfig {
 	//所在分区
 	private String zone = "default";
 	
-	
+	// 工作线程数
+	protected int workThreadSize = 8;
+
 
 	public String getAuthToken() {
 		return authToken;
@@ -112,6 +114,13 @@ public class RegistryServerConfig {
 	public void setPrintPingPongInfo(boolean printPingPongInfo) {
 		this.printPingPongInfo = printPingPongInfo;
 	}
-	
+
+	public int getWorkThreadSize() {
+		return workThreadSize;
+	}
+
+	public void setWorkThreadSize(int workThreadSize) {
+		this.workThreadSize = workThreadSize;
+	}
 
 }

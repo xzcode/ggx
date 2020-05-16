@@ -24,7 +24,7 @@ public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer
 
 	@Override
 	public RouterService getRouterService(Pack pack, RouterServiceGroup routerServiceGroup) {
-		
+		RouterService routerService = null;
 		RouterServiceGroupLoadblanceInfo newLoadblanceInfo = sessionBindServiceInfos.get(routerServiceGroup);
 		if (newLoadblanceInfo == null) {
 			newLoadblanceInfo = new RouterServiceGroupLoadblanceInfo();
@@ -41,14 +41,14 @@ public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer
 		if (session != null) {
 			SessionBindRouterServiceInfo info = loadblanceInfo.getSessionBindRouterServiceInfo(session);
 			if (info != null) {
-				RouterService routerService = info.getRouterService();
+				routerService = info.getRouterService();
 				if (!routerService.isAvailable()) {
 					loadblanceInfo.removeSessionBindRouterServiceInfo(session);
 				}
 			}
 		}
 		
-		RouterService routerService = routerServiceGroup.getLowLoadingRouterService();
+		routerService = routerServiceGroup.getRandomRouterService();
 		
 		if (routerService == null) {
 			return null;
