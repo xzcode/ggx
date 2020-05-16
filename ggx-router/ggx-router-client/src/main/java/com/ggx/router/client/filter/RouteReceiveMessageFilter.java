@@ -36,8 +36,10 @@ public class RouteReceiveMessageFilter implements BeforeDeserializeFilter{
 		if (requestMessageManager.getMessageHandler(actionId) != null) {
 			return true;
 		}
-		String serializerType = SerializerFactory.getSerializerType(hostServer.getSerializer());
-		pack.setSerializeType(serializerType);
+		if (pack.getSerializeType() == null) {
+			String serializerType = SerializerFactory.getSerializerType(hostServer.getSerializer());
+			pack.setSerializeType(serializerType);
+		}
 		
 		//如果匹配不到路由,交由后续过滤器处理
 		config.getRouterClient().route(pack)

@@ -57,6 +57,14 @@ public class MessageDataTask implements Runnable{
 			
 			action = new String(pack.getAction(), config.getCharset());
 			
+			if (action.contains("GG.SESSION.GROUP.DATA.TRANSFER.REQ")) {
+				System.out.println();
+			}
+
+			if (action.endsWith("enter.req")) {
+				System.out.println();
+			}
+			
 			if (pack.getMessage() != null) {
 				ReceiveMessageHandlerInfo messageHandler = config.getReceiveMessageManager().getMessageHandler(action);
 				if (messageHandler != null) {

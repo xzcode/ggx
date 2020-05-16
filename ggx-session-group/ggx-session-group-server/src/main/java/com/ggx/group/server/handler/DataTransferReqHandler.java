@@ -70,6 +70,7 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 			
 			//提交任务到业务服务端
 			Pack pack = new Pack(serviceSession, req.getAction(), req.getMessage());
+			pack.setSerializeType(req.getSerializeType());
 			serviceServer.submitTask(new MessageDataTask(pack , serviceServerConfig));
 		}
 	}

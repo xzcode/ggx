@@ -145,7 +145,7 @@ public class RouterService {
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		GGSession routeSession = pack.getSession();
+		//GGSession routeSession = pack.getSession();
 		String routeSessonId = pack.getSession().getSessonId();
 		
 		
