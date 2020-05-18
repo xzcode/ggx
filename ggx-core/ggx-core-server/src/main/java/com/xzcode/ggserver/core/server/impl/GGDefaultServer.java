@@ -3,7 +3,7 @@ package com.xzcode.ggserver.core.server.impl;
 import com.ggx.core.common.future.GGFuture;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
-import com.xzcode.ggserver.core.server.starter.IGGServerStarter;
+import com.xzcode.ggserver.core.server.starter.GGServerStarter;
 import com.xzcode.ggserver.core.server.starter.impl.DefaultGGServerStarter;
 
 /**
@@ -16,7 +16,7 @@ public class GGDefaultServer implements GGServer {
 
 	private GGServerConfig config;
 
-	private IGGServerStarter serverStarter;
+	private GGServerStarter serverStarter;
 	
 
 	public GGDefaultServer(GGServerConfig serverConfig) {

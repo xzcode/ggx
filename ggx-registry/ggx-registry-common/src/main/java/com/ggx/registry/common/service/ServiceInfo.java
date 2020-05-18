@@ -56,26 +56,7 @@ public class ServiceInfo {
 		customData.put(key, value);
 	}
 	
-	/**
-	 * 刷新超时时间
-	 * @param delay
-	 * 
-	 * @author zai
-	 * 2019-10-04 16:39:05
-	 */
-	public void refreshExpireTime() {
-		this.timeoutTimestamp = System.currentTimeMillis() + timeoutDelay;
-	}
 	
-	/**
-	 * 是否超时
-	 * 
-	 * @author zai
-	 * 2020-02-03 16:23:42
-	 */
-	public boolean isTimeout() {
-		return timeoutTimestamp < System.currentTimeMillis();
-	}
 	
 	public String getServiceGroupId() {
 		return serviceGroupId;

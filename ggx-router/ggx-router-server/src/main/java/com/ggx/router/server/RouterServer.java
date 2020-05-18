@@ -42,17 +42,6 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 
 		this.config = config;
 
-		RegistryClient registryClient = config.getRegistryClient();
-		if (registryClient != null) {
-			if (config.getRouterGroupId() != null) {
-				registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,config.getRouterGroupId());
-			}
-			if (config.getActionIdPrefix() != null) {
-				registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
-			}
-			registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(config.getPort()));
-		}
-		
 		init();
 	}
 
@@ -71,6 +60,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		//sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-router-serv-", false));
 		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
+		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
 		
 		
 		if (this.config.getSharedEventLoopGroup() != null) {
@@ -95,7 +85,25 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 	}
 
 	public GGFuture start() {
-		return this.config.getSessionGroupServer().start();
+		GGFuture startFuture = this.config.getSessionGroupServer().start();
+		startFuture.addListener(f -> {
+			if (f.isSuccess()) {
+				
+				RegistryClient registryClient = config.getRegistryClient();
+				if (registryClient != null) {
+					if (config.getRouterGroupId() != null) {
+						registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,config.getRouterGroupId());
+					}
+					if (config.getActionIdPrefix() != null) {
+						registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
+					}
+					registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
+				}
+				
+			}
+		});
+		
+		return startFuture;
 	}
 
 	@Override

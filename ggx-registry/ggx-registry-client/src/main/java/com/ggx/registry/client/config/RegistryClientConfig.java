@@ -36,6 +36,9 @@ public class RegistryClientConfig {
 	//GGSession对象
 	protected GGSession session;
 	
+	//是否打印注册中心信息
+	protected boolean 	showRegistryLog = false;
+	
 	//是否打印pingpong包信息
 	protected boolean 	pingPongEnabled = false;
 	
@@ -212,7 +215,7 @@ public class RegistryClientConfig {
 		return discoveryClient;
 	}
 	
-	public void setDiscoveryClient(RegistryClient discoveryClient) {
+	public void setRegistryClient(RegistryClient discoveryClient) {
 		this.discoveryClient = discoveryClient;
 	}
 	
@@ -242,5 +245,15 @@ public class RegistryClientConfig {
 	public String getServiceName() {
 		return serviceName;
 	}
+
+	public boolean isShowRegistryLog() {
+		return showRegistryLog;
+	}
+
+	public void setShowRegistryLog(boolean showRegistryLog) {
+		this.showRegistryLog = showRegistryLog;
+	}
+	
+	
 	
 }

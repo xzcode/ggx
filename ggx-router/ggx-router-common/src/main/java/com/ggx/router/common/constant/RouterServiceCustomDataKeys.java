@@ -22,4 +22,9 @@ public interface RouterServiceCustomDataKeys {
 	 */
 	String ROUTER_GROUP_ID = "ROUTER_GROUP_ID";
 	
+	/**
+	 * 转发的路由组id
+	 */
+	String FORWARD_ROUTER_GROUP_ID = "FORWARD_ROUTER_GROUP_ID";
+	
 }

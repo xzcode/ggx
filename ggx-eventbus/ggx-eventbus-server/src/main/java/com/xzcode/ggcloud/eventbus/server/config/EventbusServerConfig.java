@@ -40,7 +40,7 @@ public class EventbusServerConfig {
 	protected int workThreadSize = 8;
 	
 	// 连接数
-	protected int connectionSize = 8;
+	protected int connectionSize = 4;
 	
 	//服务端口
 	private int port = EventbusConstant.DEFAULT_SERVER_PORT;

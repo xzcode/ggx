@@ -51,18 +51,23 @@ public class EventbusServer {
 		serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
 		serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
 		
-		//获取注册中心客户端
-		RegistryClient registryClient = this.config.getRegistryClient();
-		if (registryClient != null) {
-			//添加自定义参数
-			//添加自定义事件组id
-			registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY, this.config.getEventbusGroupId());
-			//添加自定义事件服务端端口
-			registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_PORT_KEY, String.valueOf(this.config.getPort()));
-		}
 		
+		GGFuture startFuture = sessionGroupServer.start();
+		startFuture.addListener(f -> {
+			if (f.isSuccess()) {
+				//获取注册中心客户端
+				RegistryClient registryClient = this.config.getRegistryClient();
+				if (registryClient != null) {
+					//添加自定义参数
+					//添加自定义事件组id
+					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY, this.config.getEventbusGroupId());
+					//添加自定义事件服务端端口
+					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_PORT_KEY, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
+				}
+			}
+		});
 		
-		return sessionGroupServer.start();
+		return startFuture;
 	}
 	
 	public void setConfig(EventbusServerConfig config) {

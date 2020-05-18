@@ -1,6 +1,10 @@
 package com.ggx.registry.common.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,6 +41,16 @@ public class ServiceGroup {
 	
 	public Map<String, ServiceInfo> getServices() {
 		return services;
+	}
+	
+	public List<ServiceInfo> getServiceList() {
+		List<ServiceInfo> list = new ArrayList<>();
+		Iterator<Entry<String, ServiceInfo>> serviceIterator = services.entrySet().iterator();
+		while (serviceIterator.hasNext()) {
+			ServiceInfo serviceInfo = (ServiceInfo) serviceIterator.next().getValue();
+			list.add(serviceInfo);
+		}
+		return list;
 	}
 	
 	public String getServiceGroupId() {

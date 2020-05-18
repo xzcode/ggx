@@ -9,7 +9,7 @@ import com.xzcode.ggserver.core.server.config.GGServerConfig;
  * @author zai
  * 2019-12-18 17:27:37
  */
-public interface IGGServerStarter {
+public interface GGServerStarter {
 	
 	/**
 	 * 启动

@@ -19,6 +19,13 @@ public class RegistryServerConfig {
 	//是否打印pingpong包信息
 	protected boolean 	printPingPongInfo = false;
 	
+	//是否打印注册中心信息
+	protected boolean 	showRegistryLog = false;
+	
+	
+	//是否周期性打印服务信息
+	protected boolean 	periodPrintServiceInfos = false;
+	
 	//服务管理器
 	private ServiceManager serviceManager = new ServiceManager();
 	
@@ -122,5 +129,23 @@ public class RegistryServerConfig {
 	public void setWorkThreadSize(int workThreadSize) {
 		this.workThreadSize = workThreadSize;
 	}
+
+	public boolean isShowRegistryLog() {
+		return showRegistryLog;
+	}
+
+	public void setShowRegistryLog(boolean showRegistryLog) {
+		this.showRegistryLog = showRegistryLog;
+	}
+	
+	public boolean isPeriodPrintServiceInfos() {
+		return periodPrintServiceInfos;
+	}
+	
+	public void setPeriodPrintServiceInfos(boolean periodPrintServiceInfos) {
+		this.periodPrintServiceInfos = periodPrintServiceInfos;
+	}
+	
+	
 
 }

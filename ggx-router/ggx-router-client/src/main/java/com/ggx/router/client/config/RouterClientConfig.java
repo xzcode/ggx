@@ -15,6 +15,7 @@ import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.loadblance.impl.DefaultRouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
+import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.xzcode.ggserver.core.server.GGServer;
 
 import io.netty.channel.EventLoopGroup;
@@ -51,7 +52,7 @@ public class RouterClientConfig {
 	protected int workThreadSize = 8;
 
 	// 连接数
-	protected int connectionSize = 8;
+	protected int connectionSize = 4;
 
 
 	// 服务端地址
@@ -112,7 +113,7 @@ public class RouterClientConfig {
 		}
 
 		if (this.registryClient != null) {
-			//this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,getRouterGroupId());
+			this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.FORWARD_ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 		

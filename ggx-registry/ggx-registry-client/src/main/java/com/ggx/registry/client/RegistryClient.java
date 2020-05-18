@@ -9,6 +9,7 @@ import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -22,7 +23,6 @@ import com.ggx.registry.client.handler.ServiceUnregisterRespHandler;
 import com.ggx.registry.client.handler.ServiceUpdateRespHandler;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
-import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
@@ -39,9 +39,11 @@ public class RegistryClient {
 	
 	protected List<ClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
 	
+	protected TaskExecutor singleThreadEvecutor;
+	
 	public RegistryClient(RegistryClientConfig config) {
 		this.config = config;
-		this.config.setDiscoveryClient(this);
+		this.config.setRegistryClient(this);
 	}
 
 	public void start() {
@@ -50,6 +52,9 @@ public class RegistryClient {
 		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
 		ggConfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
 		ggConfig.setProtocolType(ProtocolTypeConstants.TCP);
+		ggConfig.getPackLogger().addPackLogFilter(pack -> {
+			return this.config.isShowRegistryLog();
+		});
 		ggConfig.init();
 		
 		GGClient ggClient = new GGClient(ggConfig);

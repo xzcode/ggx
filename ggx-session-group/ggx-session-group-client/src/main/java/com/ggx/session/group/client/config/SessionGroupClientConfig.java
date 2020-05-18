@@ -59,7 +59,7 @@ public class SessionGroupClientConfig {
 	
 	
 	// 连接数
-	protected int connectionSize = 8;
+	protected int connectionSize = 4;
 	
 	//重连周期 毫秒
 	protected long reconnectInterval = 10L * 1000L;

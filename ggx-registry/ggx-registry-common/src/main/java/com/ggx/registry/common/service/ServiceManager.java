@@ -223,6 +223,24 @@ public class ServiceManager {
 		return list;
 	}
 	
+	/**
+	 * 获取服务组列表
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-05-18 15:38:25
+	 */
+	public List<ServiceGroup> getServiceGroupList() {
+		List<ServiceGroup> list = new ArrayList<>();
+		
+		for (Entry<String, ServiceGroup> groupEntry : serviceGroups.entrySet()) {
+			
+			ServiceGroup serviceGroup = groupEntry.getValue();
+			list.add(serviceGroup);
+		}
+		return list;
+	}
+	
 	public void clearAllServices() {
 		serviceGroups.clear();
 	}
