@@ -7,6 +7,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
+import com.ggx.eventbus.client.subscriber.SubscriberGroup;
 import com.ggx.eventbus.client.subscriber.SubscriberInfo;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 
@@ -39,12 +40,14 @@ public class EventMessageRespHandler implements MessageDataHandler<EventMessageR
 			String subscriberId = resp.getSubscriberId();
 			byte[] eventData = resp.getEventData();
 			
-			
 			SubscriberManager subscribeManager = this.config.getSubscribeManager();
+			
 			SubscriberInfo subscriberInfo = subscribeManager.getSubscriberInfo(eventId, subscriberId);
 			Class<?> clazz = subscriberInfo.getClazz();
 			Object data = this.serializer.deserialize(eventData, clazz);
 			subscribeManager.trigger(eventId, subscriberId, data);
+			
+			
 		} catch (Exception e) {
 			GGLoggerUtil.getLogger(this).error("Eventbus receive message ERROR!", e);
 		}

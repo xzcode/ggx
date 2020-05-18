@@ -124,11 +124,14 @@ public class EventbusClient{
 	public void publishEvent(String eventId, Object data) {
 		try {
 			
-			
 			EventPublishReq publishReq = new EventPublishReq();
-			publishReq.setEventData(this.serviceClient.getConfig().getSerializer().serialize(data));
 			publishReq.setEventId(eventId);
-			publishReq.setSubscriberId(data.getClass().getName());
+			if (data != null) {
+				publishReq.setSubscriberId(data.getClass().getName());
+				publishReq.setEventData(this.serviceClient.getConfig().getSerializer().serialize(data));
+			}else {
+				publishReq.setSubscriberId(Void.class.getName());
+			}
 			
 			SessionManager sessionManager = this.serviceClient.getSessionManager();
 			GGSession session = sessionManager.randomGetSession();

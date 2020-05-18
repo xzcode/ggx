@@ -81,6 +81,19 @@ public class SubscriberManager {
 	}
 	
 	/**
+	 * 
+	 * 获取订阅组
+	 *
+	 * @param eventId
+	 * @return
+	 * @author zai
+	 * 2020-05-18 18:33:14
+	 */
+	public SubscriberGroup getSubscriberGroup(String eventId) {
+		return this.groups.get(eventId);
+	}
+	
+	/**
 	 * 触发订阅器
 	 *
 	 * @param eventId

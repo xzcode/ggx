@@ -41,6 +41,9 @@ public class SubscriberGroup {
 	}
 	
 	public SubscriberInfo getSubscriberInfo(String subscriberId) {
+		if (subscriberId == null) {
+			return this.subscriberInfos.get(Void.class.getName());
+		}
 		return this.subscriberInfos.get(subscriberId);
 	}
 	
