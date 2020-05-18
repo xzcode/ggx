@@ -4,6 +4,7 @@ import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.server.RouterServer;
+import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -44,6 +45,25 @@ public class RouterServerConfig {
 	protected String actionIdPrefix;
 
 	protected RegistryClient registryClient;
+	
+	//如果端口被占用是否更换端口并重新启动
+	protected boolean 	changeAndRebootIfPortInUse = true;
+	
+	//端口更改策略
+	protected String 	portChangeStrategy = PortChangeStrategy.RANDOM;
+	
+	//使用随机端口启动
+	protected boolean 	bootWithRandomPort = false;
+	
+	
+
+	public boolean isBootWithRandomPort() {
+		return bootWithRandomPort;
+	}
+
+	public void setBootWithRandomPort(boolean bootWithRandomPort) {
+		this.bootWithRandomPort = bootWithRandomPort;
+	}
 
 	public void setRegistryClient(RegistryClient registryClient) {
 		this.registryClient = registryClient;
@@ -132,6 +152,24 @@ public class RouterServerConfig {
 	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
 		this.sharedEventLoopGroup = sharedEventLoopGroup;
 	}
+
+	public boolean isChangeAndRebootIfPortInUse() {
+		return changeAndRebootIfPortInUse;
+	}
+
+	public void setChangeAndRebootIfPortInUse(boolean changeAndRebootIfPortInUse) {
+		this.changeAndRebootIfPortInUse = changeAndRebootIfPortInUse;
+	}
+
+	public String getPortChangeStrategy() {
+		return portChangeStrategy;
+	}
+
+	public void setPortChangeStrategy(String portChangeStrategy) {
+		this.portChangeStrategy = portChangeStrategy;
+	}
+	
+	
 	
 	
 }

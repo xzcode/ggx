@@ -5,6 +5,7 @@ import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggcloud.eventbus.server.EventbusServer;
 import com.xzcode.ggcloud.eventbus.server.subscription.SubscriptionManager;
+import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 /**
  * 配置
@@ -49,6 +50,25 @@ public class EventbusServerConfig {
 	
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
+	
+	//如果端口被占用是否更换端口并重新启动
+	protected boolean 	changeAndRebootIfPortInUse = true;
+	
+	//端口更改策略
+	protected String 	portChangeStrategy = PortChangeStrategy.RANDOM;
+	
+	//使用随机端口启动
+	protected boolean 	bootWithRandomPort = false;
+	
+	
+	public boolean isBootWithRandomPort() {
+		return bootWithRandomPort;
+	}
+	
+	public void setBootWithRandomPort(boolean bootWithRandomPort) {
+		this.bootWithRandomPort = bootWithRandomPort;
+	}
+	
 	
 	public String getAuthToken() {
 		return authToken;
@@ -136,6 +156,22 @@ public class EventbusServerConfig {
 	
 	public void setEventbusGroupId(String eventbusGroupId) {
 		this.eventbusGroupId = eventbusGroupId;
+	}
+
+	public boolean isChangeAndRebootIfPortInUse() {
+		return changeAndRebootIfPortInUse;
+	}
+
+	public void setChangeAndRebootIfPortInUse(boolean changeAndRebootIfPortInUse) {
+		this.changeAndRebootIfPortInUse = changeAndRebootIfPortInUse;
+	}
+
+	public String getPortChangeStrategy() {
+		return portChangeStrategy;
+	}
+
+	public void setPortChangeStrategy(String portChangeStrategy) {
+		this.portChangeStrategy = portChangeStrategy;
 	}
 	
 	

@@ -6,6 +6,7 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -58,6 +59,24 @@ public class SessionGroupServerConfig {
 	
 	//是否输出会话组包信息
 	protected boolean printSessionGroupPackLog = false;
+	
+	//如果端口被占用是否更换端口并重新启动
+	protected boolean 	changeAndRebootIfPortInUse = true;
+	
+	//端口更改策略
+	protected String 	portChangeStrategy = PortChangeStrategy.RANDOM;
+	
+	//使用随机端口启动
+	protected boolean 	bootWithRandomPort = false;
+	
+	
+	public boolean isBootWithRandomPort() {
+		return bootWithRandomPort;
+	}
+	
+	public void setBootWithRandomPort(boolean bootWithRandomPort) {
+		this.bootWithRandomPort = bootWithRandomPort;
+	}
 
 	
 	public String getAuthToken() {
@@ -163,6 +182,23 @@ public class SessionGroupServerConfig {
 
 	public void setEnableCustomDataTransferHandler(boolean enableCustomDataTransferHandler) {
 		this.enableCustomDataTransferHandler = enableCustomDataTransferHandler;
+	}
+	
+	
+	public String getPortChangeStrategy() {
+		return portChangeStrategy;
+	}
+
+	public boolean isChangeAndRebootIfPortInUse() {
+		return changeAndRebootIfPortInUse;
+	}
+
+	public void setChangeAndRebootIfPortInUse(boolean changeAndRebootIfPortInUse) {
+		this.changeAndRebootIfPortInUse = changeAndRebootIfPortInUse;
+	}
+
+	public void setPortChangeStrategy(String portChangeStrategy) {
+		this.portChangeStrategy = portChangeStrategy;
 	}
 	
 }

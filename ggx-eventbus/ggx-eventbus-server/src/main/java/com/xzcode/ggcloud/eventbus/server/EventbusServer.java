@@ -4,7 +4,7 @@ import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.group.common.constant.GGSesssionGroupConstant;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -22,30 +22,31 @@ public class EventbusServer {
 		this.config = config;
 	}
 
-	public void start() {
-		SessionGroupServerConfig sessionGroupServerConfig = new SessionGroupServerConfig();
-		sessionGroupServerConfig.setAuthToken(this.config.getAuthToken());
-		sessionGroupServerConfig.setEnableServiceServer(true);
-		sessionGroupServerConfig.setPort(this.config.getPort());
-		sessionGroupServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
-		sessionGroupServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-serv-", false));
+	public GGFuture start() {
+		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
+		sessionServerConfig.setAuthToken(this.config.getAuthToken());
+		sessionServerConfig.setEnableServiceServer(true);
+		sessionServerConfig.setPort(this.config.getPort());
+		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
+		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
+		sessionServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-serv-", false));
+		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
+		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
+		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
 		
 		
-		
-		
-		SessionGroupServer sessionGroupServer = new SessionGroupServer(sessionGroupServerConfig);
+		SessionGroupServer sessionGroupServer = new SessionGroupServer(sessionServerConfig);
 		this.config.setSessionGroupServer(sessionGroupServer);
 		
 		//包日志输出控制
 		if (this.config.isPrintEventbusPackLog()) {
-			sessionGroupServerConfig.getSessionServer().getConfig().getPackLogger().addPackLogFilter(pack -> {
+			sessionServerConfig.getSessionServer().getConfig().getPackLogger().addPackLogFilter(pack -> {
 				String actionString = pack.getActionString();
 				return !(actionString.startsWith(EventbusConstant.ACTION_ID_PREFIX));
 			});
 		}
 		
-		GGServer serviceServer = sessionGroupServerConfig.getServiceServer();
+		GGServer serviceServer = sessionServerConfig.getServiceServer();
 		
 		serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
 		serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
@@ -61,7 +62,7 @@ public class EventbusServer {
 		}
 		
 		
-		sessionGroupServer.start();
+		return sessionGroupServer.start();
 	}
 	
 	public void setConfig(EventbusServerConfig config) {

@@ -8,6 +8,7 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
 import com.ggx.core.common.message.pingpong.model.GGPing;
+import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -17,7 +18,25 @@ public class GGServerConfig extends GGConfig{
 	
 	protected String	host = "0.0.0.0";
 	
+	//当前端口
 	protected int 		port = 9999;
+	
+	
+	
+	//最小随机端口
+	protected int 		minRandomPort = 10000;
+	
+	//最大随机端口
+	protected int 		maxRandomPort = 40000;
+	
+	//使用随机端口启动
+	protected boolean 	bootWithRandomPort = false;
+	
+	//如果端口被占用是否更换端口并重新启动
+	protected boolean 	changeAndRebootIfPortInUse = true;
+	
+	//端口更改策略
+	protected String 	portChangeStrategy = PortChangeStrategy.RANDOM;
 	
 	protected NioEventLoopGroup bossGroup;
 	
@@ -75,5 +94,38 @@ public class GGServerConfig extends GGConfig{
 	public void setServerName(String serverName) {
 		this.serverName = serverName;
 	}
+	
+	public String getPortChangeStrategy() {
+		return portChangeStrategy;
+	}
+	public void setPortChangeStrategy(String portChangeStrategy) {
+		this.portChangeStrategy = portChangeStrategy;
+	}
+	public int getMinRandomPort() {
+		return minRandomPort;
+	}
+	public void setMinRandomPort(int minRandomPort) {
+		this.minRandomPort = minRandomPort;
+	}
+	public int getMaxRandomPort() {
+		return maxRandomPort;
+	}
+	public void setMaxRandomPort(int maxRandomPort) {
+		this.maxRandomPort = maxRandomPort;
+	}
+	public boolean isChangeAndRebootIfPortInUse() {
+		return changeAndRebootIfPortInUse;
+	}
+	public void setChangeAndRebootIfPortInUse(boolean retryRandomPortIfPortInUse) {
+		this.changeAndRebootIfPortInUse = retryRandomPortIfPortInUse;
+	}
+	public boolean isBootWithRandomPort() {
+		return bootWithRandomPort;
+	}
+	public void setBootWithRandomPort(boolean bootWithRandomPort) {
+		this.bootWithRandomPort = bootWithRandomPort;
+	}
+	
+	
 	
 }

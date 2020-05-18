@@ -54,6 +54,9 @@ public class SessionGroupServer {
 		sessionServerConfig.setBossGroupThreadFactory(bossThreadFactory);
 		sessionServerConfig.setWorkerGroupThreadFactory(this.config.getWorkThreadFactory());
 		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
+		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
+		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
+		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
 		
 		if (!this.config.isPrintSessionGroupPackLog()) {
 			sessionServerConfig.getPackLogger().addPackLogFilter(pack -> {

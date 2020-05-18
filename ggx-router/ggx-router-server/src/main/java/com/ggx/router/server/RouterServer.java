@@ -62,26 +62,27 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-router-serv-", false)));
 		}
 
-		SessionGroupServerConfig sessionGroupServerConfig = new SessionGroupServerConfig();
-		sessionGroupServerConfig.setAuthToken(this.config.getAuthToken());
-		sessionGroupServerConfig.setEnableServiceServer(true);
-		sessionGroupServerConfig.setPort(this.config.getPort());
-		sessionGroupServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
-		sessionGroupServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
+		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
+		sessionServerConfig.setAuthToken(this.config.getAuthToken());
+		sessionServerConfig.setEnableServiceServer(true);
+		sessionServerConfig.setPort(this.config.getPort());
+		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
+		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		//sessionGroupServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-router-serv-", false));
-
+		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
+		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
 		
 		
 		if (this.config.getSharedEventLoopGroup() != null) {
-			sessionGroupServerConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());
+			sessionServerConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());
 
 		}
 
-		SessionGroupServer sessionGroupServer = new SessionGroupServer(sessionGroupServerConfig);
-		this.config.setSessionGroupServer(sessionGroupServer);
+		SessionGroupServer sessionServer = new SessionGroupServer(sessionServerConfig);
+		this.config.setSessionGroupServer(sessionServer);
 		
 		
-		this.serviceServer = sessionGroupServerConfig.getServiceServer();
+		this.serviceServer = sessionServerConfig.getServiceServer();
 
 	}
 
