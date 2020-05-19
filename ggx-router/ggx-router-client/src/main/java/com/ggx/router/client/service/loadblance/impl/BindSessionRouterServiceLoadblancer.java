@@ -3,6 +3,7 @@ package com.ggx.router.client.service.loadblance.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.router.client.service.RouterService;
@@ -18,7 +19,7 @@ import com.ggx.router.client.service.loadblance.model.SessionBindRouterServiceIn
  */
 public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadblancer {
 	
-	
+	protected TaskExecutor taskExecutor;
 	
 	protected final Map<RouterServiceGroup, RouterServiceGroupLoadblanceInfo> sessionBindServiceInfos = new ConcurrentHashMap<>(100);
 

@@ -21,6 +21,9 @@ public class DataTransferResp implements Message {
 	
 	// 传递的会话id
 	private String tranferSessionId;
+	
+	//序列化方式
+	private String serializeType;
 
 	/* 消息标识 */
 	private byte[] action;
@@ -56,5 +59,14 @@ public class DataTransferResp implements Message {
 		this.message = message;
 	}
 
+	public String getSerializeType() {
+		return serializeType;
+	}
+
+	public void setSerializeType(String serializeType) {
+		this.serializeType = serializeType;
+	}
+
+	
 
 }

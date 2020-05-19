@@ -60,6 +60,9 @@ public class DataTransferRespHandler implements MessageDataHandler<DataTransferR
 			if (session != null) {
 				//提交任务到业务客户端
 				Pack pack = new Pack(session, resp.getAction(), resp.getMessage());
+				if (resp.getSerializeType() != null) {
+					resp.setSerializeType(pack.getSerializeType());
+				}
 				serviceServer.submitTask(new MessageDataTask(pack , serviceServerConfig));
 			}
 		}

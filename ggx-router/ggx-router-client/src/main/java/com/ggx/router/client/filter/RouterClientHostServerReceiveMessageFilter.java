@@ -9,20 +9,15 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
 import com.xzcode.ggserver.core.server.GGServer;
 
-/**
- * 路由消息过滤器
- * 
- * @author zai
- * 2019-12-18 18:59:37
- */
-public class RouteReceiveMessageFilter implements BeforeDeserializeFilter{
+
+public class RouterClientHostServerReceiveMessageFilter implements BeforeDeserializeFilter{
 	
 	private RouterClientConfig config;
 	
 	private GGServer hostServer;
 	private ReceiveMessageManager requestMessageManager;
 	
-	public RouteReceiveMessageFilter(RouterClientConfig config) {
+	public RouterClientHostServerReceiveMessageFilter(RouterClientConfig config) {
 		this.config = config;
 		this.hostServer = config.getHostServer();
 		this.requestMessageManager = this.hostServer.getReceiveMessageManager();

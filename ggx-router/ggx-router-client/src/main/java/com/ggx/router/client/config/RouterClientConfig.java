@@ -5,7 +5,7 @@ import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
-import com.ggx.router.client.filter.RouteReceiveMessageFilter;
+import com.ggx.router.client.filter.RouterClientHostServerReceiveMessageFilter;
 import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
@@ -106,7 +106,7 @@ public class RouterClientConfig {
 			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("gg-router-", false));
 		}
 		
-		this.hostServer.addBeforeDeserializeFilter(new RouteReceiveMessageFilter(this));
+		this.hostServer.addBeforeDeserializeFilter(new RouterClientHostServerReceiveMessageFilter(this));
 
 		if (routerGroupId == null) {
 			routerGroupId = GGXIdUtil.newRandomStringId24();

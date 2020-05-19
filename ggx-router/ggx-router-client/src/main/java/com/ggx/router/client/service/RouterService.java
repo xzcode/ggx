@@ -14,6 +14,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -111,7 +112,6 @@ public class RouterService {
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 		
-		
 		this.sessionGroupClient = sessionGroupClient;
 		
 		
@@ -124,7 +124,23 @@ public class RouterService {
 		
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
-		
+		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
+		this.serviceClient.addBeforeDeserializeFilter(pack -> {
+			
+			List<String> mappedActions = receiveMessageManager.getMappedActions();
+			String actionString = pack.getActionString();
+			if (mappedActions.contains(actionString)) {
+				return true;
+			}
+			
+			SessionManager sessionManager = this.config.getHostServer().getSessionManager();
+			GGSession session = sessionManager.getSession(pack.getSession().getSessonId());
+			if (session != null) {
+				pack.setSession(session);
+				session.send(pack);
+			}
+			return false;
+		});
 		
 		sessionGroupClient.start();
 		

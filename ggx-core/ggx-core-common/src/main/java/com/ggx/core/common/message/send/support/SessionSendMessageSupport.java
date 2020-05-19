@@ -152,6 +152,10 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		
 		GGSession session = pack.getSession();
 		
+		if (session == null) {
+			session = getSession();
+		}
+		
 		Channel channel = null;
 		if (session != null) {
 			channel = session.getChannel();

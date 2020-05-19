@@ -1,9 +1,9 @@
 package com.ggx.core.common.message.receive.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import com.ggx.core.common.message.MessageData;
@@ -20,6 +20,9 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
 public class DefaultRequestMessageManager implements ReceiveMessageManager {
 
 	private final Map<String, ReceiveMessageHandlerInfo> handlerMap = new ConcurrentHashMap<>();
+	
+	
+	protected final List<String> actionList = new CopyOnWriteArrayList<String>();
 
 	/**
 	 * 调用被缓存的方法
@@ -57,6 +60,7 @@ public class DefaultRequestMessageManager implements ReceiveMessageManager {
 			throw new RuntimeException("Action '"+action+"' has been mapped!");
 		}
 		handlerMap.put(action, receiveMessageHandler);
+		actionList.add(action);
 		if (GGLoggerUtil.getLogger().isInfoEnabled()) {
 			GGLoggerUtil.getLogger().info("GGServer Mapped Message Action: {}", action);
 		}
@@ -85,7 +89,7 @@ public class DefaultRequestMessageManager implements ReceiveMessageManager {
 	 */
 	@Override
 	public List<String> getMappedActions() {
-		return new ArrayList<>(handlerMap.keySet());
+		return actionList;
 	}
 	
 	/**

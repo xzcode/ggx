@@ -5,6 +5,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
@@ -56,6 +57,9 @@ public class DataTransferReqHandler implements MessageDataHandler<DataTransferRe
 			if (serviceSession == null) {
 				String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
 				serviceSession = new GroupServiceServerSession(tranferSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
+				if (req.getSerializeType() != null) {
+					serviceSession.addAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, req.getSerializeType());
+				}
 				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceSession);
 				if (addSessionIfAbsent != null) {
 					serviceSession = (GroupServiceServerSession) addSessionIfAbsent;

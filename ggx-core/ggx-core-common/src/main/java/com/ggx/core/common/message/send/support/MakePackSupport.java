@@ -3,8 +3,11 @@ package com.ggx.core.common.message.send.support;
 import java.nio.charset.Charset;
 
 import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 /**
@@ -44,10 +47,26 @@ public interface MakePackSupport{
 	 */
 	default Pack makePack(MessageData<?> messageData) {
 		try {
-			ISerializer serializer = getSerializer();
+			GGSession session = messageData.getSession();
+			String serType = null;
+			if (session != null) {
+				serType = session.getAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, String.class);
+			}
+			ISerializer serializer;
+			Pack pack = new Pack();
+			if (serType != null) {
+				serializer = SerializerFactory.getSerializer(serType);
+				pack.setSerializeType(serType);
+			}else {
+				serializer = getSerializer();
+			}
 			byte[] actionIdBytes = messageData.getAction().getBytes(getCharset());
 			byte[] messageBytes = messageData.getMessage() == null ? null : serializer.serialize(messageData.getMessage());
-			return new Pack(messageData.getSession(), actionIdBytes, messageBytes);
+			pack.setSession(session);
+			pack.setAction(actionIdBytes);
+			pack.setMessage(messageBytes);
+			
+			return pack;
 		} catch (Exception e) {
 			GGLoggerUtil.getLogger().error("Make pack Error!", e);
 		}

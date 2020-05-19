@@ -14,10 +14,10 @@ import io.netty.util.AttributeKey;
 
 /**
  * 自定协议解析
- *  包体总长度    指令长度         指令内容      数据体
- * +----------+-----------+-----------+------------+
- * | 4 byte   |   1 byte  |    tag    |  data body |
- * +----------+-----------+-----------+------------+
+ *  包体总长度      保留内容         指令长度      指令内容          数据体
+ * +-----------+----------+-----------+-----------+------------+
+ * | 4 bytes   | 2 bytes  |   1 byte  |    tag    |  data body |
+ * +-----------+----------+-----------+-----------+------------+
  * @author zai
  *
  */
@@ -27,11 +27,16 @@ public class DefaultDecodeHandler implements IDecodeHandler {
 	 * 指令长度标识占用字节数
 	 */
 	public static final int ACTION_TAG_LEN = 1;
+	
+	/**
+	 * 保留内容-字节数
+	 */
+	public static final int RESERVE_LEN = 2;
 
 	/**
 	 * 所有标识长度
 	 */
-	public static final int ALL_TAG_LEN = ACTION_TAG_LEN;
+	public static final int ALL_TAG_LEN = RESERVE_LEN + ACTION_TAG_LEN;
 	
 	/**
 	 * 协议类型channel key
@@ -64,6 +69,9 @@ public class DefaultDecodeHandler implements IDecodeHandler {
 			throw new RuntimeException("Unknow protocolType !!");
 		}
 
+		
+		in.readUnsignedShort();//读取预留字节
+		
 		// 读取指令标识
 		int actionLen = in.readByte();
 		byte[] action = new byte[actionLen];

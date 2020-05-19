@@ -41,6 +41,13 @@ public class Pack {
 	/* 包操序列化方式*/
 	private String serializeType;
 	
+	
+	
+
+	public Pack() {
+		super();
+	}
+
 
 	public Pack(byte[] action, byte[] message) {
 		this.action = action;
