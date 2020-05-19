@@ -12,7 +12,7 @@ import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
-import com.ggx.router.client.service.loadblance.impl.DefaultRouterServiceLoadblancer;
+import com.ggx.router.client.service.loadblance.impl.BindSessionRouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
@@ -83,7 +83,7 @@ public class RouterClientConfig {
 	protected RouterServiceMatcher routerServiceMatcher = new RouterServiceActionPrefixMatcher();
 	
 	//路由服务匹配器
-	protected RouterServiceLoadblancer routerServiceLoadblancer = new DefaultRouterServiceLoadblancer();
+	protected RouterServiceLoadblancer routerServiceLoadblancer = new BindSessionRouterServiceLoadblancer();
 	
 	//路由服务管理器
 	protected RouterServiceManager routerServiceManager = new RouterServiceManager();

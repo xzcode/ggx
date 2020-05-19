@@ -43,10 +43,14 @@ public class EventMessageRespHandler implements MessageDataHandler<EventMessageR
 			SubscriberManager subscribeManager = this.config.getSubscribeManager();
 			
 			SubscriberInfo subscriberInfo = subscribeManager.getSubscriberInfo(eventId, subscriberId);
-			Class<?> clazz = subscriberInfo.getClazz();
-			Object data = this.serializer.deserialize(eventData, clazz);
-			subscribeManager.trigger(eventId, subscriberId, data);
-			
+			if (subscriberInfo != null) {
+				Class<?> clazz = subscriberInfo.getClazz();
+				Object data = null;
+				if (clazz != Void.class) {
+					data = this.serializer.deserialize(eventData, clazz);
+				}
+				subscribeManager.trigger(eventId, subscriberId, data);
+			}
 			
 		} catch (Exception e) {
 			GGLoggerUtil.getLogger(this).error("Eventbus receive message ERROR!", e);

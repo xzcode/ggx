@@ -42,12 +42,14 @@ public class EventbusGroupClient{
 		RegistryClient registryClient = this.config.getRegistryClient();
 		ServiceManager serviceManager = registryClient.getConfig().getServiceManager();
 		
+		//
 		serviceManager.addRegisterListener(service -> {
 			addEventbusServerService(service);
 		});
 		
+		//解除注册
 		serviceManager.addUnregisterListener(service -> {
-			addEventbusServerService(service);
+			removeEventbusServerService(service);
 		});
 		
 		serviceManager.addUpdateListener(service -> {

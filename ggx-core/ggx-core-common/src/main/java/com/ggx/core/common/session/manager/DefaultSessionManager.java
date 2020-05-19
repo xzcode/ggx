@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.executor.TaskExecutor;
@@ -38,7 +39,7 @@ public class DefaultSessionManager implements SessionManager {
 	 */
 	protected void startSessionExpireCheckTask() {
 		TaskExecutor taskExecutor = this.config.getTaskExecutor();
-		taskExecutor.schedule(10 * 1000L, () -> {
+		taskExecutor.scheduleWithFixedDelay(10L * 1000L, this.config.getSessionExpireMs(), TimeUnit.MILLISECONDS, () -> {
 			for (Entry<String, GGSession> entry : sessionMap.entrySet()) {
 				GGSession session = entry.getValue();
 				session.checkExpire();

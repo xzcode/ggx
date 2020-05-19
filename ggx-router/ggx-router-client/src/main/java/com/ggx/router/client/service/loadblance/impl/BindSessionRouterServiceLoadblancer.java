@@ -16,7 +16,7 @@ import com.ggx.router.client.service.loadblance.model.SessionBindRouterServiceIn
  *
  * @author zai 2020-05-06 11:48:17
  */
-public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer {
+public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadblancer {
 	
 	
 	
@@ -44,6 +44,8 @@ public class DefaultRouterServiceLoadblancer implements RouterServiceLoadblancer
 				routerService = info.getRouterService();
 				if (!routerService.isAvailable()) {
 					loadblanceInfo.removeSessionBindRouterServiceInfo(session);
+				}else {
+					return routerService;
 				}
 			}
 		}
