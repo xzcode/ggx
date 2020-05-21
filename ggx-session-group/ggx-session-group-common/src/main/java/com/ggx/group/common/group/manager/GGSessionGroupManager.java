@@ -110,6 +110,15 @@ public class GGSessionGroupManager {
 		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
+	
+	public GGSession getRandomOne(String groupId) {
+		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
+		if (sessionGroup != null) {
+			return sessionGroup.getRandomOne();
+		}
+		return null;
+	}
+	
 	/**
 	 * 随机发送到一个会话中
 	 *

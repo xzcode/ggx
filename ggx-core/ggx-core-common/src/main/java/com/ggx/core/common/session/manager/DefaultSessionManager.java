@@ -62,7 +62,7 @@ public class DefaultSessionManager implements SessionManager {
 				
 			});
 		}
-		return session;
+		return putIfAbsent;
 	}
 	
 	@Override

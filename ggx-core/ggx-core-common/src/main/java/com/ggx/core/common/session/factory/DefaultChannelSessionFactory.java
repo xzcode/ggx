@@ -53,7 +53,7 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	public void channelInActive(Channel channel) {
 		GGSession session = getSession(channel);
 		if (session != null) {
-			config.getSessionManager().remove(session.getSessonId());
+			session.disconnect();
 		}
 	}
 

@@ -92,6 +92,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		return send(new MessageData<>((GGSession) this, message.getActionId(), message));
 	}
 	
+	
 	/**
 	 * 发送消息
 	 * 
@@ -133,7 +134,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	default GGFuture send(MessageData<?> messageData) {
 		// 发送过滤器
 		if (!getFilterManager().doSendFilters(messageData)) {
-			return null;
+			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		return send(makePack(messageData));
 	}

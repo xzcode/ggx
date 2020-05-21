@@ -10,17 +10,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.GGClient;
+import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.filter.ReceiveMessageFilter;
+import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
+import com.ggx.router.common.constant.RouterConstant;
+import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
+import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
+import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
@@ -125,11 +138,62 @@ public class RouterService {
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
 		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
+		GGSessionGroupManager sessionGroupManager = sessionGroupClient.getConfig().getSessionGroupManager();
+		
+		GGClientConfig sessionClientConfig = sessionGroupClientConfig.getSessionClient().getConfig();
+		/*
+		 * this.sessionGroupClient.addEventListener(GGSessionGroupEventConstant.
+		 * SESSION_REGISTER_SUCCESS, new EventListener<Void>() {
+		 * 
+		 * @Override public void onEvent(EventData<Void> eventData) {
+		 * 
+		 * GGSession groupSession = eventData.getSession();
+		 * 
+		 * SessionManager serviceClientSessionManager =
+		 * serviceClient.getSessionManager();
+		 * 
+		 * GGSession serviceClientSession = new
+		 * GroupServiceClientSession(groupSession.getSessonId(),
+		 * sessionGroupClient.getConfig().getSessionGroupId(), sessionGroupManager,
+		 * sessionClientConfig);
+		 * 
+		 * serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
+		 * 
+		 * serviceClientSession.addDisconnectListener(se -> {
+		 * serviceClientSessionManager.remove(groupSession.getSessonId()); }); } });
+		 */
+		
+		this.serviceClient.addSendFilter(new SendMessageFilter() {
+			
+			@Override
+			public boolean doFilter(MessageData<?> data) {
+				GGSession session = data.getSession();
+				String action = data.getAction();
+				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+					session.send(session.makePack(data));
+					return false;
+				}
+				return true;
+			}
+		});
+		
+		this.serviceClient.addReceiveFilter(new ReceiveMessageFilter() {
+			
+			@Override
+			public boolean doFilter(MessageData<?> data) {
+				String action = data.getAction();
+				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+					serviceClient.getReceiveMessageManager().handle(data);
+					return false;
+				}
+				return true;
+			}
+		});
+		
 		this.serviceClient.addBeforeDeserializeFilter(pack -> {
 			
-			List<String> mappedActions = receiveMessageManager.getMappedActions();
 			String actionString = pack.getActionString();
-			if (mappedActions.contains(actionString)) {
+			if (receiveMessageManager.getMessageHandler(actionString) != null) {
 				return true;
 			}
 			
@@ -140,6 +204,40 @@ public class RouterService {
 				session.send(pack);
 			}
 			return false;
+		});
+		
+		//监听session断开回传
+		this.serviceClient.onMessage(RouterSessionDisconnectTransferResp.ACTION_ID, new MessageDataHandler<RouterSessionDisconnectTransferResp>() {
+
+			@Override
+			public void handle(MessageData<RouterSessionDisconnectTransferResp> messageData) {
+				
+					RouterSessionDisconnectTransferResp resp = messageData.getMessage();
+					String tranferSessionId = resp.getTranferSessionId();
+					SessionManager sessionManager = serviceClient.getSessionManager();
+					GGSession session = sessionManager.getSession(tranferSessionId);
+					if (session != null) {
+						
+						session.disconnect();
+						
+						
+						//判断是否继续处理会话断开推送传递
+						if (RouterService.this.config.isSessionDisconnectTransferResponseEnabled()) {
+							
+							SessionManager hostServersessionManager = config.getHostServer().getSessionManager();
+							GGSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
+							if (hostServerSession != null) {
+								hostServerSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
+								hostServerSession.send(resp).addListener(f -> {
+									hostServerSession.disconnect();
+								});
+							}
+						}
+						
+					}
+				}
+				
+			
 		});
 		
 		sessionGroupClient.start();
@@ -161,7 +259,7 @@ public class RouterService {
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		//GGSession routeSession = pack.getSession();
+		GGSession routeSession = pack.getSession();
 		String routeSessonId = pack.getSession().getSessonId();
 		
 		
@@ -175,11 +273,31 @@ public class RouterService {
 			GGSession addSessionIfAbsent = serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
 				serviceClientSession = addSessionIfAbsent;
+			}else {
+				GGSession finalServiceClientSession = serviceClientSession;
+				//服务session断开后，通知下一个路由节点session已断开
+				routeSession.addDisconnectListener(sesssion -> {
+					Integer tranType = sesssion.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
+					if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
+						finalServiceClientSession.disconnect();
+						return;
+					}
+					
+					//判断是否开启会话断开传递请求
+					if (this.config.isSessionDisconnectTransferReuestEnabled()) {
+						//传递会话断开请求
+						finalServiceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessonId())).addListener(f -> {
+							//断开当前session
+							finalServiceClientSession.disconnect();
+						});
+					}else {
+						finalServiceClientSession.disconnect();
+					}
+				});
 			}
 		}
-		serviceClientSession.send(pack);
+		return serviceClientSession.send(pack);
 		
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 

@@ -25,6 +25,9 @@ public class MessageData<T> {
 	//通道
 	private Channel channel;
 	
+	//是否穿越过滤器
+	private boolean crossFilters;
+	
 	
 	
 	public MessageData(GGSession session, String action, T message) {
@@ -70,6 +73,12 @@ public class MessageData<T> {
 		this.message = message;
 	}
 	
+	public boolean isCrossFilters() {
+		return crossFilters;
+	}
 	
+	public void setCrossFilters(boolean crossFilters) {
+		this.crossFilters = crossFilters;
+	}
 	
 }

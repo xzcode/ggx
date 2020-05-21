@@ -102,6 +102,19 @@ public interface GGSessionGroup extends MakePackSupport {
 		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	default GGSession getRandomOne() {
+		Map<String, GGSession> sessionMap = getSessionMap();
+		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
+		int size = entrySet.size();
+		if (size == 0) {
+			return null;
+		}
+		//获取随机会话
+		return (GGSession) ((Entry<String, GGSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
+	}
+	
 	/**
 	 * 随机发送到一个会话中
 	 *

@@ -8,9 +8,6 @@ import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
@@ -74,7 +71,7 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 				try {
 					lis.onDisconnect(this);
 				} catch (Exception e) {
-					GGLoggerUtil.getLogger(this).error("Session disconnect Error!", e);
+					GGLoggerUtil.getLogger(this).error("Session disconnect listener Error!", e);
 				}
 			}
 		}
@@ -114,17 +111,6 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 		return this;
 	}
 
-	@Override
-	public GGFuture disconnect() {
-		if (this.getChannel() != null) {
-			GGNettyFuture future = new GGNettyFuture(this.getChannel().close());
-			future.addListener(f -> {
-				triggerDisconnectListeners();
-			});
-			return future;
-		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
-	}
 
 	@Override
 	public String getHost() {

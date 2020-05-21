@@ -5,6 +5,7 @@ import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
+import com.ggx.router.client.dispatch.SessionRouterServiceDispatchRecordManager;
 import com.ggx.router.client.filter.RouterClientHostServerReceiveMessageFilter;
 import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
@@ -87,6 +88,14 @@ public class RouterClientConfig {
 	
 	//路由服务管理器
 	protected RouterServiceManager routerServiceManager = new RouterServiceManager();
+	//路由服务管理器
+	protected SessionRouterServiceDispatchRecordManager dispatchRecordManager = new SessionRouterServiceDispatchRecordManager();
+	
+	//会话断开请求传递是否开启
+	protected boolean 	sessionDisconnectTransferReuestEnabled = true;
+	
+	//会话断开推送传递是否开启
+	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {
@@ -271,6 +280,30 @@ public class RouterClientConfig {
 	
 	public void setEventbusGroupClient(EventbusGroupClient eventbusGroupClient) {
 		this.eventbusGroupClient = eventbusGroupClient;
+	}
+
+	public SessionRouterServiceDispatchRecordManager getDispatchRecordManager() {
+		return dispatchRecordManager;
+	}
+
+	public void setDispatchRecordManager(SessionRouterServiceDispatchRecordManager dispatchRecordManager) {
+		this.dispatchRecordManager = dispatchRecordManager;
+	}
+
+	public boolean isSessionDisconnectTransferReuestEnabled() {
+		return sessionDisconnectTransferReuestEnabled;
+	}
+
+	public void setSessionDisconnectTransferReuestEnabled(boolean sessionDisconnectTransferReuestEnabled) {
+		this.sessionDisconnectTransferReuestEnabled = sessionDisconnectTransferReuestEnabled;
+	}
+
+	public boolean isSessionDisconnectTransferResponseEnabled() {
+		return sessionDisconnectTransferResponseEnabled;
+	}
+
+	public void setSessionDisconnectTransferResponseEnabled(boolean sessionDisconnectTransferRsponseEnabled) {
+		this.sessionDisconnectTransferResponseEnabled = sessionDisconnectTransferRsponseEnabled;
 	}
 	
 	

@@ -1,6 +1,8 @@
 package com.ggx.core.common.session.impl;
 
 import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGNettyFuture;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -62,5 +64,14 @@ public class DefaultChannelSession extends AbstractSession<GGConfig> {
 		public String getGroupId() {
 			return null;
 		}
+
+	@Override
+	public GGFuture disconnect() {
+		GGNettyFuture future = new GGNettyFuture(this.getChannel().close());
+		future.addListener(f -> {
+			triggerDisconnectListeners();
+		});
+		return future;
+	}
 	
 }

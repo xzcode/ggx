@@ -11,7 +11,7 @@ public interface RouterConstant {
 	/**
 	 * 指令前缀
 	 */
-	String ACTION_ID_PREFIX = "GG.ROUTER.";
+	String ACTION_ID_PREFIX = "GG.ROUTER";
 	
 	/**
 	 * 默认服务地址
@@ -41,5 +41,12 @@ public interface RouterConstant {
 	 * 默认转发路由组
 	 */
 	String DEFAULT_FORWARD_ROUTER_GROUP = "default_forward_router_group";
+	
+	
+	/**
+	 * 路由会话断开连接传递类型
+	 */
+	String ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY = "ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE";
+
 
 }

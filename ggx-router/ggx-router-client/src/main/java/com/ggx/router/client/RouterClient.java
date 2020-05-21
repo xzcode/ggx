@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 
@@ -34,6 +33,11 @@ public class RouterClient{
 			//进行服务匹配
 			RouterService matchService = config.getServiceProvider().matchService(pack);
 			if (matchService != null) {
+				/*
+				 * SessionRouterServiceDispatchRecordManager dispatchRecordManager =
+				 * this.config.getDispatchRecordManager();
+				 * dispatchRecordManager.addService(pack.getSession(), matchService);
+				 */
 				return matchService.dispatch(pack);
 			}
 		} catch (Exception e) {

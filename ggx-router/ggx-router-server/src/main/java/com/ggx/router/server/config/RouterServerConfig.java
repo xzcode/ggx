@@ -55,6 +55,12 @@ public class RouterServerConfig {
 	//使用随机端口启动
 	protected boolean 	bootWithRandomPort = false;
 	
+	//会话断开请求传递是否开启
+	protected boolean 	sessionDisconnectTransferReuestEnabled = true;
+	
+	//会话断开推送传递是否开启
+	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
+	
 	
 
 	public boolean isBootWithRandomPort() {
@@ -167,6 +173,22 @@ public class RouterServerConfig {
 
 	public void setPortChangeStrategy(String portChangeStrategy) {
 		this.portChangeStrategy = portChangeStrategy;
+	}
+
+	public boolean isSessionDisconnectTransferReuestEnabled() {
+		return sessionDisconnectTransferReuestEnabled;
+	}
+
+	public void setSessionDisconnectTransferReuestEnabled(boolean sessionDisconnectTransferReuestEnabled) {
+		this.sessionDisconnectTransferReuestEnabled = sessionDisconnectTransferReuestEnabled;
+	}
+
+	public boolean isSessionDisconnectTransferResponseEnabled() {
+		return sessionDisconnectTransferResponseEnabled;
+	}
+
+	public void setSessionDisconnectTransferResponseEnabled(boolean sessionDisconnectTransferRsponseEnabled) {
+		this.sessionDisconnectTransferResponseEnabled = sessionDisconnectTransferRsponseEnabled;
 	}
 	
 	
