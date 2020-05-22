@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -14,12 +17,12 @@ import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
-import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 
 /**
@@ -35,15 +38,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	 */
 	protected RouterClientConfig config;
 	
-	/**
-	 * 添加路由服务监听器
-	 */
-	protected List<AddRouterServiceListener> addRouterServiceListeners = new ArrayList<>();
-	
-	/**
-	 * 移除路由服务监听器
-	 */
-	protected List<RemoveRouterServiceListener> removeRouterServiceListeners = new ArrayList<>();
+
 	
 	/**
 	 * 路由服务管理器
@@ -209,19 +204,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public RouterService matchService(Pack pack) {
+	public GGFuture dispatch(Pack pack) {
 		String actionId = pack.getActionString();
-		RouterService routerService = null;
-		RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
 		
 		//尝试从缓存中获取服务
 		RouterServiceGroup routerServiceGroup = actionServiceCache.get(actionId);
 		if (routerServiceGroup != null) {
 			
-			//通过负载均衡策略，获取适用的服务对象，进行返回
-			routerService = loadblancer.getRouterService(pack, routerServiceGroup);
 			
-			return routerService;
+			return routerServiceGroup.dispatch(pack);
 		}
 		
 		Map<String, RouterServiceGroup> serviceGroups = this.routerServiceManager.getServiceGroups();
@@ -236,39 +227,12 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 					//添加服务组到缓存
 					actionServiceCache.put(actionId, routerServiceGroup);
 					
-					//过负载均衡策略，获取适用的服务对象，进行返回
-					routerService = loadblancer.getRouterService(pack, routerServiceGroup);
+					return routerServiceGroup.dispatch(pack);
 				}
 			}
 		}
 		
-		return routerService;
+		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
-
-	@Override
-	public void addListener(RouterServiceListener listener) {
-		if (listener instanceof AddRouterServiceListener) {
-			addRouterServiceListeners.add((AddRouterServiceListener) listener);
-			return;
-		}
-		if (listener instanceof RemoveRouterServiceListener) {
-			removeRouterServiceListeners.add((RemoveRouterServiceListener) listener);
-			return;
-		}
-	}
-
-	@Override
-	public void removeListener(RouterServiceListener listener) {
-		if (listener instanceof AddRouterServiceListener) {
-			addRouterServiceListeners.remove((AddRouterServiceListener) listener);
-			return;
-		}
-		if (listener instanceof RemoveRouterServiceListener) {
-			removeRouterServiceListeners.remove((RemoveRouterServiceListener) listener);
-			return;
-		}
-	}
-
-	
 }

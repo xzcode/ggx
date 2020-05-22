@@ -1,8 +1,9 @@
 package com.ggx.router.client.service.loadblance;
 
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.group.RouterServiceGroup;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 路由服务负载均衡器
@@ -20,6 +21,8 @@ public interface RouterServiceLoadblancer {
 	 * @author zai
 	 * 2020-05-06 11:38:52
 	 */
-	RouterService getRouterService(Pack pack, RouterServiceGroup routerServiceGroup);
+	GGFuture dispatch(Pack pack);
+
+	void setRouterServiceGroup(RouterServiceGroup routerServiceGroup);
 	
 }

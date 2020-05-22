@@ -7,10 +7,9 @@ import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.service.RouterService;
 
 /**
- * 默认网关路由器
+ * 路由客户端
  * 
  * 
  * @author zai
@@ -30,16 +29,7 @@ public class RouterClient{
 	
 	public GGFuture route(Pack pack) {
 		try {
-			//进行服务匹配
-			RouterService matchService = config.getServiceProvider().matchService(pack);
-			if (matchService != null) {
-				/*
-				 * SessionRouterServiceDispatchRecordManager dispatchRecordManager =
-				 * this.config.getDispatchRecordManager();
-				 * dispatchRecordManager.addService(pack.getSession(), matchService);
-				 */
-				return matchService.dispatch(pack);
-			}
+				return config.getServiceProvider().dispatch(pack);
 		} catch (Exception e) {
 			LOGGER.error("Route Message Error!", e);
 		}

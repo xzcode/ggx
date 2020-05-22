@@ -5,8 +5,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.group.RouterServiceGroup;
+import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 路由服务管理器
@@ -14,12 +16,23 @@ import com.ggx.router.client.service.group.RouterServiceGroup;
  * @author zai 2020-05-03 04:00:16
  */
 public class RouterServiceManager {
+	
+	
+	/**
+	 * 路由配置
+	 */
+	protected RouterClientConfig config;
 
 	/**
 	 * 服务组集合Map<服务组id,服务组对象>
 	 */
 	protected final Map<String, RouterServiceGroup> serviceGroups = new ConcurrentHashMap<>();
 	
+	
+	public RouterServiceManager(RouterClientConfig config) {
+		this.config = config;
+	}
+
 	/**
 	 * 添加服务
 	 *
@@ -30,7 +43,8 @@ public class RouterServiceManager {
 	public void addService(RouterService service) {
 		RouterServiceGroup group = this.serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
-			group = new RouterServiceGroup(service.getServiceGroupId());
+			RouterServiceLoadblancerFactory routerServiceLoadblancerFactory = this.config.getRouterServiceLoadblancerFactory();
+			group = new RouterServiceGroup(service.getServiceGroupId(), routerServiceLoadblancerFactory.getLoadblancer(this.config.getRouterServiceLoadblanceType()));
 			group.setActionIdPrefix(service.getActionIdPrefix());
 			RouterServiceGroup putIfAbsent = this.serviceGroups.putIfAbsent(group.getServiceGroupId(), group);
 			if (putIfAbsent != null) {

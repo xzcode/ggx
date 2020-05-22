@@ -1,19 +1,19 @@
 package com.ggx.router.client.config;
 
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.RouterClient;
-import com.ggx.router.client.dispatch.SessionRouterServiceDispatchRecordManager;
 import com.ggx.router.client.filter.RouterClientHostServerReceiveMessageFilter;
 import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
-import com.ggx.router.client.service.loadblance.impl.BindSessionRouterServiceLoadblancer;
+import com.ggx.router.client.service.loadblance.constant.RouterServiceLoadblanceType;
+import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
@@ -83,19 +83,20 @@ public class RouterClientConfig {
 	//路由服务匹配器
 	protected RouterServiceMatcher routerServiceMatcher = new RouterServiceActionPrefixMatcher();
 	
-	//路由服务匹配器
-	protected RouterServiceLoadblancer routerServiceLoadblancer = new BindSessionRouterServiceLoadblancer();
+	//路由服务负载均衡器类型
+	protected String routerServiceLoadblanceType = RouterServiceLoadblanceType.HASH;
 	
 	//路由服务管理器
-	protected RouterServiceManager routerServiceManager = new RouterServiceManager();
-	//路由服务管理器
-	protected SessionRouterServiceDispatchRecordManager dispatchRecordManager = new SessionRouterServiceDispatchRecordManager();
+	protected RouterServiceManager routerServiceManager = new RouterServiceManager(this);
 	
 	//会话断开请求传递是否开启
 	protected boolean 	sessionDisconnectTransferReuestEnabled = true;
 	
 	//会话断开推送传递是否开启
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
+	
+	//路由服务负载均衡器工厂
+	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new RouterServiceLoadblancerFactory(this);
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {
@@ -134,6 +135,10 @@ public class RouterClientConfig {
 			this.serviceProvider = new DefaultServicePorvider(this);
 		}
 		
+	}
+	
+	public TaskExecutor getSingleThreadTaskExecutor() {
+		return this.getHostServer().getTaskExecutor().nextEvecutor();
 	}
 
 	public RouterServiceProvider getServiceProvider() {
@@ -258,14 +263,16 @@ public class RouterClientConfig {
 		this.routerServiceMatcher = routerServiceMatcher;
 	}
 	
-	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
-		return routerServiceLoadblancer;
-	}
 	
-	public void setRouterServiceLoadblancer(RouterServiceLoadblancer routerServiceLoadblancer) {
-		this.routerServiceLoadblancer = routerServiceLoadblancer;
-	}
 	
+	public String getRouterServiceLoadblanceType() {
+		return routerServiceLoadblanceType;
+	}
+
+	public void setRouterServiceLoadblanceType(String routerServiceLoadblanceType) {
+		this.routerServiceLoadblanceType = routerServiceLoadblanceType;
+	}
+
 	public RouterServiceManager getRouterServiceManager() {
 		return routerServiceManager;
 	}
@@ -282,14 +289,6 @@ public class RouterClientConfig {
 		this.eventbusGroupClient = eventbusGroupClient;
 	}
 
-	public SessionRouterServiceDispatchRecordManager getDispatchRecordManager() {
-		return dispatchRecordManager;
-	}
-
-	public void setDispatchRecordManager(SessionRouterServiceDispatchRecordManager dispatchRecordManager) {
-		this.dispatchRecordManager = dispatchRecordManager;
-	}
-
 	public boolean isSessionDisconnectTransferReuestEnabled() {
 		return sessionDisconnectTransferReuestEnabled;
 	}
@@ -304,6 +303,14 @@ public class RouterClientConfig {
 
 	public void setSessionDisconnectTransferResponseEnabled(boolean sessionDisconnectTransferRsponseEnabled) {
 		this.sessionDisconnectTransferResponseEnabled = sessionDisconnectTransferRsponseEnabled;
+	}
+
+	public RouterServiceLoadblancerFactory getRouterServiceLoadblancerFactory() {
+		return routerServiceLoadblancerFactory;
+	}
+
+	public void setRouterServiceLoadblancerFactory(RouterServiceLoadblancerFactory routerServiceLoadblancerFactory) {
+		this.routerServiceLoadblancerFactory = routerServiceLoadblancerFactory;
 	}
 	
 	

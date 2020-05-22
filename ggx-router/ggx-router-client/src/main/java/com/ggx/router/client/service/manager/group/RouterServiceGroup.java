@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.group;
+package com.ggx.router.client.service.manager.group;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
+import com.ggx.router.client.service.listener.AddRouterServiceListener;
+import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 
 /**
  * 路由服务组
@@ -36,10 +42,29 @@ public class RouterServiceGroup {
 	 */
 	protected final List<RouterService> sortedServiceList = new CopyOnWriteArrayList<RouterService>();
 	
+	/**
+	 * 添加路由服务监听器
+	 */
+	protected List<AddRouterServiceListener> addRouterServiceListeners = new CopyOnWriteArrayList<>();
+	
+	/**
+	 * 移除路由服务监听器
+	 */
+	protected List<RemoveRouterServiceListener> removeRouterServiceListeners = new CopyOnWriteArrayList<>();
+	
+	/**
+	 * 路由服务负载均衡器
+	 */
+	protected RouterServiceLoadblancer routerServiceLoadblancer; 
+	
+	
+	
 
-	public RouterServiceGroup(String serviceGroupId) {
+	public RouterServiceGroup(String serviceGroupId, RouterServiceLoadblancer routerServiceLoadblancer) {
 		super();
 		this.serviceGroupId = serviceGroupId;
+		this.routerServiceLoadblancer = routerServiceLoadblancer;
+		this.routerServiceLoadblancer.setRouterServiceGroup(this);
 	}
 	
 	
@@ -91,11 +116,8 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-06 17:27:52
 	 */
-	public RouterService getLowLoadingRouterService() {
-		if (this.sortedServiceList.size() > 0) {
-			return this.sortedServiceList.get(0);
-		}
-		return null;
+	public GGFuture dispatch(Pack pack) {
+		return this.routerServiceLoadblancer.dispatch(pack);
 	}
 	
 	/**
@@ -113,6 +135,30 @@ public class RouterServiceGroup {
 			return this.sortedServiceList.get(ThreadLocalRandom.current().nextInt(this.sortedServiceList.size()));
 		}
 		return null;
+	}
+	
+	/**
+	 * 随机转发
+	 *
+	 * @param pack
+	 * @return
+	 * @author zai
+	 * 2020-05-22 18:24:40
+	 */
+	public GGFuture dispatchRandom(Pack pack) {
+		RouterService randomRouterService = this.getRandomRouterService();
+		if (randomRouterService != null) {
+			return randomRouterService.dispatch(pack);
+		}
+		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+	}
+	
+	public void addAddRouterServiceListener(AddRouterServiceListener listener) {
+		addRouterServiceListeners.add(listener);
+	}
+
+	public void addRemoveRouterServiceListener(RemoveRouterServiceListener listener) {
+		removeRouterServiceListeners.add(listener);
 	}
 	
 	public String getServiceGroupId() {
@@ -135,5 +181,8 @@ public class RouterServiceGroup {
 		this.actionIdPrefix = actionIdPrefix;
 	}
 
+	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
+		return routerServiceLoadblancer;
+	}
 
 }

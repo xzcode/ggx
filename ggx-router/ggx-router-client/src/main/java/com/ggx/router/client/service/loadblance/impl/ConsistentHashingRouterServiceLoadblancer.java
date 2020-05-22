@@ -1,14 +1,14 @@
 package com.ggx.router.client.service.loadblance.impl;
 
 import java.util.TreeMap;
+
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.loadblance.impl.model.VirtualRouterServiceInfo;
-import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 一致性哈希路由服务负载均衡器
@@ -23,14 +23,9 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	protected TaskExecutor taskExecutor;
 	
 	/**
-	 * 路由客户端配置
-	 */
-	protected RouterClientConfig config;
-	
-	/**
 	 * 路由服务管理器
 	 */
-	protected RouterServiceManager routerServiceManager;
+	protected RouterServiceGroup routerServiceGroup;
 	
 	/**
 	 * 虚拟路由服务集合
@@ -38,18 +33,16 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	protected final TreeMap<String, VirtualRouterServiceInfo> virtualRouterServices = new TreeMap<>();
 	
 	
-	
-	public ConsistentHashingRouterServiceLoadblancer(TaskExecutor taskExecutor, RouterClientConfig config) {
+	public ConsistentHashingRouterServiceLoadblancer(TaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
-		this.config = config;
-		this.routerServiceManager = this.config.getRouterServiceManager();
+		
 	}
 
 	@Override
-	public RouterService getRouterService(Pack pack, RouterServiceGroup routerServiceGroup) {
+	public GGFuture dispatch(Pack pack) {
 		RouterService routerService = null;
 		
-		return routerService;
+		return routerService.dispatch(pack);
 	}
 
 	/*
@@ -70,6 +63,11 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		if (hash < 0)
 			hash = Math.abs(hash);
 		return hash;
+	}
+
+	@Override
+	public void setRouterServiceGroup(RouterServiceGroup routerServiceGroup) {
+		this.routerServiceGroup = routerServiceGroup;
 	}
 
 }

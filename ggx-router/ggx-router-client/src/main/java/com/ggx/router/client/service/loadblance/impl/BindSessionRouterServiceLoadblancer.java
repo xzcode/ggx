@@ -1,16 +1,16 @@
 package com.ggx.router.client.service.loadblance.impl;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.loadblance.model.RouterServiceGroupLoadblanceInfo;
 import com.ggx.router.client.service.loadblance.model.SessionBindRouterServiceInfo;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 默认路由服务负载均衡器
@@ -19,23 +19,20 @@ import com.ggx.router.client.service.loadblance.model.SessionBindRouterServiceIn
  */
 public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadblancer {
 	
-	protected TaskExecutor taskExecutor;
 	
-	protected final Map<RouterServiceGroup, RouterServiceGroupLoadblanceInfo> sessionBindServiceInfos = new ConcurrentHashMap<>(100);
+
+	protected RouterServiceGroup routerServiceGroup;
+	
+	protected RouterServiceGroupLoadblanceInfo loadblanceInfo;
+	
+	public BindSessionRouterServiceLoadblancer() {
+		this.loadblanceInfo = new RouterServiceGroupLoadblanceInfo();
+	}
 
 	@Override
-	public RouterService getRouterService(Pack pack, RouterServiceGroup routerServiceGroup) {
+	public GGFuture dispatch(Pack pack) {
 		RouterService routerService = null;
-		RouterServiceGroupLoadblanceInfo newLoadblanceInfo = sessionBindServiceInfos.get(routerServiceGroup);
-		if (newLoadblanceInfo == null) {
-			newLoadblanceInfo = new RouterServiceGroupLoadblanceInfo();
-			RouterServiceGroupLoadblanceInfo putIfAbsent = sessionBindServiceInfos.putIfAbsent(routerServiceGroup, newLoadblanceInfo);
-			if (putIfAbsent != null) {
-				newLoadblanceInfo = putIfAbsent;
-			}
-		}
 		
-		RouterServiceGroupLoadblanceInfo loadblanceInfo = newLoadblanceInfo;
 		
 		GGSession session = pack.getSession();
 		
@@ -46,7 +43,7 @@ public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadbla
 				if (!routerService.isAvailable()) {
 					loadblanceInfo.removeSessionBindRouterServiceInfo(session);
 				}else {
-					return routerService;
+					return routerService.dispatch(pack);
 				}
 			}
 		}
@@ -54,7 +51,7 @@ public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadbla
 		routerService = routerServiceGroup.getRandomRouterService();
 		
 		if (routerService == null) {
-			return null;
+			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		
 		Map<String, RouterService> services = routerServiceGroup.getServices();
@@ -72,7 +69,12 @@ public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadbla
 		}
 		
 		
-		return routerService;
+		return routerService.dispatch(pack);
+	}
+
+	@Override
+	public void setRouterServiceGroup(RouterServiceGroup routerServiceGroup) {
+		this.routerServiceGroup = routerServiceGroup;
 	}
 
 }

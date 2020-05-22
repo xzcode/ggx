@@ -1,9 +1,9 @@
 package com.ggx.router.client.service.loadblance.impl;
 
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 随机路由服务负载均衡器
@@ -13,11 +13,21 @@ import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
  */
 public class RandomRouterServiceLoadblancer implements RouterServiceLoadblancer {
 	
+	protected RouterServiceGroup routerServiceGroup;
+	
 	
 
+
+
+
 	@Override
-	public RouterService getRouterService(Pack pack, RouterServiceGroup routerServiceGroup) {
-		return routerServiceGroup.getRandomRouterService();
+	public GGFuture dispatch(Pack pack) {
+		return routerServiceGroup.dispatchRandom(pack);
+	}
+
+	@Override
+	public void setRouterServiceGroup(RouterServiceGroup routerServiceGroup) {
+		this.routerServiceGroup = routerServiceGroup;
 	}
 
 }

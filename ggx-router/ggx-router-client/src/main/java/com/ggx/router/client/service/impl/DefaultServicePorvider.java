@@ -6,17 +6,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
-import com.ggx.router.client.service.group.RouterServiceGroup;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.listener.RouterServiceListener;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 默认路由服务提供者
@@ -27,11 +29,6 @@ import com.ggx.router.client.service.manager.RouterServiceManager;
 public class DefaultServicePorvider implements RouterServiceProvider{
 	
 	protected RouterClientConfig config;
-	
-	
-	protected List<AddRouterServiceListener> addRouterServiceListeners = new ArrayList<>();
-	
-	protected List<RemoveRouterServiceListener> removeRouterServiceListeners = new ArrayList<>();
 	
 	protected RouterServiceManager routerServiceManager;
 	
@@ -59,43 +56,18 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public RouterService matchService(Pack pack) {
-		RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
+	public GGFuture dispatch(Pack pack) {
 		for (Entry<String, RouterServiceGroup> entry : this.config.getRouterServiceManager().getServiceGroups().entrySet()) {
 			RouterServiceMatcher routerServiceMatcher = this.config.getRouterServiceMatcher();
 			RouterServiceGroup group = entry.getValue();
 			if (routerServiceMatcher.match(pack, group)) {
 				//通过负载均衡策略，获取适用的服务对象，进行返回
-				return loadblancer.getRouterService(pack, group);
+				return group.dispatch(pack);
 			}
 		}
-		return null;
+		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
-
-	@Override
-	public void addListener(RouterServiceListener listener) {
-		if (listener instanceof AddRouterServiceListener) {
-			addRouterServiceListeners.add((AddRouterServiceListener) listener);
-			return;
-		}
-		if (listener instanceof RemoveRouterServiceListener) {
-			removeRouterServiceListeners.add((RemoveRouterServiceListener) listener);
-			return;
-		}
-	}
-
-	@Override
-	public void removeListener(RouterServiceListener listener) {
-		if (listener instanceof AddRouterServiceListener) {
-			addRouterServiceListeners.remove((AddRouterServiceListener) listener);
-			return;
-		}
-		if (listener instanceof RemoveRouterServiceListener) {
-			removeRouterServiceListeners.remove((RemoveRouterServiceListener) listener);
-			return;
-		}
-	}
 
 	
 }

@@ -3,7 +3,7 @@ package com.ggx.router.client.service.impl;
 import com.ggx.core.common.message.Pack;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.router.client.service.RouterServiceMatcher;
-import com.ggx.router.client.service.group.RouterServiceGroup;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 
 /**

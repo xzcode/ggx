@@ -1,7 +1,7 @@
 package com.ggx.router.client.service;
 
 import com.ggx.core.common.message.Pack;
-import com.ggx.router.client.service.group.RouterServiceGroup;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 服务匹配器
