@@ -1,5 +1,7 @@
 package com.ggx.router.client.service.loadblance.impl.model;
 
+import com.ggx.router.client.service.RouterService;
+
 /**
  * 虚拟路由服务信息
  *
@@ -11,7 +13,7 @@ public class VirtualRouterServiceInfo {
 	/**
 	 * 服务id
 	 */
-	private String serviceId;
+	private RouterService routerService;
 	
 	/**
 	 * 虚拟服务id
@@ -20,19 +22,25 @@ public class VirtualRouterServiceInfo {
 	
 	
 
-	public VirtualRouterServiceInfo(String serviceId, String virtualServiceId) {
+	public VirtualRouterServiceInfo(RouterService routerService, String virtualServiceId) {
 		super();
-		this.serviceId = serviceId;
+		this.routerService = routerService;
 		this.virtualServiceId = virtualServiceId;
 	}
 
-	public String getServiceId() {
-		return serviceId;
+	
+
+	public RouterService getRouterService() {
+		return routerService;
 	}
 
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
+
+
+	public void setRouterService(RouterService routerService) {
+		this.routerService = routerService;
 	}
+
+
 
 	public String getVirtualServiceId() {
 		return virtualServiceId;

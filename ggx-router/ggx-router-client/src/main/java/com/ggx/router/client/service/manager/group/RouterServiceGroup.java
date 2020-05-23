@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
@@ -71,6 +72,13 @@ public class RouterServiceGroup {
 	public void addService(RouterService service) {
 		this.services.put(service.getServiceId(), service);
 		this.sortedServiceList.add(service);
+		for (AddRouterServiceListener addRouterServiceListener : addRouterServiceListeners) {
+			try {
+				addRouterServiceListener.trigger(service);
+			} catch (Exception e) {
+				GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+			}
+		}
 	}
 	
 	
@@ -94,6 +102,13 @@ public class RouterServiceGroup {
 			//重新排序列表
 			this.sortServiceList();
 			routerService.shutdown();
+			for (RemoveRouterServiceListener removeRouterServiceListener : removeRouterServiceListeners) {
+				try {
+					removeRouterServiceListener.trigger(routerService);
+				} catch (Exception e) {
+					GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+				}
+			}
 		}
 	}
 	
@@ -110,11 +125,12 @@ public class RouterServiceGroup {
 	}
 	
 	/**
-	 * 获取最低负载的路由服务
+	 * 转发
 	 *
+	 * @param pack
 	 * @return
 	 * @author zai
-	 * 2020-05-06 17:27:52
+	 * 2020-05-23 11:34:02
 	 */
 	public GGFuture dispatch(Pack pack) {
 		return this.routerServiceLoadblancer.dispatch(pack);

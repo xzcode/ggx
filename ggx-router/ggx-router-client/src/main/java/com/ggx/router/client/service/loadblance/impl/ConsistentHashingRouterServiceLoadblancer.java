@@ -1,6 +1,7 @@
 package com.ggx.router.client.service.loadblance.impl;
 
-import java.util.TreeMap;
+import java.util.SortedMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGFuture;
@@ -28,20 +29,27 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	protected RouterServiceGroup routerServiceGroup;
 	
 	/**
+	 * 虚拟路由服务数量
+	 */
+	protected static final int VIRTUAL_ROUTER_SERVICE_SIZE = 100;
+	
+	/**
 	 * 虚拟路由服务集合
 	 */
-	protected final TreeMap<String, VirtualRouterServiceInfo> virtualRouterServices = new TreeMap<>();
+	protected final ConcurrentSkipListMap<Integer, VirtualRouterServiceInfo> virtualRouterServices = new ConcurrentSkipListMap<>();
 	
 	
 	public ConsistentHashingRouterServiceLoadblancer(TaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
-		
 	}
 
 	@Override
 	public GGFuture dispatch(Pack pack) {
 		RouterService routerService = null;
-		
+		SortedMap<Integer, VirtualRouterServiceInfo> sortedMap = virtualRouterServices.tailMap(getHash(pack.getSession().getSessonId()));
+		Integer firstKey = sortedMap.firstKey();
+		VirtualRouterServiceInfo serviceInfo = virtualRouterServices.get(firstKey);
+		routerService = serviceInfo.getRouterService();
 		return routerService.dispatch(pack);
 	}
 
@@ -67,7 +75,41 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 
 	@Override
 	public void setRouterServiceGroup(RouterServiceGroup routerServiceGroup) {
+		
 		this.routerServiceGroup = routerServiceGroup;
+		
+		this.routerServiceGroup.addAddRouterServiceListener(routerService -> {
+			taskExecutor.submitTask(() -> {
+				addService(routerService);
+			});
+		});
+		
+		this.routerServiceGroup.addRemoveRouterServiceListener(routerService -> {
+			taskExecutor.submitTask(() -> {
+				removeService(routerService);
+			});
+			
+		});
+	}
+	
+	private void addService(RouterService routerService ) {
+		String serviceId = routerService.getServiceId();
+		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
+			String virtualServiceId = serviceId + "#" + (i + 1);
+			VirtualRouterServiceInfo virtualRouterServiceInfo = new VirtualRouterServiceInfo(routerService, virtualServiceId);
+			this.virtualRouterServices.put(getHash(virtualServiceId), virtualRouterServiceInfo);
+			
+		}
+		
+	}
+	private void removeService(RouterService routerService ) {
+		String serviceId = routerService.getServiceId();
+		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
+			String virtualServiceId = serviceId + "#" + (i + 1);
+			this.virtualRouterServices.remove(getHash(virtualServiceId));
+			
+		}
+		
 	}
 
 }
