@@ -141,6 +141,8 @@ public class RouterService {
 		GGSessionGroupManager sessionGroupManager = sessionGroupClient.getConfig().getSessionGroupManager();
 		
 		GGClientConfig sessionClientConfig = sessionGroupClientConfig.getSessionClient().getConfig();
+		
+		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		/*
 		 * this.sessionGroupClient.addEventListener(GGSessionGroupEventConstant.
 		 * SESSION_REGISTER_SUCCESS, new EventListener<Void>() {
@@ -302,6 +304,9 @@ public class RouterService {
 	
 
 	public boolean isAvailable() {
+		if (shutdown) {
+			return false;
+		}
 		if (this.sessionGroupClient != null) {
 			return this.sessionGroupClient.getAvaliableConnections() > 0;
 		}
@@ -316,23 +321,32 @@ public class RouterService {
 	 * 2019-11-07 15:51:04
 	 */
 	public void shutdown() {
-		if (this.shutdown) {
-			return;
-		}
-		this.shutdown = true;
-		this.sessionGroupClient.shutdown(false);
-		for (RouterServiceShutdownListener listener : shutdownListeners) {
-			try {
-				listener.onShutdown(this);
-			} catch (Exception e) {
-				GGLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
-			}
+		this.executor.submitTask(() -> {
 			
-		}
+			if (this.shutdown) {
+				return;
+			}
+			this.shutdown = true;
+			this.sessionGroupClient.shutdown(false);
+			for (RouterServiceShutdownListener listener : shutdownListeners) {
+				try {
+					listener.onShutdown(this);
+				} catch (Exception e) {
+					GGLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
+				}
+				
+			}
+		});
 	}
 	
 	public void addShutdownListener(RouterServiceShutdownListener listener) {
-		this.shutdownListeners.add(listener);
+		this.executor.submitTask(() -> {
+			if (shutdown) {
+				listener.onShutdown(this);
+				return;
+			}
+			this.shutdownListeners.add(listener);
+		});
 	}
 
 	
