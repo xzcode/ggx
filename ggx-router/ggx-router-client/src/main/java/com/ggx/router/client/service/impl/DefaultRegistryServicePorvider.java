@@ -1,12 +1,9 @@
 package com.ggx.router.client.service.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
@@ -17,10 +14,6 @@ import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.RouterServiceProvider;
-import com.ggx.router.client.service.listener.AddRouterServiceListener;
-import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
-import com.ggx.router.client.service.listener.RouterServiceListener;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
@@ -164,15 +157,6 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	        
 	        this.routerServiceManager.addService(routerService);
 	        
-	        /*
-	        //添加服务关闭监听器
-	        routerService.addShutdownListener(s -> {
-	        	RouterServiceLoadblancer loadblancer = this.config.getRouterServiceLoadblancer();
-	        	if (loadblancer != null) {
-	        		
-				}
-	        });
-	        */
 	        routerService.init();
         
 		

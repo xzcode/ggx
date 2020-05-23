@@ -13,6 +13,7 @@ import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
 import com.ggx.router.client.service.loadblance.constant.RouterServiceLoadblanceType;
+import com.ggx.router.client.service.loadblance.factory.DefaultRouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
@@ -96,7 +97,8 @@ public class RouterClientConfig {
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
 	
 	//路由服务负载均衡器工厂
-	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new RouterServiceLoadblancerFactory(this);
+	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(this);
+	
 
 	public RouterClientConfig(GGServer routingServer) {
 		if (routingServer == null) {

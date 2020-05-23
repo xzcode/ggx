@@ -46,9 +46,11 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	@Override
 	public GGFuture dispatch(Pack pack) {
 		RouterService routerService = null;
-		SortedMap<Integer, VirtualRouterServiceInfo> sortedMap = virtualRouterServices.tailMap(getHash(pack.getSession().getSessonId()));
-		Integer firstKey = sortedMap.firstKey();
-		VirtualRouterServiceInfo serviceInfo = virtualRouterServices.get(firstKey);
+		Integer firstKey = this.virtualRouterServices.ceilingKey(getHash(pack.getSession().getSessonId()));
+		if (firstKey == null) {
+			firstKey = this.virtualRouterServices.firstKey();
+		}
+		VirtualRouterServiceInfo serviceInfo = this.virtualRouterServices.get(firstKey);
 		routerService = serviceInfo.getRouterService();
 		return routerService.dispatch(pack);
 	}
@@ -98,7 +100,6 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 			String virtualServiceId = serviceId + "#" + (i + 1);
 			VirtualRouterServiceInfo virtualRouterServiceInfo = new VirtualRouterServiceInfo(routerService, virtualServiceId);
 			this.virtualRouterServices.put(getHash(virtualServiceId), virtualRouterServiceInfo);
-			
 		}
 		
 	}
