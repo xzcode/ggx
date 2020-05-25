@@ -64,7 +64,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 			}
 		}
 		int sessionHash = getHash(pack.getSession().getSessonId());
-		System.out.println(sessionHash);
+		
 		Integer firstKey = this.virtualRouterServices.ceilingKey(sessionHash);
 		if (firstKey == null) {
 			firstKey = this.virtualRouterServices.firstKey();
@@ -159,13 +159,11 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 			}
 		}
 		int total = 10000 * 100;
-		int hit = 0;
 		for (int i = 0; i < total; i++) {
 			String sessionId = GGXIdUtil.newRandomStringId24();
 			int hash = getHash(sessionId);
 			Integer ceilingKey = vMap.ceilingKey(hash);
 			if (ceilingKey != null) {
-				hit++;
 				String id2 = vMap.get(ceilingKey);
 				String id = id2.split("#")[0];
 				countMap.get(id).getAndIncrement();
