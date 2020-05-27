@@ -34,17 +34,17 @@ public class DefaultRequestMessageManager implements ReceiveMessageManager {
 	 * 2017-07-29
 	 */
 	@Override
-	public void handle(MessageData<?> request){
-		ReceiveMessageHandlerInfo invoker = handlerMap.get(request.getAction());
+	public void handle(MessageData<?> messageData){
+		ReceiveMessageHandlerInfo invoker = handlerMap.get(messageData.getAction());
 		if (invoker != null) {
 			try {
-				invoker.handle(request);
+				invoker.handle(messageData);
 			} catch (Exception e) {
 				GGLoggerUtil.getLogger(this.getClass()).error("Handle request Error!", e);
 			}
 			return;
 		}
-		GGLoggerUtil.getLogger().warn("No such action: {} ", request.getAction());
+		GGLoggerUtil.getLogger().warn("No such action: {} ", messageData.getAction());
 	}
 
 	/**

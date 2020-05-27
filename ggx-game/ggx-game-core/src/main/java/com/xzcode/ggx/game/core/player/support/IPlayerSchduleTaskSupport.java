@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.future.GGFuture;
-import com.xzcode.ggx.game.core.interfaces.IGGServerSupport;
+import com.xzcode.ggx.game.core.interfaces.GGServerSupport;
 import com.xzcode.ggx.game.core.player.Player;
 
 /**
@@ -13,7 +13,7 @@ import com.xzcode.ggx.game.core.player.Player;
  * @author zzz
  * 2019-09-22 10:23:19
  */
-public interface IPlayerSchduleTaskSupport<P extends Player> extends IGGServerSupport{
+public interface IPlayerSchduleTaskSupport<P extends Player> extends GGServerSupport{
 	
 	/**
 	 * 获取计划任务集合

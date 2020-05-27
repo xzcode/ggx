@@ -8,7 +8,7 @@ import com.xzcode.ggserver.core.server.GGServer;
  * @author zzz
  * 2019-09-22 10:25:07
  */
-public interface IGGServerSupport {
+public interface GGServerSupport {
 	/**
 	 * 获取ggserver对象
 	 * 

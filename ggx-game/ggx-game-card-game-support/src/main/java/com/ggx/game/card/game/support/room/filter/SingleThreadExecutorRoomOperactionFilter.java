@@ -38,8 +38,8 @@ H extends House<P, R, H>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean doFilter(MessageData<?> request) {
-		GGSession session = request.getSession();
+	public boolean doFilter(MessageData<?> messageData) {
+		GGSession session = messageData.getSession();
 		if (session == null) {
 			return true;
 		}
@@ -51,7 +51,7 @@ H extends House<P, R, H>
 		if (room != null) {
 			room.addOperaction((r) -> {
 				try {
-					requestMessageManager.handle(request);
+					requestMessageManager.handle(messageData);
 				} catch (Exception e) {
 					GGLoggerUtil.getLogger(this).error("Request Filter Error!", e);
 				}
