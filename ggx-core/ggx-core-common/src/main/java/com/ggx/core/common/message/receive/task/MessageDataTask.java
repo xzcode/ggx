@@ -73,15 +73,15 @@ public class MessageDataTask implements Runnable{
 			
 			Channel channel = pack.getChannel();
 			
-			MessageData<?> request = new MessageData<>(session, action, message);
-			request.setChannel(channel);
+			MessageData<?> messageData = new MessageData<>(session, action, message);
+			messageData.setChannel(channel);
 			
 			//反序列化后的消息过滤器
-			if (!messageFilterManager.doReceiveFilters(request)) {
+			if (!messageFilterManager.doReceiveFilters(messageData)) {
 				return;
 			}
 			
-			config.getReceiveMessageManager().handle(request);
+			config.getReceiveMessageManager().handle(messageData);
 			
 		} catch (Exception e) {
 			GGLoggerUtil.getLogger().error("Request Message Task ERROR!! -- actionId: {}, error: {}", action, e);
