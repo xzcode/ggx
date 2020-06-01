@@ -164,5 +164,8 @@ public class RegistryClient {
 	public RegistryClientConfig getConfig() {
 		return config;
 	}
+	public String getServiceId() {
+		return config.getServiceId();
+	}
 
 }

@@ -2,6 +2,7 @@ package com.ggx.router.client.service.loadblance;
 
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.GGSession;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
@@ -23,6 +24,24 @@ public interface RouterServiceLoadblancer {
 	 */
 	GGFuture dispatch(Pack pack);
 
+	/**
+	 * 设置路由服务组
+	 *
+	 * @param routerServiceGroup
+	 * @author zai
+	 * 2020-06-01 11:11:41
+	 */
 	void setRouterServiceGroup(RouterServiceGroup routerServiceGroup);
+	
+	
+	/**
+	 * 修改会话与服务绑定
+	 *
+	 * @param session
+	 * @param routerService
+	 * @author zai
+	 * 2020-06-01 11:27:54
+	 */
+	void changeSessionBinding(String sessionId, RouterService routerService);
 	
 }

@@ -30,13 +30,18 @@ import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
+import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
+import com.xzcode.ggserver.core.server.GGServer;
 
 /**
  * 路由服务
@@ -238,6 +243,50 @@ public class RouterService {
 						
 					}
 				}
+				
+			
+		});
+		
+		
+
+		//监听session与路由服务绑定变更
+		this.serviceClient.onMessage(RouterRedirectMessageToOtherRouterServicesResp.ACTION_ID, new MessageDataHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
+
+			@Override
+			public void handle(MessageData<RouterRedirectMessageToOtherRouterServicesResp> messageData) {
+				
+				GGSession session = messageData.getSession();
+				String sessionId = session.getSessonId();
+				RouterRedirectMessageToOtherRouterServicesResp message = messageData.getMessage();
+				
+				RouterServiceManager routerServiceManager = RouterService.this.config.getRouterServiceManager();
+				RouterService changeRouterService = routerServiceManager.getService(serviceGroupId, message.getServiceId());
+				RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(serviceGroupId);
+				RouterServiceLoadblancer routerServiceLoadblancer = serviceGroup.getRouterServiceLoadblancer();
+				
+				GGServer hostServer = config.getHostServer();
+				SessionManager hostSessionManager = hostServer.getSessionManager();
+				
+				GGSession hostSession = hostSessionManager.getSession(sessionId);
+				
+				
+				routerServiceLoadblancer.changeSessionBinding(message.getSessionId(), changeRouterService);
+				
+				Pack pack = new Pack();
+				pack.setAction(message.getAction());
+				pack.setMessage(pack.getMessage());
+				pack.setSerializeType(message.getSerializeType());
+				
+				pack.setSession(hostSession);
+				
+				
+				serviceGroup.dispatch(pack);
+				
+				
+			
+			}
+				
+					
 				
 			
 		});

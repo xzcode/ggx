@@ -17,6 +17,8 @@ import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.action.MessageDataHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
@@ -30,6 +32,7 @@ import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
+import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -85,6 +88,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		
+		//添加发送过滤器
 		this.serviceServer.addSendFilter(new SendMessageFilter() {
 			
 			@Override
@@ -99,6 +103,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 			}
 		});
 		
+		//添加接收消息过滤器
 		this.serviceServer.addReceiveFilter(new ReceiveMessageFilter() {
 			
 			@Override
@@ -176,6 +181,31 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		});
 		
 		return startFuture;
+	}
+	
+	/**
+	 * 重定向消息到其他路由服务
+	 *
+	 * @param redirectingSession
+	 * @param redirectingMessage
+	 * @author zai
+	 * 2020-06-01 14:55:48
+	 */
+	public void redirectMessageToOtherRouterServices(GGSession redirectingSession, String redirectServiceId, Message redirectingMessage) {
+		
+		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
+		
+		Pack pack = makePack(new MessageData<>(redirectingMessage.getActionId(), redirectingMessage));
+		
+		resp.setServiceId(redirectServiceId);
+		resp.setSessionId(redirectingSession.getSessonId());
+		resp.setAction(pack.getAction());
+		resp.setMessage(pack.getMessage());
+		resp.setSerializeType(pack.getSerializeType());
+		
+		redirectingSession.send(resp);
+		
+		
 	}
 
 	@Override

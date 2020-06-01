@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -47,7 +48,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	/**
 	 * 会话与路由绑定缓存
 	 */
-	protected final Map<String, RouterService> sessionBindServiceCache = new ConcurrentSkipListMap<>();
+	protected final Map<String, RouterService> sessionBindServiceCache = new ConcurrentHashMap<>();
 	
 	
 	public ConsistentHashingRouterServiceLoadblancer(TaskExecutor taskExecutor) {
@@ -56,8 +57,11 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 
 	@Override
 	public GGFuture dispatch(Pack pack) {
+		
 		GGSession session = pack.getSession();
-		RouterService routerService = this.sessionBindServiceCache.get(session.getSessonId());
+		String sessonId = session.getSessonId();
+		
+		RouterService routerService = this.sessionBindServiceCache.get(sessonId);
 		if (routerService != null) {
 			if (routerService.isAvailable()) {
 				return routerService.dispatch(pack);
@@ -72,10 +76,10 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		VirtualRouterServiceInfo serviceInfo = this.virtualRouterServices.get(firstKey);
 		routerService = serviceInfo.getRouterService();
 		
-		RouterService putIfAbsent = this.sessionBindServiceCache.putIfAbsent(session.getSessonId(), routerService);
+		RouterService putIfAbsent = this.sessionBindServiceCache.putIfAbsent(sessonId, routerService);
 		if (putIfAbsent == null) {
 			session.addDisconnectListener(s -> {
-				this.sessionBindServiceCache.remove(session.getSessonId());
+				this.sessionBindServiceCache.remove(sessonId);
 			});
 		}
 		
@@ -141,7 +145,11 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		}
 		
 	}
-	
+
+	@Override
+	public void changeSessionBinding(String sessionId, RouterService routerService) {
+		this.sessionBindServiceCache.replace(sessionId, routerService);
+	}
 	
 	private static void hashTest() {
 		//哈希分布测试
@@ -177,5 +185,6 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		//System.out.println(1d * total / hit * 100D + "%");
 		
 	}
+
 
 }

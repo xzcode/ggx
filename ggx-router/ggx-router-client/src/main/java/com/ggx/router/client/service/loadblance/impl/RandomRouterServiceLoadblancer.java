@@ -2,6 +2,7 @@ package com.ggx.router.client.service.loadblance.impl;
 
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
@@ -17,9 +18,6 @@ public class RandomRouterServiceLoadblancer implements RouterServiceLoadblancer 
 	
 	
 
-
-
-
 	@Override
 	public GGFuture dispatch(Pack pack) {
 		return routerServiceGroup.dispatchRandom(pack);
@@ -28,6 +26,12 @@ public class RandomRouterServiceLoadblancer implements RouterServiceLoadblancer 
 	@Override
 	public void setRouterServiceGroup(RouterServiceGroup routerServiceGroup) {
 		this.routerServiceGroup = routerServiceGroup;
+	}
+
+
+	@Override
+	public void changeSessionBinding(String sessionId, RouterService routerService) {
+		
 	}
 
 }
