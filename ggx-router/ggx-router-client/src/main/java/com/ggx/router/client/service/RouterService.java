@@ -274,7 +274,7 @@ public class RouterService {
 				
 				Pack pack = new Pack();
 				pack.setAction(message.getAction());
-				pack.setMessage(pack.getMessage());
+				pack.setMessage(message.getMessage());
 				pack.setSerializeType(message.getSerializeType());
 				
 				pack.setSession(hostSession);

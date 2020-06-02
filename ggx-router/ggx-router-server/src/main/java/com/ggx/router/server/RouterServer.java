@@ -210,7 +210,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 
 	@Override
 	public Charset getCharset() {
-		return null;
+		return this.serviceServer.getCharset();
 	}
 
 	private GGServerConfig getServiceServerConfig() {
