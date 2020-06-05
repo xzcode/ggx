@@ -2,6 +2,7 @@ package com.ggx.registry.common.message.resp;
 
 import com.ggx.core.common.message.model.Message;
 import com.ggx.registry.common.constant.RegistryConstant;
+import com.ggx.registry.common.service.ServiceInfo;
 
 /**
  * 客户端注册响应
@@ -34,12 +35,19 @@ public class RegistryServiceRegisterResp implements Message{
 	 */
 	private String message;
 	
+	/**
+	 * 注册后的服务信息
+	 */
+	private ServiceInfo serviceInfo;
+	
+	
 
-	public RegistryServiceRegisterResp(boolean success) {
-		super();
+	public RegistryServiceRegisterResp(ServiceInfo serviceInfo, boolean success) {
 		this.success = success;
+		this.serviceInfo = serviceInfo;
 	}
-	public RegistryServiceRegisterResp(boolean success, String message) {
+	public RegistryServiceRegisterResp(ServiceInfo serviceInfo, boolean success, String message) {
+		this.serviceInfo = serviceInfo;
 		this.success = success;
 		this.message = message;
 	}
@@ -70,6 +78,12 @@ public class RegistryServiceRegisterResp implements Message{
 
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+	public ServiceInfo getServiceInfo() {
+		return serviceInfo;
+	}
+	public void setServiceInfo(ServiceInfo serviceInfo) {
+		this.serviceInfo = serviceInfo;
 	}
 	
 	

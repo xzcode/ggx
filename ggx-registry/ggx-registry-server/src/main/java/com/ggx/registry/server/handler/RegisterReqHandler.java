@@ -39,7 +39,7 @@ public class RegisterReqHandler implements MessageDataHandler<RegistryServiceReg
 		if (serverAuthToken != null && !serverAuthToken.isEmpty()) {
 			String clientAuthToken = req.getAuthToken();
 			if (clientAuthToken == null || clientAuthToken.isEmpty() || !clientAuthToken.equals(serverAuthToken)) {
-				session.send(new RegistryServiceRegisterResp(false, "Auth Token Is Incorrect"));
+				session.send(new RegistryServiceRegisterResp(null,false, "Auth Token Is Incorrect"));
 				return;
 			}
 			
@@ -57,7 +57,7 @@ public class RegisterReqHandler implements MessageDataHandler<RegistryServiceReg
 			serviceManager.registerService(serviceInfo);
 			session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, serviceInfo);
 		}
-		session.send(new RegistryServiceRegisterResp(true));
+		session.send(new RegistryServiceRegisterResp(serviceInfo, true));
 		
 		//发送给所有服务客户端,新服务已上线
 		serviceManager.sendToAllServices(new RegistryAddServiceResp(serviceInfo));
