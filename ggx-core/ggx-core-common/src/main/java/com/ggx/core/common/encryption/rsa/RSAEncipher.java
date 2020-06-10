@@ -1,6 +1,6 @@
-package com.ggx.core.common.encryption;
+package com.ggx.core.common.encryption.rsa;
 
-public interface IEncipher {
+public interface RSAEncipher {
 	
 	/**
 	 * 对字节数组进行加密并返回加密后的字节数组

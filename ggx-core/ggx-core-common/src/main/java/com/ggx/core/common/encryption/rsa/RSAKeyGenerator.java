@@ -1,4 +1,4 @@
-package com.ggx.core.common.encryption;
+package com.ggx.core.common.encryption.rsa;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

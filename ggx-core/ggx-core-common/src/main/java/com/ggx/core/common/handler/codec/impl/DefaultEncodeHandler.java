@@ -109,7 +109,12 @@ public class DefaultEncodeHandler implements IEncodeHandler {
 		
 		//data body
 		if (bodyBytes != null) {
-			out.writeBytes(bodyBytes);			
+			if (this.config.isEnableAesEncryption()) {//是否开启aes加密
+				out.writeBytes(this.config.getAesCipher().encrypt(bodyBytes));			
+			}else {
+				out.writeBytes(bodyBytes);			
+				
+			}
 		}
 		
 		return out;

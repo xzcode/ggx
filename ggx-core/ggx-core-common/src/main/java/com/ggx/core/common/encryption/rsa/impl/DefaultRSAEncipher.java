@@ -1,4 +1,4 @@
-package com.ggx.core.common.encryption.impl;
+package com.ggx.core.common.encryption.rsa.impl;
 
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
@@ -11,9 +11,9 @@ import javax.crypto.Cipher;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.ggx.core.common.encryption.IEncipher;
+import com.ggx.core.common.encryption.rsa.RSAEncipher;
 
-public class RSAEncipher implements IEncipher {
+public class DefaultRSAEncipher implements RSAEncipher {
 
 	private static final int PART_LEN = 128;
 	String privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ0ZUE4ZlcJsJZlSJ5F541F8o2qS13EqsYJim95xl5FUQrkPLPHgzLgtibAuIggh/8MTH3PRTKgVdDzCByfVuc5/Ub9pP6c6EHoOMQoGtjeTQ99mc4xLiEDwL6rq48Lo2+N1TNA6wH0SZfGr2rl40BLrJy8GjUMeArCoZCiTY5DTAgMBAAECgYAVAXx+ZOdkbsd8P8Lwrcaab7r+FhJenGHN2FeVH8Uvdn/RdNkCopddDSG7AAAm7DzhnZ34A4VneC7prNv+FJLadroeqztwsVICNWlRlDdoWEEE7gA5OWge07BsLTUtvxiWpZ2KDPdnq/pCIYN7LH4oW6PHUZFS0QOYalZG5qfY+QJBAN6EfRKgSoZcYphFF2WZWsGEzZOPLbpK+4+gcvm3Ihz5CtMvWCUl1OtvgqagDvMoBGfjnjCtQncJiCrNiElrlY0CQQC0vNvRK8P6wpDyxArGApVBa3vXAbj+on1ir0yT6ee/osI/5KD/gVbPWkh3ByvhnJR+LT9oGajEd5Uq7CgxdzffAkEA0iidnB7p5BaTRC9VFq8NKWLNaoU68gzppNAsZy8Qt/56u9SmUod1nls2MTtQg1UTPC+dc2ngMV8+TPbLtlQ27QJAEPA6MapGXbPqXbYdxFztnAn0uzvAGK0lzx/ar2oWfBFG3zIQHKIEfr5ZWD5l0GkaSZD4BkuRU4hZhIJJaglgRQJBAIbnjBHd4SUGaqGROx5XXc4Z5luNLVDWr0cvd+eHkeDBxQUn7OqZboJGS3PafsJLO48EuGo6UsGiHCFtVt2xO1s=";
@@ -23,7 +23,7 @@ public class RSAEncipher implements IEncipher {
 	Cipher decryptCipher;
 	
 	
-	public RSAEncipher() {
+	public DefaultRSAEncipher() {
 		try {
 			byte[] privateKeyDecoded = Base64.decodeBase64(privateKey);
 			PKCS8EncodedKeySpec priKeySpec = new PKCS8EncodedKeySpec(privateKeyDecoded);
@@ -93,7 +93,7 @@ public class RSAEncipher implements IEncipher {
 	}
 
 	public static void main(String[] args) {
-		RSAEncipher encipher = new RSAEncipher();
+		DefaultRSAEncipher encipher = new DefaultRSAEncipher();
 		String src = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 		System.out.println(src);
 		byte[] encrypt = encipher.encrypt(src.getBytes());

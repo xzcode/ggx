@@ -85,8 +85,14 @@ public class DefaultDecodeHandler implements IDecodeHandler {
 			message = new byte[bodyLen];
 			// 读取数据体部分byte数组
 			in.readBytes(message);
+			
+			if (this.config.isEnableAesEncryption()) {//是否开启aes加密
+				message = this.config.getAesCipher().decrypt(message);		
+			}
 
 		}
+		
+		
 
 		Pack pack = new Pack(action, message);
 		pack.setProtocolType(protocolType);

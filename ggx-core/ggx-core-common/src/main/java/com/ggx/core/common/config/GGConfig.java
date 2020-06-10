@@ -4,6 +4,8 @@ import java.nio.charset.Charset;
 import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.encryption.aes.AESCipher;
+import com.ggx.core.common.encryption.aes.impl.DefaultAESCipher;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.impl.DefaultEventManager;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
@@ -113,6 +115,12 @@ public class GGConfig {
 	protected boolean enablePackLogger = true;
 	
 	protected PackLogger packLogger = new PackLogger(this);
+	
+	protected boolean enableAesEncryption= false;
+			
+	protected String aesScureSeed;
+	
+	protected AESCipher aesCipher;
 
 	public void init() {
 		receiveMessageManager = new DefaultRequestMessageManager();
@@ -153,6 +161,16 @@ public class GGConfig {
 		}
 		if (sessionIdGenerator == null) {
 			sessionIdGenerator = new DefaultSessionIdGenerator();
+		}
+		
+		if (this.enableAesEncryption) {
+			if (this.aesCipher == null) {
+				if (this.aesScureSeed != null) {
+					this.aesCipher = new DefaultAESCipher(aesScureSeed);
+				}else {
+					this.aesCipher = new DefaultAESCipher();
+				}
+			}
 		}
 		
 		if (isPingPongEnabled()) {
@@ -482,6 +500,30 @@ public class GGConfig {
 
 	public void setPackLogger(PackLogger packLogger) {
 		this.packLogger = packLogger;
+	}
+
+	public boolean isEnableAesEncryption() {
+		return enableAesEncryption;
+	}
+
+	public void setEnableAesEncryption(boolean enableAesEncryption) {
+		this.enableAesEncryption = enableAesEncryption;
+	}
+
+	public String getAesScureSeed() {
+		return aesScureSeed;
+	}
+
+	public void setAesScureSeed(String aesScureSeed) {
+		this.aesScureSeed = aesScureSeed;
+	}
+
+	public AESCipher getAesCipher() {
+		return aesCipher;
+	}
+
+	public void setAesCipher(AESCipher aesCipher) {
+		this.aesCipher = aesCipher;
 	}
 	
 	
