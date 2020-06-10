@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.utils.ByteArrayTransferUtil;
 import com.ggx.core.common.utils.logger.filter.PackLogFilter;
 
 /**
@@ -94,7 +95,7 @@ public class PackLogger {
 		List<Byte> totalBytes = new ArrayList<Byte>(packLen);
 		
 		if (protocalType.equals(ProtocolTypeConstants.TCP)) {
-			fillByteList(totalBytes, intToBytes(packLen));
+			fillByteList(totalBytes, ByteArrayTransferUtil.intToBytes(packLen));
 		}
 		
 		if (action != null) {
@@ -143,24 +144,5 @@ public class PackLogger {
 			list.add(b);
 		}
 	}
-	
-	private static byte[] intToBytes(int n) {  
-		  byte[] b = new byte[4];  
-		  b[3] = (byte) (n & 0xff);  
-		  b[2] = (byte) (n >> 8 & 0xff);  
-		  b[1] = (byte) (n >> 16 & 0xff);  
-		  b[0] = (byte) (n >> 24 & 0xff);  
-		  return b;  
-	}
-	
-	public static byte[] shortToBytes(short number){ 
-        int temp = number; 
-        byte[] b = new byte[2]; 
-        for(int i =0; i < b.length; i++){ 
-            b[i]=new Integer(temp &0xff).byteValue();// 
-            temp = temp >>8;// 向右移8位 
-        } 
-        return b; 
-    }
 
 }

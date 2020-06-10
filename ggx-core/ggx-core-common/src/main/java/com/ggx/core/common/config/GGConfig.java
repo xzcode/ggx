@@ -13,8 +13,8 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
-import com.ggx.core.common.handler.codec.IDecodeHandler;
-import com.ggx.core.common.handler.codec.IEncodeHandler;
+import com.ggx.core.common.handler.codec.DecodeHandler;
+import com.ggx.core.common.handler.codec.EncodeHandler;
 import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
 import com.ggx.core.common.handler.codec.impl.DefaultEncodeHandler;
 import com.ggx.core.common.handler.pack.IReceivePackHandler;
@@ -93,8 +93,8 @@ public class GGConfig {
 
 	protected ISerializer serializer;
 
-	protected IDecodeHandler decodeHandler;
-	protected IEncodeHandler encodeHandler;
+	protected DecodeHandler decodeHandler;
+	protected EncodeHandler encodeHandler;
 
 	protected IReceivePackHandler receivePackHandler;
 
@@ -357,19 +357,19 @@ public class GGConfig {
 		this.charset = charset;
 	}
 
-	public IDecodeHandler getDecodeHandler() {
+	public DecodeHandler getDecodeHandler() {
 		return decodeHandler;
 	}
 
-	public void setDecodeHandler(IDecodeHandler decodeHandler) {
+	public void setDecodeHandler(DecodeHandler decodeHandler) {
 		this.decodeHandler = decodeHandler;
 	}
 
-	public IEncodeHandler getEncodeHandler() {
+	public EncodeHandler getEncodeHandler() {
 		return encodeHandler;
 	}
 
-	public void setEncodeHandler(IEncodeHandler encodeHandler) {
+	public void setEncodeHandler(EncodeHandler encodeHandler) {
 		this.encodeHandler = encodeHandler;
 	}
 

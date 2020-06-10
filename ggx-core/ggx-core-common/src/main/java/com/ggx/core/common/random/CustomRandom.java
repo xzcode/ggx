@@ -1,7 +1,16 @@
-package com.ggx.core.common.encryption.random;
+package com.ggx.core.common.random;
 
+/**
+ * 自定义随机数生产类
+ *
+ * @author zai
+ * 2020-06-10 18:39:18
+ */
 public class CustomRandom {
 	
+	/**
+	 * 随机种子
+	 */
 	private long seed;
 	
 	private static final int NUM_A = 9301;
@@ -18,10 +27,27 @@ public class CustomRandom {
 		this.seed = seed;
 	}
 
+	/**
+	 * 获取下一个int随机数
+	 *
+	 * @param max 可以被随机到的最大值，不包含此值
+	 * @return
+	 * @author zai
+	 * 2020-06-10 18:39:43
+	 */
 	public int nextInt(int max) {
 		return this.nextInt(0, max);
 	}
 	
+	/**
+	 * 获取下一个int随机数
+	 *
+	 * @param min 可以被随机到的最小值，包含此值
+	 * @param max 可以被随机到的最大值，不包含此值
+	 * @return
+	 * @author zai
+	 * 2020-06-10 18:39:43
+	 */
 	public int nextInt(int min, int max) {
 		seed= (seed * NUM_A + NUM_B) % NUM_C;
 		double rnd = (seed / (1.0 * NUM_C));

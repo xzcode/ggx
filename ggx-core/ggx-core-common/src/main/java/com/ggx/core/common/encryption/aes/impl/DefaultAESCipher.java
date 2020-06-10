@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.ggx.core.common.encryption.aes.AESCipher;
-import com.ggx.core.common.encryption.random.CustomRandom;
+import com.ggx.core.common.random.CustomRandom;
 
 public class DefaultAESCipher implements AESCipher {
 	

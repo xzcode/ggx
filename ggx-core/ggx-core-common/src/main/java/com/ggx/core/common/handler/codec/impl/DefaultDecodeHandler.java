@@ -3,7 +3,7 @@ package com.ggx.core.common.handler.codec.impl;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.handler.codec.IDecodeHandler;
+import com.ggx.core.common.handler.codec.DecodeHandler;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.utils.logger.PackLogger;
 
@@ -21,7 +21,7 @@ import io.netty.util.AttributeKey;
  * @author zai
  *
  */
-public class DefaultDecodeHandler implements IDecodeHandler {
+public class DefaultDecodeHandler implements DecodeHandler {
 
 	/**
 	 * 指令长度标识占用字节数

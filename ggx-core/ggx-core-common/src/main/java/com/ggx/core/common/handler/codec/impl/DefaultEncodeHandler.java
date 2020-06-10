@@ -3,7 +3,7 @@ package com.ggx.core.common.handler.codec.impl;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.handler.codec.IEncodeHandler;
+import com.ggx.core.common.handler.codec.EncodeHandler;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.utils.logger.PackLogger;
 
@@ -21,7 +21,7 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2018-12-07 13:38:22
  */
-public class DefaultEncodeHandler implements IEncodeHandler {
+public class DefaultEncodeHandler implements EncodeHandler {
 
 	
 	/**
