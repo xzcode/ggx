@@ -7,6 +7,7 @@ import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.DataTransferReq;
@@ -27,10 +28,15 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 	//会话组管理器
 	protected GGSessionGroupManager sessionGroupManager;
 
+	protected GGSession groupSession;
+	
+	
+
 	public GroupServiceClientSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGConfig config) {
 		super(sessionId, config);
 		this.sessionGroupManager = sessionGroupManager;
 		this.groupId = groupId;
+		this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		setReady(true);
 	}
 
@@ -52,7 +58,10 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
 		resp.setSerializeType(pack.getSerializeType());
-		return sessionGroupManager.sendToRandomOne(groupId, makePack(new MessageData<>(resp.getActionId(), resp)));
+		if (this.groupSession.isExpired()) {
+			this.groupSession = sessionGroupManager.getRandomOne(groupId);
+		}
+		return groupSession.send(makePack(new MessageData<>(resp.getActionId(), resp)));
 	}
 
 	@Override

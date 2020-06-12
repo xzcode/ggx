@@ -33,7 +33,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 		super(sessionId, config);
 		this.sessionGroupManager = sessionGroupManager;
 		this.groupId = groupId;
-		groupSession = sessionGroupManager.getRandomOne(groupId);
+		this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		setReady(true);
 	}
 
