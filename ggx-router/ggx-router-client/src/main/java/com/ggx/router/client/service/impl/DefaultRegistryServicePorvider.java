@@ -193,9 +193,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		
 		//尝试从缓存中获取服务
 		RouterServiceGroup routerServiceGroup = actionServiceCache.get(actionId);
-		if (routerServiceGroup != null) {
-			
-			
+		if (routerServiceGroup != null && routerServiceGroup.size() > 0) {
 			return routerServiceGroup.dispatch(pack);
 		}
 		
@@ -204,7 +202,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		//遍历进行服务匹配
 		for (Entry<String, RouterServiceGroup> entry : serviceGroups.entrySet()) {
 			routerServiceGroup = entry.getValue();
-			if (routerServiceGroup != null) {
+			if (routerServiceGroup != null && routerServiceGroup.size() > 0) {
 				//匹配服务组
 				boolean match = this.config.getRouterServiceMatcher().match(pack, routerServiceGroup);
 				if (match) {

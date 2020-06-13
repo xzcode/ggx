@@ -153,6 +153,10 @@ public class RouterServiceGroup {
 		return null;
 	}
 	
+	public int size() {
+		return this.services.size();
+	}
+	
 	/**
 	 * 随机转发
 	 *
