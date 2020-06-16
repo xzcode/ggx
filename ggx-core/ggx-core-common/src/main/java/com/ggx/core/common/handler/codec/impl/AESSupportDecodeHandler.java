@@ -1,10 +1,16 @@
 package com.ggx.core.common.handler.codec.impl;
 
+import java.util.Arrays;
+
+import org.apache.commons.compress.utils.ByteUtils;
+
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.encryption.aes.AESCipher;
 import com.ggx.core.common.handler.codec.DecodeHandler;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.utils.ByteArrayTransferUtil;
 import com.ggx.core.common.utils.logger.PackLogger;
 
 import io.netty.buffer.ByteBuf;
@@ -18,10 +24,11 @@ import io.netty.util.AttributeKey;
  * +-----------+----------+-----------+-----------+------------+
  * | 4 bytes   | 2 bytes  |   1 byte  |    tag    |  data body |
  * +-----------+----------+-----------+-----------+------------+
+ *             | _________________ AES CONTENT ________________|
  * @author zai
  *
  */
-public class DefaultDecodeHandler implements DecodeHandler {
+public class AESSupportDecodeHandler implements DecodeHandler {
 
 	/**
 	 * 指令长度标识占用字节数
@@ -47,11 +54,11 @@ public class DefaultDecodeHandler implements DecodeHandler {
 	private GGConfig config;
 	
 
-	public DefaultDecodeHandler() {
+	public AESSupportDecodeHandler() {
 
 	}
 
-	public DefaultDecodeHandler(GGConfig config) {
+	public AESSupportDecodeHandler(GGConfig config) {
 		super();
 		this.config = config;
 	}
@@ -68,27 +75,37 @@ public class DefaultDecodeHandler implements DecodeHandler {
 			ctx.close();
 			throw new RuntimeException("Unknow protocolType !!");
 		}
-
 		
-		in.readUnsignedShort();//读取预留字节
+		AESCipher aesCipher = this.config.getAesCipher();
 		
-		// 读取指令标识
-		int actionLen = in.readByte();
-		byte[] action = new byte[actionLen];
-		in.readBytes(action);
+		byte[] buff = new byte[packLen];
+		in.readBytes(buff);
+		
+		//AES解码
+		buff = aesCipher.decrypt(buff);
+		
+		int buffReadIndex = 0;
+		
+		//读取预留内容 2 字节
+		ByteArrayTransferUtil.bytesToUnsignedShort(buff, buffReadIndex);
+		
+		buffReadIndex += 2;
+		
+		//读取指令长度标识1字节
+		int actionLen = buff[buffReadIndex];
+		buffReadIndex += 1;
+		byte[] action = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, actionLen);
+		
+		buffReadIndex += actionLen;
 
 		// 读取数据体 = 总包长 - 标识长度占用字节 - 标识体占用字节数
 		int bodyLen = packLen - ALL_TAG_LEN - actionLen;
 		byte[] message = null;
 		if (bodyLen != 0) {
-
-			message = new byte[bodyLen];
 			// 读取数据体部分byte数组
-			in.readBytes(message);
-			
+			message = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, bodyLen);
+			//packBytesReadIndex += bodyLen;
 		}
-		
-		
 
 		Pack pack = new Pack(action, message);
 		pack.setProtocolType(protocolType);

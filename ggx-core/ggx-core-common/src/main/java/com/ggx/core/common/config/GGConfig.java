@@ -15,6 +15,8 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
 import com.ggx.core.common.handler.codec.DecodeHandler;
 import com.ggx.core.common.handler.codec.EncodeHandler;
+import com.ggx.core.common.handler.codec.impl.AESSupportDecodeHandler;
+import com.ggx.core.common.handler.codec.impl.AESSupportEncodeHandler;
 import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
 import com.ggx.core.common.handler.codec.impl.DefaultEncodeHandler;
 import com.ggx.core.common.handler.pack.IReceivePackHandler;
@@ -139,10 +141,21 @@ public class GGConfig {
 		}
 
 		if (decodeHandler == null) {
-			decodeHandler = new DefaultDecodeHandler(this);
+			if (this.isEnableAesEncryption()) {
+				decodeHandler = new AESSupportDecodeHandler(this);
+			}else {
+				decodeHandler = new DefaultDecodeHandler(this);
+			}
 		}
+		
+		
 		if (encodeHandler == null) {
-			encodeHandler = new DefaultEncodeHandler(this);
+			if (this.isEnableAesEncryption()) {
+				encodeHandler = new AESSupportEncodeHandler(this);
+			}else {
+				encodeHandler = new DefaultEncodeHandler(this);
+			}
+			
 		}
 
 		if (receivePackHandler == null) {

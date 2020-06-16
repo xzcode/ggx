@@ -3,8 +3,10 @@ package com.ggx.core.common.handler.codec.impl;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.encryption.aes.AESCipher;
 import com.ggx.core.common.handler.codec.EncodeHandler;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.utils.ByteArrayTransferUtil;
 import com.ggx.core.common.utils.logger.PackLogger;
 
 import io.netty.buffer.ByteBuf;
@@ -21,7 +23,7 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2018-12-07 13:38:22
  */
-public class DefaultEncodeHandler implements EncodeHandler {
+public class AESSupportEncodeHandler implements EncodeHandler {
 
 	
 	/**
@@ -52,11 +54,11 @@ public class DefaultEncodeHandler implements EncodeHandler {
 	
 	private GGConfig config;
 	
-	public DefaultEncodeHandler() {
+	public AESSupportEncodeHandler() {
 	}
 	
 	
-	public DefaultEncodeHandler(GGConfig config) {
+	public AESSupportEncodeHandler(GGConfig config) {
 		super();
 		this.config = config;
 	}
@@ -92,6 +94,34 @@ public class DefaultEncodeHandler implements EncodeHandler {
 			packLen += bodyBytes.length;			
 		}
 		
+		byte[] buff = new byte[packLen];
+		int buffWriteIndex = 0;
+		//填充 保留内容到缓冲区
+		ByteArrayTransferUtil.unsignedShortToBytesAndFillArray(0, buffWriteIndex, buff);
+		buffWriteIndex += 2;
+		
+		//填充 指令长度标识到缓冲区
+		buff[buffWriteIndex] = (byte) tagBytes.length;
+		buffWriteIndex += 1;
+		
+		//填充 指令内容 到缓冲区
+		ByteArrayTransferUtil.fillBytes(tagBytes, buffWriteIndex, buff);
+		buffWriteIndex += tagBytes.length;
+		
+		//填充 数据体 到缓冲区
+		if (bodyBytes != null) {
+			ByteArrayTransferUtil.fillBytes(bodyBytes, buffWriteIndex, buff);
+			//buffWriteIndex += bodyBytes.length;
+		}
+		
+		//进行AES加密
+		AESCipher aesCipher = this.config.getAesCipher();
+		buff = aesCipher.encrypt(buff);
+		
+		//更新包长度
+		packLen = buff.length;
+		
+		
 		//判断协议类型
 		if (ProtocolTypeConstants.TCP.equals(protocolType)) {
 			out = ctx.alloc().buffer(packLen);
@@ -100,17 +130,8 @@ public class DefaultEncodeHandler implements EncodeHandler {
 			out = ctx.alloc().buffer(packLen);			
 		}
 		
-		//reserve
-		out.writeShort(0);
-		
-		//action id
-		out.writeByte(tagBytes.length);
-		out.writeBytes(tagBytes);
-		
-		//data body
-		if (bodyBytes != null) {
-			out.writeBytes(bodyBytes);			
-		}
+		//数据写入netty缓冲区
+		out.writeBytes(buff);
 		
 		return out;
 	}
