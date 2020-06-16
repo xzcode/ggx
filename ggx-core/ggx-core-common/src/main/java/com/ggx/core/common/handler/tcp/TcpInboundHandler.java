@@ -58,7 +58,7 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 				return;
 			}
 			//调用解码处理器
-			config.getDecodeHandler().handle(ctx, in, ProtocolTypeConstants.TCP);
+			this.config.getDecodeHandler().handle(ctx, in, ProtocolTypeConstants.TCP);
 		}
 	}
 	
