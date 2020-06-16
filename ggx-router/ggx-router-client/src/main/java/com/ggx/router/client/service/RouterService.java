@@ -189,6 +189,7 @@ public class RouterService {
 			@Override
 			public boolean doFilter(MessageData<?> data) {
 				String action = data.getAction();
+				
 				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
 					serviceClient.getReceiveMessageManager().handle(data);
 					return false;
