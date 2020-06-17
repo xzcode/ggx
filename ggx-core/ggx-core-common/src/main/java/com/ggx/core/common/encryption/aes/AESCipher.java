@@ -34,7 +34,7 @@ public interface AESCipher {
 	 * @author zai
 	 * 2020-06-10 11:45:14
 	 */
-	String getSecureSeed();
+	String getEncryptKey();
 
 
 }

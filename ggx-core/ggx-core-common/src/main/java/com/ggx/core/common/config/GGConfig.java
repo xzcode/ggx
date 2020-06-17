@@ -120,7 +120,7 @@ public class GGConfig {
 	
 	protected boolean enableAesEncryption= false;
 			
-	protected String aesScureSeed;
+	protected String aesEncryptKey;
 	
 	protected AESCipher aesCipher;
 
@@ -178,8 +178,8 @@ public class GGConfig {
 		
 		if (this.enableAesEncryption) {
 			if (this.aesCipher == null) {
-				if (this.aesScureSeed != null) {
-					this.aesCipher = new DefaultAESCipher(aesScureSeed);
+				if (this.aesEncryptKey != null) {
+					this.aesCipher = new DefaultAESCipher(aesEncryptKey);
 				}else {
 					this.aesCipher = new DefaultAESCipher();
 				}
@@ -523,12 +523,12 @@ public class GGConfig {
 		this.enableAesEncryption = enableAesEncryption;
 	}
 
-	public String getAesScureSeed() {
-		return aesScureSeed;
+	public String getAesEncryptKey() {
+		return aesEncryptKey;
 	}
 
-	public void setAesScureSeed(String aesScureSeed) {
-		this.aesScureSeed = aesScureSeed;
+	public void setAesEncryptKey(String aesScureSeed) {
+		this.aesEncryptKey = aesScureSeed;
 	}
 
 	public AESCipher getAesCipher() {

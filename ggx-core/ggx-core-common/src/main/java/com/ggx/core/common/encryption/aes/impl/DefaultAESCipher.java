@@ -1,8 +1,5 @@
 package com.ggx.core.common.encryption.aes.impl;
 
-import java.security.SecureRandom;
-import java.util.Random;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -15,11 +12,15 @@ public class DefaultAESCipher implements AESCipher {
 	
 	private static final String SEED_ARR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+=";
 	
+	//算法
+    private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
+	
 	private static final ThreadLocal<Cipher> ENCRYPT_CIPHER_LOCAL = new ThreadLocal<Cipher>();
 	
 	private static final ThreadLocal<Cipher> DECRYPT_CIPHER_LOCAL = new ThreadLocal<Cipher>();
 
-	private String secureSeed = "";
+	private String encryptKey = "";
+
 	private SecretKey secretKey;
 	
 	public DefaultAESCipher() {
@@ -27,26 +28,23 @@ public class DefaultAESCipher implements AESCipher {
 		
 	}
 
-	public DefaultAESCipher(String secureSeed) {
-		this.secureSeed = secureSeed;
+	public DefaultAESCipher(String encryptKey) {
+		this.encryptKey = encryptKey;
 		init();
 	}
 
 	public void init() {
-		if (this.secureSeed == null) {
-			CustomRandom random = new CustomRandom(5);
-			for (int i = 0; i < SEED_ARR.length()/4; i++) {
-				this.secureSeed += SEED_ARR.charAt(random.nextInt(SEED_ARR.length()));
+		if (this.encryptKey == null || this.encryptKey.isEmpty()) {
+			CustomRandom random = new CustomRandom(4 * 5 + 1 + 2 * 3);
+			for (int i = 0; i < SEED_ARR.length() / 4; i++) {
+				this.encryptKey += SEED_ARR.charAt(random.nextInt(SEED_ARR.length()));
 			}
 		}
 		KeyGenerator kgen;
 		try {
 			kgen = KeyGenerator.getInstance("AES");
-			kgen.init(128, new SecureRandom(this.getSecureSeed().getBytes("utf-8")));
-			SecretKey secretKey = kgen.generateKey();
-			byte[] enCodeFormat = secretKey.getEncoded();
-
-			this.secretKey = new SecretKeySpec(enCodeFormat, "AES");// 转换为AES专用密钥
+			kgen.init(128);
+			this.secretKey = new SecretKeySpec(encryptKey.getBytes("utf-8"), "AES");// 转换为AES专用密钥
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -73,7 +71,7 @@ public class DefaultAESCipher implements AESCipher {
 		try {
 			Cipher cipher = DECRYPT_CIPHER_LOCAL.get();
 			if (cipher == null) {
-				cipher = Cipher.getInstance("AES");
+				cipher = Cipher.getInstance(ALGORITHMSTR);
 				cipher.init(Cipher.DECRYPT_MODE, this.secretKey);
 				DECRYPT_CIPHER_LOCAL.set(cipher);
 			}
@@ -87,7 +85,7 @@ public class DefaultAESCipher implements AESCipher {
 		try {
 			Cipher cipher = ENCRYPT_CIPHER_LOCAL.get();
 			if (cipher == null) {
-				cipher = Cipher.getInstance("AES");
+				cipher = Cipher.getInstance(ALGORITHMSTR);
 				cipher.init(Cipher.ENCRYPT_MODE, this.secretKey);
 				ENCRYPT_CIPHER_LOCAL.set(cipher);
 			}
@@ -97,9 +95,8 @@ public class DefaultAESCipher implements AESCipher {
 		}
 	}
 
-	public String getSecureSeed() {
-		return this.secureSeed;
+	public String getEncryptKey() {
+		return this.encryptKey;
 	}
-	
 
 }
