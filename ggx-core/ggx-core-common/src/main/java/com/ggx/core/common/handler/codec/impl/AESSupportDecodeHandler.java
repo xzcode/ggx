@@ -83,6 +83,7 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		
 		//AES解码
 		buff = aesCipher.decrypt(buff);
+		packLen = buff.length;
 		
 		int buffReadIndex = 0;
 		
@@ -94,8 +95,8 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		//读取指令长度标识1字节
 		int actionLen = buff[buffReadIndex];
 		buffReadIndex += 1;
-		byte[] action = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, actionLen);
 		
+		byte[] action = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, buffReadIndex + actionLen);
 		buffReadIndex += actionLen;
 
 		// 读取数据体 = 总包长 - 标识长度占用字节 - 标识体占用字节数
@@ -103,7 +104,7 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		byte[] message = null;
 		if (bodyLen != 0) {
 			// 读取数据体部分byte数组
-			message = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, bodyLen);
+			message = ByteArrayTransferUtil.readBytes(buff, buffReadIndex, buffReadIndex + bodyLen);
 			//packBytesReadIndex += bodyLen;
 		}
 

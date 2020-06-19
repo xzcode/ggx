@@ -130,6 +130,8 @@ public class AESSupportEncodeHandler implements EncodeHandler {
 			out = ctx.alloc().buffer(packLen);			
 		}
 		
+		
+		
 		//数据写入netty缓冲区
 		out.writeBytes(buff);
 		

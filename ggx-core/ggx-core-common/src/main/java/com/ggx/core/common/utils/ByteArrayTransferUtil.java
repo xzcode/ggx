@@ -142,7 +142,7 @@ public class ByteArrayTransferUtil {
 	 * 2020-06-16 11:35:07
 	 */
 	public static void fillBytes(byte[] original, int start, byte[] dist) {
-		for (int i = start, j = 0; i < original.length; i++, j++) {
+		for (int i = start, j = 0; j < original.length; i++, j++) {
 			dist[i] = original[j];
 		}
 	}
