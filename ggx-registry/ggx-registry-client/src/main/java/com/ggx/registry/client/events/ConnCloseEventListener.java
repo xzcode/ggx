@@ -21,7 +21,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 		ServiceManager serviceManager = config.getServiceManager();
 		serviceManager.clearAllServices();
 		//断开连接，触发重连
-		config.getDiscoveryClient().connect();
+		config.getRegistryClient().connect();
 	}
 
 

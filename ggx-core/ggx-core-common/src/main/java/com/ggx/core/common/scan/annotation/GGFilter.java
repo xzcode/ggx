@@ -1,4 +1,4 @@
-package com.ggx.core.common.annotation;
+package com.ggx.core.common.scan.annotation;
 
 import java.lang.annotation.*;
 

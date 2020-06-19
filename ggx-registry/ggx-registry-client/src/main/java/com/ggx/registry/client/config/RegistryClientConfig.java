@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGClient;
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.client.RegistryClient;
@@ -26,7 +25,7 @@ import com.ggx.registry.common.service.ServiceManager;
 public class RegistryClientConfig {
 	
 	//discoveryClient对象
-	protected RegistryClient discoveryClient;
+	protected RegistryClient registryClient;
 	
 	protected boolean 	printPingPongInfo = false;
 	
@@ -211,12 +210,12 @@ public class RegistryClientConfig {
 		return session;
 	}
 	
-	public RegistryClient getDiscoveryClient() {
-		return discoveryClient;
+	public RegistryClient getRegistryClient() {
+		return registryClient;
 	}
 	
 	public void setRegistryClient(RegistryClient discoveryClient) {
-		this.discoveryClient = discoveryClient;
+		this.registryClient = discoveryClient;
 	}
 	
 	public AtomicInteger getCustomDataUpdateTimes() {

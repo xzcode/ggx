@@ -5,7 +5,6 @@
   <artifactId>ggx</artifactId>
   <version>0.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>ggx</name>
   
   <description>GGX.</description>
   
@@ -162,6 +161,7 @@
     </build>
   
   <modules>
+  	<module>ggx-admin</module>
   	<module>ggx-game</module>
   	<module>ggx-core</module>
   	<module>ggx-docs</module>

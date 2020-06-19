@@ -4,7 +4,7 @@ package com.ggx.core.common.message.receive.action;
 import com.ggx.core.common.message.MessageData;
 
 /**
- * 动态请求消息绑定接口
+ * 消息绑定接口
  * 
  * @param <T>
  * @author zai

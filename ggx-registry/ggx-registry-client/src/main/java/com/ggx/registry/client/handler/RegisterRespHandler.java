@@ -34,7 +34,7 @@ public class RegisterRespHandler implements MessageDataHandler<RegistryServiceRe
 		RegistryServiceRegisterResp resp = messageData.getMessage();
 		if (resp.isSuccess()) {
 			
-			RegistryClient registryClient = config.getDiscoveryClient();
+			RegistryClient registryClient = config.getRegistryClient();
 			config.getCustomData().putAll(resp.getServiceInfo().getCustomData());
 			
 			List<ClientRegisterSuccessListener> registerSuccessListeners = registryClient.getRegisterSuccessListeners();
