@@ -1,6 +1,6 @@
 package com.ggx.core.common.filter;
 
-import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 
@@ -21,35 +21,11 @@ public interface FilterManager {
 
 	boolean doAfterSerializeFilters(Pack pack);
 	
-	boolean doEventFilters(EventData<?> eventData);
-	
-	
-	
 	
 
-	void addBeforeDeserializeFilter(BeforeDeserializeFilter filter);
+	void addFilter(FilterInfo<?> filterInfo);
 
-	void addReceiveFilter(ReceiveMessageFilter filter);
+	void removeFilter(FilterInfo<?> filterInfo);
 
-	void addSendFilter(SendMessageFilter filter);
-	
-	void addAfterSerializeFilter(AfterSerializeFilter filter);
-	
-	void addEventFilter(EventFilter filter);
-	
-	
-	
-
-	void removeBeforeDeserializeFilter(BeforeDeserializeFilter filter);
-
-	void removeSendFilter(SendMessageFilter filter);
-
-	void removeReceiveFilter(ReceiveMessageFilter filter);
-
-	void removeAfterSerializeFilter(AfterSerializeFilter filter);
-	
-	void removeEventFilter(EventFilter filter);
-	
-	
 
 }

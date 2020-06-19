@@ -62,11 +62,6 @@ public class EventTask implements Runnable{
 	public void run() {
 		EventData eventData = new EventData(session, event, message, channel);
 		try {
-			
-			//执行事件过滤器
-			if (!config.getFilterManager().doEventFilters(eventData)) {
-				return;
-			}
 			config.getEventManager().emitEvent(eventData);	
 		} catch (Exception e) {
 			LOGGER.error("EventTask Error!!", e);

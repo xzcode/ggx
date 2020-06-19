@@ -19,7 +19,7 @@ public interface ReceiveMessageHandlerInfo {
 	 * @author zai
 	 * 2019-11-24 16:42:45
 	 */
-	public void handle(MessageData<?> request) throws Exception;
+	public void handle(MessageData<?> messageData) throws Exception;
 	
 	/**
 	 * 获取请求标识

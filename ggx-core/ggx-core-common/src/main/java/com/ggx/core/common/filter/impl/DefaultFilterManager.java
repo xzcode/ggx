@@ -1,15 +1,15 @@
 package com.ggx.core.common.filter.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
-import com.ggx.core.common.filter.EventFilter;
+import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 
@@ -21,80 +21,48 @@ import com.ggx.core.common.message.Pack;
  */
 public class DefaultFilterManager implements FilterManager {
 
-	private List<BeforeDeserializeFilter> beforeDeserializeFilters = new ArrayList<>();
-	private List<ReceiveMessageFilter> requestFilters = new ArrayList<>();
-	private List<SendMessageFilter> responseFilters = new ArrayList<>();
-	private List<AfterSerializeFilter> afterSerializeFilters = new ArrayList<>();
-	private List<EventFilter> eventFilters = new ArrayList<>();
+	private List<FilterInfo<?>> beforeDeserializeFilters = new CopyOnWriteArrayList<>();
+	private List<FilterInfo<?>> receiveMessageFilters = new CopyOnWriteArrayList<>();
+	private List<FilterInfo<?>> sendMessageFilters = new CopyOnWriteArrayList<>();
+	private List<FilterInfo<?>> afterSerializeFilters = new CopyOnWriteArrayList<>();
 
 	public DefaultFilterManager() {
 		super();
 	}
 
 	@Override
-	public void addReceiveFilter(ReceiveMessageFilter filter) {
-		requestFilters.add(filter);
+	public void addFilter(FilterInfo<?> filterInfo) {
+		this.getFilterList(filterInfo.getFilter()).add(filterInfo);
 	}
 
-
 	@Override
-	public void addSendFilter(SendMessageFilter filter) {
-
-		responseFilters.add(filter);
+	public void removeFilter(FilterInfo<?> filterInfo) {
+		this.getFilterList(filterInfo.getFilter()).remove(filterInfo);
 	}
 	
-	@Override
-	public void addBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
-		beforeDeserializeFilters.add(filter);
-	}
-	
-	@Override
-	public void addAfterSerializeFilter(AfterSerializeFilter filter) {
-		afterSerializeFilters.add(filter);
-	}
-	
-	@Override
-	public void addEventFilter(EventFilter filter) {
-		eventFilters.add(filter);
+	private List<FilterInfo<?>> getFilterList(Filter<?> filter) {
+		if (filter instanceof BeforeDeserializeFilter) {
+			return this.beforeDeserializeFilters;
+		}
+		if (filter instanceof ReceiveMessageFilter) {
+			return this.receiveMessageFilters;
+		}
+		if (filter instanceof SendMessageFilter) {
+			return this.sendMessageFilters;
+		}
+		if (filter instanceof AfterSerializeFilter) {
+			return this.afterSerializeFilters;
+		}
+		return null;
 		
 	}
 	
 	
-	
-	
-	
-	@Override
-	public void removeBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
-		beforeDeserializeFilters.remove(filter);
-	}
-
-	@Override
-	public void removeAfterSerializeFilter(AfterSerializeFilter filter) {
-		afterSerializeFilters.remove(filter);
-	}
-
-
-	@Override
-	public void removeSendFilter(SendMessageFilter filter) {
-		responseFilters.remove(filter);
-	}
-
-
-	@Override
-	public void removeReceiveFilter(ReceiveMessageFilter filter) {
-		requestFilters.remove(filter);
-	}
-	
-	@Override
-	public void removeEventFilter(EventFilter filter) {
-		eventFilters.remove(filter);
-		
-	}
 
 	@Override
 	public boolean doBeforeDeserializeFilters(Pack pack) {
-		for (BeforeDeserializeFilter filter : beforeDeserializeFilters) {
-			if (!filter.doFilter(pack)) {
+		for (FilterInfo<?> filter : beforeDeserializeFilters) {
+			if (filter == null || !((BeforeDeserializeFilter)filter.getFilter()).doFilter(pack)) {
 				return false;
 			}
 		}
@@ -103,8 +71,8 @@ public class DefaultFilterManager implements FilterManager {
 
 	@Override
 	public boolean doAfterSerializeFilters(Pack pack) {
-		for (AfterSerializeFilter filter : afterSerializeFilters) {
-			if (!filter.doFilter(pack)) {
+		for (FilterInfo<?> filter : afterSerializeFilters) {
+			if (filter == null || !((AfterSerializeFilter)filter.getFilter()).doFilter(pack)) {
 				return false;
 			}
 		}
@@ -112,9 +80,9 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public boolean doReceiveFilters(MessageData<?> request) {
-		for (ReceiveMessageFilter filter : requestFilters) {
-			if (!filter.doFilter(request)) {
+	public boolean doReceiveFilters(MessageData<?> messageData) {
+		for (FilterInfo<?> filter : receiveMessageFilters) {
+			if (filter == null || !((ReceiveMessageFilter)filter.getFilter()).doFilter(messageData)) {
 				return false;
 			}
 		}
@@ -122,23 +90,15 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public boolean doSendFilters(MessageData<?> response) {
-		for (SendMessageFilter filter : responseFilters) {
-			if (!filter.doFilter(response)) {
+	public boolean doSendFilters(MessageData<?> messageData) {
+		for (FilterInfo<?> filter : sendMessageFilters) {
+			if (filter == null || !((SendMessageFilter)filter.getFilter()).doFilter(messageData)) {
 				return false;
 			}
 		}
 		return true;
 	}
+
 	
-	@Override
-	public boolean doEventFilters(EventData<?> eventData) {
-		for (EventFilter filter : eventFilters) {
-			if (!filter.doFilter(eventData)) {
-				return false;
-			}
-		}
-		return true;
-	}
 
 }

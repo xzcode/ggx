@@ -1,6 +1,6 @@
 package com.ggx.core.common.filter;
 
-import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 
@@ -41,52 +41,27 @@ public interface FilterSupport extends FilterManager{
 	default boolean doAfterSerializeFilters(Pack pack) {
 		return getFilterManager().doAfterSerializeFilters(pack);
 	}
-
-	default void addBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
-		getFilterManager().addBeforeDeserializeFilter(filter);
-	}
-	default void addReceiveFilter(ReceiveMessageFilter filter) {
-		getFilterManager().addReceiveFilter(filter);
-	}
-	default void addSendFilter(SendMessageFilter filter) {
-		getFilterManager().addSendFilter(filter);
+	
+	default void addFilter(Filter<?> filter) {
+		getFilterManager().addFilter(new FilterInfo<>(filter));
 	}
 	
-	default void removeBeforeDeserializeFilter(BeforeDeserializeFilter filter) {
-		getFilterManager().removeBeforeDeserializeFilter(filter);
+	default void addFilter(Filter<?> filter, int order) {
+		getFilterManager().addFilter(new FilterInfo<>(filter, order));
 	}
+	
 
-	default void removeSendFilter(SendMessageFilter filter) {
-		getFilterManager().removeSendFilter(filter);
-	}
-
-	default void removeReceiveFilter(ReceiveMessageFilter filter) {
-		getFilterManager().removeReceiveFilter(filter);
-	}
-
-	default void addAfterSerializeFilter(AfterSerializeFilter filter) {
-		getFilterManager().addAfterSerializeFilter(filter);
-	};
-
-	default void removeAfterSerializeFilter(AfterSerializeFilter filter) {
-		getFilterManager().removeAfterSerializeFilter(filter);
+	@Override
+	default void addFilter(FilterInfo<?> filterInfo) {
+		getFilterManager().addFilter(filterInfo);
 	}
 
 	@Override
-	default boolean doEventFilters(EventData<?> eventData) {
-		return getFilterManager().doEventFilters(eventData);
+	default void removeFilter(FilterInfo<?> filterInfo) {
+		getFilterManager().removeFilter(filterInfo);
 	}
-
-	@Override
-	default void addEventFilter(EventFilter filter) {
-		getFilterManager().addEventFilter(filter);
-	}
-
-	@Override
-	default void removeEventFilter(EventFilter filter) {
-		getFilterManager().removeEventFilter(filter);
-	};
 	
 	
+
 	
 }

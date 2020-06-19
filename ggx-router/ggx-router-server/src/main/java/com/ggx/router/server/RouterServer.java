@@ -89,7 +89,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		
 		//添加发送过滤器
-		this.serviceServer.addSendFilter(new SendMessageFilter() {
+		this.serviceServer.addFilter(new SendMessageFilter() {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
@@ -104,7 +104,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		});
 		
 		//添加接收消息过滤器
-		this.serviceServer.addReceiveFilter(new ReceiveMessageFilter() {
+		this.serviceServer.addFilter(new ReceiveMessageFilter() {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {

@@ -15,6 +15,7 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGFailedFuture;
@@ -170,7 +171,7 @@ public class RouterService {
 		 * serviceClientSessionManager.remove(groupSession.getSessonId()); }); } });
 		 */
 		
-		this.serviceClient.addSendFilter(new SendMessageFilter() {
+		this.serviceClient.addFilter(new SendMessageFilter() {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
@@ -184,7 +185,7 @@ public class RouterService {
 			}
 		});
 		
-		this.serviceClient.addReceiveFilter(new ReceiveMessageFilter() {
+		this.serviceClient.addFilter(new ReceiveMessageFilter() {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
@@ -198,20 +199,23 @@ public class RouterService {
 			}
 		});
 		
-		this.serviceClient.addBeforeDeserializeFilter(pack -> {
+		this.serviceClient.addFilter(new BeforeDeserializeFilter() {
 			
-			String actionString = pack.getActionString();
-			if (receiveMessageManager.getMessageHandler(actionString) != null) {
-				return true;
+			@Override
+			public boolean doFilter(Pack pack) {
+				String actionString = pack.getActionString();
+				if (receiveMessageManager.getMessageHandler(actionString) != null) {
+					return true;
+				}
+				
+				SessionManager sessionManager = config.getHostServer().getSessionManager();
+				GGSession session = sessionManager.getSession(pack.getSession().getSessonId());
+				if (session != null) {
+					pack.setSession(session);
+					session.send(pack);
+				}
+				return false;
 			}
-			
-			SessionManager sessionManager = this.config.getHostServer().getSessionManager();
-			GGSession session = sessionManager.getSession(pack.getSession().getSessonId());
-			if (session != null) {
-				pack.setSession(session);
-				session.send(pack);
-			}
-			return false;
 		});
 		
 		//监听session断开回传

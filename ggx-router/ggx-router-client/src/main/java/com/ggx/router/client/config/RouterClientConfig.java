@@ -118,7 +118,7 @@ public class RouterClientConfig {
 			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("gg-router-", false));
 		}
 		
-		this.hostServer.addBeforeDeserializeFilter(new RouterClientHostServerReceiveMessageFilter(this));
+		this.hostServer.addFilter(new RouterClientHostServerReceiveMessageFilter(this));
 
 		if (routerGroupId == null) {
 			routerGroupId = GGXIdUtil.newRandomStringId24();
