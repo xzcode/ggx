@@ -1,4 +1,4 @@
-package com.ggx.admin.core.config;
+package com.ggx.admin.server.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

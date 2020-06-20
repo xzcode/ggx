@@ -1,4 +1,4 @@
-package com.ggx.admin.core.gateway.handler.login.model.req;
+package com.ggx.admin.server.gateway.handler.login.model.req;
 
 public class LoginReq {
 

@@ -1,4 +1,4 @@
-package com.ggx.admin.core.config;
+package com.ggx.admin.server.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

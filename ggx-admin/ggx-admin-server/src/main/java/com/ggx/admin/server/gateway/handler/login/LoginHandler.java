@@ -1,9 +1,9 @@
-package com.ggx.admin.core.gateway.handler.login;
+package com.ggx.admin.server.gateway.handler.login;
 
 import org.springframework.stereotype.Component;
 
-import com.ggx.admin.core.gateway.handler.login.model.req.LoginReq;
-import com.ggx.admin.core.gateway.handler.login.model.resp.LoginResp;
+import com.ggx.admin.server.gateway.handler.login.model.req.LoginReq;
+import com.ggx.admin.server.gateway.handler.login.model.resp.LoginResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageDataHandler;
 
