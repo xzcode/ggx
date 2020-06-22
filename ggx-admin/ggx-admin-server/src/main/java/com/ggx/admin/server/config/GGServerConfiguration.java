@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.common.handler.serializer.impl.JsonSerializer;
+import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggserver.core.server.GGServer;
 import com.xzcode.ggserver.core.server.config.GGServerConfig;
@@ -32,6 +33,12 @@ public class GGServerConfiguration implements CommandLineRunner {
 	public GGServer ggserver() {
 		GGDefaultServer ggserver = new GGDefaultServer(ggServerConfig());
 		return ggserver;
+	}
+	
+	@Bean
+	public GGXCoreSpringAnnotationSupport ggxCoreSpringAnnotationSupport() {
+		 GGServerConfig serverConfig = ggServerConfig();
+		 return new GGXCoreSpringAnnotationSupport(serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(), serverConfig.getFilterManager());
 	}
 
 	@Override

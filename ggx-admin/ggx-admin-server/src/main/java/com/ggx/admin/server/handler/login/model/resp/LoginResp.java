@@ -1,4 +1,4 @@
-package com.ggx.admin.server.gateway.handler.login.model.resp;
+package com.ggx.admin.server.handler.login.model.resp;
 
 public class LoginResp {
 	
