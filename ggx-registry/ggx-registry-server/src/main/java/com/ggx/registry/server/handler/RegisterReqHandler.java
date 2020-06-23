@@ -52,7 +52,6 @@ public class RegisterReqHandler implements MessageDataHandler<RegistryServiceReg
 		if (serviceInfo == null) {
 			serviceInfo = infoModel;
 			serviceInfo.setHost(session.getHost());
-			serviceInfo.setTimeoutDelay(config.getServiceTimeoutDelay());
 			serviceInfo.setSession(session);
 			serviceManager.registerService(serviceInfo);
 			session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, serviceInfo);

@@ -1,4 +1,6 @@
-package com.ggx.admin.server.handler.login;
+package com.ggx.admin.server.handler.registry;
+
+import org.springframework.stereotype.Component;
 
 import com.ggx.admin.server.handler.login.model.req.LoginReq;
 import com.ggx.admin.server.handler.login.model.resp.LoginResp;
@@ -14,7 +16,7 @@ import com.ggx.core.spring.support.annotation.GGXMessageHandler;
  * 2019-10-15 21:46:22
  */
 @GGXMessageHandler(LoginReq.ACTION_ID)
-public class LoginHandler implements MessageDataHandler<LoginReq>{
+public class ListenRegistryInfoHandler implements MessageDataHandler<LoginReq>{
 
 	
 	@Override

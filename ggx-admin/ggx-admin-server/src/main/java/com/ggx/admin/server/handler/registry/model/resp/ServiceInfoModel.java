@@ -1,21 +1,15 @@
-package com.ggx.registry.common.service;
+package com.ggx.admin.server.handler.registry.model.resp;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ggx.core.common.session.GGSession;
-
 /**
- * 服务信息
- * 
- * 
+ * 注册中心信息模型
+ *
  * @author zai
- * 2019-10-04 16:14:45
+ * 2020-06-23 17:25:46
  */
-public class ServiceInfo {
-	
-	//会话
-	protected transient GGSession session;
+public class ServiceInfoModel {
 	
 	//服务id
 	protected String serviceId;
@@ -36,7 +30,7 @@ public class ServiceInfo {
 	protected String zone = "default";
 	
 	//自定义数据
-	protected Map<String, String> customData = new LinkedHashMap<>();;
+	protected Map<String, String> customData = new LinkedHashMap<>();
 	
 	
 	/**
@@ -49,6 +43,16 @@ public class ServiceInfo {
 	 */
 	public void addCustomData(String key, String value) {
 		customData.put(key, value);
+	}
+	/**
+	 * 添加给定集合中的所有参数
+	 *
+	 * @param customData
+	 * @author zai
+	 * 2020-06-23 17:39:13
+	 */
+	public void addAllCustomData(Map<String, String> customData) {
+		this.customData.putAll(customData);
 	}
 	
 	
@@ -82,15 +86,6 @@ public class ServiceInfo {
 	public void setCustomData(Map<String, String> extraData) {
 		this.customData = extraData;
 	}
-	
-	public GGSession getSession() {
-		return session;
-	}
-	
-	public void setSession(GGSession session) {
-		this.session = session;
-	}
-
 
 	public String getRegion() {
 		return region;

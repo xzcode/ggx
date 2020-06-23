@@ -66,7 +66,7 @@ public class RegistryClientConfig {
 	protected String serviceId = GGXIdUtil.newRandomStringId24();
 	
 	//服务组id
-	protected String serviceGroupId = "default_service_group";
+	protected String serviceGroupId = RegistryConstant.DEFAULT_SERVICE_GROUP_ID;
 	
 	//服务名称
 	protected String serviceName;

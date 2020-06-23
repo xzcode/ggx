@@ -256,7 +256,9 @@ public class ServiceManager {
 		List<ServiceInfo> serviceList = getServiceList();
 		for (ServiceInfo info : serviceList) {
 			GGSession infoSession = info.getSession();
-			infoSession.send(message);
+			if (infoSession != null) {
+				infoSession.send(message);
+			}
 		}
 	}
 	

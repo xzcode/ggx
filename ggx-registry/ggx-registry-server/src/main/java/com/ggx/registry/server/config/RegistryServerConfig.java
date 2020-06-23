@@ -1,5 +1,6 @@
 package com.ggx.registry.server.config;
 
+import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -32,8 +33,20 @@ public class RegistryServerConfig {
 	//服务端口
 	private int port = 19394;
 	
+	//服务地址
+	private String host = "127.0.0.1";
+	
+	/**
+	 * 服务组id
+	 */
+	private String serviceGroupId = RegistryConstant.DEFAULT_REGISTRY_GROUP_ID;
+	
+	//服务id
+	private String serviceId = GGXIdUtil.newRandomStringId24();
+	
 	//认证token
 	private String authToken = RegistryConstant.DEFAULT_AUTH_TOKEN;
+	
 	
 	//客户端汇报周期(毫秒)
 	private long clientReportInterval = 30L * 1000L;
@@ -49,6 +62,11 @@ public class RegistryServerConfig {
 	
 	// 工作线程数
 	protected int workThreadSize = 8;
+	
+	/**
+	 * 是否把注册中心自身作为进行注册
+	 */
+	protected boolean registerSelf = true;
 
 
 	public String getAuthToken() {
@@ -144,6 +162,37 @@ public class RegistryServerConfig {
 	
 	public void setPeriodPrintServiceInfos(boolean periodPrintServiceInfos) {
 		this.periodPrintServiceInfos = periodPrintServiceInfos;
+	}
+	
+	public boolean isRegisterSelf() {
+		return registerSelf;
+	}
+	
+	public void setRegisterSelf(boolean registerSelf) {
+		this.registerSelf = registerSelf;
+	}
+	public String getHost() {
+		return host;
+	}
+	
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getServiceGroupId() {
+		return serviceGroupId;
+	}
+
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
 	}
 	
 	

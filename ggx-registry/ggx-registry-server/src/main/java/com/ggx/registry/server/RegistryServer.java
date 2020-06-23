@@ -7,6 +7,7 @@ import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
@@ -14,6 +15,7 @@ import com.ggx.registry.common.service.ServiceGroup;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
+import com.ggx.registry.server.constant.RegistryServerSessionKeys;
 import com.ggx.registry.server.events.ConnActiveEventListener;
 import com.ggx.registry.server.events.ConnCloseEventListener;
 import com.ggx.registry.server.handler.RegisterReqHandler;
@@ -37,6 +39,15 @@ public class RegistryServer {
 	}
 
 	public void start() {
+		
+		if (this.config.isRegisterSelf()) {
+			ServiceInfo selfService = new ServiceInfo();
+			selfService.setServiceGroupId(this.config.getServiceGroupId());
+			selfService.setServiceId(this.config.getServiceId());
+			selfService.setHost(this.config.getHost());
+			selfService.addCustomData("REGISTRY_PORT", String.valueOf(this.config.getPort()));
+			this.config.getServiceManager().registerService(selfService);
+		}
 		
 		GGServerConfig ggConfig = new GGServerConfig();
 		ggConfig.setPingPongEnabled(true);

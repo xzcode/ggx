@@ -19,5 +19,15 @@ public interface RegistryConstant {
 	 * 默认验证token
 	 */
 	String DEFAULT_AUTH_TOKEN = "1ce260d9-8b99-4d3b-a832-c222dc84eb93";
+	
+	/**
+	 * 默认服务组id
+	 */
+	String DEFAULT_SERVICE_GROUP_ID = "default-service-group-01";
+	
+	/**
+	 * 默认注册中心服务组id
+	 */
+	String DEFAULT_REGISTRY_GROUP_ID = "default-registry-group-01";
 
 }
