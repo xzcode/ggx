@@ -44,7 +44,7 @@ EventSupport
 	}
 
 	@Override
-	default EventManager getEventManagerImpl() {
+	default EventManager getEventManager() {
 		return getConfig().getEventManager();
 	}
 

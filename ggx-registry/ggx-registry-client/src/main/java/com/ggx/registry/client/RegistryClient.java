@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
@@ -30,6 +31,7 @@ import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
 import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
+import com.ggx.registry.common.service.ServiceManager;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -41,12 +43,17 @@ public class RegistryClient {
 	
 	protected TaskExecutor singleThreadEvecutor;
 	
+	
+	private ServiceInfo cachedServiceInfo;
+	
 	public RegistryClient(RegistryClientConfig config) {
 		this.config = config;
 		this.config.setRegistryClient(this);
 	}
 
 	public void start() {
+		
+		
 		GGClientConfig ggConfig = new GGClientConfig();
 		ggConfig.setPingPongEnabled(true);
 		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
@@ -147,6 +154,8 @@ public class RegistryClient {
 		
 		serviceInfo.setCustomData(config.getCustomData());
 		
+		this.cachedServiceInfo = serviceInfo;
+		
 		req.setServiceInfo(serviceInfo);
 		session.send(req);
 
@@ -166,6 +175,10 @@ public class RegistryClient {
 	}
 	public String getServiceId() {
 		return config.getServiceId();
+	}
+	
+	public ServiceInfo getCachedServiceInfo() {
+		return cachedServiceInfo;
 	}
 
 }

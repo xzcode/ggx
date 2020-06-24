@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
+import com.ggx.registry.common.service.ServiceManager;
 
 @Configuration
 public class GGXRegistryClientConfiguration{
@@ -20,7 +21,9 @@ public class GGXRegistryClientConfiguration{
 	@ConfigurationProperties("ggx.registry.client")
 	@Bean
 	public RegistryClientConfig registryClientConfig() {
-		return new RegistryClientConfig();
+		RegistryClientConfig registryClientConfig = new RegistryClientConfig();
+		ServiceManager serviceManager = registryClientConfig.getServiceManager();
+		return registryClientConfig;
 	}
 
 }

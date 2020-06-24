@@ -102,7 +102,7 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 	}
 
 	@Override
-	public EventManager getEventManagerImpl() {
+	public EventManager getEventManager() {
 		return getConfig().getEventManager();
 	}
 

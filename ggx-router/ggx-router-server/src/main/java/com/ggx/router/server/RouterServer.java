@@ -165,7 +165,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		GGFuture startFuture = this.config.getSessionGroupServer().start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
-				
+				this.config.setPort(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort());
 				RegistryClient registryClient = config.getRegistryClient();
 				if (registryClient != null) {
 					if (config.getRouterGroupId() != null) {
@@ -174,7 +174,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 					if (config.getActionIdPrefix() != null) {
 						registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
 					}
-					registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
+					registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(this.config.getPort()));
 				}
 				
 			}
@@ -223,7 +223,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 	}
 
 	@Override
-	public EventManager getEventManagerImpl() {
+	public EventManager getEventManager() {
 		return this.getServiceServerConfig().getEventManager();
 	}
 

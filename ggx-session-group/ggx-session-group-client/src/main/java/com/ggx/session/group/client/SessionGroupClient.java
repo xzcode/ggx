@@ -241,7 +241,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 
 
 	@Override
-	public EventManager getEventManagerImpl() {
+	public EventManager getEventManager() {
 		return this.config.getSessionClient();
 	}
 
