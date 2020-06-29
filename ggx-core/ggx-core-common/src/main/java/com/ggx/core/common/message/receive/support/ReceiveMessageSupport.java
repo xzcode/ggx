@@ -1,6 +1,6 @@
 package com.ggx.core.common.message.receive.support;
 
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 
 /**
@@ -32,7 +32,7 @@ public interface ReceiveMessageSupport {
 	 * 2019-01-02 09:41:59
 	 * @param <T>
 	 */
-	default <T> void onMessage(String actionId, MessageDataHandler<T> messageAcion) {
+	default <T> void onMessage(String actionId, MessageHandler<T> messageAcion) {
 		getReceiveMessageManager().onMessage(actionId, messageAcion);
 	}
 

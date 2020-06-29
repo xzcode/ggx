@@ -1,7 +1,7 @@
 package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
@@ -15,7 +15,7 @@ import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class SessionGroupRegisterReqHandler implements MessageDataHandler<SessionGroupRegisterReq> {
+public class SessionGroupRegisterReqHandler implements MessageHandler<SessionGroupRegisterReq> {
 	
 	protected SessionGroupServerConfig config;
 	

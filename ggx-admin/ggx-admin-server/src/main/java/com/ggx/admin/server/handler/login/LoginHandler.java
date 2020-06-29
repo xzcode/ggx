@@ -3,7 +3,7 @@ package com.ggx.admin.server.handler.login;
 import com.ggx.admin.server.handler.login.model.req.LoginReq;
 import com.ggx.admin.server.handler.login.model.resp.LoginResp;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.spring.support.annotation.GGXMessageHandler;
 
 /**
@@ -14,7 +14,7 @@ import com.ggx.core.spring.support.annotation.GGXMessageHandler;
  * 2019-10-15 21:46:22
  */
 @GGXMessageHandler(LoginReq.ACTION_ID)
-public class LoginHandler implements MessageDataHandler<LoginReq>{
+public class LoginHandler implements MessageHandler<LoginReq>{
 
 	
 	@Override

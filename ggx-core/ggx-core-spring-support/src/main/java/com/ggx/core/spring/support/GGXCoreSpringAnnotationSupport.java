@@ -18,7 +18,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.model.FilterInfo;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.spring.support.annotation.GGXEventHandler;
 import com.ggx.core.spring.support.annotation.GGXFilter;
@@ -50,7 +50,7 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 		//注册消息处理器
 		Map<String, Object> messageHandlers = this.applicationContext.getBeansWithAnnotation(GGXMessageHandler.class);
 		for (Entry<String, Object> entry : messageHandlers.entrySet()) {
-			MessageDataHandler<?> obj = (MessageDataHandler<?>) entry.getValue();
+			MessageHandler<?> obj = (MessageHandler<?>) entry.getValue();
 			GGXMessageHandler annotation = obj.getClass().getAnnotation(GGXMessageHandler.class);
 			if (annotation != null) {
 				this.receiveMessageManager.onMessage(annotation.value(), obj);

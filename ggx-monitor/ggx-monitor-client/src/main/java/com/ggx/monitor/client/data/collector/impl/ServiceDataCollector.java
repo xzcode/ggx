@@ -1,6 +1,6 @@
-package com.ggx.monitor.common.data.collector.impl;
+package com.ggx.monitor.client.data.collector.impl;
 
-import com.ggx.monitor.common.data.collector.DataCollector;
+import com.ggx.monitor.client.data.collector.DataCollector;
 import com.ggx.monitor.common.data.model.service.ServiceData;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;

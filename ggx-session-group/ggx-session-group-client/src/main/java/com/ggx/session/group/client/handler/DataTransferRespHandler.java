@@ -4,7 +4,7 @@ import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -21,7 +21,7 @@ import com.xzcode.ggserver.core.server.config.GGServerConfig;
  * @author zai
  * 2020-04-09 15:03:50
  */
-public class DataTransferRespHandler implements MessageDataHandler<DataTransferResp> {
+public class DataTransferRespHandler implements MessageHandler<DataTransferResp> {
 
 	private SessionGroupClientConfig config;
 

@@ -6,7 +6,6 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.monitor.client.GameMonitorClient;
 import com.ggx.monitor.common.constant.GameMonitorConstant;
-import com.ggx.monitor.common.data.manager.ServiceDataManager;
 import com.ggx.registry.client.RegistryClient;
 
 /**
@@ -37,18 +36,6 @@ public class GameMonitorClientConfig {
 	//是否打印pingpong包信息
 	protected boolean 	pingPongEnabled = false;
 	
-	//服务管理器
-	protected ServiceDataManager serviceManager = new ServiceDataManager();
-	
-	//客户端汇报超时时间(秒)
-	protected long clientReportInterval = 30L * 1000L;
-	
-	//重连间隔-秒
-	protected long reconnectInterval = 5L * 1000L;
-	
-	//尝试重新注册周期，ms
-	protected long tryRegisterInterval = 10L * 1000L;
-	
 	//服务端地址
 	protected String serverHost = "localhost";
 	
@@ -58,39 +45,6 @@ public class GameMonitorClientConfig {
 	//验证token
 	protected String authToken = GameMonitorConstant.DEFAULT_AUTH_TOKEN;
 
-	
-
-	public ServiceDataManager getServiceManager() {
-		return serviceManager;
-	}
-
-	public void setServiceManager(ServiceDataManager serviceManager) {
-		this.serviceManager = serviceManager;
-	}
-
-	public long getClientReportInterval() {
-		return clientReportInterval;
-	}
-
-	public void setClientReportInterval(long clientReportInterval) {
-		this.clientReportInterval = clientReportInterval;
-	}
-
-	public long getReconnectInterval() {
-		return reconnectInterval;
-	}
-
-	public void setReconnectInterval(long reconnectInterval) {
-		this.reconnectInterval = reconnectInterval;
-	}
-
-	public long getTryRegisterInterval() {
-		return tryRegisterInterval;
-	}
-
-	public void setTryRegisterInterval(long tryRegisterInterval) {
-		this.tryRegisterInterval = tryRegisterInterval;
-	}
 
 	public String getAuthToken() {
 		return authToken;

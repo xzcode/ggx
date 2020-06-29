@@ -1,7 +1,7 @@
 package com.ggx.monitor.client;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
@@ -24,7 +24,7 @@ public class GameMonitorClient implements ReceiveMessageSupport, EventSupport{
 
 	private GameMonitorClientConfig config;
 
-	protected List<IClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
+	protected List<IClientRegisterSuccessListener> registerSuccessListeners = new CopyOnWriteArrayList<>();
 
 	public GameMonitorClient(GameMonitorClientConfig config) {
 		this.config = config;
@@ -48,6 +48,7 @@ public class GameMonitorClient implements ReceiveMessageSupport, EventSupport{
 
 		ggClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
+		
 	}
 	
 	
@@ -64,7 +65,7 @@ public class GameMonitorClient implements ReceiveMessageSupport, EventSupport{
 			if (!f.isSuccess()) {
 				// 连接失败，进行进行重连操作
 				GGLoggerUtil.getLogger(this).info("Game Monitor Client Connect Server[{}:{}] Failed!", host, port);
-				ggClient.schedule(config.getTryRegisterInterval(), () -> {
+				ggClient.schedule(5000, () -> {
 					connect();
 				});
 				return;

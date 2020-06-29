@@ -71,6 +71,8 @@ public class GameMonitorServer  implements ReceiveMessageSupport, EventSupport{
 		
 		//注册认证处理器
 		ggserver.onMessage(AuthReq.ACTION_ID, new AuthReqHandler(config));
+		ggserver.onMessage(AuthReq.ACTION_ID, new AuthReqHandler(config));
+		ggserver.onMessage(AuthReq.ACTION_ID, new AuthReqHandler(config));
 		
 		config.setServer(ggserver);
 		

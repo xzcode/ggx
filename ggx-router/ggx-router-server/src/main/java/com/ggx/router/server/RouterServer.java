@@ -19,7 +19,7 @@ import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
 import com.ggx.core.common.message.send.support.SendMessageSupport;
@@ -135,7 +135,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		} );
 		
 		//监听session断开传递
-		this.serviceServer.onMessage(RouterSessionDisconnectTransferReq.ACTION_ID, new MessageDataHandler<RouterSessionDisconnectTransferReq>() {
+		this.serviceServer.onMessage(RouterSessionDisconnectTransferReq.ACTION_ID, new MessageHandler<RouterSessionDisconnectTransferReq>() {
 
 			@Override
 			public void handle(MessageData<RouterSessionDisconnectTransferReq> messageData) {

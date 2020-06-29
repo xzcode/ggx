@@ -1,7 +1,7 @@
 package com.ggx.monitor.server.config;
 
 import com.ggx.monitor.common.constant.GameMonitorConstant;
-import com.ggx.monitor.common.data.MonitorDataCenter;
+import com.ggx.monitor.common.data.manager.MonitorDataCenter;
 import com.xzcode.ggserver.core.server.GGServer;
 
 /**

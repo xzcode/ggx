@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
@@ -17,7 +17,7 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class SessionGroupRegisterRespHandler implements MessageDataHandler<SessionGroupRegisterResp>{
+public class SessionGroupRegisterRespHandler implements MessageHandler<SessionGroupRegisterResp>{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionGroupRegisterRespHandler.class);
 	

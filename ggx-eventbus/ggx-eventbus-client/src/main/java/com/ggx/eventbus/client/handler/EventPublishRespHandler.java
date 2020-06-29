@@ -2,7 +2,7 @@ package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventPublishResp;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 
 /**
@@ -11,7 +11,7 @@ import com.ggx.eventbus.client.config.EventbusClientConfig;
  * @author zai
  * 2020-04-10 14:52:35
  */
-public class EventPublishRespHandler implements MessageDataHandler<EventPublishResp>{
+public class EventPublishRespHandler implements MessageHandler<EventPublishResp>{
 	
 	private EventbusClientConfig config;
 	

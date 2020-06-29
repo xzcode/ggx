@@ -1,7 +1,7 @@
 package com.ggx.monitor.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.monitor.common.data.model.server.ServerData;
 import com.ggx.monitor.common.data.model.service.ServiceData;
@@ -17,7 +17,7 @@ import com.ggx.monitor.server.constant.GameMonitorServerSessionKeys;
  * @author zai
  * 2020-06-24 18:15:42
  */
-public class ServerDataReqHandler implements MessageDataHandler<ServerData>{
+public class ServerDataReqHandler implements MessageHandler<ServerData>{
 	
 	private GameMonitorServerConfig config;
 	

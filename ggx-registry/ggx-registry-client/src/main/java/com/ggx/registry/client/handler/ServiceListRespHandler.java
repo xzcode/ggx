@@ -3,7 +3,7 @@ package com.ggx.registry.client.handler;
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -16,7 +16,7 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceListRespHandler implements MessageDataHandler<RegistryServiceListResp>{
+public class ServiceListRespHandler implements MessageHandler<RegistryServiceListResp>{
 	
 	private RegistryClientConfig config;
 	

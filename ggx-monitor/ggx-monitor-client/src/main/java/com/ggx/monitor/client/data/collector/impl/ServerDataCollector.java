@@ -1,4 +1,4 @@
-package com.ggx.monitor.common.data.collector.impl;
+package com.ggx.monitor.client.data.collector.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.monitor.common.data.collector.DataCollector;
+import com.ggx.monitor.client.data.collector.DataCollector;
 import com.ggx.monitor.common.data.model.server.FileStoreInfo;
 import com.ggx.monitor.common.data.model.server.NetworkInfo;
 import com.ggx.monitor.common.data.model.server.ServerData;

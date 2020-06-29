@@ -1,7 +1,7 @@
 package com.ggx.session.group.client.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.message.req.AuthReq;
@@ -14,7 +14,7 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
  *
  * @author zai 2020-04-07 10:57:11
  */
-public class AnthRespHandler implements MessageDataHandler<AuthResp> {
+public class AnthRespHandler implements MessageHandler<AuthResp> {
 
 	private SessionGroupClientConfig config;
 

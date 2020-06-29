@@ -1,4 +1,4 @@
-package com.ggx.monitor.common.data.collector;
+package com.ggx.monitor.client.data.collector;
 
 /**
  * 信息收集器统一接口

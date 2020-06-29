@@ -5,7 +5,7 @@ import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.GGPong;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -16,7 +16,7 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class GGPongResponseHandler implements MessageDataHandler<GGPong>{
+public class GGPongResponseHandler implements MessageHandler<GGPong>{
 	
 	protected GGConfig config;
 	

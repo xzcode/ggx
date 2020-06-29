@@ -44,6 +44,7 @@ public class RegistryServer {
 			ServiceInfo selfService = new ServiceInfo();
 			selfService.setServiceGroupId(this.config.getServiceGroupId());
 			selfService.setServiceId(this.config.getServiceId());
+			selfService.setServiceName("registry-server");
 			selfService.setHost(this.config.getHost());
 			selfService.addCustomData("REGISTRY_PORT", String.valueOf(this.config.getPort()));
 			this.config.getServiceManager().registerService(selfService);

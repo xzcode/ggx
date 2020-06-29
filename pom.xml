@@ -1,41 +1,43 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>com.ggx</groupId>
-  <artifactId>ggx</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  
-  <description>GGX.</description>
-  
-  
-  <properties>
-    <jdk.version>1.8</jdk.version>
-    <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
-    <netty.version>4.1.49.Final</netty.version>
-  </properties>
-  
-     <profiles>
-     
-        <profile>
-            <id>dev</id>
-            <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.ggx</groupId>
+	<artifactId>ggx</artifactId>
+	<version>0.2.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<description>GGX.</description>
+
+
+	<properties>
+		<jdk.version>1.8</jdk.version>
+		<spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+		<netty.version>4.1.49.Final</netty.version>
+	</properties>
+
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<properties>
 				<nexus.public>http://common.host:8081/repository/maven-public/</nexus.public>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        
-        <profile>
-            <id>release</id>
-            <properties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>release</id>
+			<properties>
 				<nexus.public>http://release.host:8081/repository/maven-public/</nexus.public>
-            </properties>
-        </profile>
-    </profiles>
-    
-    
+			</properties>
+		</profile>
+	</profiles>
+
+
 	<repositories>
 		<repository>
 			<id>nexus-public</id>
@@ -48,18 +50,18 @@
 		</repository>
 
 	</repositories>
-	
-	
+
+
 	<dependencyManagement>
-	
-	    <dependencies>
-	    
-	    	<dependency>
+
+		<dependencies>
+
+			<dependency>
 				<groupId>com.ggx</groupId>
 				<artifactId>ggx-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.ggx</groupId>
 				<artifactId>ggx-game</artifactId>
@@ -71,61 +73,62 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>javax.validation</groupId>
-			    <artifactId>validation-api</artifactId>
-			    <version>2.0.1.Final</version>
-			</dependency>	    
-	    	<dependency>
-			    <groupId>io.github.classgraph</groupId>
-			    <artifactId>classgraph</artifactId>
-			    <version>4.6.29</version>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>2.0.1.Final</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.google.code.gson</groupId>
-			    <artifactId>gson</artifactId>
-			    <version>2.8.5</version>
+				<groupId>io.github.classgraph</groupId>
+				<artifactId>classgraph</artifactId>
+				<version>4.6.29</version>
 			</dependency>
-			
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.8.5</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-autoconfigure</artifactId>
 				<version>${spring.boot.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>commons-codec</groupId>
-			    <artifactId>commons-codec</artifactId>
-			    <version>1.11</version>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.11</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-lang3</artifactId>
-			    <version>3.9</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.9</version>
 			</dependency>
-	    </dependencies>
+		</dependencies>
 	</dependencyManagement>
 
-    <dependencies>
+	<dependencies>
 		<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.25</version>
-			</dependency>
-    </dependencies>
-    
-    <distributionManagement>  
-	    <repository>  
-	      <id>nexus-releases</id>  
-	      <name>Nexus Release Repository</name>  
-	      <url>http://common.host:8081/repository/maven-releases/</url>  
-	    </repository>  
-	    <snapshotRepository>  
-	      <id>nexus-snapshots</id>  
-	      <name>Nexus Snapshot Repository</name>  
-	      <url>http://common.host:8081/repository/maven-snapshots/</url>  
-	    </snapshotRepository>  
-	  </distributionManagement>
-    
-    <build>  
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		
+	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://common.host:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://common.host:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<build>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -135,46 +138,46 @@
 				</includes>
 			</resource>
 		</resources>
-        <plugins>  
-            <plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-compiler-plugin</artifactId>  
-                <version>3.1</version>  
-                <configuration>  
-                    <source>${jdk.version}</source>  
-                    <target>${jdk.version}</target>  
-                </configuration>  
-            </plugin>  
-            
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
-        </plugins>  
-    </build>
-  
-  <modules>
-  	<module>ggx-admin</module>
-  	<module>ggx-monitor</module>
-  	<module>ggx-game</module>
-  	<module>ggx-core</module>
-  	<module>ggx-docs</module>
-  	<module>ggx-eventbus</module>
-  	<module>ggx-registry</module>
-  	<module>ggx-router</module>
-  	<module>ggx-session-group</module>
-  	<module>ggx-util</module>
-  </modules>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<modules>
+		<module>ggx-admin</module>
+		<module>ggx-monitor</module>
+		<module>ggx-game</module>
+		<module>ggx-core</module>
+		<module>ggx-docs</module>
+		<module>ggx-eventbus</module>
+		<module>ggx-registry</module>
+		<module>ggx-router</module>
+		<module>ggx-session-group</module>
+		<module>ggx-util</module>
+	</modules>
 </project>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 
@@ -14,7 +14,7 @@ import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
  * @author zai
  * 2020-04-07 10:57:11
  */
-public class EventSubscribeReqHandler implements MessageDataHandler<EventSubscribeReq>{
+public class EventSubscribeReqHandler implements MessageHandler<EventSubscribeReq>{
 	
 	private EventbusServerConfig config;
 	

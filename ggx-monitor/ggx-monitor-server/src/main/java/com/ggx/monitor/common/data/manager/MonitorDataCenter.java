@@ -1,4 +1,4 @@
-package com.ggx.monitor.common.data;
+package com.ggx.monitor.common.data.manager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

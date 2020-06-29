@@ -22,7 +22,7 @@ import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -219,7 +219,7 @@ public class RouterService {
 		});
 		
 		//监听session断开回传
-		this.serviceClient.onMessage(RouterSessionDisconnectTransferResp.ACTION_ID, new MessageDataHandler<RouterSessionDisconnectTransferResp>() {
+		this.serviceClient.onMessage(RouterSessionDisconnectTransferResp.ACTION_ID, new MessageHandler<RouterSessionDisconnectTransferResp>() {
 
 			@Override
 			public void handle(MessageData<RouterSessionDisconnectTransferResp> messageData) {
@@ -255,7 +255,7 @@ public class RouterService {
 		
 
 		//监听session与路由服务绑定变更
-		this.serviceClient.onMessage(RouterRedirectMessageToOtherRouterServicesResp.ACTION_ID, new MessageDataHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
+		this.serviceClient.onMessage(RouterRedirectMessageToOtherRouterServicesResp.ACTION_ID, new MessageHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
 
 			@Override
 			public void handle(MessageData<RouterRedirectMessageToOtherRouterServicesResp> messageData) {

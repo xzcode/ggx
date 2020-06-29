@@ -1,7 +1,7 @@
 package com.ggx.monitor.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.monitor.common.message.req.AuthReq;
 import com.ggx.monitor.common.message.resp.AuthResp;
@@ -14,7 +14,7 @@ import com.ggx.monitor.server.constant.GameMonitorServerSessionKeys;
  * @author zai
  * 2020-04-26 10:35:45
  */
-public class AuthReqHandler implements MessageDataHandler<AuthReq>{
+public class AuthReqHandler implements MessageHandler<AuthReq>{
 	
 	private GameMonitorServerConfig config;
 	

@@ -10,7 +10,7 @@ import com.ggx.core.common.message.MessageData;
  * @author zai
  * 2019-01-01 22:09:24
  */
-public interface MessageDataHandler<T> {
+public interface MessageHandler<T> {
 
 	/**
 	 * 处理消息

@@ -1,7 +1,7 @@
 package com.ggx.registry.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
@@ -18,7 +18,7 @@ import com.ggx.registry.server.constant.RegistryServerSessionKeys;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class RegisterReqHandler implements MessageDataHandler<RegistryServiceRegisterReq>{
+public class RegisterReqHandler implements MessageHandler<RegistryServiceRegisterReq>{
 	
 	private RegistryServerConfig config;
 	

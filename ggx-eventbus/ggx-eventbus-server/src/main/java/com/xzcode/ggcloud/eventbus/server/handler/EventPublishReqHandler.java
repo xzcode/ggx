@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageDataHandler;
+import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.google.gson.Gson;
 import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 
@@ -16,7 +16,7 @@ import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
  * @author zai
  * 2020-04-10 14:49:48
  */
-public class EventPublishReqHandler implements MessageDataHandler<EventPublishReq>{
+public class EventPublishReqHandler implements MessageHandler<EventPublishReq>{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EventPublishReqHandler.class);
 	
