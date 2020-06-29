@@ -4,17 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ggx</groupId>
-		<artifactId>ggx</artifactId>
+		<artifactId>ggx-data-collector</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
 	</parent>
-	<packaging>pom</packaging>
-	<artifactId>ggx-admin</artifactId>
+
+	<artifactId>ggx-data-collector-common</artifactId>
 
 	<dependencies>
 
+
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-core-server</artifactId>
+			<artifactId>ggx-core-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -22,13 +23,16 @@
 			<artifactId>ggx-registry-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>4.6.1</version>
+		</dependency>
 
 	</dependencies>
-	
-	<modules>
-		<module>ggx-admin-server</module>
-		<module>ggx-admin-common</module>
-	</modules>
-
-
 </project>

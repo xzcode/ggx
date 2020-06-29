@@ -170,7 +170,7 @@
 
 	<modules>
 		<module>ggx-admin</module>
-		<module>ggx-monitor</module>
+		<module>ggx-data-collector</module>
 		<module>ggx-game</module>
 		<module>ggx-core</module>
 		<module>ggx-docs</module>

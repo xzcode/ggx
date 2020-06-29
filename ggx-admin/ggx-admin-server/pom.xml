@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-monitor-server</artifactId>
+			<artifactId>ggx-admin-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
