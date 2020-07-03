@@ -16,7 +16,7 @@ public class DefaultReceiveMessagerHandlerInfo implements ReceiveMessageHandlerI
 	/**
 	 * 请求标识
 	 */
-	private String action;
+	private String actionId;
 	
 	/**
 	 * 接收消息的class类型
@@ -37,13 +37,13 @@ public class DefaultReceiveMessagerHandlerInfo implements ReceiveMessageHandlerI
 	}
 
 
-	public String getAction() {
-		return action;
+	public String getActionId() {
+		return actionId;
 	}
 
 
-	public void setRequestTag(String requestTag) {
-		this.action = requestTag;
+	public void setActionId(String actionId) {
+		this.actionId = actionId;
 	}
 
 

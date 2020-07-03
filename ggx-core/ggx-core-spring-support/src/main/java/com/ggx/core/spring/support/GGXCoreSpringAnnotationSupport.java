@@ -20,6 +20,8 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.utils.GenericClassUtil;
+import com.ggx.core.common.utils.MessageActionIdUtil;
 import com.ggx.core.spring.support.annotation.GGXEventHandler;
 import com.ggx.core.spring.support.annotation.GGXFilter;
 import com.ggx.core.spring.support.annotation.GGXMessageHandler;
@@ -53,7 +55,14 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 			MessageHandler<?> obj = (MessageHandler<?>) entry.getValue();
 			GGXMessageHandler annotation = obj.getClass().getAnnotation(GGXMessageHandler.class);
 			if (annotation != null) {
-				this.receiveMessageManager.onMessage(annotation.value(), obj);
+				String actionId = annotation.value();
+				if (!actionId.isEmpty()) {
+					this.receiveMessageManager.onMessage(actionId, obj);
+				}else {
+					Class<?> genericClass = GenericClassUtil.getInterfaceGenericClass(obj.getClass());
+					actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(genericClass);
+					this.receiveMessageManager.onMessage(actionId, obj);
+				}
 			}
 		}
 		

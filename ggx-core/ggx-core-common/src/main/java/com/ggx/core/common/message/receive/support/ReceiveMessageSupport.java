@@ -35,5 +35,9 @@ public interface ReceiveMessageSupport {
 	default <T> void onMessage(String actionId, MessageHandler<T> messageAcion) {
 		getReceiveMessageManager().onMessage(actionId, messageAcion);
 	}
+	
+	default <T> void onMessage(MessageHandler<T> messageAcion) {
+		getReceiveMessageManager().onMessage(messageAcion);
+	}
 
 }

@@ -21,7 +21,7 @@ public class GenericClassUtil {
 	 * @author zai
 	 * 2020-04-11 23:16:33
 	 */
-	public static Class<?> getGenericClass(Class<?> targetClass) {
+	public static Class<?> getInterfaceGenericClass(Class<?> targetClass) {
 		Class<?> msgClass = null;
 		
 		Type[] genericInterfaces = targetClass.getGenericInterfaces();

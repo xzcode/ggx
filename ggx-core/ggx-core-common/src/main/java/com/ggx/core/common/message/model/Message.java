@@ -1,5 +1,8 @@
 package com.ggx.core.common.message.model;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * 消息模型
  * 

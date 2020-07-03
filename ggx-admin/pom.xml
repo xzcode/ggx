@@ -27,7 +27,9 @@
 	
 	<modules>
 		<module>ggx-admin-server</module>
-		<module>ggx-admin-common</module>
+		<module>ggx-admin-collector-common</module>
+		<module>ggx-admin-collector-client</module>
+		<module>ggx-admin-collector-server</module>
 	</modules>
 
 

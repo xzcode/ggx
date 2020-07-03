@@ -131,7 +131,7 @@ public class EventbusGroupClient{
 	 */
 	public <T> void subscribe(String eventId, Subscriber<T> subscriber) {
 		SubscriberInfo subscriberInfo = new SubscriberInfo();
-		Class<?> subscriberClass = GenericClassUtil.getGenericClass(subscriber.getClass());
+		Class<?> subscriberClass = GenericClassUtil.getInterfaceGenericClass(subscriber.getClass());
 		subscriberInfo.setClazz(subscriberClass);
 		subscriberInfo.setSubscriber(subscriber);
 		subscriberInfo.setSubscriberId(subscriberClass.getName());

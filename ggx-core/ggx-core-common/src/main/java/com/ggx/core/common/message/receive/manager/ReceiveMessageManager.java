@@ -7,6 +7,7 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.handler.DefaultReceiveMessagerHandlerInfo;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.utils.GenericClassUtil;
+import com.ggx.core.common.utils.MessageActionIdUtil;
 
 public interface ReceiveMessageManager {
 
@@ -73,13 +74,19 @@ public interface ReceiveMessageManager {
 		
 		DefaultReceiveMessagerHandlerInfo handler = new DefaultReceiveMessagerHandlerInfo();
 		handler.setHandler(messageAcion);
-		handler.setRequestTag(actionId);
-		Class<?> msgClass = GenericClassUtil.getGenericClass(messageAcion.getClass());
+		handler.setActionId(actionId);
+		Class<?> msgClass = GenericClassUtil.getInterfaceGenericClass(messageAcion.getClass());
 		
 		handler.setMessageClass(msgClass );
 		
 		this.addMessageHandler(actionId, handler);
 	}
+	
+	
+	default <T> void onMessage(MessageHandler<T> messageAcion) {
+		this.onMessage(MessageActionIdUtil.generateClassNameDotSplitActionId(GenericClassUtil.getInterfaceGenericClass(messageAcion.getClass())), messageAcion);
+	}
+
 
 
 }

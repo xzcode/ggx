@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component;
 @Documented
 @Component
 public @interface GGXMessageHandler {
-	String value();
+	String value() default "";
 }

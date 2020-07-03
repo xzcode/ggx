@@ -28,7 +28,7 @@ public interface ReceiveMessageHandlerInfo {
 	 * @author zai
 	 * 2019-11-24 22:32:36
 	 */
-	public String getAction();
+	public String getActionId();
 	
 	/**
 	 * 获取消息对应的类对象
