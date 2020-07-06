@@ -5,13 +5,9 @@ import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventManager;
@@ -34,6 +30,11 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 	private FilterManager filterManager;
 	private EventManager eventManager;
 	
+	//给所有扫描到的actionId加上前缀
+	private String actionIdPrefix;
+	
+	private String[] basicPackage;
+	
 	
 	public GGXCoreSpringAnnotationSupport(
 			ReceiveMessageManager receiveMessageManager, 
@@ -53,6 +54,11 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 		Map<String, Object> messageHandlers = this.applicationContext.getBeansWithAnnotation(GGXMessageHandler.class);
 		for (Entry<String, Object> entry : messageHandlers.entrySet()) {
 			MessageHandler<?> obj = (MessageHandler<?>) entry.getValue();
+			
+			//检查包路径
+			if (!checkPackage(obj.getClass())) {
+				continue;
+			}
 			GGXMessageHandler annotation = obj.getClass().getAnnotation(GGXMessageHandler.class);
 			if (annotation != null) {
 				String actionId = annotation.value();
@@ -70,6 +76,10 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 		Map<String, Object> eventHandlers = this.applicationContext.getBeansWithAnnotation(GGXEventHandler.class);
 		for (Entry<String, Object> entry : eventHandlers.entrySet()) {
 			EventListener<?> obj = (EventListener<?>) entry.getValue();
+			//检查包路径
+			if (!checkPackage(obj.getClass())) {
+				continue;
+			}
 			GGXEventHandler annotation = obj.getClass().getAnnotation(GGXEventHandler.class);
 			if (annotation != null) {
 				this.eventManager.addEventListener(annotation.value(), obj);
@@ -80,6 +90,10 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 		Map<String, Object> filters = this.applicationContext.getBeansWithAnnotation(GGXFilter.class);
 		for (Entry<String, Object> entry : filters.entrySet()) {
 			Filter<?> obj = (Filter<?>) entry.getValue();
+			//检查包路径
+			if (!checkPackage(obj.getClass())) {
+				continue;
+			}
 			GGXFilter annotation = obj.getClass().getAnnotation(GGXFilter.class);
 			if (annotation != null) {
 				this.filterManager.addFilter(new FilterInfo<>(obj, annotation.value()));
@@ -95,5 +109,35 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 		this.applicationContext = applicationContext;
 
 	}
+	
+	public boolean checkPackage(Class<?> checkClass) {
+		if (this.basicPackage != null && this.basicPackage.length > 0) {
+			String className = checkClass.getName();
+			for (String packa : basicPackage) {
+				if (className.startsWith(packa)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
+	public String getActionIdPrefix() {
+		return actionIdPrefix;
+	}
+
+	public void setActionIdPrefix(String actionIdPrefix) {
+		this.actionIdPrefix = actionIdPrefix;
+	}
+	
+	public void setBasicPackage(String[] basicPackage) {
+		this.basicPackage = basicPackage;
+	}
+	
+	public String[] getBasicPackage() {
+		return basicPackage;
+	}
+	
 
 }
