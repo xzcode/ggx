@@ -30,6 +30,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.event.RouterClientEvents;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
@@ -264,15 +265,20 @@ public class RouterService {
 				String sessionId = session.getSessonId();
 				RouterRedirectMessageToOtherRouterServicesResp message = messageData.getMessage();
 				
+				GGServer hostServer = config.getHostServer();
+				SessionManager hostSessionManager = hostServer.getSessionManager();
+				GGSession hostSession = hostSessionManager.getSession(sessionId);
+				
 				RouterServiceManager routerServiceManager = RouterService.this.config.getRouterServiceManager();
 				RouterService changeRouterService = routerServiceManager.getService(serviceGroupId, message.getServiceId());
+				if (changeRouterService == null) {
+					hostServer.emitEvent(new EventData<>(hostSession, RouterClientEvents.RoutingMessage.MESSAGE_UNREACHABLE, null));
+					return;
+				}
 				RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(serviceGroupId);
 				RouterServiceLoadblancer routerServiceLoadblancer = serviceGroup.getRouterServiceLoadblancer();
 				
-				GGServer hostServer = config.getHostServer();
-				SessionManager hostSessionManager = hostServer.getSessionManager();
 				
-				GGSession hostSession = hostSessionManager.getSession(sessionId);
 				
 				
 				routerServiceLoadblancer.changeSessionBinding(message.getSessionId(), changeRouterService);
