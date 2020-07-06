@@ -19,5 +19,6 @@
 	<module>ggx-core-server</module>
   	<module>ggx-core-client</module>	
 	<module>ggx-core-common</module>
+	<module>ggx-core-spring-support</module>
   </modules>
 </project>
