@@ -161,7 +161,7 @@
     </build>
   
   <modules>
-  	<module>ggx-admin</module>
+  	
   	<module>ggx-game</module>
   	<module>ggx-core</module>
   	<module>ggx-docs</module>
