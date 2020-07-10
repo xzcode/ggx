@@ -1,4 +1,4 @@
-package com.ggx.admin.config;
+package com.ggx.admin.server.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ggx.core.common.handler.serializer.impl.JsonSerializer;
 import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -35,10 +34,12 @@ public class GGServerConfiguration implements CommandLineRunner {
 		return ggserver;
 	}
 	
-	@Bean
+	@Bean(value = "ggserverSpringAnnotationSupport")
 	public GGXCoreSpringAnnotationSupport ggxCoreSpringAnnotationSupport() {
 		 GGServerConfig serverConfig = ggServerConfig();
-		 return new GGXCoreSpringAnnotationSupport(serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(), serverConfig.getFilterManager());
+		 GGXCoreSpringAnnotationSupport support = new GGXCoreSpringAnnotationSupport(serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(), serverConfig.getFilterManager());
+		 support.setBasicPackage(new String[]{"com.ggx.admin.server"});
+		 return support;
 	}
 
 	@Override

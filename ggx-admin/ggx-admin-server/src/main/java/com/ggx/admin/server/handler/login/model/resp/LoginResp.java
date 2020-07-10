@@ -1,4 +1,4 @@
-package com.ggx.admin.handler.login.model.resp;
+package com.ggx.admin.server.handler.login.model.resp;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 

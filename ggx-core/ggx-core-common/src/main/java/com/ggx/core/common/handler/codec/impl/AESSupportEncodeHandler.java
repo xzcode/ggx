@@ -71,13 +71,7 @@ public class AESSupportEncodeHandler implements EncodeHandler {
 		Channel channel = ctx.channel();
 		String protocolType = channel.attr(PROTOCOL_TYPE_KEY).get();
 		
-		if (this.config.isEnablePackLogger()) {
-			pack.setChannel(channel);
-			pack.setOperType(Pack.OperType.SEND);
-			pack.setProtocolType(protocolType);
-			PackLogger packLogger = this.config.getPackLogger();
-			packLogger.logPack(pack);
-		}
+		
 		
 		
 		ByteBuf out = null;
@@ -134,6 +128,14 @@ public class AESSupportEncodeHandler implements EncodeHandler {
 		
 		//数据写入netty缓冲区
 		out.writeBytes(buff);
+		
+		if (this.config.isEnablePackLogger()) {
+			pack.setChannel(channel);
+			pack.setOperType(Pack.OperType.SEND);
+			pack.setProtocolType(protocolType);
+			PackLogger packLogger = this.config.getPackLogger();
+			packLogger.logPack(pack, packLen, buff);
+		}
 		
 		return out;
 	}

@@ -78,11 +78,11 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		
 		AESCipher aesCipher = this.config.getAesCipher();
 		
-		byte[] buff = new byte[packLen];
-		in.readBytes(buff);
+		byte[] readbuff = new byte[packLen];
+		in.readBytes(readbuff);
 		
 		//AES解码
-		buff = aesCipher.decrypt(buff);
+		byte[] buff = aesCipher.decrypt(readbuff);
 		packLen = buff.length;
 		
 		int buffReadIndex = 0;
@@ -125,7 +125,7 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 			pack.setOperType(Pack.OperType.RECEIVE);
 			pack.setProtocolType(protocolType);
 			PackLogger packLogger = this.config.getPackLogger();
-			packLogger.logPack(pack);
+			packLogger.logPack(pack, packLen, readbuff);
 		}
 
 	}

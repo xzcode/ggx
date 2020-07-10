@@ -1,4 +1,4 @@
-package com.ggx.admin.handler.services.model.req;
+package com.ggx.admin.server.handler.services.model.req;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 

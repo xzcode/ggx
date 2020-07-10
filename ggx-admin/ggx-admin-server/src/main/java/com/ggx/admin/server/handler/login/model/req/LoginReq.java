@@ -1,4 +1,4 @@
-package com.ggx.admin.handler.login.model.req;
+package com.ggx.admin.server.handler.login.model.req;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.docs.core.annotation.DocsModelProperty;

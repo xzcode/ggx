@@ -1,4 +1,4 @@
-package com.ggx.admin.config;
+package com.ggx.admin.server.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
+import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
+import com.xzcode.ggserver.core.server.config.GGServerConfig;
 
 @Configuration
 public class GGAdminCollectorServerConfiguration implements CommandLineRunner {
@@ -28,11 +30,18 @@ public class GGAdminCollectorServerConfiguration implements CommandLineRunner {
 		GGXAdminCollectorServer adminCollectorServer = new GGXAdminCollectorServer(adminCollectorServerConfig());
 		return adminCollectorServer;
 	}
+	
+	@Bean(value = "ggserverAdminCollectorServer")
+	public GGXCoreSpringAnnotationSupport ggxCoreSpringAnnotationSupport() {
+		 GGServerConfig serverConfig = adminCollectorServer().getConfig().getServer().getConfig();
+		 GGXCoreSpringAnnotationSupport support = new GGXCoreSpringAnnotationSupport(serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(), serverConfig.getFilterManager());
+		 support.setBasicPackage(new String[]{GGXAdminCollectorServer.class.getPackage().getName()});
+		 return support;
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		adminCollectorServer().start();
 	}
-
 
 }

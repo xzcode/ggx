@@ -24,6 +24,8 @@ public class GGXAdminCollectorServerConfig {
 	//认证token
 	private String authToken = GGXAdminCollectorConstant.DEFAULT_AUTH_TOKEN;
 	
+	private int workThreadSize = 4;
+	
 	public String getAuthToken() {
 		return authToken;
 	}
@@ -59,4 +61,11 @@ public class GGXAdminCollectorServerConfig {
 		this.printPingPongInfo = printPingPongInfo;
 	}
 
+	public int getWorkThreadSize() {
+		return workThreadSize;
+	}
+	
+	public void setWorkThreadSize(int threadSize) {
+		this.workThreadSize = threadSize;
+	}
 }

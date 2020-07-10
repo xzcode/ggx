@@ -46,6 +46,10 @@ public class PackLogger {
 	public void addPackLogFilter(PackLogFilter filter) {
 		this.filters.add(filter);
 	}
+	
+	public void logPack(Pack pack) {
+		logPack(pack, 0, null);
+	}
 
 	/**
 	 * 记录包信息日志
@@ -54,7 +58,7 @@ public class PackLogger {
 	 * @author zai
 	 * 2020-04-11 16:27:56
 	 */
-	public void logPack(Pack pack) {
+	public void logPack(Pack pack, int customPackLen, byte[] customDataBytes) {
 		
 		if (!LOGGER.isInfoEnabled()) {
 			return;
@@ -127,15 +131,11 @@ public class PackLogger {
 				sb.toString(),
 				Thread.currentThread().getName(),
 				pack.getChannel(),
-				new String(action),
-				packLen,
-				totalBytes
-			);
+				pack.getActionString(),
+				customPackLen <= 0 ? packLen : customPackLen,
+				(customDataBytes == null || customDataBytes.length < 0) ? totalBytes : customDataBytes);
 	}
-	
 
-	
-	
 	private static void fillByteList(List<Byte> list, byte[] arr) {
 		if (arr == null) {
 			return;

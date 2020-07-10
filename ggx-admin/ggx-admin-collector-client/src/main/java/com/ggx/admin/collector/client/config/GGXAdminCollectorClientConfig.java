@@ -29,7 +29,7 @@ public class GGXAdminCollectorClientConfig {
 	protected GGClient serviceClient;
 
 	// 任务执行器
-	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("admin-collector-client-", 1);
+	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("admin-collector-task-", 1);
 
 	// GGSession对象
 	protected GGSession session;

@@ -1,7 +1,7 @@
-package com.ggx.admin.handler.login;
+package com.ggx.admin.server.handler.login;
 
-import com.ggx.admin.handler.login.model.req.LoginReq;
-import com.ggx.admin.handler.login.model.resp.LoginResp;
+import com.ggx.admin.server.handler.login.model.req.LoginReq;
+import com.ggx.admin.server.handler.login.model.resp.LoginResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.spring.support.annotation.GGXMessageHandler;

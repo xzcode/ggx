@@ -35,7 +35,7 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 		
 		CollectorTaskManager collectorTaskManager = this.config.getCollectorTaskManager();
 		collectorTaskManager.addCollector(new ServerDataCollector(config));
-		collectorTaskManager.addCollector(new ServiceDataCollector(config));
+		//collectorTaskManager.addCollector(new ServiceDataCollector(config));
 		
 		
 		GGClientConfig ggConfig = new GGClientConfig();
@@ -77,7 +77,6 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 				});
 				return;
 			}
-			GGSession session = f.getSession();
 			GGLoggerUtil.getLogger(this).info("Game Data Collector Client Connect Server[{}:{}] Successfully!", host, port);
 		});
 	}

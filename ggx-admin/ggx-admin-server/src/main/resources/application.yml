@@ -15,15 +15,12 @@ ggx:
     port: 10001
     websocketPath: /websocket
     change-and-reboot-if-port-in-use: true
-    port-change-strategy: increment
-  router:
-    client:
-      router-group-id: '@gateway.router.group.id@'
-      session-disconnect-transfer-request-enabled: true
-      session-disconnect-transfer-response-enabled: false
+    workThreadSize: 4
+    ping-pong-enabled: true
   registry:
     client:
       service-name: '@project.artifactId@'
+      service-group-id: '@service.group.id@'
       registries:
         - domain: '@registry.server.domain@'
           port: '@registry.server.port@'
@@ -33,7 +30,5 @@ logging:
   file: '/app/logs/@project.artifactId@/@project.artifactId@.log'
   level: 
     root: info
-    io:
-      netty: info
     
  

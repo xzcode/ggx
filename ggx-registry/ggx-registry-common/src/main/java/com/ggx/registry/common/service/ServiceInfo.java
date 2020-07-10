@@ -1,7 +1,7 @@
 package com.ggx.registry.common.service;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.ggx.core.common.session.GGSession;
 
@@ -36,9 +36,18 @@ public class ServiceInfo {
 	protected String zone = "default";
 	
 	//自定义数据
-	protected Map<String, String> customData = new LinkedHashMap<>();;
+	protected Map<String, String> customData = new TreeMap<>();
 	
 	
+	
+	
+	public ServiceInfo() {
+		super();
+		customData.put("aaaa", "bbb");
+	}
+
+
+
 	/**
 	 * 添加自定义参数
 	 * 
