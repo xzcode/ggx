@@ -152,6 +152,9 @@ public class RegistryClient {
 		serviceInfo.setServiceGroupId(config.getServiceGroupId());
 		serviceInfo.setServiceName(config.getServiceName());
 		
+		serviceInfo.setServiceDescName(config.getServiceDescName());
+		serviceInfo.setServiceGroupDescName(config.getServiceGroupDescName());
+		
 		serviceInfo.setCustomData(config.getCustomData());
 		
 		this.cachedServiceInfo = serviceInfo;

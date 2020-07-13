@@ -32,6 +32,8 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		serviceInfo.setZone(config.getZone());
 		serviceInfo.setServiceId(config.getServiceId());
 		serviceInfo.setServiceGroupId(config.getServiceGroupId());
+		serviceInfo.setServiceDescName(config.getServiceDescName());
+		serviceInfo.setServiceGroupDescName(config.getServiceGroupDescName());
 		serviceInfo.setServiceName(config.getServiceName());
 		serviceInfo.setCustomData(config.getCustomData());
 		

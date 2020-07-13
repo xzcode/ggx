@@ -1,4 +1,4 @@
-package com.ggx.admin.server.handler.services.model.resp;
+package com.ggx.admin.server.handler.registry.model.resp;
 
 public class CustomData {
 

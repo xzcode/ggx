@@ -68,8 +68,19 @@ public class RegistryClientConfig {
 	//服务组id
 	protected String serviceGroupId = RegistryConstant.DEFAULT_SERVICE_GROUP_ID;
 	
+	
 	//服务名称
-	protected String serviceName;
+	protected String serviceName = serviceId;
+	
+	/**
+	 * 服务组说明名称
+	 */
+	protected String serviceGroupDescName;
+	
+	/**
+	 * 服务说明名称
+	 */
+	protected String serviceDescName;
 	
 	//所在地区
 	protected String region = "default";
@@ -251,6 +262,22 @@ public class RegistryClientConfig {
 
 	public void setShowRegistryLog(boolean showRegistryLog) {
 		this.showRegistryLog = showRegistryLog;
+	}
+
+	public String getServiceGroupDescName() {
+		return serviceGroupDescName;
+	}
+
+	public void setServiceGroupDescName(String serviceGroupDescName) {
+		this.serviceGroupDescName = serviceGroupDescName;
+	}
+
+	public String getServiceDescName() {
+		return serviceDescName;
+	}
+
+	public void setServiceDescName(String serviceDescName) {
+		this.serviceDescName = serviceDescName;
 	}
 	
 	

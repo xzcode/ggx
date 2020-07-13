@@ -1,8 +1,8 @@
-package com.ggx.admin.server.handler.services.model.req;
+package com.ggx.admin.server.handler.registry.model.req;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 
-public class GetServicesReq extends AbstractMessage{
+public class GetRegistryInfoReq extends AbstractMessage{
 	
 	private String serviceId;
 	
