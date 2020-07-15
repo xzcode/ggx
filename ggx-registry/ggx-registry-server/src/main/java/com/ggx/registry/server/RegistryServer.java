@@ -120,6 +120,8 @@ public class RegistryServer {
 						.append("\n")
 						.append("ServiceId:   \t").append(serviceInfo.getServiceId())
 						.append("\n")
+						.append("ServiceGroupId:   \t").append(serviceInfo.getServiceGroupId())
+						.append("\n")
 						.append("ServiceDescName:   \t").append(serviceInfo.getServiceDescName())
 						.append("\n")
 						.append("ServiceGroupDescName:   \t").append(serviceInfo.getServiceGroupDescName())

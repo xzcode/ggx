@@ -49,7 +49,6 @@ public class ServiceInfo {
 	
 	public ServiceInfo() {
 		super();
-		customData.put("aaaa", "bbb");
 	}
 
 
