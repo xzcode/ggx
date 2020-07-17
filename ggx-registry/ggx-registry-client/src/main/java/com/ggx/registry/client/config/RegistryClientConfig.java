@@ -82,6 +82,11 @@ public class RegistryClientConfig {
 	 */
 	protected String serviceDescName;
 	
+	/**
+	 * 服务端口
+	 */
+	protected int port;
+	
 	//所在地区
 	protected String region = "default";
 		
@@ -279,6 +284,15 @@ public class RegistryClientConfig {
 	public void setServiceDescName(String serviceDescName) {
 		this.serviceDescName = serviceDescName;
 	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
 	
 	
 	

@@ -1,5 +1,6 @@
 package com.ggx.admin.collector.server.config;
 
+import com.ggx.admin.collector.server.service.ServerDataService;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
 import com.xzcode.ggserver.core.server.GGServer;
 
@@ -25,6 +26,9 @@ public class GGXAdminCollectorServerConfig {
 	private String authToken = GGXAdminCollectorConstant.DEFAULT_AUTH_TOKEN;
 	
 	private int workThreadSize = 4;
+	
+	
+	private ServerDataService serverDataService = new ServerDataService();
 	
 	public String getAuthToken() {
 		return authToken;
@@ -67,5 +71,13 @@ public class GGXAdminCollectorServerConfig {
 	
 	public void setWorkThreadSize(int threadSize) {
 		this.workThreadSize = threadSize;
+	}
+	
+	public ServerDataService getServerDataService() {
+		return serverDataService;
+	}
+	
+	public void setServerDataService(ServerDataService serverDataService) {
+		this.serverDataService = serverDataService;
 	}
 }

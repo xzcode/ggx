@@ -27,6 +27,10 @@ public abstract class BasicDataService<T> implements EventListener<Void>{
 		return this.dataCache.entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
 	}
 	
+	public T getData(String serviceId) {
+		return this.dataCache.get(serviceId);
+	}
+	
 	@Override
 	public void onEvent(EventData<Void> eventData) {
 		GGSession session = eventData.getSession();

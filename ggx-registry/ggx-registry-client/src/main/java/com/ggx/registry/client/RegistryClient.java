@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
@@ -31,7 +30,6 @@ import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
 import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
-import com.ggx.registry.common.service.ServiceManager;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -154,6 +152,8 @@ public class RegistryClient {
 		
 		serviceInfo.setServiceDescName(config.getServiceDescName());
 		serviceInfo.setServiceGroupDescName(config.getServiceGroupDescName());
+		
+		serviceInfo.setPort(this.config.getPort());
 		
 		serviceInfo.setCustomData(config.getCustomData());
 		

@@ -7,21 +7,21 @@ import com.ggx.core.common.message.model.AbstractMessage;
 public class GetRegistryInfoResp extends AbstractMessage{
 
 	
-	private List<ServiceModel> services;
+	private List<ServiceDataModel> services;
 	
 	
 	public GetRegistryInfoResp() {
 	}
 
-	public GetRegistryInfoResp(List<ServiceModel> services) {
+	public GetRegistryInfoResp(List<ServiceDataModel> services) {
 		this.services = services;
 	}
 
-	public void setServices(List<ServiceModel> services) {
+	public void setServices(List<ServiceDataModel> services) {
 		this.services = services;
 	}
 	
-	public List<ServiceModel> getServices() {
+	public List<ServiceDataModel> getServices() {
 		return services;
 	}
 

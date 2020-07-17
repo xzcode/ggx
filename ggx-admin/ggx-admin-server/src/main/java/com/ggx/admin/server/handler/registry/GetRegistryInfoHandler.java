@@ -2,8 +2,6 @@ package com.ggx.admin.server.handler.registry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
@@ -11,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ggx.admin.server.handler.registry.model.req.GetRegistryInfoReq;
 import com.ggx.admin.server.handler.registry.model.resp.GetRegistryInfoResp;
-import com.ggx.admin.server.handler.registry.model.resp.ServiceModel;
+import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
@@ -44,21 +42,9 @@ public class GetRegistryInfoHandler implements MessageHandler<GetRegistryInfoReq
 		GGSession session = messageData.getSession();
 		List<ServiceInfo> serviceList = serviceManager.getServiceList();
 
-		List<ServiceModel> serviceModels = new ArrayList<ServiceModel>(serviceList.size());
+		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceList.size());
 		for (ServiceInfo serviceInfo : serviceList) {
-			ServiceModel serviceModel = new ServiceModel();
-			serviceModel.setServiceId(serviceInfo.getServiceId());
-			serviceModel.setServiceName(serviceInfo.getServiceName());
-			serviceModel.setServiceDescName(serviceInfo.getServiceDescName());
-			serviceModel.setServiceGroupDescName(serviceInfo.getServiceGroupDescName());
-			serviceModel.setHost(serviceInfo.getHost());
-			serviceModel.setRegion(serviceInfo.getRegion());
-			serviceModel.setServiceGroupId(serviceInfo.getServiceGroupId());
-			serviceModel.setZone(serviceInfo.getZone());
-			Map<String, String> customData = serviceInfo.getCustomData();
-			for (Entry<String, String> entry : customData.entrySet()) {
-				serviceModel.addCustomData(entry.getKey(), entry.getValue());
-			}
+			ServiceDataModel serviceModel = ServiceDataModel.create(serviceInfo);
 			serviceModels.add(serviceModel);
 		}
 

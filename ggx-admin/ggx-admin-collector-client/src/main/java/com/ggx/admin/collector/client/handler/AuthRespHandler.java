@@ -5,7 +5,6 @@ import com.ggx.admin.common.collector.message.resp.AuthResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
-import com.ggx.core.spring.support.annotation.GGXMessageHandler;
 
 /**
  * 客户端注册请求处理
@@ -14,7 +13,6 @@ import com.ggx.core.spring.support.annotation.GGXMessageHandler;
  * @author zai
  * 2019-10-04 14:29:53
  */
-@GGXMessageHandler
 public class AuthRespHandler implements MessageHandler<AuthResp>{
 	
 	private GGXAdminCollectorClientConfig config;

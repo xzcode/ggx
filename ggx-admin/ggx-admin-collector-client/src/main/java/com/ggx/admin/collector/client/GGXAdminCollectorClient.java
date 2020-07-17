@@ -8,6 +8,7 @@ import com.ggx.admin.collector.client.events.ConnCloseEventListener;
 import com.ggx.admin.collector.client.events.ConnOpenEventListener;
 import com.ggx.admin.collector.client.filter.AuthSendMessageFilter;
 import com.ggx.admin.collector.client.handler.AuthRespHandler;
+import com.ggx.admin.collector.client.handler.ServerDataRequestRespHandler;
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
@@ -49,6 +50,7 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 		GGClient ggClient = new GGClient(ggConfig);
 		
 		ggClient.onMessage(new AuthRespHandler(this.config));
+		ggClient.onMessage(new ServerDataRequestRespHandler(this.config));
 		
 		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
 		ggClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));

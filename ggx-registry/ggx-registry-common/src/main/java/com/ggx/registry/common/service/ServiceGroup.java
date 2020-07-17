@@ -34,6 +34,9 @@ public class ServiceGroup {
 	public ServiceInfo removeServiceInfo(String serviceId) {
 		return services.remove(serviceId);
 	}
+	public ServiceInfo replaceServiceInfo(ServiceInfo serviceInfo) {
+		return services.replace(serviceInfo.getServiceId(), serviceInfo);
+	}
 	
 	public ServiceInfo getServiceInfo(String serviceId) {
 		return services.get(serviceId);

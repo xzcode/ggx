@@ -2,9 +2,7 @@ package com.ggx.admin.collector.client.events;
 
 import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.spring.support.annotation.GGXEventHandler;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	

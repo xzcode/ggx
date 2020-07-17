@@ -1,5 +1,9 @@
 package com.ggx.admin.collector.client.collector;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryUsage;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,17 +11,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.data.collector.DataCollector;
 import com.ggx.admin.common.collector.data.model.server.FileStoreInfo;
 import com.ggx.admin.common.collector.data.model.server.NetworkInfo;
 import com.ggx.admin.common.collector.data.model.server.ServerData;
-import com.ggx.admin.common.collector.message.req.ServerDataReq;
 import com.ggx.core.common.executor.TaskExecutor;
 
 import oshi.SystemInfo;
@@ -35,10 +33,11 @@ import oshi.software.os.OperatingSystem;
  *
  * @author zai 2020-04-21 16:00:49
  */
-public class ServerDataCollector implements DataCollector {
-	
+public class ServerDataCollector implements DataCollector<ServerData> {
+
 	protected GGXAdminCollectorClientConfig config;
 
+	// 系统信息对象
 	protected SystemInfo si = new SystemInfo();
 
 	// 操作系统
@@ -52,6 +51,26 @@ public class ServerDataCollector implements DataCollector {
 
 	// 全局内存
 	protected GlobalMemory memory = hal.getMemory();
+
+	// jvm堆内存使用情况对象
+	protected MemoryUsage heapMemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+
+	// jvm非堆内存使用情况对象
+	protected MemoryUsage nonHeapMemoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage();
+
+	// 线程信息管理对象
+	protected OperatingSystemMXBean osMXBean = ManagementFactory.getOperatingSystemMXBean();
+	// 线程信息管理对象
+	protected ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+
+	// jvm cpu上次收集的计数
+	protected long jvmCpuPrevTime;
+
+	// jvm cpu上次收集的使用率
+	protected long jvmCpuPrevUse;
+
+	// jvm 内cpu使用率
+	protected double jvmCpuUse;
 
 	// 文件系统
 	protected FileSystem fileSystem;
@@ -83,20 +102,23 @@ public class ServerDataCollector implements DataCollector {
 	// 上一个时间所有网卡点下行总流量
 	protected Map<String, Long> prevDownloadTotalMap = new ConcurrentHashMap<>();
 
-	
 	public ServerDataCollector(GGXAdminCollectorClientConfig config) {
 		this.config = config;
 		this.taskExecutor = config.getTaskExecutor();
 		this.config.getCollectorTaskManager().addCollector(this);
 	}
-	
+
 	@Override
 	public long collectPeriodMs() {
 		return 2000L;
 	}
 
-	public void collect() {
+	public ServerData collect() {
+		
+		//更新信息
+		this.updateInfo();
 
+		//包装数据
 		ServerData serverData = new ServerData();
 		serverData.setServiceId(this.config.getServiceId());
 		serverData.setOs(os.toString());
@@ -111,10 +133,18 @@ public class ServerDataCollector implements DataCollector {
 		serverData.setCpuUse(this.cpuUse);
 
 		serverData.setNetworkInfos(this.networkInfos);
-		
-		
-		config.getSession().send(new ServerDataReq(serverData));
 
+		serverData.setJvmHeapMemoryUsageUsed(heapMemoryUsage.getUsed());
+		serverData.setJvmHeapMemoryUsageCommitted(heapMemoryUsage.getCommitted());
+		serverData.setJvmHeapMemoryUsageInit(heapMemoryUsage.getInit());
+		serverData.setJvmHeapMemoryUsageMax(heapMemoryUsage.getMax());
+
+		serverData.setJvmNonheapMemoryUsageUsed(nonHeapMemoryUsage.getUsed());
+		serverData.setJvmNonheapMemoryUsageCommitted(nonHeapMemoryUsage.getCommitted());
+		serverData.setJvmNonheapMemoryUsageInit(nonHeapMemoryUsage.getInit());
+		serverData.setJvmNonheapMemoryUsageMax(nonHeapMemoryUsage.getMax());
+
+		return serverData;
 	}
 
 	public String getCpuInfo() {
@@ -129,7 +159,7 @@ public class ServerDataCollector implements DataCollector {
 	}
 
 	/**
-	 * 更新cpu使用信息
+	 * 更新系统cpu使用信息
 	 *
 	 * @return
 	 * @author zai 2020-04-22 15:24:07
@@ -152,6 +182,26 @@ public class ServerDataCollector implements DataCollector {
 
 		this.prevTicks = ticks;
 		return totalCpu;
+	}
+
+	/**
+	 * 更新jvm cpu使用信息
+	 *
+	 * @return
+	 * @author zai 2020-07-16 18:57:01
+	 */
+	public double updateJvmCpuUse() {
+		long totalTime = 0;
+		for (long id : threadMXBean.getAllThreadIds()) {
+			totalTime += threadMXBean.getThreadCpuTime(id);
+		}
+		long curtime = System.nanoTime();
+		long usedTime = totalTime - jvmCpuPrevUse;
+		long totalPassedTime = curtime - jvmCpuPrevTime;
+		jvmCpuPrevTime = curtime;
+		jvmCpuPrevUse = totalTime;
+		this.jvmCpuUse = (((double) usedTime) / totalPassedTime / osMXBean.getAvailableProcessors()) * 100;
+		return this.jvmCpuUse;
 	}
 
 	/**
@@ -221,26 +271,19 @@ public class ServerDataCollector implements DataCollector {
 		return networkInfos;
 	}
 
-	/**
-	 * 
-	 *
-	 * @author zai 2020-04-22 15:17:46
-	 */
-	public void startUpdateTask() {
-		this.taskExecutor.scheduleWithFixedDelay(1L, 1L, TimeUnit.SECONDS, () -> {
-			this.updateInfo();
-		});
-	}
 
 	public void updateInfo() {
 		// 更新cpu使用率信息
 		this.updateCpuUse();
+		
+		// 更新jvm cpu使用率信息
+		this.updateJvmCpuUse();
 
 		// 更新文件系统信息
-		updateFileStoreInfos();
+		this.updateFileStoreInfos();
 
 		// 更新网络信息
-		updateNetworkInfos();
+		this.updateNetworkInfos();
 	}
 
 }

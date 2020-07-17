@@ -110,13 +110,16 @@ public class ServiceManager {
 	 * 2020-02-04 14:33:48
 	 */
 	public void removeService(ServiceInfo service) {
-		ServiceGroup groups = serviceGroups.get(service.getServiceGroupId());
-		if (groups != null) {
-			groups.removeServiceInfo(service.getServiceId());
+		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
+		if (group != null) {
+			group.removeServiceInfo(service.getServiceId());
 			if (this.unregisterListeners != null) {
 				for (UnregisterServiceListener listener : unregisterListeners) {
 					listener.onUnregister(service);						
 				}
+			}
+			if (group.getServices().size() == 0) {
+				serviceGroups.remove(service.getServiceGroupId(), group);
 			}
 		}
 	}
@@ -131,10 +134,8 @@ public class ServiceManager {
 	public void updateService(ServiceInfo service) {
 		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group != null) {
-			ServiceInfo oldService = group.getServiceInfo(service.getServiceId());
+			ServiceInfo oldService = group.replaceServiceInfo(service);
 			if (oldService != null) {
-				oldService.setCustomData(service.getCustomData());
-				
 				if (this.updateListeners != null) {
 					for (UpdateServiceListener listener : updateListeners) {
 						listener.onUpdate(service);						

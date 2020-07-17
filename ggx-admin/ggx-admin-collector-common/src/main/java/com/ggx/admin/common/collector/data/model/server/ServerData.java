@@ -2,57 +2,79 @@ package com.ggx.admin.common.collector.data.model.server;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 
 public class ServerData {
-	
-	//服务id
+
+	// 服务id
 	private String serviceId;
-	
-	//操作系统信息
+
+	// 操作系统信息
 	private String os;
-	
-	//cpu信息
+
+	// cpu信息
 	private String cpu;
-	
-	//总内存
+
+	// 总内存
 	private long totalMemory;
-	
-	//已使用的内存
+
+	// 已使用的内存
 	private long usedMemory;
-	
-	//总虚拟内存
+
+	// 总虚拟内存
 	private long totalVirtualMemory;
-	
-	//已使用的虚拟内存
+
+	// 已使用的虚拟内存
 	private long usedVirtualMemory;
-	
-	//进程数
+
+	// 进程数
 	private int processes;
-	
-	//线程数
+
+	// 线程数
 	private int threads;
-	
-	//cpu使用率
+
+	// cpu使用率
 	private double cpuUse;
 	
-	//文件系统存储信息
+	// jvm 内cpu使用率
+	protected double jvmCpuUse;
+
+	// 文件系统存储信息
 	private List<FileStoreInfo> fileStoreInfos;
-	
-	//网络信息
+
+	// 网络信息
 	private List<NetworkInfo> networkInfos;
-	
-	//自定义数据
-	private Map<String, String> customData;
-	
-	//创建日期
+
+	// 初始化堆内存
+	private long jvmHeapMemoryUsageInit;
+
+	// 已使用堆内存
+	private long jvmHeapMemoryUsageUsed;
+
+	// 可使用堆内存
+	private long jvmHeapMemoryUsageCommitted;
+
+	// 最大堆内存
+	private long jvmHeapMemoryUsageMax;
+
+	// 初始化非堆内存
+	private long jvmNonheapMemoryUsageInit;
+
+	// 已使用非堆内存
+	private long jvmNonheapMemoryUsageUsed;
+
+	// 可使用非堆内存
+	private long jvmNonheapMemoryUsageCommitted;
+
+	// 最大非堆内存
+	private long jvmNonheapMemoryUsageMax;
+
+	// 创建日期
 	private Date createDate;
 
 	public String getOs() {
 		return os;
 	}
-	
+
 	public void setOs(String os) {
 		this.os = os;
 	}
@@ -72,8 +94,6 @@ public class ServerData {
 	public void setTotalMemory(long totalMemory) {
 		this.totalMemory = totalMemory;
 	}
-
-	
 
 	public long getTotalVirtualMemory() {
 		return totalVirtualMemory;
@@ -139,14 +159,6 @@ public class ServerData {
 		this.networkInfos = networkInfos;
 	}
 
-	public Map<String, String> getCustomData() {
-		return customData;
-	}
-
-	public void setCustomData(Map<String, String> customData) {
-		this.customData = customData;
-	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -154,13 +166,88 @@ public class ServerData {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	
+
 	public String getServiceId() {
 		return serviceId;
 	}
-	
+
 	public void setServiceId(String serviceId) {
 		this.serviceId = serviceId;
 	}
+
+	public long getJvmHeapMemoryUsageInit() {
+		return jvmHeapMemoryUsageInit;
+	}
+
+	public void setJvmHeapMemoryUsageInit(long jvmHeapMemoryUsageInit) {
+		this.jvmHeapMemoryUsageInit = jvmHeapMemoryUsageInit;
+	}
+
+	public long getJvmHeapMemoryUsageUsed() {
+		return jvmHeapMemoryUsageUsed;
+	}
+
+	public void setJvmHeapMemoryUsageUsed(long jvmHeapMemoryUsageUsed) {
+		this.jvmHeapMemoryUsageUsed = jvmHeapMemoryUsageUsed;
+	}
+
+	public long getJvmHeapMemoryUsageCommitted() {
+		return jvmHeapMemoryUsageCommitted;
+	}
+
+	public void setJvmHeapMemoryUsageCommitted(long jvmHeapMemoryUsageCommitted) {
+		this.jvmHeapMemoryUsageCommitted = jvmHeapMemoryUsageCommitted;
+	}
+
+	public long getJvmHeapMemoryUsageMax() {
+		return jvmHeapMemoryUsageMax;
+	}
+
+	public void setJvmHeapMemoryUsageMax(long jvmHeapMemoryUsageMax) {
+		this.jvmHeapMemoryUsageMax = jvmHeapMemoryUsageMax;
+	}
+
+	public long getJvmNonheapMemoryUsageInit() {
+		return jvmNonheapMemoryUsageInit;
+	}
+
+	public void setJvmNonheapMemoryUsageInit(long jvmNonheapMemoryUsageInit) {
+		this.jvmNonheapMemoryUsageInit = jvmNonheapMemoryUsageInit;
+	}
+
+	public long getJvmNonheapMemoryUsageUsed() {
+		return jvmNonheapMemoryUsageUsed;
+	}
+
+	public void setJvmNonheapMemoryUsageUsed(long jvmNonheapMemoryUsageUsed) {
+		this.jvmNonheapMemoryUsageUsed = jvmNonheapMemoryUsageUsed;
+	}
+
+	public long getJvmNonheapMemoryUsageCommitted() {
+		return jvmNonheapMemoryUsageCommitted;
+	}
+
+	public void setJvmNonheapMemoryUsageCommitted(long jvmNonheapMemoryUsageCommitted) {
+		this.jvmNonheapMemoryUsageCommitted = jvmNonheapMemoryUsageCommitted;
+	}
+
+	public long getJvmNonheapMemoryUsageMax() {
+		return jvmNonheapMemoryUsageMax;
+	}
+
+	public void setJvmNonheapMemoryUsageMax(long jvmNonheapMemoryUsageMax) {
+		this.jvmNonheapMemoryUsageMax = jvmNonheapMemoryUsageMax;
+	}
+
+	public double getJvmCpuUse() {
+		return jvmCpuUse;
+	}
+
+	public void setJvmCpuUse(double jvmCpuUse) {
+		this.jvmCpuUse = jvmCpuUse;
+	}
 	
+	
+	
+
 }

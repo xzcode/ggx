@@ -48,7 +48,7 @@ public class RegistryServer {
 			selfService.setServiceDescName(this.config.getServiceDescName());
 			selfService.setServiceGroupDescName(this.config.getServiceGroupDescName());
 			selfService.setHost(this.config.getHost());
-			selfService.addCustomData("REGISTRY_PORT", String.valueOf(this.config.getPort()));
+			selfService.setPort(this.config.getPort());
 			this.config.getServiceManager().registerService(selfService);
 		}
 		

@@ -25,11 +25,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-core-spring-support</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ggx</groupId>
 			<artifactId>ggx-util</artifactId>
 		</dependency>
 

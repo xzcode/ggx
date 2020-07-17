@@ -2,8 +2,12 @@ package com.ggx.admin.server.handler.registry.model.resp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class ServiceModel {
+import com.ggx.registry.common.service.ServiceInfo;
+
+public class ServiceDataModel {
 
 	// 服务id
 	protected String serviceId;
@@ -23,6 +27,9 @@ public class ServiceModel {
 	// 服务ip地址
 	protected String host;
 
+	// 服务端口
+	protected int port;
+
 	// 所在地区
 	protected String region = "default";
 
@@ -31,6 +38,24 @@ public class ServiceModel {
 
 	// 自定义数据
 	protected List<CustomData> customData = new ArrayList<>();
+
+	public static ServiceDataModel create(ServiceInfo serviceInfo) {
+		ServiceDataModel serviceModel = new ServiceDataModel();
+		serviceModel.setServiceId(serviceInfo.getServiceId());
+		serviceModel.setServiceName(serviceInfo.getServiceName());
+		serviceModel.setServiceDescName(serviceInfo.getServiceDescName());
+		serviceModel.setServiceGroupDescName(serviceInfo.getServiceGroupDescName());
+		serviceModel.setHost(serviceInfo.getHost());
+		serviceModel.setPort(serviceInfo.getPort());
+		serviceModel.setRegion(serviceInfo.getRegion());
+		serviceModel.setServiceGroupId(serviceInfo.getServiceGroupId());
+		serviceModel.setZone(serviceInfo.getZone());
+		Map<String, String> customData = serviceInfo.getCustomData();
+		for (Entry<String, String> entry : customData.entrySet()) {
+			serviceModel.addCustomData(entry.getKey(), entry.getValue());
+		}
+		return serviceModel;
+	}
 
 	/**
 	 * 添加自定义参数
@@ -115,5 +140,11 @@ public class ServiceModel {
 		this.serviceDescName = serviceDescName;
 	}
 
-	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
 }

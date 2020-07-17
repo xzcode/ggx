@@ -1,7 +1,5 @@
 package com.ggx.admin.common.collector.data.collector;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-
 /**
  * 信息收集器统一接口
  *
@@ -9,7 +7,7 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
  * @author zai
  * 2020-04-21 15:57:37
  */
-public interface DataCollector extends Runnable {
+public interface DataCollector<T> extends Runnable {
 
 	/**
 	 * 进行收集
@@ -17,7 +15,7 @@ public interface DataCollector extends Runnable {
 	 * @author zai
 	 * 2020-04-21 15:57:50
 	 */
-	void collect();
+	T collect();
 	
 	/**
 	 * 收集周期时间

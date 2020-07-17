@@ -7,6 +7,7 @@ import com.ggx.admin.collector.server.filter.AuthFilter;
 import com.ggx.admin.collector.server.handler.AuthReqHandler;
 import com.ggx.admin.collector.server.handler.ServerDataReqHandler;
 import com.ggx.admin.collector.server.handler.ServiceDataReqHandler;
+import com.ggx.admin.collector.server.service.ServerDataService;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
@@ -49,7 +50,7 @@ public class GGXAdminCollectorServer  implements ReceiveMessageSupport, EventSup
 		ggserver.addFilter(new AuthFilter());
 		
 		ggserver.onMessage(new AuthReqHandler(config));
-		ggserver.onMessage(new ServerDataReqHandler(config));
+		ggserver.onMessage(new ServerDataReqHandler(new ServerDataService(), config));
 		ggserver.onMessage(new ServiceDataReqHandler(config));
 		
 		

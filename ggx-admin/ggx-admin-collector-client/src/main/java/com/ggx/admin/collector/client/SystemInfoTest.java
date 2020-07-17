@@ -1,6 +1,10 @@
 package com.ggx.admin.collector.client;
 
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +50,16 @@ public class SystemInfoTest {
 	public static void main(String[] args) {
 		// Options: ERROR > WARN > INFO > DEBUG > TRACE
 		Logger LOG = LoggerFactory.getLogger(SystemInfoTest.class);
-
+		OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+		
+		ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+		long[] allThreadIds = threadMXBean.getAllThreadIds();
+		long cpuTime = 0L;
+		for (long l : allThreadIds) {
+			cpuTime += threadMXBean.getThreadCpuTime(l);
+		}
+		System.out.println(cpuTime);
+		
 		LOG.info("Initializing System...");
 		SystemInfo si = new SystemInfo();
 
