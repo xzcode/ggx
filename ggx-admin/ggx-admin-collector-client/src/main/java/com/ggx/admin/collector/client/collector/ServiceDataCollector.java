@@ -17,7 +17,6 @@ public class ServiceDataCollector implements DataCollector<ServiceData> {
 
 	public ServiceDataCollector(GGXAdminCollectorClientConfig config) {
 		this.config = config;
-		this.config.getCollectorTaskManager().addCollector(this);
 
 	}
 

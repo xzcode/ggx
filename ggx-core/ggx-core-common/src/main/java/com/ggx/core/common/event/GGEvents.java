@@ -20,7 +20,7 @@ public interface GGEvents {
 		/**
 	     * 读空闲
 	     */
-		String READE = "GG.IDLE.READ";
+		String READ = "GG.IDLE.READ";
 	    /**
 	     * 写空闲
 	     */

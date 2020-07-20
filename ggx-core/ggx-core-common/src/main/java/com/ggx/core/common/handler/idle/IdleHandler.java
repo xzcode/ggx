@@ -47,7 +47,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 			this.writerIdleEnabled = true;
 		}
 		
-		if (config.getEventManager().hasEventListener(GGEvents.Idle.READE)) {
+		if (config.getEventManager().hasEventListener(GGEvents.Idle.READ)) {
 			this.readerIdleEnabled = true;
 		}
 		
@@ -80,7 +80,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...READER_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Idle.READE, null, config,ctx.channel()));
+							config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Idle.READ, null, config,ctx.channel()));
 						}
 					break;
 				case ALL_IDLE:

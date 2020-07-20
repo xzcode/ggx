@@ -2,7 +2,6 @@ package com.ggx.admin.collector.client.handler;
 
 import com.ggx.admin.collector.client.collector.ServerDataCollector;
 import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
-import com.ggx.admin.common.collector.data.model.server.ServerData;
 import com.ggx.admin.common.collector.message.req.ServerDataReq;
 import com.ggx.admin.common.collector.message.resp.ServerDataRequestResp;
 import com.ggx.core.common.message.MessageData;
@@ -29,11 +28,8 @@ public class ServerDataRequestRespHandler implements MessageHandler<ServerDataRe
 
 	@Override
 	public void handle(MessageData<ServerDataRequestResp> message) {
-
 		GGSession session = message.getSession();
-
-		ServerData serverData = serverDataCollector.collect();
-		session.send(new ServerDataReq(serverData));
+		session.send(new ServerDataReq(serverDataCollector.collect()));
 	}
 
 }

@@ -26,7 +26,6 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		req.setAuthToken(config.getAuthToken(), config.getRegistryClient().getServiceId());
 		session.send(req);
 		
-		this.config.getCollectorTaskManager().startAllTask();
 	}
 
 }

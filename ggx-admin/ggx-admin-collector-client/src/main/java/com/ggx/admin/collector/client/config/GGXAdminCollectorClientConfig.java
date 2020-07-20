@@ -1,7 +1,6 @@
 package com.ggx.admin.collector.client.config;
 
 import com.ggx.admin.collector.client.GGXAdminCollectorClient;
-import com.ggx.admin.collector.client.collector.task.CollectorTaskManager;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
 import com.ggx.core.client.GGClient;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
@@ -19,7 +18,6 @@ public class GGXAdminCollectorClientConfig {
 	// gameMonitorClient对象
 	protected GGXAdminCollectorClient collectorClient;
 	
-	protected CollectorTaskManager collectorTaskManager = new CollectorTaskManager(this);
 
 	protected boolean printPingPongInfo = false;
 
@@ -167,13 +165,6 @@ public class GGXAdminCollectorClientConfig {
 		this.registryClient = registryClient;
 	}
 
-	public CollectorTaskManager getCollectorTaskManager() {
-		return collectorTaskManager;
-	}
-
-	public void setCollectorTaskManager(CollectorTaskManager collectorTaskManager) {
-		this.collectorTaskManager = collectorTaskManager;
-	}
 
 	public boolean isAuthed() {
 		return authed;

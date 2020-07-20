@@ -1,8 +1,6 @@
 package com.ggx.admin.server.listen;
 
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -16,9 +14,8 @@ import com.ggx.admin.common.collector.data.model.server.ServerData;
 import com.ggx.admin.server.handler.registry.model.resp.ServerDataModel;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
-import com.ggx.admin.server.model.SessionServiceListener;
-import com.ggx.core.common.executor.SingleThreadTaskExecutor;
-import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.admin.server.listen.basic.BasicSessionListenerManager;
+import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -30,11 +27,8 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai 2020-07-17 17:28:04
  */
 @Component
-public class ServiceInfoSessionListenerManager {
+public class ServiceInfoSessionListenerManager extends BasicSessionListenerManager{
 
-	private TaskExecutor taskExecutor = new SingleThreadTaskExecutor("Service-Info-Listen-Manager-");
-
-	private Map<GGSession, SessionServiceListener> sessionListenrs = new ConcurrentHashMap<>();
 	
 	private ServiceManager serviceManager;
 	
@@ -52,44 +46,6 @@ public class ServiceInfoSessionListenerManager {
 		this.serverDataService = ggxAdminCollectorServer.getConfig().getServerDataService();
 	}
 
-	/**
-	 * 添加或更新监听器
-	 *
-	 * @param session
-	 * @author zai 2020-07-17 17:27:57
-	 */
-	public void addOrUpdateListener(SessionServiceListener sessionListener) {
-		SessionServiceListener old = sessionListenrs.get(sessionListener.getSession());
-		if (old == null || sessionListener.getServiceId() != old.getServiceId()) {
-			old = sessionListenrs.put(sessionListener.getSession(), sessionListener);
-			if (old == null) {
-				sessionListener.getSession().addDisconnectListener(f -> {
-					sessionListenrs.remove(sessionListener.getSession());
-				});
-			}
-		}
-	}
-
-	/**
-	 * 启动超时检查任务
-	 *
-	 * @author zai
-	 * 2020-07-17 17:43:31
-	 */
-	@PostConstruct
-	public void startCheckTimeoutTask() {
-		taskExecutor.scheduleWithFixedDelay(1000L, 10000L, TimeUnit.MILLISECONDS, () -> {
-			if (sessionListenrs.isEmpty()) {
-				return;
-			}
-			for (Entry<GGSession, SessionServiceListener> entry : sessionListenrs.entrySet()) {
-				SessionServiceListener sessionListener = entry.getValue();
-				if (sessionListener.isTimeout()) {
-					this.sessionListenrs.remove(sessionListener.getSession());
-				}
-			}
-		});
-	}
 	
 	/**
 	 * 启动发送服务信息任务
@@ -99,12 +55,12 @@ public class ServiceInfoSessionListenerManager {
 	 */
 	@PostConstruct
 	public void startSendServiceInfoTask() {
-		taskExecutor.scheduleWithFixedDelay(1000L, 1000L, TimeUnit.MILLISECONDS, () -> {
+		TASK_EXECUTOR.scheduleWithFixedDelay(1000L, 1000L, TimeUnit.MILLISECONDS, () -> {
 			if (sessionListenrs.isEmpty()) {
 				return;
 			}
-			for (Entry<GGSession, SessionServiceListener> entry : sessionListenrs.entrySet()) {
-				SessionServiceListener sessionListener = entry.getValue();
+			for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
+				ServiceInfoSessionListener sessionListener = entry.getValue();
 				this.sendListenServiceInfo(sessionListener);
 			}
 		});
@@ -117,7 +73,7 @@ public class ServiceInfoSessionListenerManager {
 	 * @author zai
 	 * 2020-07-17 18:12:41
 	 */
-	public void sendListenServiceInfo(SessionServiceListener sessionListener) {
+	public void sendListenServiceInfo(ServiceInfoSessionListener sessionListener) {
 		GGSession session = sessionListener.getSession();
 		
 		ServiceInfo serviceInfo = serviceManager.getService(sessionListener.getServiceId());

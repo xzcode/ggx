@@ -4,8 +4,6 @@ import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
 import com.ggx.admin.common.collector.message.resp.CollectServiceDataResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
-import com.ggx.core.spring.support.annotation.GGXMessageHandler;
 
 /**
  * 服务数据请求处理器
@@ -26,8 +24,6 @@ public class ServiceDataReqHandler implements MessageHandler<CollectServiceDataR
 
 	@Override
 	public void handle(MessageData<CollectServiceDataResp> messageData) {
-		GGSession session = messageData.getSession();
-		System.out.println(messageData.getMessage());
 	}
 
 

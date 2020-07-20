@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.data.collector.DataCollector;
@@ -73,7 +72,7 @@ public class ServerDataCollector implements DataCollector<ServerData> {
 	protected double jvmCpuUse;
 
 	// 文件系统
-	protected FileSystem fileSystem;
+	protected FileSystem fileSystem = os.getFileSystem();
 
 	// 网络接口
 	protected NetworkIF[] networkIFs = hal.getNetworkIFs();
@@ -105,7 +104,6 @@ public class ServerDataCollector implements DataCollector<ServerData> {
 	public ServerDataCollector(GGXAdminCollectorClientConfig config) {
 		this.config = config;
 		this.taskExecutor = config.getTaskExecutor();
-		this.config.getCollectorTaskManager().addCollector(this);
 	}
 
 	@Override

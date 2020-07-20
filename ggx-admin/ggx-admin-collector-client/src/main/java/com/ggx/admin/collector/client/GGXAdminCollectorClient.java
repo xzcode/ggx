@@ -34,8 +34,8 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 	
 	private void init() {
 		
-		CollectorTaskManager collectorTaskManager = this.config.getCollectorTaskManager();
-		collectorTaskManager.addCollector(new ServerDataCollector(config));
+		//CollectorTaskManager collectorTaskManager = this.config.getCollectorTaskManager();
+		//collectorTaskManager.addCollector(new ServerDataCollector(config));
 		//collectorTaskManager.addCollector(new ServiceDataCollector(config));
 		
 		

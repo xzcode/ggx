@@ -7,7 +7,7 @@ import com.ggx.core.common.session.GGSession;
  *
  * @author zai 2020-07-17 16:16:37
  */
-public class SessionServiceListener {
+public class ServiceInfoSessionListener {
 
 	/**
 	 * 超时延迟（毫秒）
@@ -24,7 +24,7 @@ public class SessionServiceListener {
 	private long lastUpdateTime = System.currentTimeMillis();
 	
 
-	public SessionServiceListener(GGSession session, String serviceId) {
+	public ServiceInfoSessionListener(GGSession session, String serviceId) {
 		this.session = session;
 		this.serviceId = serviceId;
 	}

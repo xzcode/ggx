@@ -10,7 +10,7 @@ import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.req.GetServiceInfoReq;
 import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
 import com.ggx.admin.server.listen.ServiceInfoSessionListenerManager;
-import com.ggx.admin.server.model.SessionServiceListener;
+import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
@@ -38,7 +38,7 @@ public class ListenServiceInfoHandler implements MessageHandler<GetServiceInfoRe
 		GGSession session = messageData.getSession();
 		String serviceId = req.getServiceId();
 		
-		serviceInfoSessionListenerManager.addOrUpdateListener(new SessionServiceListener(session, serviceId));
+		serviceInfoSessionListenerManager.addOrUpdateListener(new ServiceInfoSessionListener(session, serviceId));
 
 	}
 
