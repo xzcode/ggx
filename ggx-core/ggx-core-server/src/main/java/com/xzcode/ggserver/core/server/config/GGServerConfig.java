@@ -59,7 +59,7 @@ public class GGServerConfig extends GGConfig{
 
 		if (isPingPongEnabled()) {
 			receiveMessageManager.onMessage(GGPing.ACTION_ID, new GGPingRequestHandler(this));			
-			eventManager.addEventListener(GGEvents.Idle.ALL, new GGPingPongServerEventListener(this));
+			eventManager.addEventListener(GGEvents.Idle.READ, new GGPingPongServerEventListener(this));
 		}
 		
 	}
