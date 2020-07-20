@@ -1,4 +1,4 @@
-package com.ggx.admin.server.listen;
+package com.ggx.admin.server.listener.registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.server.handler.registry.model.resp.GetRegistryInfoResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
-import com.ggx.admin.server.listen.basic.BasicSessionListenerManager;
+import com.ggx.admin.server.listener.basic.BasicSessionListenerManager;
 import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.client.RegistryClient;

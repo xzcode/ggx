@@ -18,6 +18,10 @@ public class EventData<T> {
 		this.event = event;
 		this.data = data;
 	}
+	public EventData(GGSession session, String event) {
+		this.session = session;
+		this.event = event;
+	}
 	public EventData(GGSession session, String event, T data) {
 		this.session = session;
 		this.event = event;

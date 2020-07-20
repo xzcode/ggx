@@ -9,7 +9,7 @@ import com.ggx.admin.server.handler.registry.model.resp.ServerDataModel;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.req.GetServiceInfoReq;
 import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
-import com.ggx.admin.server.listen.ServiceInfoSessionListenerManager;
+import com.ggx.admin.server.listener.service.ServiceInfoSessionListenerManager;
 import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;

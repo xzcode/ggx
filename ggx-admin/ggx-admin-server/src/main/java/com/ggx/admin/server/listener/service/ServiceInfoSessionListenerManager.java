@@ -1,4 +1,4 @@
-package com.ggx.admin.server.listen;
+package com.ggx.admin.server.listener.service;
 
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ import com.ggx.admin.common.collector.data.model.server.ServerData;
 import com.ggx.admin.server.handler.registry.model.resp.ServerDataModel;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
-import com.ggx.admin.server.listen.basic.BasicSessionListenerManager;
+import com.ggx.admin.server.listener.basic.BasicSessionListenerManager;
 import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.client.RegistryClient;
@@ -55,12 +55,19 @@ public class ServiceInfoSessionListenerManager extends BasicSessionListenerManag
 	 */
 	@PostConstruct
 	public void startSendServiceInfoTask() {
-		TASK_EXECUTOR.scheduleWithFixedDelay(1000L, 1000L, TimeUnit.MILLISECONDS, () -> {
+		scheduleWithFixedDelay(1000L, 1000L, TimeUnit.MILLISECONDS, () -> {
 			if (sessionListenrs.isEmpty()) {
 				return;
 			}
 			for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
 				ServiceInfoSessionListener sessionListener = entry.getValue();
+				String serviceId = sessionListener.getServiceId();
+				int listenerCount = getListenerCount(serviceId);
+				if (listenerCount >= 0) {
+					
+				}
+				
+				
 				this.sendListenServiceInfo(sessionListener);
 			}
 		});

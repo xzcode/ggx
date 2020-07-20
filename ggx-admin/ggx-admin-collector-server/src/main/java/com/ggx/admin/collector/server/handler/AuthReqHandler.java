@@ -1,9 +1,11 @@
 package com.ggx.admin.collector.server.handler;
 
 import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
+import com.ggx.admin.collector.server.constant.GGXAdminCollectorServerEvents;
 import com.ggx.admin.collector.server.constant.GGXAdminCollectorServerSessionKeys;
 import com.ggx.admin.common.collector.message.req.AuthReq;
 import com.ggx.admin.common.collector.message.resp.AuthResp;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
@@ -38,6 +40,8 @@ public class AuthReqHandler implements MessageHandler<AuthReq>{
 			if (clientAuthToken != null && !clientAuthToken.isEmpty() && clientAuthToken.equals(serverAuthToken)) {
 				session.addAttribute(GGXAdminCollectorServerSessionKeys.IS_AUTHED, true);
 				session.addAttribute(GGXAdminCollectorServerSessionKeys.SERVICE_ID, req.getServiceId());
+				//发射认证成功事件
+				session.emitEvent(new EventData<Void>(session, GGXAdminCollectorServerEvents.AUTH_SUCCESS));
 				session.send(new AuthResp(true));
 				return;
 			}
