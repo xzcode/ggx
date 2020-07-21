@@ -1,6 +1,7 @@
 package com.ggx.admin.collector.server.config;
 
 import com.ggx.admin.collector.server.service.ServerDataService;
+import com.ggx.admin.collector.server.session.ServiceIdSessionManager;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
 import com.xzcode.ggserver.core.server.GGServer;
 
@@ -29,6 +30,9 @@ public class GGXAdminCollectorServerConfig {
 	
 	
 	private ServerDataService serverDataService = new ServerDataService();
+	
+	
+	private ServiceIdSessionManager serviceIdSessionManager = new ServiceIdSessionManager();
 	
 	public String getAuthToken() {
 		return authToken;
@@ -80,4 +84,14 @@ public class GGXAdminCollectorServerConfig {
 	public void setServerDataService(ServerDataService serverDataService) {
 		this.serverDataService = serverDataService;
 	}
+
+	public ServiceIdSessionManager getServiceIdSessionManager() {
+		return serviceIdSessionManager;
+	}
+
+	public void setServiceIdSessionManager(ServiceIdSessionManager serviceIdSessionManager) {
+		this.serviceIdSessionManager = serviceIdSessionManager;
+	}
+	
+	
 }

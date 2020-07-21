@@ -31,5 +31,9 @@ public class ServiceIdSessionManager {
 			});
 		}
 	}
+	
+	public GGSession getSession(String serviceId) {
+		return this.serviceIdSessionMap.get(serviceId);
+	}
 
 }

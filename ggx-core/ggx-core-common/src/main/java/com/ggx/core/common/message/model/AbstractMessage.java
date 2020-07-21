@@ -17,7 +17,7 @@ public abstract class AbstractMessage implements Message{
 	 * actionId缓存
 	 */
 	private transient static final Map<Class<?>, String> ACTION_ID_CACHE = new ConcurrentHashMap<Class<?>, String>();
-
+	
 	@Override
 	public String getActionId() {
 		String actionId = ACTION_ID_CACHE.get(this.getClass());
