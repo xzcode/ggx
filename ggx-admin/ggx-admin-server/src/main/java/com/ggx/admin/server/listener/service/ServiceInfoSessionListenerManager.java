@@ -2,6 +2,7 @@ package com.ggx.admin.server.listener.service;
 
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 
@@ -61,15 +62,22 @@ public class ServiceInfoSessionListenerManager extends BasicSessionListenerManag
 			if (sessionListenrs.isEmpty()) {
 				return;
 			}
-			for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
-				ServiceInfoSessionListener sessionListener = entry.getValue();
-				String serviceId = sessionListener.getServiceId();
-				int listenerCount = getListenerCount(serviceId);
-
+			
+			//只对有监听的服务发送信息获取请求
+			for (Entry<String, AtomicInteger> entry : this.listenerCounters.entrySet()) {
+				int listenerCount = entry.getValue().get();
+				String serviceId = entry.getKey();
+				
 				if (listenerCount > 0) {
 					GGSession serviceSession = serviceIdSessionManager.getSession(serviceId);
 					serviceSession.send(ServerDataRequestResp.DEFAULT_INSTANCE);
 				}
+			}
+			
+			for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
+				ServiceInfoSessionListener sessionListener = entry.getValue();
+				
+				
 
 				this.sendListenServiceInfo(sessionListener);
 			}
