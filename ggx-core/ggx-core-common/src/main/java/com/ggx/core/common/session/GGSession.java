@@ -182,6 +182,15 @@ public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, E
 	void checkExpire();
 	
 	/**
+	 * 设置为已超时
+	 *
+	 * @param expire
+	 * @author zzz
+	 * 2020-07-29 14:43:33
+	 */
+	void setExpired();
+	
+	/**
 	 * 获取会话组id
 	 *
 	 * @return
