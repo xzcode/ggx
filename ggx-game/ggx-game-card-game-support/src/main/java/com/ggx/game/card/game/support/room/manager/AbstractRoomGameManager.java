@@ -11,7 +11,6 @@ import com.ggx.game.card.game.support.player.RoomPlayer;
 import com.ggx.game.card.game.support.player.factory.PlayerFactory;
 import com.ggx.game.card.game.support.room.Room;
 import com.ggx.game.card.game.support.room.factory.RoomFactory;
-import com.xzcode.ggserver.core.server.GGServer;
 
 /**
  * 房间管理器
@@ -28,11 +27,6 @@ P extends RoomPlayer<P, R, H>,
 R extends Room<P, R, H>, 
 H extends House<P, R, H>
 > implements RoomGameManager<P, R, H> {
-	
-	/**
-	 * ggserver对象
-	 */
-	protected GGServer ggserver;
 	
 	/**
 	 * 大厅集合Map<houseNo, house>
@@ -61,12 +55,10 @@ H extends House<P, R, H>
 	 * @param designPlayerSize 预计总玩家数量
 	 */
 	public AbstractRoomGameManager(
-			GGServer ggserver,
 			PlayerFactory<P> playerFactory,
 			RoomFactory<R> roomFactory
 			) {
 		
-		this.ggserver = ggserver;
 		this.playerFactory = playerFactory;
 		this.roomFactory = roomFactory;
 		
@@ -181,8 +173,5 @@ H extends House<P, R, H>
 		return executor;
 	}
 	
-	public GGServer getGGserver() {
-		return ggserver;
-	}
 
 }

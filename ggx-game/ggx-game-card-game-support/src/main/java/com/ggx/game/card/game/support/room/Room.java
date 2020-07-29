@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.game.card.game.support.house.House;
 import com.ggx.game.card.game.support.player.RoomPlayer;
 import com.ggx.game.card.game.support.room.listener.IPlayerEnterListener;
 import com.ggx.game.card.game.support.room.listener.IPlayerLeaveListener;
-import com.xzcode.ggserver.core.server.GGServer;
 
 /**
  * 游戏房间
@@ -25,10 +25,6 @@ H extends House<P, R, H>
 >{	
 	
 	
-	/**
-	 * ggserver对象
-	 */
-	protected GGServer ggserver;
 	
 	/**
 	 * 大厅
@@ -191,17 +187,6 @@ H extends House<P, R, H>
 		this.playerLeaveListeners = afterRemovePlayerListeners;
 	}
 
-
-	
-	
-	public GGServer getGGserver() {
-		return ggserver;
-	}
-
-
-	public void setGGserver(GGServer server) {
-		this.ggserver = server;
-	}
 	
 	public H getHouse() {
 		return house;
