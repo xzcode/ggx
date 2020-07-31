@@ -57,7 +57,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGConfig>{
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
 		resp.setSerializeType(pack.getSerializeType());
-		if (this.groupSession.isExpired()) {
+		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		}
 		if (this.groupSession == null) {
