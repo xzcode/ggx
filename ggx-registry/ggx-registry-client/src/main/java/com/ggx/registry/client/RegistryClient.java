@@ -2,14 +2,11 @@ package com.ggx.registry.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -39,7 +36,6 @@ public class RegistryClient {
 	
 	protected List<ClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
 	
-	protected TaskExecutor singleThreadEvecutor;
 	
 	public RegistryClient(RegistryClientConfig config) {
 		this.config = config;
@@ -72,39 +68,12 @@ public class RegistryClient {
 		
 		connect();
 		
-		startCheckTask();
-		
 	}
 	
-	/**
-	 * 启动检查任务
-	 * 
-	 * @author zai
-	 * 2020-02-10 18:58:31
-	 */
-	public void startCheckTask() {
-		this.config.getGGclient().getTaskExecutor().scheduleWithFixedDelay(5, 10, TimeUnit.SECONDS, () -> {
-			checkAndUpdateService();
-		});
-	}
 	
 	public void addCustomData(String key, String value) {
 		this.config.addCustomData(key, value);
-	}
-	
-	/**
-	 * 检查并更新服务信息到注册中心
-	 * 
-	 * @author zai
-	 * 2020-02-10 19:00:52
-	 */
-	public void	checkAndUpdateService() {
-		AtomicInteger extraDataUpdateTimes = config.getCustomDataUpdateTimes();
-		int times = extraDataUpdateTimes.get();
-		if (times > 0) {
-			this.updateService();
-			extraDataUpdateTimes.getAndAdd(-times);
-		}
+		this.updateService();
 	}
 	
 	public void connect() {

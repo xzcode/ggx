@@ -165,12 +165,12 @@ public class RouterServer implements GGXCore {
 				RegistryClient registryClient = config.getRegistryClient();
 				if (registryClient != null) {
 					if (config.getRouterGroupId() != null) {
-						registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,config.getRouterGroupId());
+						registryClient.addCustomData(RouterServiceCustomDataKeys.ROUTER_GROUP_ID,config.getRouterGroupId());
 					}
 					if (config.getActionIdPrefix() != null) {
-						registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
+						registryClient.addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX,config.getActionIdPrefix());
 					}
-					registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
+					registryClient.addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
 				}
 				
 			}
