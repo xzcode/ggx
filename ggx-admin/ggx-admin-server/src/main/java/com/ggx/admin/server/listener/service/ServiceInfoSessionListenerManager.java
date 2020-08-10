@@ -74,11 +74,9 @@ public class ServiceInfoSessionListenerManager extends BasicSessionListenerManag
 				}
 			}
 			
+			//发送信息给正在监听的客户端会话
 			for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
 				ServiceInfoSessionListener sessionListener = entry.getValue();
-				
-				
-
 				this.sendListenServiceInfo(sessionListener);
 			}
 		});
