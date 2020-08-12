@@ -70,14 +70,18 @@ public class RouterServiceGroup {
 	
 	
 	public void addService(RouterService service) {
-		this.services.put(service.getServiceId(), service);
-		this.sortedServiceList.add(service);
-		for (AddRouterServiceListener addRouterServiceListener : addRouterServiceListeners) {
-			try {
-				addRouterServiceListener.trigger(service);
-			} catch (Exception e) {
-				GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+		RouterService old = this.services.put(service.getServiceId(), service);
+		if (old == null) {
+			this.sortedServiceList.add(service);			
+			for (AddRouterServiceListener addRouterServiceListener : addRouterServiceListeners) {
+				try {
+					addRouterServiceListener.trigger(service);
+				} catch (Exception e) {
+					GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+				}
 			}
+		}else {
+			handleServiceAfterRemove(old);
 		}
 	}
 	
@@ -97,17 +101,28 @@ public class RouterServiceGroup {
 	public void reomoveService(String serviceId) {
 		RouterService routerService = this.services.remove(serviceId);
 		if (routerService != null) {
-			//也从列表中移除
-			this.sortedServiceList.remove(routerService);
-			//重新排序列表
-			this.sortServiceList();
-			routerService.shutdown();
-			for (RemoveRouterServiceListener removeRouterServiceListener : removeRouterServiceListeners) {
-				try {
-					removeRouterServiceListener.trigger(routerService);
-				} catch (Exception e) {
-					GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
-				}
+			handleServiceAfterRemove(routerService);
+		}
+	}
+	
+	/**
+	 * 处理移除后的服务
+	 *
+	 * @param routerService
+	 * @author zzz
+	 * 2020-08-11 19:01:11
+	 */
+	private void handleServiceAfterRemove(RouterService routerService) {
+		//也从列表中移除
+		this.sortedServiceList.remove(routerService);
+		//重新排序列表
+		this.sortServiceList();
+		routerService.shutdown();
+		for (RemoveRouterServiceListener removeRouterServiceListener : removeRouterServiceListeners) {
+			try {
+				removeRouterServiceListener.trigger(routerService);
+			} catch (Exception e) {
+				GGLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
 			}
 		}
 	}
