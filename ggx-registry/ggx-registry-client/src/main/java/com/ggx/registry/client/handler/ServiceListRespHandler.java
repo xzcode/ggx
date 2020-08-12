@@ -1,5 +1,6 @@
 package com.ggx.registry.client.handler;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
@@ -39,6 +40,21 @@ public class ServiceListRespHandler implements MessageHandler<RegistryServiceLis
 		}
 		
 		ServiceManager serviceManager = config.getServiceManager();
+		
+		List<ServiceInfo> oldServiceList = serviceManager.getServiceList();
+		
+		for (ServiceInfo oldServiceInfo : oldServiceList) {
+			boolean hasServiceInfo = false;
+			for (ServiceInfo newServiceInfo : serviceList) {
+				if (newServiceInfo.getServiceId().equals(oldServiceInfo.getServiceId())) {
+					hasServiceInfo = true;
+					break;
+				}
+			}
+			if (!hasServiceInfo) {
+				serviceManager.removeService(oldServiceInfo);
+			}
+		}
 		
 		for (ServiceInfo serviceInfo : serviceList) {
 			serviceManager.registerService(serviceInfo);

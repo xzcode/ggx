@@ -4,6 +4,7 @@ import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
+import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -58,8 +59,11 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
 		resp.setSerializeType(pack.getSerializeType());
-		if (this.groupSession.isExpired()) {
+		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
+		}
+		if (this.groupSession == null) {
+			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		return groupSession.send(makePack(new MessageData<>(resp.getActionId(), resp)));
 	}

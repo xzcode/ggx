@@ -49,6 +49,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 		}
 		this.sessionMap.put(session.getSessonId(), session);
 		session.addDisconnectListener(se -> {
+			se.setExpired();
 			removeSession(se);
 		});
 	}

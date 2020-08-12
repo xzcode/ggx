@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.common.session.GGSession;
@@ -93,10 +92,6 @@ public class RegistryClientConfig {
 	//所在分区
 	protected String zone = "default";
 	
-	//自定义数据更新次数
-	protected AtomicInteger customDataUpdateTimes = new AtomicInteger(0);
-	
-
 	/**
 	 * 自定义数据
 	 */
@@ -112,7 +107,6 @@ public class RegistryClientConfig {
 	 */
 	public void addCustomData(String key, String value) {
 		customData.put(key, value);
-		customDataUpdateTimes.incrementAndGet();
 	}
 	
 	public Map<String, String> getCustomData() {
@@ -232,10 +226,6 @@ public class RegistryClientConfig {
 	
 	public void setRegistryClient(RegistryClient discoveryClient) {
 		this.registryClient = discoveryClient;
-	}
-	
-	public AtomicInteger getCustomDataUpdateTimes() {
-		return customDataUpdateTimes;
 	}
 	
 	public boolean isPingPongEnabled() {

@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
-import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
@@ -27,7 +25,6 @@ import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
-import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;

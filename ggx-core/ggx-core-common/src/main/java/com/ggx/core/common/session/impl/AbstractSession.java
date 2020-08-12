@@ -184,6 +184,12 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 		return this.groupId;
 	}
 	
+	@Override
+	public void setExpired() {
+		this.expired = true;
+		
+	}
+	
 	
 
 }

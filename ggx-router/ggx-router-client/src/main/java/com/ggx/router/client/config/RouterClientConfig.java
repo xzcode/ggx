@@ -125,7 +125,7 @@ public class RouterClientConfig {
 		}
 
 		if (this.registryClient != null) {
-			this.registryClient.getConfig().addCustomData(RouterServiceCustomDataKeys.FORWARD_ROUTER_GROUP_ID,getRouterGroupId());
+			this.registryClient.addCustomData(RouterServiceCustomDataKeys.FORWARD_ROUTER_GROUP_ID,getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 		

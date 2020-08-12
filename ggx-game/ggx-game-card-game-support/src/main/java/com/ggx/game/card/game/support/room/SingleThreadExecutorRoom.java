@@ -2,6 +2,7 @@ package com.ggx.game.card.game.support.room;
 
 import java.nio.charset.Charset;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.filter.FilterManager;
@@ -35,10 +36,13 @@ ExecutorSupport
 	/**
 	 * 单线程执行器
 	 */
+	protected GGXCore core;
+	
 	protected TaskExecutor taskExecutor;
 
-	public SingleThreadExecutorRoom(TaskExecutor singleThreadExecutor) {
-		this.taskExecutor = singleThreadExecutor;
+	public SingleThreadExecutorRoom(GGXCore core) {
+		this.core = core;
+		this.taskExecutor = core.nextEvecutor();
 	}
 	
 	/**
@@ -62,24 +66,28 @@ ExecutorSupport
 
 	@Override
 	public Charset getCharset() {
-		return getGGserver().getCharset();
+		return getCore().getCharset();
 	}
 
 	@Override
 	public ISerializer getSerializer() {
-		return getGGserver().getSerializer();
+		return getCore().getSerializer();
 	}
 
 	@Override
 	public SessionManager getSessionManager() {
-		return getGGserver().getSessionManager();
+		return getCore().getSessionManager();
 	}
 
 	@Override
 	public FilterManager getFilterManager() {
-		return getGGserver().getFilterManager();
+		return getCore().getFilterManager();
 	}
 
+	public GGXCore getCore() {
+		return core;
+	}
+	
 	
 	
 }
