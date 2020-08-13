@@ -106,11 +106,6 @@ public class ServerDataCollector implements DataCollector<ServerData> {
 		this.taskExecutor = config.getTaskExecutor();
 	}
 
-	@Override
-	public long collectPeriodMs() {
-		return 2000L;
-	}
-
 	public ServerData collect() {
 		
 		//更新信息

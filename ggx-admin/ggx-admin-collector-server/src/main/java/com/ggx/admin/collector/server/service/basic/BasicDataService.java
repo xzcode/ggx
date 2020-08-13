@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import com.ggx.admin.collector.server.constant.GGXAdminCollectorServerSessionKeys;
-import com.ggx.admin.common.collector.data.model.service.ServiceData;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;

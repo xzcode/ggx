@@ -1,22 +1,14 @@
 package com.ggx.admin.server.handler.service;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ggx.admin.common.collector.data.model.server.ServerData;
-import com.ggx.admin.server.handler.registry.model.resp.ServerDataModel;
-import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.req.GetServiceInfoReq;
-import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
 import com.ggx.admin.server.listener.service.ServiceInfoSessionListenerManager;
 import com.ggx.admin.server.model.ServiceInfoSessionListener;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.spring.support.annotation.GGXMessageHandler;
-import com.ggx.registry.client.RegistryClient;
-import com.ggx.registry.common.service.ServiceInfo;
 
 /**
  * 监听服务信息处理器

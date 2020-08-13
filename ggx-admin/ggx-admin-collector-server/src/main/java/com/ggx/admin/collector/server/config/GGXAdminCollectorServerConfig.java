@@ -1,6 +1,6 @@
 package com.ggx.admin.collector.server.config;
 
-import com.ggx.admin.collector.server.service.ServerDataService;
+import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.admin.collector.server.session.ServiceIdSessionManager;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
 import com.xzcode.ggserver.core.server.GGServer;
@@ -29,7 +29,7 @@ public class GGXAdminCollectorServerConfig {
 	private int workThreadSize = 4;
 	
 	
-	private ServerDataService serverDataService = new ServerDataService();
+	private ServiceDataService serviceDataService = new ServiceDataService();
 	
 	
 	private ServiceIdSessionManager serviceIdSessionManager = new ServiceIdSessionManager();
@@ -77,12 +77,12 @@ public class GGXAdminCollectorServerConfig {
 		this.workThreadSize = threadSize;
 	}
 	
-	public ServerDataService getServerDataService() {
-		return serverDataService;
+	public ServiceDataService getServiceDataService() {
+		return serviceDataService;
 	}
 	
-	public void setServerDataService(ServerDataService serverDataService) {
-		this.serverDataService = serverDataService;
+	public void setServiceDataService(ServiceDataService serviceDataService) {
+		this.serviceDataService = serviceDataService;
 	}
 
 	public ServiceIdSessionManager getServiceIdSessionManager() {

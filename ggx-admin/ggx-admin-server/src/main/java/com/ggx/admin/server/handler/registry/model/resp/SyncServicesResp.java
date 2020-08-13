@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 
-public class GetRegistryInfoResp extends AbstractMessage{
+public class SyncServicesResp extends AbstractMessage{
 
 	
 	private List<ServiceDataModel> services;
 	
 	
-	public GetRegistryInfoResp() {
+	public SyncServicesResp() {
 	}
 
-	public GetRegistryInfoResp(List<ServiceDataModel> services) {
+	public SyncServicesResp(List<ServiceDataModel> services) {
 		this.services = services;
 	}
 

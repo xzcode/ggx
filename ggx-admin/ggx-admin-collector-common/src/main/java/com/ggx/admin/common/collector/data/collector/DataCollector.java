@@ -17,20 +17,6 @@ public interface DataCollector<T> extends Runnable {
 	 */
 	T collect();
 	
-	/**
-	 * 收集周期时间
-	 *
-	 * @return
-	 * @author zai
-	 * 2020-07-03 15:36:03
-	 */
-	long collectPeriodMs();
-	
-	
-	default long collectInitDelayMs() {
-		return 5000L;
-	}
-	
 	
 	@Override
 	default void run() {

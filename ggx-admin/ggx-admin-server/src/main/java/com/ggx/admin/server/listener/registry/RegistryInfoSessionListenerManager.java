@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
-import com.ggx.admin.server.handler.registry.model.resp.GetRegistryInfoResp;
+import com.ggx.admin.server.handler.registry.model.resp.SyncServicesResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.listener.basic.BasicSessionListenerManager;
 import com.ggx.admin.server.model.ServiceInfoSessionListener;
@@ -37,6 +37,9 @@ public class RegistryInfoSessionListenerManager extends BasicSessionListenerMana
 
 	@PostConstruct
 	public void init() {
+		
+		
+		
 		this.serviceManager = registryClient.getConfig().getServiceManager();
 		
 		this.serviceManager.addRegisterListener((e) -> {
@@ -77,7 +80,7 @@ public class RegistryInfoSessionListenerManager extends BasicSessionListenerMana
 		List<ServiceDataModel> serviceModels = getServiceModels();
 
 		for (Entry<GGSession, ServiceInfoSessionListener> entry : sessionListenrs.entrySet()) {
-			entry.getValue().getSession().send(new GetRegistryInfoResp(serviceModels));
+			entry.getValue().getSession().send(new SyncServicesResp(serviceModels));
 		}
 	}
 
@@ -89,7 +92,7 @@ public class RegistryInfoSessionListenerManager extends BasicSessionListenerMana
 	 */
 	public void sendRegistryToListener(ServiceInfoSessionListener listener) {
 		List<ServiceDataModel> serviceModels = getServiceModels();
-		listener.getSession().send(new GetRegistryInfoResp(serviceModels));
+		listener.getSession().send(new SyncServicesResp(serviceModels));
 
 	}
 

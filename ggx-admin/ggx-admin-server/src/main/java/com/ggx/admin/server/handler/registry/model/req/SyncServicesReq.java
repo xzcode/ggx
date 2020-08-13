@@ -2,7 +2,7 @@ package com.ggx.admin.server.handler.registry.model.req;
 
 import com.ggx.core.common.message.model.AbstractMessage;
 
-public class GetRegistryInfoReq extends AbstractMessage{
+public class SyncServicesReq extends AbstractMessage{
 	
 	private String serviceId;
 	

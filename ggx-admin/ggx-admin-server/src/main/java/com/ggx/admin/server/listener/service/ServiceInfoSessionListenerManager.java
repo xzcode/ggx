@@ -13,7 +13,7 @@ import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.service.ServerDataService;
 import com.ggx.admin.collector.server.session.ServiceIdSessionManager;
 import com.ggx.admin.common.collector.data.model.server.ServerData;
-import com.ggx.admin.common.collector.message.resp.ServerDataRequestResp;
+import com.ggx.admin.common.collector.message.resp.CollectServiceDataResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServerDataModel;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.handler.service.model.resp.ListenServiceInfoResp;
@@ -70,7 +70,7 @@ public class ServiceInfoSessionListenerManager extends BasicSessionListenerManag
 				
 				if (listenerCount > 0) {
 					GGSession serviceSession = serviceIdSessionManager.getSession(serviceId);
-					serviceSession.send(ServerDataRequestResp.DEFAULT_INSTANCE);
+					serviceSession.send(CollectServiceDataResp.DEFAULT_INSTANCE);
 				}
 			}
 			

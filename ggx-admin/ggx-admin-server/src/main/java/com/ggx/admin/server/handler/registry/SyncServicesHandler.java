@@ -7,8 +7,11 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ggx.admin.server.handler.registry.model.req.GetRegistryInfoReq;
-import com.ggx.admin.server.handler.registry.model.resp.GetRegistryInfoResp;
+import com.ggx.admin.collector.server.GGXAdminCollectorServer;
+import com.ggx.admin.collector.server.service.ServiceDataService;
+import com.ggx.admin.common.collector.data.model.service.ServiceData;
+import com.ggx.admin.server.handler.registry.model.req.SyncServicesReq;
+import com.ggx.admin.server.handler.registry.model.resp.SyncServicesResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
@@ -25,21 +28,21 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai 2019-10-15 21:46:22
  */
 @GGXMessageHandler
-public class GetRegistryInfoHandler implements MessageHandler<GetRegistryInfoReq> {
+public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 
 	@Autowired
-	private RegistryClient registryClient;
+	private GGXAdminCollectorServer ggxAdminCollectorServer;
 
-	private ServiceManager serviceManager;
 
 	@PostConstruct
 	public void init() {
-		this.serviceManager = registryClient.getConfig().getServiceManager();
 	}
 
 	@Override
-	public void handle(MessageData<GetRegistryInfoReq> messageData) {
+	public void handle(MessageData<SyncServicesReq> messageData) {
 		GGSession session = messageData.getSession();
+		ServiceDataService serviceDataService = ggxAdminCollectorServer.getConfig().getServiceDataService();
+		List<ServiceData> dataList = serviceDataService.getDataList();
 		List<ServiceInfo> serviceList = serviceManager.getServiceList();
 
 		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceList.size());
@@ -48,7 +51,7 @@ public class GetRegistryInfoHandler implements MessageHandler<GetRegistryInfoReq
 			serviceModels.add(serviceModel);
 		}
 
-		session.send(new GetRegistryInfoResp(serviceModels));
+		session.send(new SyncServicesResp(serviceModels));
 
 	}
 
