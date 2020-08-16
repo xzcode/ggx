@@ -1,4 +1,4 @@
-package com.ggx.admin.server.listener.registry;
+package com.ggx.admin.server.listener.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
+import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.admin.server.handler.registry.model.resp.SyncServicesResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.listener.basic.BasicSessionListenerManager;
@@ -25,9 +26,9 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai 2020-07-17 17:28:04
  */
 @Component
-public class RegistryInfoSessionListenerManager extends BasicSessionListenerManager {
+public class ServiceDataListenerManager extends BasicSessionListenerManager {
 
-	private ServiceManager serviceManager;
+	private ServiceDataService serviceDataService;
 
 	@Autowired
 	private RegistryClient registryClient;
@@ -38,7 +39,7 @@ public class RegistryInfoSessionListenerManager extends BasicSessionListenerMana
 	@PostConstruct
 	public void init() {
 		
-		
+		serviceDataService.addData(serviceId, data);
 		
 		this.serviceManager = registryClient.getConfig().getServiceManager();
 		
