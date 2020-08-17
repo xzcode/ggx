@@ -1,4 +1,4 @@
-package com.ggx.admin.server.handler.registry.model.resp;
+package com.ggx.admin.server.handler.services.model.resp;
 
 import java.util.List;
 

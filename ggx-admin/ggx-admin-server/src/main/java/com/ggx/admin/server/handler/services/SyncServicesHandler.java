@@ -1,4 +1,4 @@
-package com.ggx.admin.server.handler.registry;
+package com.ggx.admin.server.handler.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.admin.common.collector.data.model.service.ServiceData;
-import com.ggx.admin.server.handler.registry.model.req.SyncServicesReq;
-import com.ggx.admin.server.handler.registry.model.resp.SyncServicesResp;
-import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
+import com.ggx.admin.server.handler.services.model.req.SyncServicesReq;
+import com.ggx.admin.server.handler.services.model.resp.ServiceDataModel;
+import com.ggx.admin.server.handler.services.model.resp.SyncServicesResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
@@ -44,7 +44,7 @@ public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 		ServiceDataService serviceDataService = ggxAdminCollectorServer.getConfig().getServiceDataService();
 		List<ServiceData> dataList = serviceDataService.getDataList();
 
-		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceList.size());
+		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(dataList.size());
 		for (ServiceData serviceData : dataList) {
 			ServiceDataModel serviceModel = ServiceDataModel.create(serviceData);
 			serviceModels.add(serviceModel);
