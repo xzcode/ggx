@@ -83,7 +83,7 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-04 14:33:41
 	 */
-	public void registerService(ServiceInfo service) {
+	public ServiceInfo registerService(ServiceInfo service) {
 		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
 				group = new ServiceGroup(service.getServiceGroupId());
@@ -93,27 +93,28 @@ public class ServiceManager {
 				}
 		}
 		
-		group.addServiceInfo(service);
+		ServiceInfo oldServiceInfo = group.addServiceInfo(service);
 		if (this.registerListeners != null) {
 			for (RegisterServiceListener listener : registerListeners) {
 				listener.onRegister(service);						
 			}
 		}
+		return oldServiceInfo;
 		
 	}
 	
 	/**
 	 * 移除服务
 	 * 
-	 * @param discoveryClientServiceInfo
+	 * @param ServiceInfo
 	 * @author zai
 	 * 2020-02-04 14:33:48
 	 */
 	public void removeService(ServiceInfo service) {
 		ServiceGroup groups = serviceGroups.get(service.getServiceGroupId());
 		if (groups != null) {
-			groups.removeServiceInfo(service.getServiceId());
-			if (this.unregisterListeners != null) {
+			boolean removeServiceInfo = groups.removeServiceInfo(service);
+			if (removeServiceInfo && this.unregisterListeners != null) {
 				for (UnregisterServiceListener listener : unregisterListeners) {
 					listener.onUnregister(service);						
 				}
