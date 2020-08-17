@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.service.ServiceDataService;
+import com.ggx.admin.common.collector.data.model.service.ServiceData;
 import com.ggx.admin.server.handler.registry.model.resp.SyncServicesResp;
 import com.ggx.admin.server.handler.registry.model.resp.ServiceDataModel;
 import com.ggx.admin.server.listener.basic.BasicSessionListenerManager;
@@ -61,11 +62,11 @@ public class ServiceDataListenerManager extends BasicSessionListenerManager {
 	 * @author zai 2020-07-20 14:20:50
 	 */
 	public List<ServiceDataModel> getServiceModels() {
-		List<ServiceInfo> serviceList = serviceManager.getServiceList();
+		List<ServiceData> serviceDataList = serviceDataService.getDataList();
 
-		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceList.size());
-		for (ServiceInfo serviceInfo : serviceList) {
-			ServiceDataModel serviceModel = ServiceDataModel.create(serviceInfo);
+		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceDataList.size());
+		for (ServiceData serviceData : serviceDataList) {
+			ServiceDataModel serviceModel = ServiceDataModel.create(serviceData);
 			serviceModels.add(serviceModel);
 		}
 		return serviceModels;
