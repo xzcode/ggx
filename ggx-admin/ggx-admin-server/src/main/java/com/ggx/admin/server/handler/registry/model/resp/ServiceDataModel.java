@@ -43,21 +43,24 @@ public class ServiceDataModel {
 	// 自定义数据
 	protected List<CustomData> customData = new ArrayList<>();
 
-	public static ServiceDataModel create(ServiceData serviceInfo) {
+	public static ServiceDataModel create(ServiceData serviceData) {
 		ServiceDataModel serviceModel = new ServiceDataModel();
-		serviceModel.setServiceId(serviceInfo.getServiceId());
-		serviceModel.setServiceName(serviceInfo.getServiceName());
-		serviceModel.setServiceDescName(serviceInfo.getServiceDescName());
-		serviceModel.setServiceGroupDescName(serviceInfo.getServiceGroupDescName());
-		serviceModel.setHost(serviceInfo.getHost());
-		serviceModel.setPort(serviceInfo.getPort());
-		serviceModel.setRegion(serviceInfo.getRegion());
-		serviceModel.setServiceGroupId(serviceInfo.getServiceGroupId());
-		serviceModel.setZone(serviceInfo.getZone());
-		Map<String, String> customData = serviceInfo.getCustomData();
+		serviceModel.setServiceId(serviceData.getServiceId());
+		serviceModel.setServiceName(serviceData.getServiceName());
+		serviceModel.setServiceDescName(serviceData.getServiceDescName());
+		serviceModel.setServiceGroupDescName(serviceData.getServiceGroupDescName());
+		serviceModel.setHost(serviceData.getHost());
+		serviceModel.setPort(serviceData.getPort());
+		serviceModel.setRegion(serviceData.getRegion());
+		serviceModel.setServiceGroupId(serviceData.getServiceGroupId());
+		serviceModel.setZone(serviceData.getZone());
+		Map<String, String> customData = serviceData.getCustomData();
 		for (Entry<String, String> entry : customData.entrySet()) {
 			serviceModel.addCustomData(entry.getKey(), entry.getValue());
 		}
+		
+		serviceModel.setServerData(ServerDataModel.create(serviceData.getServerData()));
+		
 		return serviceModel;
 	}
 
@@ -150,5 +153,13 @@ public class ServiceDataModel {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+	
+	public void setServerData(ServerDataModel serverData) {
+		this.serverData = serverData;
+	}
+	
+	public ServerDataModel getServerData() {
+		return serverData;
 	}
 }

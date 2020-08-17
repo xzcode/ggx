@@ -43,11 +43,10 @@ public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 		GGSession session = messageData.getSession();
 		ServiceDataService serviceDataService = ggxAdminCollectorServer.getConfig().getServiceDataService();
 		List<ServiceData> dataList = serviceDataService.getDataList();
-		List<ServiceInfo> serviceList = serviceManager.getServiceList();
 
 		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(serviceList.size());
-		for (ServiceInfo serviceInfo : serviceList) {
-			ServiceDataModel serviceModel = ServiceDataModel.create(serviceInfo);
+		for (ServiceData serviceData : dataList) {
+			ServiceDataModel serviceModel = ServiceDataModel.create(serviceData);
 			serviceModels.add(serviceModel);
 		}
 
