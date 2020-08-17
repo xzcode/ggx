@@ -30,8 +30,6 @@ public class ServiceDataListenerManager extends BasicSessionListenerManager {
 
 	private ServiceDataService serviceDataService;
 
-	@Autowired
-	private RegistryClient registryClient;
 
 	@Autowired
 	private GGXAdminCollectorServer ggxAdminCollectorServer;
