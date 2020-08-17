@@ -1,6 +1,7 @@
 package com.ggx.docs.core;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -82,6 +83,23 @@ public class GGDocs {
 			Class<?> loadClass = classInfo.loadClass();
 			DocsModel docsModel = loadClass.getAnnotation(DocsModel.class);
 			String actionId = docsModel.actionId();
+			if (actionId == null || actionId.isEmpty()) {
+				try {
+					Method getActionIdMethod = null;
+					try {
+						getActionIdMethod = loadClass.getDeclaredMethod("getActionId");
+					} catch (Exception e) {
+						System.out.println("Can not find method 'getActionId' in '"+loadClass.getName()+", try superclass!");
+						getActionIdMethod = loadClass.getSuperclass().getDeclaredMethod("getActionId");
+					}
+					
+					if (getActionIdMethod != null) {
+						actionId = (String) getActionIdMethod.invoke(loadClass.newInstance());
+					}
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
 			String desc = docsModel.desc();
 			String namespaceName = "default";
 			String namespaceDesc = "默认命名空间";
