@@ -32,10 +32,10 @@ public class ServerDataModel {
 	private int threads;
 
 	// cpu使用率
-	private double cpuUse;
+	private Double cpuUse;
 
 	// jvm 内cpu使用率
-	private double jvmCpuUse;
+	private Double jvmCpuUse;
 
 	// 当前上行速度 bytes/s
 	private Long networkTotalUpload;
@@ -72,7 +72,54 @@ public class ServerDataModel {
 	
 	
 	public static ServerDataModel create(ServerData serverData) {
+		
 		ServerDataModel serverDataModel = new ServerDataModel();
+		
+		serverDataModel.setServiceId(serverData.getServiceId());
+
+		serverDataModel.setOs(serverData.getOs());
+
+		serverDataModel. setCpu(serverData.getCpu());
+
+		serverDataModel. setTotalMemory(serverData.getTotalMemory());
+
+		serverDataModel. setUsedMemory(serverData.getUsedMemory());
+
+		serverDataModel. setTotalVirtualMemory(serverData.getTotalVirtualMemory());
+
+		serverDataModel. setUsedVirtualMemory(serverData.getUsedVirtualMemory());
+
+		serverDataModel. setProcesses(serverData.getProcesses());
+
+		serverDataModel. setThreads(serverData.getThreads());
+
+		serverDataModel. setCpuUse(serverData.getCpuUse());
+
+		serverDataModel. setJvmCpuUse(serverData.getJvmCpuUse());
+
+		// 当前上行速度 bytes/s
+		//serverDataModel. setNetworkTotalUpload(serverData.getNetworkInfos());
+
+		// 当前下行发送速度 bytes/s
+		//serverDataModel. setNetworkTotalDownload(networkTotalDownload);
+
+		serverDataModel. setJvmHeapMemoryUsageInit(serverData.getJvmHeapMemoryUsageInit());
+
+		serverDataModel. setJvmHeapMemoryUsageUsed(serverData.getJvmHeapMemoryUsageUsed());
+
+		serverDataModel. setJvmHeapMemoryUsageCommitted(serverData.getJvmHeapMemoryUsageCommitted());
+
+		serverDataModel. setJvmHeapMemoryUsageMax(serverData.getJvmHeapMemoryUsageMax());
+
+		serverDataModel. setJvmNonheapMemoryUsageInit(serverData.getJvmNonheapMemoryUsageInit());
+
+		serverDataModel. setJvmNonheapMemoryUsageUsed(serverData.getJvmNonheapMemoryUsageUsed());
+
+		serverDataModel. setJvmNonheapMemoryUsageCommitted(serverData.getJvmNonheapMemoryUsageCommitted());
+
+		serverDataModel. setJvmNonheapMemoryUsageMax(serverData.getJvmNonheapMemoryUsageMax());
+
+		serverDataModel. setCreateTime(serverData.getCreateDate().getTime());
 		
 		return serverDataModel;
 		
@@ -150,19 +197,19 @@ public class ServerDataModel {
 		this.threads = threads;
 	}
 
-	public double getCpuUse() {
+	public Double getCpuUse() {
 		return cpuUse;
 	}
 
-	public void setCpuUse(double cpuUse) {
+	public void setCpuUse(Double cpuUse) {
 		this.cpuUse = cpuUse;
 	}
 
-	public double getJvmCpuUse() {
+	public Double getJvmCpuUse() {
 		return jvmCpuUse;
 	}
 
-	public void setJvmCpuUse(double jvmCpuUse) {
+	public void setJvmCpuUse(Double jvmCpuUse) {
 		this.jvmCpuUse = jvmCpuUse;
 	}
 

@@ -10,22 +10,18 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
 /**
  * 服务数据请求处理器
  *
- * @author zai
- * 2020-06-24 18:15:42
+ * @author zai 2020-06-24 18:15:42
  */
-public class ServiceDataReqHandler implements MessageHandler<ServiceDataReq>{
-	
-	private GGXAdminCollectorServerConfig config;
-	
-	private ServiceDataService serviceDataService;
-	
+public class ServiceDataReqHandler implements MessageHandler<ServiceDataReq> {
 
-	public ServiceDataReqHandler( GGXAdminCollectorServerConfig config) {
+	private GGXAdminCollectorServerConfig config;
+
+	private ServiceDataService serviceDataService;
+
+	public ServiceDataReqHandler(GGXAdminCollectorServerConfig config) {
 		this.config = config;
 		this.serviceDataService = config.getServiceDataService();
 	}
-	
-
 
 	@Override
 	public void handle(MessageData<ServiceDataReq> messageData) {
@@ -33,8 +29,5 @@ public class ServiceDataReqHandler implements MessageHandler<ServiceDataReq>{
 		ServiceData data = req.getServiceData();
 		serviceDataService.addData(data.getServiceId(), data);
 	}
-
-
-	
 
 }

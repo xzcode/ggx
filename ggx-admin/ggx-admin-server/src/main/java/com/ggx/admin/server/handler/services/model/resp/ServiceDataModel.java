@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.ggx.admin.common.collector.data.model.service.ServiceData;
-import com.ggx.registry.common.service.ServiceInfo;
 
 public class ServiceDataModel {
 
@@ -31,7 +30,9 @@ public class ServiceDataModel {
 	// 服务端口
 	protected int port;
 	
-	
+	/**
+	 * 服务器data
+	 */
 	protected ServerDataModel serverData;
 
 	// 所在地区
@@ -44,6 +45,7 @@ public class ServiceDataModel {
 	protected List<CustomData> customData = new ArrayList<>();
 
 	public static ServiceDataModel create(ServiceData serviceData) {
+		
 		ServiceDataModel serviceModel = new ServiceDataModel();
 		serviceModel.setServiceId(serviceData.getServiceId());
 		serviceModel.setServiceName(serviceData.getServiceName());
@@ -54,6 +56,7 @@ public class ServiceDataModel {
 		serviceModel.setRegion(serviceData.getRegion());
 		serviceModel.setServiceGroupId(serviceData.getServiceGroupId());
 		serviceModel.setZone(serviceData.getZone());
+		
 		Map<String, String> customData = serviceData.getCustomData();
 		for (Entry<String, String> entry : customData.entrySet()) {
 			serviceModel.addCustomData(entry.getKey(), entry.getValue());
