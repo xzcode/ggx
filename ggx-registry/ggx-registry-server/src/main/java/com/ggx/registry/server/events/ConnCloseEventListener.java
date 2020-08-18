@@ -33,7 +33,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 		}
 		config.getServiceManager().removeService(serviceInfo);
 		RegistryServiceUnregisterResp resp = new RegistryServiceUnregisterResp();
-		resp.setServiceName(serviceInfo.getServiceGroupId());
+		resp.setServiceGroupId(serviceInfo.getServiceGroupId());
 		resp.setServiceId(serviceInfo.getServiceId());
 		
 		ServiceManager serviceManager = config.getServiceManager();

@@ -6,11 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
@@ -49,8 +45,6 @@ import com.xzcode.ggserver.core.server.GGServer;
  * 2019-11-07 16:52:05
  */
 public class RouterService {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouterService.class);
 	
 	protected RouterClientConfig config;
 	
@@ -142,32 +136,8 @@ public class RouterService {
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
 		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
-		GGSessionGroupManager sessionGroupManager = sessionGroupClient.getConfig().getSessionGroupManager();
-		
-		GGClientConfig sessionClientConfig = sessionGroupClientConfig.getSessionClient().getConfig();
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
-		/*
-		 * this.sessionGroupClient.addEventListener(GGSessionGroupEventConstant.
-		 * SESSION_REGISTER_SUCCESS, new EventListener<Void>() {
-		 * 
-		 * @Override public void onEvent(EventData<Void> eventData) {
-		 * 
-		 * GGSession groupSession = eventData.getSession();
-		 * 
-		 * SessionManager serviceClientSessionManager =
-		 * serviceClient.getSessionManager();
-		 * 
-		 * GGSession serviceClientSession = new
-		 * GroupServiceClientSession(groupSession.getSessonId(),
-		 * sessionGroupClient.getConfig().getSessionGroupId(), sessionGroupManager,
-		 * sessionClientConfig);
-		 * 
-		 * serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
-		 * 
-		 * serviceClientSession.addDisconnectListener(se -> {
-		 * serviceClientSessionManager.remove(groupSession.getSessonId()); }); } });
-		 */
 		
 		this.serviceClient.addFilter(new SendMessageFilter() {
 			

@@ -28,10 +28,10 @@ public class ServiceUnregisterRespHandler implements MessageDataHandler<Registry
 	@Override
 	public void handle(MessageData<RegistryServiceUnregisterResp> request) {
 		RegistryServiceUnregisterResp resp = request.getMessage();
-		String serviceName = resp.getServiceName();
+		String serviceGroupId = resp.getServiceGroupId();
 		String serviceId = resp.getServiceId();
 		ServiceManager serviceManager = config.getServiceManager();
-		serviceManager.removeService(serviceName, serviceId);
+		serviceManager.removeService(serviceGroupId, serviceId);
 	}
 
 	

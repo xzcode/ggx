@@ -19,9 +19,9 @@ public class RegistryServiceUnregisterResp implements Message{
 	}
 	
 	/**
-	 * 服务名称
+	 * 服务组id
 	 */
-	private String serviceName;
+	private String serviceGroupId;
 	
 	/**
 	 * 服务id
@@ -30,12 +30,12 @@ public class RegistryServiceUnregisterResp implements Message{
 	
 	
 
-	public String getServiceName() {
-		return serviceName;
+	public String getServiceGroupId() {
+		return serviceGroupId;
 	}
-
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 
 	public String getServiceId() {

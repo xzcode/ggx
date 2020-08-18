@@ -2,7 +2,6 @@ package com.ggx.router.client.service.loadblance;
 
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.GGSession;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 

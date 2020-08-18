@@ -153,8 +153,8 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-06 15:01:25
 	 */
-	public void removeService(String serviceName, String serviceId) {
-		ServiceGroup groups = serviceGroups.get(serviceName);
+	public void removeService(String serviceGroupId, String serviceId) {
+		ServiceGroup groups = serviceGroups.get(serviceGroupId);
 		if (groups != null) {
 			ServiceInfo service = groups.removeServiceInfo(serviceId);
 			if (service == null) {

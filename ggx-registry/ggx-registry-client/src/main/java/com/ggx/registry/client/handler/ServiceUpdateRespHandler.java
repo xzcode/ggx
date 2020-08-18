@@ -17,11 +17,13 @@ import com.ggx.registry.common.service.ServiceManager;
 public class ServiceUpdateRespHandler implements MessageDataHandler<RegistryServiceUpdateResp>{
 	
 	private RegistryClientConfig config;
+	private ServiceManager serviceManager;
 	
 
 	public ServiceUpdateRespHandler(RegistryClientConfig config) {
 		super();
 		this.config = config;
+		this.serviceManager = config.getServiceManager();
 	}
 
 
@@ -33,13 +35,7 @@ public class ServiceUpdateRespHandler implements MessageDataHandler<RegistryServ
 		if (updateModel == null) {
 			return;
 		}
-		
-		ServiceManager serviceManager = config.getServiceManager();
-		ServiceInfo service = serviceManager.getService(updateModel.getServiceId());
-		if (service != null) {
-			service.getCustomData().putAll(updateModel.getCustomData());
-			serviceManager.updateService(service);
-		}
+		serviceManager.updateService(updateModel);
 		
 	}
 
