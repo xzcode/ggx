@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.client.GGClient;
+import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.client.RegistryClient;
@@ -75,6 +76,14 @@ public class RegistryClientConfig {
 		
 	//所在分区
 	protected String zone = "default";
+	
+	//同步服务信息
+	protected Runnable syncServicesTask;
+	
+	protected GGFuture syncServicesTaskFuture;
+	
+	//是否需要获取注册中心的服务信息
+	protected boolean requireServices = true;
 	
 	/**
 	 * 自定义数据
@@ -243,6 +252,19 @@ public class RegistryClientConfig {
 		this.showRegistryLog = showRegistryLog;
 	}
 	
+	public Runnable getSyncServicesTask() {
+		return syncServicesTask;
+	}
 	
+	public void setSyncServicesTask(Runnable syncServicesTask) {
+		this.syncServicesTask = syncServicesTask;
+	}
 	
+	public boolean isRequireServices() {
+		return requireServices;
+	}
+	
+	public void setRequireServices(boolean requireServices) {
+		this.requireServices = requireServices;
+	}
 }

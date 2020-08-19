@@ -35,6 +35,7 @@ public class RegisterRespHandler implements MessageDataHandler<RegistryServiceRe
 		if (resp.isSuccess()) {
 			
 			RegistryClient registryClient = config.getRegistryClient();
+			
 			config.getCustomData().putAll(resp.getServiceInfo().getCustomData());
 			
 			List<ClientRegisterSuccessListener> registerSuccessListeners = registryClient.getRegisterSuccessListeners();
@@ -45,7 +46,9 @@ public class RegisterRespHandler implements MessageDataHandler<RegistryServiceRe
 					GGLoggerUtil.getLogger(this).error("ClientRegisterSuccessListener ERROR!", e);
 				}
 			}
-			config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);
+			if (config.isRequireServices()) {
+				config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);
+			}
 		}
 	}
 

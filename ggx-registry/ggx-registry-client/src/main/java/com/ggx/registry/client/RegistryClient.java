@@ -2,6 +2,7 @@ package com.ggx.registry.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
@@ -20,6 +21,7 @@ import com.ggx.registry.client.handler.ServiceUnregisterRespHandler;
 import com.ggx.registry.client.handler.ServiceUpdateRespHandler;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
@@ -66,8 +68,14 @@ public class RegistryClient {
 		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
 		
 		
-		connect();
+		ggClient.scheduleWithFixedDelay(30L * 1000L, 30L * 1000L, TimeUnit.MILLISECONDS, () -> {
+			GGSession session = config.getSession();
+			if (config.isRequireServices() && session != null && !session.isExpired()) {
+				config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);				
+			}
+		});
 		
+		connect();
 	}
 	
 	
