@@ -3,7 +3,7 @@
 	<parent>
     <groupId>com.ggx</groupId>
     <artifactId>ggx-core</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
   </parent>
   
   <artifactId>ggx-core-server</artifactId>
