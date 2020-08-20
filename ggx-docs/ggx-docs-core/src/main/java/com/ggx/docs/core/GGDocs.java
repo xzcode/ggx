@@ -97,7 +97,7 @@ public class GGDocs {
 						actionId = (String) getActionIdMethod.invoke(loadClass.newInstance());
 					}
 				} catch (Exception e) {
-					throw new RuntimeException(e);
+					System.out.println("Can not find method 'getActionId' in '"+loadClass.getName());
 				}
 			}
 			String desc = docsModel.desc();
