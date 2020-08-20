@@ -83,43 +83,87 @@ public class ServiceManager {
 	 * @author zai
 	 * 2020-02-04 14:33:41
 	 */
-	public void registerService(ServiceInfo service) {
+	public ServiceInfo registerService(ServiceInfo service) {
 		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group == null) {
-				group = new ServiceGroup(service.getServiceGroupId());
-				ServiceGroup putIfAbsent = serviceGroups.putIfAbsent(service.getServiceGroupId(), group);
-				if (putIfAbsent != null) {
-					group = putIfAbsent;
-				}
+			group = new ServiceGroup(service.getServiceGroupId());
+			ServiceGroup putIfAbsent = serviceGroups.putIfAbsent(service.getServiceGroupId(), group);
+			if (putIfAbsent != null) {
+				group = putIfAbsent;
+			}
 		}
 		
-		group.addServiceInfo(service);
+		ServiceInfo oldServiceInfo = group.addServiceInfo(service);
 		if (this.registerListeners != null) {
 			for (RegisterServiceListener listener : registerListeners) {
 				listener.onRegister(service);						
 			}
 		}
+		return oldServiceInfo;
 		
 	}
 	
 	/**
 	 * 移除服务
 	 * 
-	 * @param discoveryClientServiceInfo
+	 * @param ServiceInfo
 	 * @author zai
 	 * 2020-02-04 14:33:48
 	 */
 	public void removeService(ServiceInfo service) {
-		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
-		if (group != null) {
-			group.removeServiceInfo(service.getServiceId());
-			if (this.unregisterListeners != null) {
-				for (UnregisterServiceListener listener : unregisterListeners) {
-					listener.onUnregister(service);						
-				}
+		ServiceGroup groups = serviceGroups.get(service.getServiceGroupId());
+		if (groups != null) {
+			boolean removeServiceInfo = groups.removeServiceInfo(service);
+			
+			handleAfterRemoveService(removeServiceInfo, groups, service);
+		}
+	}
+	
+	/**
+	 * 移除服务
+	 * 
+	 * @param serviceGroupId
+	 * @param serviceId
+	 * @author zai
+	 * 2020-02-06 15:01:25
+	 */
+	public void removeService(String serviceGroupId, String serviceId) {
+		ServiceGroup groups = serviceGroups.get(serviceGroupId);
+		if (groups != null) {
+			ServiceInfo service = groups.removeServiceInfo(serviceId);
+			if (service == null) {
+				return;
 			}
-			if (group.getServices().size() == 0) {
-				serviceGroups.remove(service.getServiceGroupId(), group);
+			handleAfterRemoveService(true, groups, service);
+		}
+		
+	}
+	
+	/**
+	 * 处理移除服务后操作
+	 *
+	 * @param removeServiceInfo
+	 * @param group
+	 * @param service
+	 * @author zai
+	 * 2020-08-20 10:35:35
+	 */
+	private void handleAfterRemoveService(boolean removeServiceInfo, ServiceGroup group, ServiceInfo service) {
+		if (removeServiceInfo && this.unregisterListeners != null) {
+			for (UnregisterServiceListener listener : unregisterListeners) {
+				listener.onUnregister(service);						
+			}
+		}
+		
+		if (group.getServices().size() == 0) {
+			boolean remove = serviceGroups.remove(service.getServiceGroupId(), group);
+			if (remove) {
+				List<ServiceInfo> serviceList = group.getServiceList();
+				if (serviceList != null &&  serviceList.size() > 0) {
+					for (ServiceInfo serviceInfo : serviceList) {
+						serviceInfo.getSession().disconnect();
+					}
+				}
 			}
 		}
 	}
@@ -134,8 +178,10 @@ public class ServiceManager {
 	public void updateService(ServiceInfo service) {
 		ServiceGroup group = serviceGroups.get(service.getServiceGroupId());
 		if (group != null) {
-			ServiceInfo oldService = group.replaceServiceInfo(service);
+			ServiceInfo oldService = group.getServiceInfo(service.getServiceId());
 			if (oldService != null) {
+				oldService.setCustomData(service.getCustomData());
+				
 				if (this.updateListeners != null) {
 					for (UpdateServiceListener listener : updateListeners) {
 						listener.onUpdate(service);						
@@ -145,29 +191,7 @@ public class ServiceManager {
 		}
 	}
 	
-	/**
-	 * 移除服务
-	 * 
-	 * @param serviceName
-	 * @param serviceId
-	 * @author zai
-	 * 2020-02-06 15:01:25
-	 */
-	public void removeService(String serviceName, String serviceId) {
-		ServiceGroup groups = serviceGroups.get(serviceName);
-		if (groups != null) {
-			ServiceInfo service = groups.removeServiceInfo(serviceId);
-			if (service == null) {
-				return;
-			}
-			if (this.unregisterListeners != null) {
-				for (UnregisterServiceListener listener : unregisterListeners) {
-					listener.onUnregister(service);						
-				}
-			}
-		}
-		
-	}
+	
 	
 	/**
 	 * 获取服务组

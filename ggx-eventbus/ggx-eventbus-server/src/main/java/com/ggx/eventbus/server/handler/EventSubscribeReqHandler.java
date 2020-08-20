@@ -1,4 +1,4 @@
-package com.xzcode.ggcloud.eventbus.server.handler;
+package com.ggx.eventbus.server.handler;
 
 import java.util.List;
 
@@ -6,7 +6,8 @@ import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
-import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
+import com.ggx.eventbus.server.subscription.SubscriptionManager;
 
 /**
  * 客户端认证请求
@@ -17,11 +18,13 @@ import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 public class EventSubscribeReqHandler implements MessageHandler<EventSubscribeReq>{
 	
 	private EventbusServerConfig config;
+	private SubscriptionManager subscriptionManager;
 	
 
 	public EventSubscribeReqHandler(EventbusServerConfig config) {
 		super();
 		this.config = config;
+		this.subscriptionManager = this.config.getSubscriptionManager();
 	}
 
 
@@ -32,7 +35,7 @@ public class EventSubscribeReqHandler implements MessageHandler<EventSubscribeRe
 		List<String> eventIds = req.getEventIds();
 		GGSession session = messageData.getSession();
 		//添加监听
-		this.config.getSubscriptionManager().addSubscription(eventIds, session);
+		this.subscriptionManager.addSubscription(eventIds, session);
 	}
 
 	

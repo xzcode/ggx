@@ -2,6 +2,7 @@ package com.ggx.registry.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.client.GGClient;
 import com.ggx.core.client.config.GGClientConfig;
@@ -20,6 +21,7 @@ import com.ggx.registry.client.handler.ServiceUnregisterRespHandler;
 import com.ggx.registry.client.handler.ServiceUpdateRespHandler;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
+import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
@@ -71,8 +73,14 @@ public class RegistryClient {
 		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
 		
 		
-		connect();
+		ggClient.scheduleWithFixedDelay(30L * 1000L, 30L * 1000L, TimeUnit.MILLISECONDS, () -> {
+			GGSession session = config.getSession();
+			if (config.isRequireServices() && session != null && !session.isExpired()) {
+				config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);				
+			}
+		});
 		
+		connect();
 	}
 	
 	
@@ -83,19 +91,22 @@ public class RegistryClient {
 	
 	public void connect() {
 		GGClient ggClient = config.getGGclient();
-		RegistryInfo registry = config.getRegistryManager().getRandomRegistry();
-		ggClient.connect(registry.getDomain(), registry.getPort())
-		.addListener(f -> {
-			if (!f.isSuccess()) {
-				//连接失败，进行进行重连操作
-				GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
-				ggClient.schedule(config.getTryRegisterInterval(), () -> {
-					connect();
-				});
-				return;
-			}
-			GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+		ggClient.schedule(3000L, () -> {
+			RegistryInfo registry = config.getRegistryManager().getRandomRegistry();
+			ggClient.connect(registry.getDomain(), registry.getPort())
+			.addListener(f -> {
+				if (!f.isSuccess()) {
+					//连接失败，进行进行重连操作
+					GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
+					ggClient.schedule(config.getTryRegisterInterval(), () -> {
+						connect();
+					});
+					return;
+				}
+				GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+			});
 		});
+		
 	}
 	
 	/**

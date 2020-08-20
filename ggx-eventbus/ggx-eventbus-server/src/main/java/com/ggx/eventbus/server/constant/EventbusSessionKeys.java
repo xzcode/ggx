@@ -1,4 +1,4 @@
-package com.xzcode.ggcloud.eventbus.server.constant;
+package com.ggx.eventbus.server.constant;
 
 /**
  * 会话key常量

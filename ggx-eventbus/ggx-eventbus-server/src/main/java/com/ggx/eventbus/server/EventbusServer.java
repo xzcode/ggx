@@ -1,16 +1,16 @@
-package com.xzcode.ggcloud.eventbus.server;
+package com.ggx.eventbus.server;
 
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
+import com.ggx.eventbus.server.handler.EventPublishReqHandler;
+import com.ggx.eventbus.server.handler.EventSubscribeReqHandler;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
-import com.xzcode.ggcloud.eventbus.server.handler.EventPublishReqHandler;
-import com.xzcode.ggcloud.eventbus.server.handler.EventSubscribeReqHandler;
 import com.xzcode.ggserver.core.server.GGServer;
 
 public class EventbusServer {

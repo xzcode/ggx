@@ -1,4 +1,4 @@
-package com.xzcode.ggcloud.eventbus.server.util;
+package com.ggx.eventbus.server.util;
 
 import java.util.UUID;
 

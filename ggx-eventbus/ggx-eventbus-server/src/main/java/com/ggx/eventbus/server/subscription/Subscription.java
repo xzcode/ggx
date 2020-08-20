@@ -1,4 +1,4 @@
-package com.xzcode.ggcloud.eventbus.server.subscription;
+package com.ggx.eventbus.server.subscription;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.group.common.group.GGSessionGroup;
 import com.ggx.group.common.group.impl.DefaultSessionGroup;
-import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
 
 /***
  * 订阅信息

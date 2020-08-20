@@ -1,10 +1,10 @@
-package com.xzcode.ggcloud.eventbus.server.config;
+package com.ggx.eventbus.server.config;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.eventbus.server.EventbusServer;
+import com.ggx.eventbus.server.subscription.SubscriptionManager;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggcloud.eventbus.server.EventbusServer;
-import com.xzcode.ggcloud.eventbus.server.subscription.SubscriptionManager;
 import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 /**

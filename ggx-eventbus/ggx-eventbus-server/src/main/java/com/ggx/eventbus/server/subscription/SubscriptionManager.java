@@ -1,4 +1,4 @@
-package com.xzcode.ggcloud.eventbus.server.subscription;
+package com.ggx.eventbus.server.subscription;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.session.GGSession;
-import com.xzcode.ggcloud.eventbus.server.config.EventbusServerConfig;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
 
 /**
  * 事件订阅处理器
@@ -62,9 +62,6 @@ public class SubscriptionManager {
 		}
 		for (String evtid : eventIds) {
 			this.addSubscription(evtid, session);
-			session.addDisconnectListener(se -> {
-				removeSubscription(evtid, se);
-			});
 		}
 	}
 	

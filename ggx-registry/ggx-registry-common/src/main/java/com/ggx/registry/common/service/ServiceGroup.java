@@ -27,15 +27,15 @@ public class ServiceGroup {
 		this.serviceGroupId = serviceGroupId;
 	}
 
-	public void addServiceInfo(ServiceInfo serviceInfo) {
-		services.putIfAbsent(serviceInfo.getServiceId(), serviceInfo);
+	public ServiceInfo addServiceInfo(ServiceInfo serviceInfo) {
+		return services.put(serviceInfo.getServiceId(), serviceInfo);
 	}
 	
 	public ServiceInfo removeServiceInfo(String serviceId) {
 		return services.remove(serviceId);
 	}
-	public ServiceInfo replaceServiceInfo(ServiceInfo serviceInfo) {
-		return services.replace(serviceInfo.getServiceId(), serviceInfo);
+	public boolean removeServiceInfo(ServiceInfo serviceInfo) {
+		return services.remove(serviceInfo.getServiceId(),serviceInfo);
 	}
 	
 	public ServiceInfo getServiceInfo(String serviceId) {
@@ -63,5 +63,11 @@ public class ServiceGroup {
 	public void setServiceGroupId(String serviceGroupId) {
 		this.serviceGroupId = serviceGroupId;
 	}
+	
+	public void setServices(Map<String, ServiceInfo> services) {
+		this.services = services;
+	}
+	
+	
 	
 }

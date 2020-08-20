@@ -2,6 +2,7 @@ package com.ggx.registry.client.events;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
@@ -40,6 +41,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		req.setServiceInfo(serviceInfo);
 		
 		session.send(req);
+		
 	}
 
 }

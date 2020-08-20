@@ -45,21 +45,25 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 			
 		}
 		ServiceInfo infoModel = req.getServiceInfo();
-		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
+		String serviceId = infoModel.getServiceId();
+		//ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
 		
 		ServiceManager serviceManager = config.getServiceManager();
+		ServiceInfo oldServiceInfo = serviceManager.getService(serviceId);
 		
-		if (serviceInfo == null) {
-			serviceInfo = infoModel;
-			serviceInfo.setHost(session.getHost());
-			serviceInfo.setSession(session);
-			serviceManager.registerService(serviceInfo);
-			session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, serviceInfo);
+		infoModel.setHost(session.getHost());
+		infoModel.setSession(session);
+		session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, infoModel);
+		oldServiceInfo = serviceManager.registerService(infoModel);
+		
+		if (oldServiceInfo != null) {
+			oldServiceInfo.getSession().disconnect();
 		}
-		session.send(new RegistryServiceRegisterResp(serviceInfo, true));
+		
+		session.send(new RegistryServiceRegisterResp(infoModel, true));
 		
 		//发送给所有服务客户端,新服务已上线
-		serviceManager.sendToAllServices(new RegistryAddServiceResp(serviceInfo));
+		serviceManager.sendToAllServices(new RegistryAddServiceResp(infoModel));
 	}
 
 
