@@ -2,7 +2,7 @@ package com.ggx.admin.collector.client.config;
 
 import com.ggx.admin.collector.client.GGXAdminCollectorClient;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
-import com.ggx.core.client.GGClient;
+import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
@@ -24,7 +24,7 @@ public class GGXAdminCollectorClientConfig {
 	// RegistryClient对象
 	protected RegistryClient registryClient;
 
-	protected GGClient serviceClient;
+	protected GGXCoreClient serviceClient;
 
 	// 任务执行器
 	protected TaskExecutor taskExecutor = new DefaultTaskExecutor("admin-collector-task-", 1);
@@ -129,11 +129,11 @@ public class GGXAdminCollectorClientConfig {
 		this.printPingPongInfo = printPingPongInfo;
 	}
 
-	public GGClient getServiceClient() {
+	public GGXCoreClient getServiceClient() {
 		return serviceClient;
 	}
 
-	public void setServiceClient(GGClient serviceClient) {
+	public void setServiceClient(GGXCoreClient serviceClient) {
 		this.serviceClient = serviceClient;
 	}
 

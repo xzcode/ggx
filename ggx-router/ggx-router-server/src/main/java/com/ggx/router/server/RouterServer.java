@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.support.ExecutorSupport;
@@ -35,8 +35,8 @@ import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.router.server.config.RouterServerConfig;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -50,7 +50,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 	private RouterServerConfig config;
 	
 	
-	protected GGServer serviceServer;
+	protected GGXCoreServer serviceServer;
 
 
 	public RouterServer(RouterServerConfig config) {
@@ -118,7 +118,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		});
 		
 		//添加连接断开监听
-		this.serviceServer.addEventListener(GGEvents.Connection.CLOSED, new EventListener<Void>() {
+		this.serviceServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new EventListener<Void>() {
 			@Override
 			public void onEvent(EventData<Void> eventData) {
 				GGSession session = eventData.getSession();
@@ -153,7 +153,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 
 	}
 
-	public GGServer getServiceServer() {
+	public GGXCoreServer getServiceServer() {
 		return this.serviceServer;
 	}
 
@@ -214,7 +214,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		return this.serviceServer.getCharset();
 	}
 
-	private GGServerConfig getServiceServerConfig() {
+	private GGXCoreServerConfig getServiceServerConfig() {
 		return this.serviceServer.getConfig();
 	}
 

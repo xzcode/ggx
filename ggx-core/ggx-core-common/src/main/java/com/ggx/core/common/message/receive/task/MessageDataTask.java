@@ -1,6 +1,6 @@
 package com.ggx.core.common.message.receive.task;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
@@ -23,7 +23,7 @@ public class MessageDataTask implements Runnable{
 	/**
 	 * 配置
 	 */
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	/**
 	 * 包体模型
@@ -35,7 +35,7 @@ public class MessageDataTask implements Runnable{
 		
 	}
 
-	public MessageDataTask(Pack pack, GGConfig config) {
+	public MessageDataTask(Pack pack, GGXCoreConfig config) {
 		this.pack = pack;
 		this.config = config;
 	}

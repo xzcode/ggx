@@ -3,7 +3,7 @@ package com.ggx.core.common.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -18,12 +18,12 @@ public class MixedSocketChannelInitializer extends ChannelInitializer<SocketChan
 	
 	private static final Logger logger = LoggerFactory.getLogger(MixedSocketChannelInitializer.class);
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	public MixedSocketChannelInitializer() {
 	}
 	
-	public MixedSocketChannelInitializer(GGConfig config) {
+	public MixedSocketChannelInitializer(GGXCoreConfig config) {
 		this.config = config;
 	}
 
@@ -33,11 +33,11 @@ public class MixedSocketChannelInitializer extends ChannelInitializer<SocketChan
 	}
 
 
-	public GGConfig getConfig() {
+	public GGXCoreConfig getConfig() {
 		return config;
 	}
 	
-	public void setConfig(GGConfig config) {
+	public void setConfig(GGXCoreConfig config) {
 		this.config = config;
 	}
 

@@ -23,9 +23,9 @@ import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
-import com.ggx.core.common.message.pingpong.model.GGPing;
-import com.ggx.core.common.message.pingpong.model.GGPong;
-import com.ggx.core.common.message.receive.manager.DefaultRequestMessageManager;
+import com.ggx.core.common.message.pingpong.model.Ping;
+import com.ggx.core.common.message.pingpong.model.Pong;
+import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
 import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
@@ -43,12 +43,21 @@ import io.netty.channel.nio.NioEventLoopGroup;
  * 
  * @author zai 2019-10-02 22:10:07
  */
-public class GGConfig {
+public class GGXCoreConfig {
 
 	protected boolean enabled = false;
 
 	// 是否已初始化
 	protected boolean inited = false;
+	
+	//是否ggx组件
+	protected boolean ggxComponent = false;
+	
+	//指令前缀
+	protected String actionIdProfix;
+	
+	//GGX组件指令前缀
+	protected String ggxComponentAtionIdProfix = "GGX.";
 
 	protected boolean autoShutdown = true;
 
@@ -125,7 +134,7 @@ public class GGConfig {
 	protected AESCipher aesCipher;
 
 	public void init() {
-		receiveMessageManager = new DefaultRequestMessageManager();
+		receiveMessageManager = new DefaultReceiveMessageManager(this);
 		filterManager = new DefaultFilterManager();
 		eventManager = new DefaultEventManager();
 
@@ -190,7 +199,7 @@ public class GGConfig {
 			if (!isPrintPingPongInfo()) {
 				this.packLogger.addPackLogFilter(pack -> {
 					String actionString = pack.getActionString();
-					return !(actionString.equals(GGPing.ACTION_ID) || actionString.equals(GGPong.ACTION_ID));
+					return !(actionString.equals(Ping.DEFAULT_INSTANT.getActionId()) || actionString.equals(Pong.DEFAULT_INSTANT.getActionId()));
 				});
 			}
 		}
@@ -198,7 +207,7 @@ public class GGConfig {
 		this.inited = true;
 	}
 
-	public GGConfig() {
+	public GGXCoreConfig() {
 		super();
 	}
 
@@ -538,6 +547,31 @@ public class GGConfig {
 	public void setAesCipher(AESCipher aesCipher) {
 		this.aesCipher = aesCipher;
 	}
+
+	public boolean isGgxComponent() {
+		return ggxComponent;
+	}
+
+	public void setGgxComponent(boolean ggxComponent) {
+		this.ggxComponent = ggxComponent;
+	}
+
+	public String getActionIdProfix() {
+		return actionIdProfix;
+	}
+	
+	public void setActionIdProfix(String actionIdProfix) {
+		this.actionIdProfix = actionIdProfix;
+	}
+
+	public String getGgxComponentAtionIdProfix() {
+		return ggxComponentAtionIdProfix;
+	}
+
+	public void setGgxComponentAtionIdProfix(String ggxComponentAtionIdProfix) {
+		this.ggxComponentAtionIdProfix = ggxComponentAtionIdProfix;
+	}
+	
 	
 	
 }

@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
@@ -23,7 +23,7 @@ public class PackLogger {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PackLogger.class);
 	
-	protected GGConfig config;
+	protected GGXCoreConfig config;
 	
 	/**
 	 * 包日志过滤器
@@ -31,7 +31,7 @@ public class PackLogger {
 	protected List<PackLogFilter> filters = new CopyOnWriteArrayList<PackLogFilter>();
 	
 	
-	public PackLogger(GGConfig config) {
+	public PackLogger(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

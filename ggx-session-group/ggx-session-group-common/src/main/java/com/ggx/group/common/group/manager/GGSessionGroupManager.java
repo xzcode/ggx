@@ -3,7 +3,7 @@ package com.ggx.group.common.group.manager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.Pack;
@@ -23,14 +23,14 @@ public class GGSessionGroupManager {
 	/**
 	 * 公共配置
 	 */
-	private GGConfig config;
+	private GGXCoreConfig config;
 	/**
 	 * 会话组集合
 	 */
 	protected Map<String, GGSessionGroup> sessionGroupMap = new ConcurrentHashMap<String, GGSessionGroup>();
 	
 	
-	public GGSessionGroupManager(GGConfig config) {
+	public GGSessionGroupManager(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

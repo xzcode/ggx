@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.apache.commons.compress.utils.ByteUtils;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.encryption.aes.AESCipher;
 import com.ggx.core.common.handler.codec.DecodeHandler;
@@ -51,14 +51,14 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 	protected static final AttributeKey<String> PROTOCOL_TYPE_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PROTOCOL_TYPE);
 	
 
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 
 	public AESSupportDecodeHandler() {
 
 	}
 
-	public AESSupportDecodeHandler(GGConfig config) {
+	public AESSupportDecodeHandler(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import com.ggx.admin.collector.server.constant.GGXAdminCollectorServerSessionKeys;
 import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.spring.support.annotation.GGXEventHandler;
 
-@GGXEventHandler(GGEvents.Connection.CLOSED)
+@GGXEventHandler(GGXCoreEvents.Connection.CLOSED)
 public abstract class BasicDataService<T> implements EventListener<Void>{
 	
 	private Map<String, T> dataCache = new ConcurrentHashMap<String, T>();

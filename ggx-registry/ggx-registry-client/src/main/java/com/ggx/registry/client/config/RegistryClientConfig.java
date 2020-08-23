@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.client.GGClient;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.client.RegistryClient;
@@ -30,7 +29,7 @@ public class RegistryClientConfig {
 	protected boolean 	printPingPongInfo = false;
 	
 	//GGClient对象
-	protected GGClient ggclient;
+	protected GGXCoreClient ggclient;
 	
 	//GGSession对象
 	protected GGSession session;
@@ -96,8 +95,6 @@ public class RegistryClientConfig {
 	//同步服务信息
 	protected Runnable syncServicesTask;
 	
-	protected GGFuture syncServicesTaskFuture;
-	
 	//是否需要获取注册中心的服务信息
 	protected boolean requireServices = true;
 	
@@ -126,11 +123,11 @@ public class RegistryClientConfig {
 		this.customData = extraData;
 	}
 
-	public GGClient getGGclient() {
+	public GGXCoreClient getGGclient() {
 		return ggclient;
 	}
 
-	public void setGGclient(GGClient ggclient) {
+	public void setGGclient(GGXCoreClient ggclient) {
 		this.ggclient = ggclient;
 	}
 
@@ -218,8 +215,8 @@ public class RegistryClientConfig {
 		return serviceGroupId;
 	}
 	
-	public void setServiceGroupId(String serviceName) {
-		this.serviceGroupId = serviceName;
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 	
 	public void setSession(GGSession session) {

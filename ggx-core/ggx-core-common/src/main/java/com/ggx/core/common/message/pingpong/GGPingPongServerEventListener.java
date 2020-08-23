@@ -1,7 +1,7 @@
 package com.ggx.core.common.message.pingpong;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
@@ -12,11 +12,11 @@ import io.netty.util.AttributeKey;
 
 public class GGPingPongServerEventListener implements EventListener<Void>{
 	
-	protected GGConfig config;
+	protected GGXCoreConfig config;
 	
 	protected static final AttributeKey<GGPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
 	
-	public GGPingPongServerEventListener(GGConfig config) {
+	public GGPingPongServerEventListener(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

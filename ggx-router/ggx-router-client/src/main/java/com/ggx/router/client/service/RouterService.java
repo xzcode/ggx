@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.client.GGClient;
+import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
@@ -36,7 +36,7 @@ import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 /**
  * 路由服务
@@ -63,7 +63,7 @@ public class RouterService {
 	protected TaskExecutor executor;
 	
 	//业务客户端
-	protected GGClient serviceClient;
+	protected GGXCoreClient serviceClient;
 	
 	//绑定的连接客户端
 	protected SessionGroupClient sessionGroupClient;
@@ -232,7 +232,7 @@ public class RouterService {
 				String sessionId = session.getSessonId();
 				RouterRedirectMessageToOtherRouterServicesResp message = messageData.getMessage();
 				
-				GGServer hostServer = config.getHostServer();
+				GGXCoreServer hostServer = config.getHostServer();
 				SessionManager hostSessionManager = hostServer.getSessionManager();
 				GGSession hostSession = hostSessionManager.getSession(sessionId);
 				

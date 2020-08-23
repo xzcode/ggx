@@ -10,7 +10,7 @@ import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
 import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 @Configuration
 public class GGAdminCollectorServerConfiguration implements CommandLineRunner {
@@ -33,7 +33,7 @@ public class GGAdminCollectorServerConfiguration implements CommandLineRunner {
 
 	@Bean(value = "ggserverAdminCollectorServerSpringAnnotationSupport")
 	public GGXCoreSpringAnnotationSupport ggxCoreSpringAnnotationSupport() {
-		GGServerConfig serverConfig = adminCollectorServer().getConfig().getServer().getConfig();
+		GGXCoreServerConfig serverConfig = adminCollectorServer().getConfig().getServer().getConfig();
 		GGXCoreSpringAnnotationSupport support = new GGXCoreSpringAnnotationSupport(
 				serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(),
 				serverConfig.getFilterManager());

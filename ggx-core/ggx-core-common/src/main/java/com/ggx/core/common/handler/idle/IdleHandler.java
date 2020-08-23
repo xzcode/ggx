@@ -3,9 +3,9 @@ package com.ggx.core.common.handler.idle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventTask;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.session.GGSession;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -22,7 +22,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(IdleHandler.class);
 
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	
 	private boolean readerIdleEnabled;
@@ -31,7 +31,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 	
 	private boolean allIdleEnabled;
 	
-	public IdleHandler(GGConfig config) {
+	public IdleHandler(GGXCoreConfig config) {
 		this.config = config;
 		init();
 	}
@@ -43,15 +43,15 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 	
 	public void checkIdleEventMapped() {
 		
-		if(config.getEventManager().hasEventListener(GGEvents.Idle.WRITE)) {
+		if(config.getEventManager().hasEventListener(GGXCoreEvents.Idle.WRITE)) {
 			this.writerIdleEnabled = true;
 		}
 		
-		if (config.getEventManager().hasEventListener(GGEvents.Idle.READ)) {
+		if (config.getEventManager().hasEventListener(GGXCoreEvents.Idle.READ)) {
 			this.readerIdleEnabled = true;
 		}
 		
-		if (config.getEventManager().hasEventListener(GGEvents.Idle.ALL)) {
+		if (config.getEventManager().hasEventListener(GGXCoreEvents.Idle.ALL)) {
 			this.allIdleEnabled = true;
 		}
 		
@@ -71,7 +71,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...WRITER_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Idle.WRITE, null, config,ctx.channel()));
+							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.WRITE, null, config,ctx.channel()));
 						}
 					break;
 				case READER_IDLE:
@@ -80,7 +80,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...READER_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Idle.READ, null, config,ctx.channel()));
+							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.READ, null, config,ctx.channel()));
 						}
 					break;
 				case ALL_IDLE:
@@ -89,7 +89,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...ALL_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Idle.ALL, null, config,ctx.channel()));
+							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.ALL, null, config,ctx.channel()));
 						}
 					break;
 				default:

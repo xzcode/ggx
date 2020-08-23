@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -17,12 +18,19 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * @author zai
  * 2019-01-01 23:25:21
  */
-public class DefaultRequestMessageManager implements ReceiveMessageManager {
+public class DefaultReceiveMessageManager implements ReceiveMessageManager {
+	
+	private GGXCoreConfig coreConfig;
 
 	private final Map<String, ReceiveMessageHandlerInfo> handlerMap = new ConcurrentHashMap<>();
 	
 	
 	protected final List<String> actionList = new CopyOnWriteArrayList<String>();
+	
+	
+	public DefaultReceiveMessageManager(GGXCoreConfig coreConfig) {
+		this.coreConfig = coreConfig;
+	}
 
 	/**
 	 * 调用被缓存的方法
@@ -58,6 +66,12 @@ public class DefaultRequestMessageManager implements ReceiveMessageManager {
 	public void addMessageHandler(String action, ReceiveMessageHandlerInfo receiveMessageHandler) {
 		if (handlerMap.containsKey(action)) {
 			throw new RuntimeException("Action '"+action+"' has been mapped!");
+		}
+		if (this.coreConfig.getActionIdProfix() != null) {
+			action = this.coreConfig.getActionIdProfix() + action;
+		}
+		if (this.coreConfig.isGgxComponent()) {
+			action = this.coreConfig.getGgxComponentAtionIdProfix() + action.toUpperCase();
 		}
 		handlerMap.put(action, receiveMessageHandler);
 		actionList.add(action);

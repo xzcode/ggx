@@ -8,8 +8,8 @@ import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.common.message.resp.EventPublishResp;
 import com.ggx.common.message.resp.EventSubscribeResp;
-import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -32,7 +32,7 @@ public class EventbusClient{
 	
 	private EventbusClientConfig config;
 	
-	private GGClient serviceClient;
+	private GGXCoreClient serviceClient;
 	
 	
 	public EventbusClient(EventbusClientConfig config) {
@@ -73,7 +73,7 @@ public class EventbusClient{
 			//发送订阅请求
 			EventSubscribeReq req = new EventSubscribeReq(eventIds);
 			
-			GGClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
+			GGXCoreClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
 			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );

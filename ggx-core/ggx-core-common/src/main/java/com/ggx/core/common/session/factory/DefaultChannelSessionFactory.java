@@ -3,7 +3,7 @@ package com.ggx.core.common.session.factory;
 import java.net.InetSocketAddress;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.impl.DefaultChannelSession;
 import com.ggx.core.common.utils.GGXIdUtil;
@@ -20,11 +20,11 @@ import io.netty.util.AttributeKey;
  */
 public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	
-	protected GGConfig config; 
+	protected GGXCoreConfig config; 
 	
 	protected AttributeKey<GGSession> sessAttributeKey = AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION);
 	
-	public DefaultChannelSessionFactory(GGConfig config) {
+	public DefaultChannelSessionFactory(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

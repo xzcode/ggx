@@ -8,7 +8,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 
 import io.netty.buffer.ByteBuf;
@@ -42,11 +42,11 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
     private WebSocketServerHandshaker handshaker;
     
     
-    private GGConfig config;
+    private GGXCoreConfig config;
     
     
 
-    public WebSocketInboundFrameHandler(GGConfig config) {
+    public WebSocketInboundFrameHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 

@@ -1,6 +1,6 @@
 package com.ggx.core.common.session.impl;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.future.GGNettyFuture;
 
@@ -14,11 +14,11 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2019-10-02 22:48:34
  */
-public class DefaultChannelSession extends AbstractSession<GGConfig> {
+public class DefaultChannelSession extends AbstractSession<GGXCoreConfig> {
 	
 	private Channel channel;
 	
-	public DefaultChannelSession(Channel channel, String sessionId, GGConfig config) {
+	public DefaultChannelSession(Channel channel, String sessionId, GGXCoreConfig config) {
 		super(sessionId, config);
 		this.channel = channel;
 	}

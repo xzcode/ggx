@@ -9,13 +9,13 @@ import com.ggx.admin.collector.server.handler.ServiceDataReqHandler;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 
 public class GGXAdminCollectorServer  implements ReceiveMessageSupport, EventSupport{
@@ -32,7 +32,7 @@ public class GGXAdminCollectorServer  implements ReceiveMessageSupport, EventSup
 
 	public void init() {
 		
-		GGServerConfig ggconfig = new GGServerConfig();
+		GGXCoreServerConfig ggconfig = new GGXCoreServerConfig();
 		ggconfig.setPingPongEnabled(true);
 		ggconfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
 		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
@@ -40,10 +40,10 @@ public class GGXAdminCollectorServer  implements ReceiveMessageSupport, EventSup
 		ggconfig.setBossGroupThreadFactory(new GGThreadFactory("admin-collector-server-boss-", false));
 		ggconfig.setWorkerGroupThreadFactory(new GGThreadFactory("admin-collector-server-worker-", false));
 		ggconfig.init();
-		GGServer ggserver = new GGDefaultServer(ggconfig);
+		GGXCoreServer ggserver = new GGXDefaultCoreServer(ggconfig);
 		
-		ggserver.addEventListener(GGEvents.Connection.OPENED, new ConnActiveEventListener(config));
-		ggserver.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
+		ggserver.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
+		ggserver.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		
 		ggserver.addFilter(new AuthFilter());
 		

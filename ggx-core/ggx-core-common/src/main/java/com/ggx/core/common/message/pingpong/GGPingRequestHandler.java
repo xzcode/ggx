@@ -3,12 +3,12 @@ package com.ggx.core.common.message.pingpong;
 import java.nio.charset.Charset;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.pingpong.model.GGPing;
+import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
-import com.ggx.core.common.message.pingpong.model.GGPong;
+import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.send.support.MakePackSupport;
 
@@ -21,20 +21,20 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class GGPingRequestHandler implements MessageHandler<GGPing> , MakePackSupport{
+public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupport{
 	
-	protected GGConfig config;
+	protected GGXCoreConfig config;
 	
 	protected static final AttributeKey<GGPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
 	
-	public GGPingRequestHandler(GGConfig config) {
+	public GGPingRequestHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 
 	@Override
-	public void handle(MessageData<GGPing> request) {
+	public void handle(MessageData<Ping> request) {
 		Channel channel = request.getChannel();
-		channel.writeAndFlush(makePack(new MessageData<>(request.getSession(), GGPong.ACTION_ID, null)));
+		channel.writeAndFlush(makePack(new MessageData<>(request.getSession(), Pong.DEFAULT_INSTANT.getActionId(), null)));
 		
 		GGPingPongInfo pingPongInfo = channel.attr(PING_PONG_INFO_KEY).get();
 		if (pingPongInfo == null) {

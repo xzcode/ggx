@@ -1,7 +1,7 @@
 package com.ggx.group.server;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
@@ -16,9 +16,9 @@ import com.ggx.group.server.events.ConnCloseEventListener;
 import com.ggx.group.server.handler.AuthReqHandler;
 import com.ggx.group.server.handler.DataTransferReqHandler;
 import com.ggx.group.server.handler.SessionGroupRegisterReqHandler;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 /**
  * 会话组服务器启动类
@@ -45,7 +45,7 @@ public class SessionGroupServer {
 			this.config.setWorkThreadFactory(new GGThreadFactory("gg-group-worker-", false));
 		}
 		
-		GGServerConfig sessionServerConfig = new GGServerConfig();
+		GGXCoreServerConfig sessionServerConfig = new GGXCoreServerConfig();
 		sessionServerConfig.setPingPongEnabled(true);
 		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionServerConfig.setProtocolType(ProtocolTypeConstants.TCP);
@@ -69,9 +69,9 @@ public class SessionGroupServer {
 		GGSessionGroupManager sessionGroupManager = new GGSessionGroupManager(sessionServerConfig);
 		this.config.setSessionGroupManager(sessionGroupManager);
 		
-		GGServer sessionServer = new GGDefaultServer(sessionServerConfig);
-		sessionServer.addEventListener(GGEvents.Connection.OPENED, new ConnActiveEventListener(config));
-		sessionServer.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
+		GGXCoreServer sessionServer = new GGXDefaultCoreServer(sessionServerConfig);
+		sessionServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
+		sessionServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		sessionServer.onMessage(AuthReq.ACTION, new AuthReqHandler(config));
 		sessionServer.onMessage(SessionGroupRegisterReq.ACTION_ID, new SessionGroupRegisterReqHandler(config));
 		sessionServer.onMessage(DataTransferReq.ACTION, new DataTransferReqHandler(config));
@@ -81,12 +81,12 @@ public class SessionGroupServer {
 		
 		
 		
-		GGServerConfig serviceServerConfig = new GGServerConfig();
+		GGXCoreServerConfig serviceServerConfig = new GGXCoreServerConfig();
 		serviceServerConfig.setBossGroup(sessionServerConfig.getBossGroup());
 		serviceServerConfig.setWorkerGroup(sessionServerConfig.getWorkerGroup());
 		serviceServerConfig.init();
 		
-		GGServer serviceServer = new GGDefaultServer(serviceServerConfig);
+		GGXCoreServer serviceServer = new GGXDefaultCoreServer(serviceServerConfig);
 		this.config.setServiceServer(serviceServer);
 		
 	}

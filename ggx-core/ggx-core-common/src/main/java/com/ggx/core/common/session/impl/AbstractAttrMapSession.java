@@ -3,7 +3,7 @@ package com.ggx.core.common.session.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 
 /**
  * sesson默认实现
@@ -12,7 +12,7 @@ import com.ggx.core.common.config.GGConfig;
  * @author zai
  * 2019-10-02 22:48:34
  */
-public abstract class AbstractAttrMapSession<C extends GGConfig> extends AbstractSession<C> {
+public abstract class AbstractAttrMapSession<C extends GGXCoreConfig> extends AbstractSession<C> {
 	
 	
 	private Map<String, Object> attrMap = new ConcurrentHashMap<>(6);

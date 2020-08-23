@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.group.common.group.GGSessionGroup;
@@ -19,7 +19,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 	/**
 	 * 公共配置
 	 */
-	protected GGConfig config;
+	protected GGXCoreConfig config;
 	
 	/**
 	 * 会话组id
@@ -33,7 +33,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 	
 	
 	
-	public DefaultSessionGroup(String groupId, GGConfig config) {
+	public DefaultSessionGroup(String groupId, GGXCoreConfig config) {
 		this.groupId = groupId;
 		this.config = config;
 	}

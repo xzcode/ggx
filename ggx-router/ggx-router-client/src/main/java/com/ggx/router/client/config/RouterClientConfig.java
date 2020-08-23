@@ -18,7 +18,7 @@ import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancer
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -69,7 +69,7 @@ public class RouterClientConfig {
 	/**
 	 * 消息将被路由的服务器对象
 	 */
-	protected GGServer hostServer;
+	protected GGXCoreServer hostServer;
 
 	//不参与路由的actionid
 	protected String[] excludedActionId;
@@ -100,7 +100,7 @@ public class RouterClientConfig {
 	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(this);
 	
 
-	public RouterClientConfig(GGServer routingServer) {
+	public RouterClientConfig(GGXCoreServer routingServer) {
 		if (routingServer == null) {
 			throw new NullPointerException("Parameter 'routingServer' cannot be null!!");
 		}
@@ -151,7 +151,7 @@ public class RouterClientConfig {
 		this.serviceProvider = serviceProvider;
 	}
 
-	public GGServer getHostServer() {
+	public GGXCoreServer getHostServer() {
 		return hostServer;
 	}
 
@@ -164,7 +164,7 @@ public class RouterClientConfig {
 		this.excludedActionId = excludedRoutingActionRegex;
 	}
 
-	public void setHostServer(GGServer routingServer) {
+	public void setHostServer(GGXCoreServer routingServer) {
 		this.hostServer = routingServer;
 	}
 

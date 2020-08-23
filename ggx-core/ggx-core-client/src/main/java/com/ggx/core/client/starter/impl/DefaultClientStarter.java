@@ -4,7 +4,7 @@ package com.ggx.core.client.starter.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGFuture;
@@ -26,11 +26,11 @@ public class DefaultClientStarter implements GGClientStarter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DefaultClientStarter.class);
 	
-	private GGClientConfig config;
+	private GGXCoreClientConfig config;
 	
 	
 	
-    public DefaultClientStarter(GGClientConfig config) {
+    public DefaultClientStarter(GGXCoreClientConfig config) {
     	this.config = config;
     	init();
     }
@@ -99,10 +99,10 @@ public class DefaultClientStarter implements GGClientStarter {
 		return ggFuture;
 	}
     
-    public void setConfig(GGClientConfig config) {
+    public void setConfig(GGXCoreClientConfig config) {
 		this.config = config;
 	}
-    public GGClientConfig getConfig() {
+    public GGXCoreClientConfig getConfig() {
 		return config;
 	}
 

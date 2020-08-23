@@ -1,9 +1,9 @@
 package com.ggx.core.client;
 
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGClientStarter;
 import com.ggx.core.client.starter.impl.DefaultClientStarter;
-import com.ggx.core.common.config.GGConfigSupport;
+import com.ggx.core.common.config.GGXCoreConfigSupport;
 import com.ggx.core.common.control.IGGContolSupport;
 import com.ggx.core.common.future.GGFuture;
 
@@ -13,13 +13,13 @@ import com.ggx.core.common.future.GGFuture;
  * @author zzz
  * 2019-09-24 17:19:54
  */
-public class GGClient 
+public class GGXCoreClient 
 implements 
-	GGConfigSupport<GGClientConfig>,
+	GGXCoreConfigSupport<GGXCoreClientConfig>,
 	IGGContolSupport
 {
 	
-	private GGClientConfig config;
+	private GGXCoreClientConfig config;
 	
 	private GGClientStarter clientStarter;
 	
@@ -28,7 +28,7 @@ implements
 	}
 	
 
-	public GGClient(GGClientConfig config) {
+	public GGXCoreClient(GGXCoreClientConfig config) {
 		this.config = config;
 		if (!this.config.isInited()) {
 			this.config.init();
@@ -37,7 +37,7 @@ implements
 	}
 	
 	@Override
-	public GGClientConfig getConfig() {
+	public GGXCoreClientConfig getConfig() {
 		return config;
 	}
 	

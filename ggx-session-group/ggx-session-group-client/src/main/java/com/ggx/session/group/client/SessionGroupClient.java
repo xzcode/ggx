@@ -3,12 +3,12 @@ package com.ggx.session.group.client;
 import java.nio.charset.Charset;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
@@ -60,7 +60,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			this.config.setWorkThreadFactory(new GGThreadFactory("gg-group-cli-", false));
 		}
 		
-		GGClientConfig sessionClientConfig = new GGClientConfig();
+		GGXCoreClientConfig sessionClientConfig = new GGXCoreClientConfig();
 
 		sessionClientConfig.setPingPongEnabled(true);
 		sessionClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
@@ -86,7 +86,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		this.config.setSessionGroupManager(sessionGroupManager);
 		
 
-		GGClient sessionClient = new GGClient(sessionClientConfig);
+		GGXCoreClient sessionClient = new GGXCoreClient(sessionClientConfig);
 		this.config.setSessionClient(sessionClient);
 		
 		//获取一个单线程执行器
@@ -98,7 +98,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		sessionClient.onMessage(DataTransferResp.ACTION_ID, new DataTransferRespHandler(this.config));
 
 		//添加断开连接监听器
-		sessionClient.addEventListener(GGEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {
+		sessionClient.addEventListener(GGXCoreEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {
 			avaliableConnections.decrementAndGet();
 			
 			SessionManager sessionManager = this.config.getServiceClient().getSessionManager();
@@ -111,7 +111,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		
 		
 		//添加打开连接监听器
-		sessionClient.addEventListener(GGEvents.Connection.OPENED, (EventData<Void> eventData) -> {
+		sessionClient.addEventListener(GGXCoreEvents.Connection.OPENED, (EventData<Void> eventData) -> {
 			
 			avaliableConnections.incrementAndGet();
 			
@@ -124,7 +124,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			
 			if (this.config.isEnableServiceClient()) {
 				
-				GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
+				GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
 				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
@@ -141,11 +141,11 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		
 		if (this.config.isEnableServiceClient() && this.config.getServiceClient() == null) {
 			
-			GGClientConfig serviceClientConfig = new GGClientConfig();
+			GGXCoreClientConfig serviceClientConfig = new GGXCoreClientConfig();
 			serviceClientConfig.setWorkerGroup(sessionClientConfig.getWorkerGroup());
 			serviceClientConfig.init();
 			
-			GGClient serviceClient = new GGClient(serviceClientConfig);
+			GGXCoreClient serviceClient = new GGXCoreClient(serviceClientConfig);
 			this.config.setServiceClient(serviceClient);
 			
 		}
@@ -186,7 +186,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			if (shutdown) {
 				return;
 			}
-			GGClient ggclient = config.getSessionClient();
+			GGXCoreClient ggclient = config.getSessionClient();
 			ggclient.connect(host, port).addListener(f -> {
 				this.singleThreadEvecutor.submitTask(() -> {
 					if (shutdown) {
@@ -220,7 +220,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 				return;
 			}
 			this.shutdown = true;
-			GGClient sessionClient = config.getSessionClient();
+			GGXCoreClient sessionClient = config.getSessionClient();
 			if (closeExecutors) {
 				sessionClient.shutdown();
 			}else {

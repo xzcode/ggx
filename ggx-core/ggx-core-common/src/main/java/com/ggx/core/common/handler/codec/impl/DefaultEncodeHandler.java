@@ -1,7 +1,7 @@
 package com.ggx.core.common.handler.codec.impl;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.handler.codec.EncodeHandler;
 import com.ggx.core.common.message.Pack;
@@ -50,13 +50,13 @@ public class DefaultEncodeHandler implements EncodeHandler {
 	 */
 	protected static final AttributeKey<String> PROTOCOL_TYPE_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PROTOCOL_TYPE);
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	public DefaultEncodeHandler() {
 	}
 	
 	
-	public DefaultEncodeHandler(GGConfig config) {
+	public DefaultEncodeHandler(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

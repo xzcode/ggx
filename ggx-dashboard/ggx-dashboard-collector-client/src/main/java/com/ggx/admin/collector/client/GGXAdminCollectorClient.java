@@ -6,12 +6,12 @@ import com.ggx.admin.collector.client.events.ConnOpenEventListener;
 import com.ggx.admin.collector.client.filter.AuthSendMessageFilter;
 import com.ggx.admin.collector.client.handler.AuthRespHandler;
 import com.ggx.admin.collector.client.handler.CollectServiceDataHandler;
-import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.EventSupport;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
@@ -35,7 +35,7 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 		//collectorTaskManager.addCollector(new ServiceDataCollector(config));
 		
 		
-		GGClientConfig ggConfig = new GGClientConfig();
+		GGXCoreClientConfig ggConfig = new GGXCoreClientConfig();
 		ggConfig.setPingPongEnabled(true);
 		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
 		ggConfig.setTaskExecutor(config.getTaskExecutor());
@@ -43,13 +43,13 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 		ggConfig.setWorkerGroupThreadFactory(new GGThreadFactory("admin-collector-", false));
 		ggConfig.init();
 
-		GGClient ggClient = new GGClient(ggConfig);
+		GGXCoreClient ggClient = new GGXCoreClient(ggConfig);
 		
 		ggClient.onMessage(new AuthRespHandler(this.config));
 		ggClient.onMessage(new CollectServiceDataHandler(this.config));
 		
-		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
-		ggClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
+		ggClient.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnOpenEventListener(config));
+		ggClient.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		
 		ggClient.addFilter(new AuthSendMessageFilter(config));
 		
@@ -63,7 +63,7 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 	}
 
 	public void connect() {
-		GGClient ggClient = config.getServiceClient();
+		GGXCoreClient ggClient = config.getServiceClient();
 		String host = config.getServerHost();
 		int port = config.getServerPort();
 		ggClient.connect(host, port).addListener(f -> {

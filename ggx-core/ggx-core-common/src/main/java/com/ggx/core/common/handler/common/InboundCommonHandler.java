@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventTask;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.session.GGSession;
 
 import io.netty.channel.Channel;
@@ -18,13 +18,13 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(InboundCommonHandler.class);
 	
-	protected GGConfig config;
+	protected GGXCoreConfig config;
 	
 	public InboundCommonHandler() {
 		
 	}
 	
-	public InboundCommonHandler(GGConfig config) {
+	public InboundCommonHandler(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}
@@ -43,7 +43,7 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 			LOGGER.debug("Channel Active:{}", channel);
 		}
 		GGSession session = (GGSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
-		config.getTaskExecutor().submitTask(new EventTask(session, GGEvents.Connection.OPENED, null, config, channel));
+		config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Connection.OPENED, null, config, channel));
 		super.channelActive(ctx);
 	}
 	
@@ -53,7 +53,7 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("channel Inactive:{}", ctx.channel());
 		}
-		config.getTaskExecutor().submitTask(new EventTask((GGSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGEvents.Connection.CLOSED, null, config));
+		config.getTaskExecutor().submitTask(new EventTask((GGSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, null, config));
 		super.channelInactive(ctx);
 	}
 	
@@ -86,11 +86,11 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 	}
 
 
-	public GGConfig getConfig() {
+	public GGXCoreConfig getConfig() {
 		return config;
 	}
 	
-	public void setConfig(GGConfig config) {
+	public void setConfig(GGXCoreConfig config) {
 		this.config = config;
 	}
 

@@ -7,14 +7,14 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 
 public class RouterClientHostServerReceiveMessageFilter implements BeforeDeserializeFilter{
 	
 	private RouterClientConfig config;
 	
-	private GGServer hostServer;
+	private GGXCoreServer hostServer;
 	private ReceiveMessageManager requestMessageManager;
 	
 	public RouterClientHostServerReceiveMessageFilter(RouterClientConfig config) {

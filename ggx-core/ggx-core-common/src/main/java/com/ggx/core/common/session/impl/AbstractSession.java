@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
@@ -19,7 +19,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * 
  * @author zai 2019-10-02 22:48:34
  */
-public abstract class AbstractSession<C extends GGConfig> implements GGSession {
+public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSession {
 	
 
 	// 具体的配置

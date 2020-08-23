@@ -3,7 +3,7 @@ package com.ggx.core.common.handler.tcp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.Pack;
 
 import io.netty.buffer.ByteBuf;
@@ -23,7 +23,7 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TcpOutboundHandler.class);
 	    
 
-	private GGConfig config;
+	private GGXCoreConfig config;
 	/*
 	private static final Gson GSON = new GsonBuilder()
     		.serializeNulls()
@@ -34,7 +34,7 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 	}
 	
 	
-	public TcpOutboundHandler(GGConfig config) {
+	public TcpOutboundHandler(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

@@ -11,7 +11,7 @@ import com.ggx.eventbus.server.handler.EventSubscribeReqHandler;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 public class EventbusServer {
 	
@@ -46,7 +46,7 @@ public class EventbusServer {
 			});
 		}
 		
-		GGServer serviceServer = sessionServerConfig.getServiceServer();
+		GGXCoreServer serviceServer = sessionServerConfig.getServiceServer();
 		
 		serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
 		serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));

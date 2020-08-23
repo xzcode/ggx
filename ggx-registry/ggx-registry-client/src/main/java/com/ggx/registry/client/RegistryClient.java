@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -50,33 +50,35 @@ public class RegistryClient {
 	public void start() {
 		
 		
-		GGClientConfig ggConfig = new GGClientConfig();
-		ggConfig.setPingPongEnabled(true);
-		ggConfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
-		ggConfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
-		ggConfig.setProtocolType(ProtocolTypeConstants.TCP);
-		ggConfig.getPackLogger().addPackLogFilter(pack -> {
+		GGXCoreClientConfig ggconfig = new GGXCoreClientConfig();
+		
+		ggconfig.setPingPongEnabled(true);
+		ggconfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
+		ggconfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
+		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
+		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
 		});
-		ggConfig.init();
+		ggconfig.setGgxComponent(true);
+		ggconfig.init();
 		
-		GGClient ggClient = new GGClient(ggConfig);
+		GGXCoreClient ggClient = new GGXCoreClient(ggconfig);
 		config.setGGclient(ggClient);
 		
-		ggClient.onMessage(RegistryServiceRegisterResp.ACTION_ID, new RegisterRespHandler(config));
-		ggClient.onMessage(RegistryServiceListResp.ACTION_ID, new ServiceListRespHandler(config));
-		ggClient.onMessage(RegistryServiceUpdateResp.ACTION_ID, new ServiceUpdateRespHandler(config));
-		ggClient.onMessage(RegistryServiceUnregisterResp.ACTION_ID, new ServiceUnregisterRespHandler(config));
-		ggClient.onMessage(RegistryAddServiceResp.ACTION_ID, new AddServiceRespHandler(config));
+		ggClient.onMessage(new RegisterRespHandler(config));
+		ggClient.onMessage(new ServiceListRespHandler(config));
+		ggClient.onMessage(new ServiceUpdateRespHandler(config));
+		ggClient.onMessage(new ServiceUnregisterRespHandler(config));
+		ggClient.onMessage(new AddServiceRespHandler(config));
 		
-		ggClient.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
-		ggClient.addEventListener(GGEvents.Connection.OPENED, new ConnOpenEventListener(config));
+		ggClient.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
+		ggClient.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnOpenEventListener(config));
 		
 		
 		ggClient.scheduleWithFixedDelay(30L * 1000L, 30L * 1000L, TimeUnit.MILLISECONDS, () -> {
 			GGSession session = config.getSession();
 			if (config.isRequireServices() && session != null && !session.isExpired()) {
-				config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);				
+				config.getSession().send(RegistryServiceListReq.ALL_SERVICE_INSTANT);				
 			}
 		});
 		
@@ -90,7 +92,7 @@ public class RegistryClient {
 	}
 	
 	public void connect() {
-		GGClient ggClient = config.getGGclient();
+		GGXCoreClient ggClient = config.getGGclient();
 		ggClient.schedule(3000L, () -> {
 			RegistryInfo registry = config.getRegistryManager().getRandomRegistry();
 			ggClient.connect(registry.getDomain(), registry.getPort())

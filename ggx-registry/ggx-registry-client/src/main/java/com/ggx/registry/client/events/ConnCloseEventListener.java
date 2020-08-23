@@ -2,7 +2,6 @@ package com.ggx.registry.client.events;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.service.ServiceManager;

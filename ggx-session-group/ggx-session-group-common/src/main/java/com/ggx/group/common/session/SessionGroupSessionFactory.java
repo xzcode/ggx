@@ -1,7 +1,7 @@
 package com.ggx.group.common.session;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
 import com.ggx.core.common.session.impl.DefaultChannelSession;
 
@@ -10,7 +10,7 @@ import io.netty.util.AttributeKey;
 
 public class SessionGroupSessionFactory extends DefaultChannelSessionFactory{
 
-	public SessionGroupSessionFactory(GGConfig config) {
+	public SessionGroupSessionFactory(GGXCoreConfig config) {
 		super(config);
 	}
 

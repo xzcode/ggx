@@ -1,12 +1,12 @@
 package com.ggx.core.common.event;
 
 /**
- * ggserver默认事件
+ * ggx 默认事件
  * 
  * @author zai
  * 2019-10-22 15:51:51
  */
-public interface GGEvents {
+public interface GGXCoreEvents {
 	
 	/**
 	 * 空闲状态 事件

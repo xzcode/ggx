@@ -1,7 +1,6 @@
 package com.ggx.registry.common.message.resp;
 
-import com.ggx.core.common.message.model.Message;
-import com.ggx.registry.common.constant.RegistryConstant;
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.registry.common.service.ServiceInfo;
 
 /**
@@ -11,14 +10,7 @@ import com.ggx.registry.common.service.ServiceInfo;
  * @author zai
  * 2019-10-04 16:44:38
  */
-public class RegistryServiceRegisterResp implements Message{
-	
-	public static final String ACTION_ID = RegistryConstant.ACTION_ID_PREFIX + ".SERVICE.REGISTER.RESP";
-	
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
+public class RegistryServiceRegisterResp extends AbstractMessage {
 	
 	/**
 	 * 是否注册成功

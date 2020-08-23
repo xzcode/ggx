@@ -3,7 +3,7 @@ package com.ggx.core.common.handler.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.Pack;
 
 import io.netty.buffer.ByteBuf;
@@ -25,13 +25,13 @@ public class WebSocketOutboundFrameHandler extends ChannelOutboundHandlerAdapter
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketOutboundFrameHandler.class);
     
-    private GGConfig config;
+    private GGXCoreConfig config;
     
     public WebSocketOutboundFrameHandler() {
     	
 	}
     
-	public WebSocketOutboundFrameHandler(GGConfig config) {
+	public WebSocketOutboundFrameHandler(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

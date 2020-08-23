@@ -12,8 +12,8 @@ import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
 import com.ggx.group.server.session.GroupServiceServerSession;
 import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 /**
  * 客户端认证请求
@@ -36,8 +36,8 @@ public class DataTransferReqHandler implements MessageHandler<DataTransferReq> {
 		GGSession groupSession = messageData.getSession();
 		String groupSessionId = groupSession.getSessonId();
 		
-		GGServer serviceServer = config.getServiceServer();
-		GGServerConfig serviceServerConfig = serviceServer.getConfig();
+		GGXCoreServer serviceServer = config.getServiceServer();
+		GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
 		
 		//判断是否开启自定义传输数据处理器
 		if (this.config.isEnableCustomDataTransferHandler() && this.config.getCustomDataTransferHandler() != null) {

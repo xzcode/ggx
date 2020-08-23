@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
 
@@ -20,11 +20,11 @@ import com.ggx.core.common.session.GGSession;
  */
 public class DefaultSessionManager implements SessionManager {
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	private final Map<String, GGSession> sessionMap = new ConcurrentHashMap<>(1000);
 	
-	public DefaultSessionManager(GGConfig config) {
+	public DefaultSessionManager(GGXCoreConfig config) {
 		this.config = config;
 		
 		this.startSessionExpireCheckTask();

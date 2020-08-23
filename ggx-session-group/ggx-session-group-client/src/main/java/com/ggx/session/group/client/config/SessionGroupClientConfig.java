@@ -2,12 +2,12 @@ package com.ggx.session.group.client.config;
 
 import java.util.concurrent.ThreadFactory;
 
-import com.ggx.core.client.GGClient;
+import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.session.group.client.SessionGroupClient;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -23,19 +23,19 @@ public class SessionGroupClientConfig {
 	protected SessionGroupClient sessionGroupClient;
 
 	// 会话客户端
-	protected GGClient sessionClient;
+	protected GGXCoreClient sessionClient;
 	
 	//开启业务客户端
 	protected boolean enableServiceClient;
 	
 	//业务客户端
-	protected GGClient serviceClient;
+	protected GGXCoreClient serviceClient;
 	
 	//开启业务服务端
 	protected boolean enableServiceServer;
 	
 	//业务客户端
-	protected GGServer serviceServer;
+	protected GGXCoreServer serviceServer;
 	
 	//会话组管理器
 	protected GGSessionGroupManager sessionGroupManager;
@@ -102,11 +102,11 @@ public class SessionGroupClientConfig {
 		this.sessionGroupId = sessionGroupId;
 	}
 
-	public void setSessionClient(GGClient sessionClient) {
+	public void setSessionClient(GGXCoreClient sessionClient) {
 		this.sessionClient = sessionClient;
 	}
 
-	public GGClient getSessionClient() {
+	public GGXCoreClient getSessionClient() {
 		return sessionClient;
 	}
 
@@ -142,11 +142,11 @@ public class SessionGroupClientConfig {
 		return sessionGroupManager;
 	}
 	
-	public GGClient getServiceClient() {
+	public GGXCoreClient getServiceClient() {
 		return serviceClient;
 	}
 	
-	public void setServiceClient(GGClient serviceClient) {
+	public void setServiceClient(GGXCoreClient serviceClient) {
 		this.serviceClient = serviceClient;
 	}
 	
@@ -198,11 +198,11 @@ public class SessionGroupClientConfig {
 		return enableServiceServer;
 	}
 	
-	public GGServer getServiceServer() {
+	public GGXCoreServer getServiceServer() {
 		return serviceServer;
 	}
 	
-	public void setServiceServer(GGServer serviceServer) {
+	public void setServiceServer(GGXCoreServer serviceServer) {
 		this.serviceServer = serviceServer;
 	}
 	

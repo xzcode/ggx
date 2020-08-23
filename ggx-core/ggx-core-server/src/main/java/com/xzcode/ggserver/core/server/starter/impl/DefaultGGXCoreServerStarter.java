@@ -14,9 +14,9 @@ import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
-import com.xzcode.ggserver.core.server.starter.GGServerStarter;
+import com.xzcode.ggserver.core.server.starter.GGXCoreServerStarter;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -33,15 +33,15 @@ import io.netty.util.concurrent.Future;
  * @author zai
  * 2018-12-20 10:17:44
  */
-public class DefaultGGServerStarter implements GGServerStarter {
+public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 	
-	protected static final Logger logger = LoggerFactory.getLogger(DefaultGGServerStarter.class);
+	protected static final Logger logger = LoggerFactory.getLogger(DefaultGGXCoreServerStarter.class);
 	
-	protected GGServerConfig config;
+	protected GGXCoreServerConfig config;
 	
 	protected  Channel serverChannel;
 	
-    public DefaultGGServerStarter(GGServerConfig config) {
+    public DefaultGGXCoreServerStarter(GGXCoreServerConfig config) {
     	
     	this.config = config;
     }
@@ -181,10 +181,10 @@ public class DefaultGGServerStarter implements GGServerStarter {
 		}
 	}
     
-    public void setConfig(GGServerConfig config) {
+    public void setConfig(GGXCoreServerConfig config) {
 		this.config = config;
 	}
-    public GGServerConfig getConfig() {
+    public GGXCoreServerConfig getConfig() {
 		return config;
 	}
     

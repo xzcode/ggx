@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.common.constant.RegistryConstant;
@@ -23,9 +23,9 @@ import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 public class RegistryServer {
 	
@@ -52,27 +52,28 @@ public class RegistryServer {
 			this.config.getServiceManager().registerService(selfService);
 		}
 		
-		GGServerConfig ggConfig = new GGServerConfig();
-		ggConfig.setPingPongEnabled(true);
-		ggConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		ggConfig.setProtocolType(ProtocolTypeConstants.TCP);
-		ggConfig.setWorkThreadSize(this.config.getWorkThreadSize());
-		ggConfig.setPort(this.config.getPort());
-		ggConfig.setBossGroupThreadFactory(new GGThreadFactory("gg-registry-boss-", false));
-		ggConfig.setWorkerGroupThreadFactory(new GGThreadFactory("gg-registry-worker-", false));
-		ggConfig.getPackLogger().addPackLogFilter(pack -> {
+		GGXCoreServerConfig ggconfig = new GGXCoreServerConfig();
+		
+		ggconfig.setPingPongEnabled(true);
+		ggconfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
+		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
+		ggconfig.setWorkThreadSize(this.config.getWorkThreadSize());
+		ggconfig.setPort(this.config.getPort());
+		ggconfig.setBossGroupThreadFactory(new GGThreadFactory("gg-registry-boss-", false));
+		ggconfig.setWorkerGroupThreadFactory(new GGThreadFactory("gg-registry-worker-", false));
+		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
 		});
-		ggConfig.init();
-		GGServer ggServer = new GGDefaultServer(ggConfig);
+		ggconfig.setGgxComponent(true);
+		ggconfig.init();
+		GGXCoreServer ggServer = new GGXDefaultCoreServer(ggconfig);
 		
-		ggServer.addEventListener(GGEvents.Connection.OPENED, new ConnActiveEventListener(config));
+		ggServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
+		ggServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		
-		ggServer.addEventListener(GGEvents.Connection.CLOSED, new ConnCloseEventListener(config));
-		
-		ggServer.onMessage(RegistryServiceRegisterReq.ACTION_ID, new RegisterReqHandler(config));
-		ggServer.onMessage(RegistryServiceListReq.ACTION_ID, new ServiceListReqHandler(config));
-		ggServer.onMessage(RegistryServiceUpdateReq.ACTION_ID, new ServiceUpdateReqHandler(config));
+		ggServer.onMessage(new RegisterReqHandler(config));
+		ggServer.onMessage(new ServiceListReqHandler(config));
+		ggServer.onMessage(new ServiceUpdateReqHandler(config));
 		
 		config.setServer(ggServer);
 		

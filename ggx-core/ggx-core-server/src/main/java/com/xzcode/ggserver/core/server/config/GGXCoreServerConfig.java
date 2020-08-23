@@ -2,17 +2,17 @@ package com.xzcode.ggserver.core.server.config;
 
 import java.util.concurrent.ThreadFactory;
 
-import com.ggx.core.common.config.GGConfig;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
-import com.ggx.core.common.message.pingpong.model.GGPing;
+import com.ggx.core.common.message.pingpong.model.Ping;
 import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
-public class GGServerConfig extends GGConfig{
+public class GGXCoreServerConfig extends GGXCoreConfig{
 	
 	protected String	serverName = "GGServer";
 	
@@ -58,8 +58,8 @@ public class GGServerConfig extends GGConfig{
 		
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(GGPing.ACTION_ID, new GGPingRequestHandler(this));			
-			eventManager.addEventListener(GGEvents.Idle.READ, new GGPingPongServerEventListener(this));
+			receiveMessageManager.onMessage(new GGPingRequestHandler(this));			
+			eventManager.addEventListener(GGXCoreEvents.Idle.READ, new GGPingPongServerEventListener(this));
 		}
 		
 	}

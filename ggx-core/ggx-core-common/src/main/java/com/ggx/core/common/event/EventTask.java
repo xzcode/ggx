@@ -3,7 +3,7 @@ package com.ggx.core.common.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
 
@@ -19,7 +19,7 @@ public class EventTask implements Runnable{
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(EventTask.class);
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	/**
 	 * Channel对象
@@ -43,13 +43,13 @@ public class EventTask implements Runnable{
 	
 	
 
-	public EventTask(GGSession session, String event, Object message, GGConfig config) {
+	public EventTask(GGSession session, String event, Object message, GGXCoreConfig config) {
 		this.session = session;
 		this.event = event;
 		this.message = message;
 		this.config = config;
 	}
-	public EventTask(GGSession session, String event, Object message, GGConfig config, Channel channel) {
+	public EventTask(GGSession session, String event, Object message, GGXCoreConfig config, Channel channel) {
 		this.session = session;
 		this.event = event;
 		this.message = message;

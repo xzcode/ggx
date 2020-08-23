@@ -1,7 +1,7 @@
 package com.ggx.session.group.client.handler;
 
-import com.ggx.core.client.GGClient;
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.action.MessageHandler;
@@ -10,8 +10,8 @@ import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.resp.DataTransferResp;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 
 
@@ -39,8 +39,8 @@ public class DataTransferRespHandler implements MessageHandler<DataTransferResp>
 		
 		//判断是否开启业务客户端
 		if (this.config.isEnableServiceClient()) {
-			GGClient serviceClient = this.config.getServiceClient();
-			GGClientConfig serviceClientConfig = serviceClient.getConfig();
+			GGXCoreClient serviceClient = this.config.getServiceClient();
+			GGXCoreClientConfig serviceClientConfig = serviceClient.getConfig();
 			SessionManager sessionManager = serviceClient.getSessionManager();
 			GGSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {
@@ -54,8 +54,8 @@ public class DataTransferRespHandler implements MessageHandler<DataTransferResp>
 		
 		//判断是否开启业务服务端
 		if (this.config.isEnableServiceServer() && this.config.getServiceServer() != null) {
-			GGServer serviceServer = this.config.getServiceServer();
-			GGServerConfig serviceServerConfig = serviceServer.getConfig();
+			GGXCoreServer serviceServer = this.config.getServiceServer();
+			GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
 			SessionManager sessionManager = serviceServerConfig.getSessionManager();
 			GGSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {

@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
 import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.spring.support.annotation.GGXEventHandler;
 
-@GGXEventHandler(GGEvents.Connection.CLOSED)
+@GGXEventHandler(GGXCoreEvents.Connection.CLOSED)
 public class ConnCloseEventListener implements EventListener<Void>{
 	
 	@Autowired

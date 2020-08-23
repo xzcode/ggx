@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.GGServer;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGDefaultServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 @Configuration
 public class GGServerConfiguration implements CommandLineRunner {
@@ -20,8 +20,8 @@ public class GGServerConfiguration implements CommandLineRunner {
 	
 	@Bean
 	@ConfigurationProperties(prefix = "ggx.core")
-	public GGServerConfig ggServerConfig() {
-		GGServerConfig serverConfig = new GGServerConfig();
+	public GGXCoreServerConfig ggServerConfig() {
+		GGXCoreServerConfig serverConfig = new GGXCoreServerConfig();
 		serverConfig.setEnableAesEncryption(true);
 		serverConfig.setPingPongEnabled(true);
 		serverConfig.init();
@@ -29,14 +29,14 @@ public class GGServerConfiguration implements CommandLineRunner {
 	}
 
 	@Bean
-	public GGServer ggserver() {
-		GGDefaultServer ggserver = new GGDefaultServer(ggServerConfig());
+	public GGXCoreServer ggserver() {
+		GGXDefaultCoreServer ggserver = new GGXDefaultCoreServer(ggServerConfig());
 		return ggserver;
 	}
 	
 	@Bean(value = "ggserverSpringAnnotationSupport")
 	public GGXCoreSpringAnnotationSupport ggxCoreSpringAnnotationSupport() {
-		 GGServerConfig serverConfig = ggServerConfig();
+		 GGXCoreServerConfig serverConfig = ggServerConfig();
 		 GGXCoreSpringAnnotationSupport support = new GGXCoreSpringAnnotationSupport(serverConfig.getReceiveMessageManager(), serverConfig.getEventManager(), serverConfig.getFilterManager());
 		 support.setBasicPackage(new String[]{"com.ggx.admin.server"});
 		 return support;

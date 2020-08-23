@@ -3,7 +3,7 @@ package com.ggx.registry.server.config;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 /**
  * 配置
@@ -14,7 +14,7 @@ import com.xzcode.ggserver.core.server.GGServer;
 public class RegistryServerConfig {
 
 	// ggserver对象
-	private GGServer server;
+	private GGXCoreServer server;
 
 	// 是否打印pingpong包信息
 	protected boolean printPingPongInfo = false;
@@ -102,11 +102,11 @@ public class RegistryServerConfig {
 		this.port = port;
 	}
 
-	public GGServer getServer() {
+	public GGXCoreServer getServer() {
 		return server;
 	}
 
-	public void setServer(GGServer server) {
+	public void setServer(GGXCoreServer server) {
 		this.server = server;
 	}
 

@@ -1,7 +1,7 @@
 package com.ggx.session.group.client.session;
 
-import com.ggx.core.common.config.GGConfig;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFailedFuture;
@@ -21,7 +21,7 @@ import io.netty.channel.Channel;
  * @author zai
  * 2020-04-13 17:01:32
  */
-public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
+public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreConfig>{
 	
 	//会话组id
 	protected String groupId;
@@ -33,7 +33,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 	
 	
 
-	public GroupServiceClientSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGConfig config) {
+	public GroupServiceClientSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
 		super(sessionId, config);
 		this.sessionGroupManager = sessionGroupManager;
 		this.groupId = groupId;
@@ -74,7 +74,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGConfig>{
 		triggerDisconnectListeners();
 		
 		//触发断开连接事件
-		this.emitEvent(new EventData<>(this, GGEvents.Connection.CLOSED, null));
+		this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
 		
 		GGDefaultFuture future = new GGDefaultFuture();
 		future.setSession(this);

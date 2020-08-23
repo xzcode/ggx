@@ -1,10 +1,10 @@
 package com.ggx.core.client.config;
 
-import com.ggx.core.common.config.GGConfig;
-import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.message.pingpong.GGPingPongClientEventListener;
 import com.ggx.core.common.message.pingpong.GGPongResponseHandler;
-import com.ggx.core.common.message.pingpong.model.GGPong;
+import com.ggx.core.common.message.pingpong.model.Pong;
 
 import io.netty.bootstrap.Bootstrap;
 
@@ -13,7 +13,7 @@ import io.netty.bootstrap.Bootstrap;
  * 
  * @author zai 2019-12-12 19:41:19
  */
-public class GGClientConfig extends GGConfig {
+public class GGXCoreClientConfig extends GGXCoreConfig {
 
 	private Bootstrap bootstrap = new Bootstrap();
 
@@ -27,8 +27,8 @@ public class GGClientConfig extends GGConfig {
 		super.init();
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(GGPong.ACTION_ID, new GGPongResponseHandler(this));
-			eventManager.addEventListener(GGEvents.Idle.ALL, new GGPingPongClientEventListener(this));
+			receiveMessageManager.onMessage(new GGPongResponseHandler(this));
+			eventManager.addEventListener(GGXCoreEvents.Idle.ALL, new GGPingPongClientEventListener(this));
 		}
 
 	}

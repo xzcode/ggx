@@ -12,7 +12,7 @@ public interface RegistryConstant {
 	/**
 	 * 指令前缀
 	 */
-	String ACTION_ID_PREFIX = "GG.REGISTRY";
+	//String ACTION_ID_PREFIX = "GG.REGISTRY";
 	
 	
 	/**

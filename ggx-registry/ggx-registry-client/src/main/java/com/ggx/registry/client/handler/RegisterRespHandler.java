@@ -47,7 +47,7 @@ public class RegisterRespHandler implements MessageHandler<RegistryServiceRegist
 				}
 			}
 			if (config.isRequireServices()) {
-				config.getSession().send(RegistryServiceListReq.DEFAULT_INSTANT);
+				config.getSession().send(RegistryServiceListReq.ALL_SERVICE_INSTANT);
 			}
 		}
 	}

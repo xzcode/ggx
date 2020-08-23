@@ -1,6 +1,6 @@
 package com.ggx.session.group.client.events;
 
-import com.ggx.core.client.config.GGClientConfig;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
@@ -36,7 +36,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		
 		if (this.config.isEnableServiceClient()) {
 			
-			GGClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
+			GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
 			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);

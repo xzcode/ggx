@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
 
@@ -25,9 +25,9 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 	//数据包长度标识 字节数
 	public static final int PACKAGE_LEN = 4;
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
-	public TcpInboundHandler(GGConfig config) {
+	public TcpInboundHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 

@@ -3,7 +3,7 @@ package com.ggx.core.common.handler.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
@@ -12,9 +12,9 @@ public class OutboundCommonHandler extends ChannelOutboundHandlerAdapter{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(OutboundCommonHandler.class);
 	
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
-	public OutboundCommonHandler(GGConfig config) {
+	public OutboundCommonHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 	

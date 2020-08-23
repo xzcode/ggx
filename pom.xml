@@ -178,5 +178,6 @@
 		<module>ggx-router</module>
 		<module>ggx-session-group</module>
 		<module>ggx-util</module>
+		<module>ggx-server</module>
 	</modules>
 </project>

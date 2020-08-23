@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.config.GGConfig;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.handler.common.InboundCommonHandler;
 import com.ggx.core.common.handler.common.OutboundCommonHandler;
@@ -33,7 +33,7 @@ public class TcpChannelInitializer extends ChannelInitializer<Channel> {
 	protected static final AttributeKey<String> PROTOCOL_TYPE_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PROTOCOL_TYPE);
 
 
-	private GGConfig config;
+	private GGXCoreConfig config;
 	
 	
 	public TcpChannelInitializer() {
@@ -41,7 +41,7 @@ public class TcpChannelInitializer extends ChannelInitializer<Channel> {
 	}
 	
 
-	public TcpChannelInitializer(GGConfig config) {
+	public TcpChannelInitializer(GGXCoreConfig config) {
 		this.config = config;
 	}
 
@@ -70,11 +70,11 @@ public class TcpChannelInitializer extends ChannelInitializer<Channel> {
 	}
 	
 
-	public GGConfig getConfig() {
+	public GGXCoreConfig getConfig() {
 		return config;
 	}
 	
-	public void setConfig(GGConfig config) {
+	public void setConfig(GGXCoreConfig config) {
 		this.config = config;
 	}
 	

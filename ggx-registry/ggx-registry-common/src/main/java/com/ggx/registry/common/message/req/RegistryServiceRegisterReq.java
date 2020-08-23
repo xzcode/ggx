@@ -1,5 +1,6 @@
 package com.ggx.registry.common.message.req;
 
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -11,14 +12,7 @@ import com.ggx.registry.common.service.ServiceInfo;
  * @author zai
  * 2019-10-04 16:43:22
  */
-public class RegistryServiceRegisterReq implements Message {
-	
-	public static final String ACTION_ID = RegistryConstant.ACTION_ID_PREFIX + ".SERVICE.REGISTER.REQ";
-	
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
+public class RegistryServiceRegisterReq extends AbstractMessage {
 	
 	//认证token
 	private String authToken;

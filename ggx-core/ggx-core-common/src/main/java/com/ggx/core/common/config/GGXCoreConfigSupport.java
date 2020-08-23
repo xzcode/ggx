@@ -20,7 +20,7 @@ import com.ggx.core.common.session.manager.SessionManager;
  * @param <C>
  * @author zai 2019-12-11 10:11:31
  */
-public interface GGConfigSupport<C extends GGConfig> 
+public interface GGXCoreConfigSupport<C extends GGXCoreConfig> 
 extends
 SendMessageSupport, 
 ReceiveMessageSupport, 

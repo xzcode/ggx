@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
-import com.xzcode.ggserver.core.server.GGServer;
+import com.xzcode.ggserver.core.server.GGXCoreServer;
 import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.EventLoopGroup;
@@ -19,10 +19,10 @@ import io.netty.channel.EventLoopGroup;
 public class SessionGroupServerConfig {
 	
 	//sessionServer对象
-	private GGServer sessionServer;
+	private GGXCoreServer sessionServer;
 	
 	//业务服务端对象
-	private GGServer serviceServer;
+	private GGXCoreServer serviceServer;
 	
 	//是否开启业务服务端
 	private boolean enableServiceServer = false;
@@ -95,11 +95,11 @@ public class SessionGroupServerConfig {
 		this.port = port;
 	}
 	
-	public GGServer getSessionServer() {
+	public GGXCoreServer getSessionServer() {
 		return sessionServer;
 	}
 	
-	public void setSessionServer(GGServer sessionServer) {
+	public void setSessionServer(GGXCoreServer sessionServer) {
 		this.sessionServer = sessionServer;
 	}
 	
@@ -120,11 +120,11 @@ public class SessionGroupServerConfig {
 	}
 	
 	
-	public GGServer getServiceServer() {
+	public GGXCoreServer getServiceServer() {
 		return serviceServer;
 	}
 	
-	public void setServiceServer(GGServer serviceServer) {
+	public void setServiceServer(GGXCoreServer serviceServer) {
 		this.serviceServer = serviceServer;
 	}
 

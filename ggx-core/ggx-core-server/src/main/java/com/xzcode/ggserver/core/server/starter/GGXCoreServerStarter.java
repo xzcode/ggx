@@ -1,7 +1,7 @@
 package com.xzcode.ggserver.core.server.starter;
 
 import com.ggx.core.common.future.GGFuture;
-import com.xzcode.ggserver.core.server.config.GGServerConfig;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 /**
  * 统一服务器启动接口
@@ -9,7 +9,7 @@ import com.xzcode.ggserver.core.server.config.GGServerConfig;
  * @author zai
  * 2019-12-18 17:27:37
  */
-public interface GGServerStarter {
+public interface GGXCoreServerStarter {
 	
 	/**
 	 * 启动
@@ -35,5 +35,5 @@ public interface GGServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:28:13
 	 */
-	void setConfig(GGServerConfig config);
+	void setConfig(GGXCoreServerConfig config);
 }
