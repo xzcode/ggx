@@ -208,6 +208,11 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		
 		
 	}
+	
+	
+	public void shutdown() {
+		this.config.getSharedEventLoopGroup().shutdown();
+	}
 
 	@Override
 	public Charset getCharset() {

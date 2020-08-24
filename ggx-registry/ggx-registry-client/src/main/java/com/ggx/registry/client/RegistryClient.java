@@ -85,6 +85,10 @@ public class RegistryClient {
 		connect();
 	}
 	
+	public void shutdown() {
+		this.config.getCoreClient().shutdown();
+	}
+	
 	
 	public void addCustomData(String key, String value) {
 		this.config.addCustomData(key, value);
@@ -92,7 +96,7 @@ public class RegistryClient {
 	}
 	
 	public void connect() {
-		GGXCoreClient ggClient = config.getGGclient();
+		GGXCoreClient ggClient = config.getCoreClient();
 		ggClient.schedule(3000L, () -> {
 			RegistryInfo registry = config.getRegistryManager().getRandomRegistry();
 			ggClient.connect(registry.getDomain(), registry.getPort())

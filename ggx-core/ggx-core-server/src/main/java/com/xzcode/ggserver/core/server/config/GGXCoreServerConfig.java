@@ -45,6 +45,9 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 	
 	@Override
 	public void init() {
+		if (super.inited) {
+			return;
+		}
 		
 		if (bossGroupThreadFactory == null) {
 			bossGroupThreadFactory = new GGThreadFactory("gg-boss-", false);

@@ -39,5 +39,9 @@ public class RouterClient{
 	public RouterClientConfig getConfig() {
 		return config;
 	}
+	
+	public void shutdown() {
+		this.config.getSharedEventLoopGroup().shutdownGracefully();
+	}
 
 }

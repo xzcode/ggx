@@ -21,6 +21,9 @@ public class GGXDefaultCoreServer implements GGXCoreServer {
 
 	public GGXDefaultCoreServer(GGXCoreServerConfig serverConfig) {
 		this.config = serverConfig;
+		if (!this.config.isInited()) {
+			this.config.init();
+		}
 	}
 
 	@Override

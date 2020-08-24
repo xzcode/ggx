@@ -70,6 +70,10 @@ public class EventbusServer {
 		return startFuture;
 	}
 	
+	public void shutdown() {
+		this.config.getSessionGroupServer().shutdown();
+	}
+	
 	public void setConfig(EventbusServerConfig config) {
 		this.config = config;
 	}

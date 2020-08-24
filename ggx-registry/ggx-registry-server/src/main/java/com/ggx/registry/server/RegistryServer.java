@@ -84,6 +84,11 @@ public class RegistryServer {
 		
 	}
 	
+	
+	public void shutdown() {
+		this.config.getServer().shutdown();
+	}
+	
 	/**
 	 * 周期性输出服务信息
 	 *

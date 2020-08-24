@@ -29,7 +29,7 @@ public class RegistryClientConfig {
 	protected boolean 	printPingPongInfo = false;
 	
 	//GGClient对象
-	protected GGXCoreClient ggclient;
+	protected GGXCoreClient coreClient;
 	
 	//GGSession对象
 	protected GGSession session;
@@ -123,12 +123,12 @@ public class RegistryClientConfig {
 		this.customData = extraData;
 	}
 
-	public GGXCoreClient getGGclient() {
-		return ggclient;
+	public GGXCoreClient getCoreClient() {
+		return coreClient;
 	}
 
-	public void setGGclient(GGXCoreClient ggclient) {
-		this.ggclient = ggclient;
+	public void setGGclient(GGXCoreClient coreClient) {
+		this.coreClient = coreClient;
 	}
 
 	public ServiceManager getServiceManager() {

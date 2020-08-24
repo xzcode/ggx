@@ -30,10 +30,15 @@ public class EventbusGroupClient{
 	
 	public EventbusGroupClient(EventbusGroupClientConfig config) {
 		this.config = config;
-		init();
 	}
-
-	public void init() {
+	
+	/**
+	 * 启动
+	 *
+	 * @author zzz
+	 * 2020-08-24 17:22:11
+	 */
+	public void start() {
 		
 		if (this.config.getSharedEventLoopGroup() == null) {
 			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-evt-group-", false)));
@@ -56,6 +61,18 @@ public class EventbusGroupClient{
 			addEventbusServerService(service);
 		});
 		
+	}
+	
+	/**
+	 * 关闭
+	 *
+	 * @author zzz
+	 * 2020-08-24 17:22:23
+	 */
+	public void shutdown() {
+		for (EventbusClient eventbusClient : eventbusClientList) {
+			eventbusClient.shutdown();
+		}
 	}
 	
 	public void addEventbusServerService(ServiceInfo serviceInfo) {
