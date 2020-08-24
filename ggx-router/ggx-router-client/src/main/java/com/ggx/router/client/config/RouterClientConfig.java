@@ -91,7 +91,7 @@ public class RouterClientConfig {
 	protected RouterServiceManager routerServiceManager = new RouterServiceManager(this);
 	
 	//会话断开请求传递是否开启
-	protected boolean 	sessionDisconnectTransferReuestEnabled = true;
+	protected boolean 	sessionDisconnectTransferRequestEnabled = true;
 	
 	//会话断开推送传递是否开启
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
@@ -291,12 +291,12 @@ public class RouterClientConfig {
 		this.eventbusGroupClient = eventbusGroupClient;
 	}
 
-	public boolean isSessionDisconnectTransferReuestEnabled() {
-		return sessionDisconnectTransferReuestEnabled;
+	public boolean isSessionDisconnectTransferRequestEnabled() {
+		return sessionDisconnectTransferRequestEnabled;
 	}
 
-	public void setSessionDisconnectTransferReuestEnabled(boolean sessionDisconnectTransferReuestEnabled) {
-		this.sessionDisconnectTransferReuestEnabled = sessionDisconnectTransferReuestEnabled;
+	public void setSessionDisconnectTransferRequestEnabled(boolean sessionDisconnectTransferReuestEnabled) {
+		this.sessionDisconnectTransferRequestEnabled = sessionDisconnectTransferReuestEnabled;
 	}
 
 	public boolean isSessionDisconnectTransferResponseEnabled() {

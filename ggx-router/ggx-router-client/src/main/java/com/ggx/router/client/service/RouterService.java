@@ -313,7 +313,7 @@ public class RouterService {
 					}
 					
 					//判断是否开启会话断开传递请求
-					if (this.config.isSessionDisconnectTransferReuestEnabled()) {
+					if (this.config.isSessionDisconnectTransferRequestEnabled()) {
 						//传递会话断开请求
 						finalServiceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessonId())).addListener(f -> {
 							//断开当前session
