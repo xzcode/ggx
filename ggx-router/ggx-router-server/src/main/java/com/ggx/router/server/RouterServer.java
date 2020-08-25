@@ -211,7 +211,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 	
 	
 	public void shutdown() {
-		this.config.getSharedEventLoopGroup().shutdown();
+		this.config.getSharedEventLoopGroup().shutdownGracefully();
 	}
 
 	@Override

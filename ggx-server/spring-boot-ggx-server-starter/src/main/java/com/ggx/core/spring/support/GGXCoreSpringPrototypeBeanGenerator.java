@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 public class GGXCoreSpringPrototypeBeanGenerator implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
-
+	
 
 	public <T> T generateBean(Class<T> clazz) {
 		return this.applicationContext.getBean(clazz);
