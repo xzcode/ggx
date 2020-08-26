@@ -2,10 +2,15 @@ package com.ggx.server.spring.boot.starter.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import com.ggx.server.starter.constant.GGXServerMode;
 import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 @ConfigurationProperties(prefix = "ggx")
 public class GGXServerConfigModel {
+	
+	protected boolean enabled = true;
+	
+	protected String mode = GGXServerMode.CORE_SERVER;
 	
 	protected GGXCoreServerConfig core;
 	
@@ -48,5 +53,12 @@ public class GGXServerConfigModel {
 		this.router = router;
 	}
 
+	public String getMode() {
+		return mode;
+	}
+	
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 	
 }

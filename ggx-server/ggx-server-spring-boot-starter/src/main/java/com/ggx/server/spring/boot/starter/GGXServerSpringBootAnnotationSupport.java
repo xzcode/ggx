@@ -9,26 +9,22 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.filter.Filter;
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.MessageActionIdUtil;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXFilter;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageHandler;
 
-public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
+public class GGXServerSpringBootAnnotationSupport implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 
-	private ReceiveMessageManager receiveMessageManager;
-	private FilterManager filterManager;
-	private EventManager eventManager;
+	private GGXCore ggxCore;
 	
 	//给所有扫描到的actionId加上前缀
 	private String actionIdPrefix;
@@ -36,14 +32,8 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 	private String[] basicPackage;
 	
 	
-	public GGXCoreSpringAnnotationSupport(
-			ReceiveMessageManager receiveMessageManager, 
-			EventManager eventManager,
-			FilterManager filterManager
-			) {
-		this.receiveMessageManager = receiveMessageManager;
-		this.filterManager = filterManager;
-		this.eventManager = eventManager;
+	public GGXServerSpringBootAnnotationSupport(GGXCore ggxCore) {
+		this.ggxCore = ggxCore;
 	}
 
 	@PostConstruct
@@ -63,11 +53,11 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 			if (annotation != null) {
 				String actionId = annotation.value();
 				if (!actionId.isEmpty()) {
-					this.receiveMessageManager.onMessage(actionId, obj);
+					this.ggxCore.onMessage(actionId, obj);
 				}else {
 					Class<?> genericClass = GenericClassUtil.getInterfaceGenericClass(obj.getClass());
 					actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(genericClass);
-					this.receiveMessageManager.onMessage(actionId, obj);
+					this.ggxCore.onMessage(actionId, obj);
 				}
 			}
 		}
@@ -82,7 +72,7 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 			}
 			GGXEventHandler annotation = obj.getClass().getAnnotation(GGXEventHandler.class);
 			if (annotation != null) {
-				this.eventManager.addEventListener(annotation.value(), obj);
+				this.ggxCore.addEventListener(annotation.value(), obj);
 			}
 		}
 		
@@ -96,7 +86,7 @@ public class GGXCoreSpringAnnotationSupport implements ApplicationContextAware {
 			}
 			GGXFilter annotation = obj.getClass().getAnnotation(GGXFilter.class);
 			if (annotation != null) {
-				this.filterManager.addFilter(new FilterInfo<>(obj, annotation.value()));
+				this.ggxCore.addFilter(new FilterInfo<>(obj, annotation.value()));
 			}
 		}
 		
