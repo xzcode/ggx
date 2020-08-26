@@ -17,19 +17,19 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 
 	protected ApplicationContext applicationContext;
 	
-	@ConditionalOnProperty(havingValue = "ggx.enabled")
 	@ConfigurationProperties(prefix = "ggx")
 	@Bean
 	public GGXServerConfigModel ggxServerConfigModel() {
 		return new GGXServerConfigModel();
 	}
 	
+	@ConditionalOnProperty(havingValue = "ggx.enabled")
 	@Bean
 	public GGXServer ggxServer() {
 		GGXServerConfigModel configModel = ggxServerConfigModel();
 		GGXServer ggxserver = new GGXServer(configModel.getMode());
 		return ggxserver;
-	};
+	}
 	
 	@Bean
 	public GGXSpringBeanGenerator ggxSpringBeanGenerator() {
