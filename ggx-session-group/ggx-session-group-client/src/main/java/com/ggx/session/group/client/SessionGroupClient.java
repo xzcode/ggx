@@ -61,7 +61,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		}
 		
 		GGXCoreClientConfig sessionClientConfig = new GGXCoreClientConfig();
-
+		
 		sessionClientConfig.setPingPongEnabled(true);
 		sessionClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionClientConfig.setWorkThreadSize(this.config.getWorkThreadSize());
@@ -143,6 +143,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			
 			GGXCoreClientConfig serviceClientConfig = new GGXCoreClientConfig();
 			serviceClientConfig.setWorkerGroup(sessionClientConfig.getWorkerGroup());
+			serviceClientConfig.setActionIdPrefix(config.getServiceActionIdPrefix());
 			serviceClientConfig.init();
 			
 			GGXCoreClient serviceClient = new GGXCoreClient(serviceClientConfig);

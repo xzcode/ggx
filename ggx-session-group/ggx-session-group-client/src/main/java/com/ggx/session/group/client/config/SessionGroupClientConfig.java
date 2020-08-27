@@ -75,6 +75,17 @@ public class SessionGroupClientConfig {
 
 	// 验证token
 	protected String authToken = GGSesssionGroupConstant.DEFAULT_AUTH_TOKEN;
+	
+	//指令前缀
+	protected String serviceActionIdPrefix;
+	
+	public String getServiceActionIdPrefix() {
+		return serviceActionIdPrefix;
+	}
+	
+	public void setServiceActionIdPrefix(String actionIdPrefix) {
+		this.serviceActionIdPrefix = actionIdPrefix;
+	}
 
 
 	public String getAuthToken() {

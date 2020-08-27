@@ -82,6 +82,7 @@ public class SessionGroupServer {
 		
 		
 		GGXCoreServerConfig serviceServerConfig = new GGXCoreServerConfig();
+		serviceServerConfig.setActionIdPrefix(config.getServiceActionIdPrefix());
 		serviceServerConfig.setBossGroup(sessionServerConfig.getBossGroup());
 		serviceServerConfig.setWorkerGroup(sessionServerConfig.getWorkerGroup());
 		serviceServerConfig.init();

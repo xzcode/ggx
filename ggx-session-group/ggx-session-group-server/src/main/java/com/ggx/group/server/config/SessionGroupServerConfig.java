@@ -69,6 +69,17 @@ public class SessionGroupServerConfig {
 	//使用随机端口启动
 	protected boolean 	bootWithRandomPort = false;
 	
+	//指令前缀
+	protected String serviceActionIdPrefix;
+	
+	public String getServiceActionIdPrefix() {
+		return serviceActionIdPrefix;
+	}
+	
+	public void setServiceActionIdPrefix(String actionIdPrefix) {
+		this.serviceActionIdPrefix = actionIdPrefix;
+	}
+	
 	
 	public boolean isBootWithRandomPort() {
 		return bootWithRandomPort;

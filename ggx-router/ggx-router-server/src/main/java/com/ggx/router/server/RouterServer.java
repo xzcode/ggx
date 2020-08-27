@@ -67,6 +67,7 @@ public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, 
 		}
 
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
+		sessionServerConfig.setServiceActionIdPrefix(config.getServiceActionIdPrefix());
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
 		sessionServerConfig.setEnableServiceServer(true);
 		sessionServerConfig.setPort(this.config.getPort());
