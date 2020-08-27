@@ -61,17 +61,6 @@ public class RouterServerConfig {
 	//会话断开推送传递是否开启
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
 	
-	//指令前缀
-	protected String serviceActionIdPrefix;
-	
-	public String getServiceActionIdPrefix() {
-		return serviceActionIdPrefix;
-	}
-	
-	public void setServiceActionIdPrefix(String actionIdPrefix) {
-		this.serviceActionIdPrefix = actionIdPrefix;
-	}
-
 	public boolean isBootWithRandomPort() {
 		return bootWithRandomPort;
 	}
