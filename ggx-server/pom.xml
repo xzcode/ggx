@@ -17,6 +17,6 @@
   </dependencies>
   <modules>
 	<module>ggx-server-starter</module>
-	<module>spring-boot-ggx-server-starter</module>
+	<module>ggx-server-spring-boot-starter</module>
   </modules>
 </project>
