@@ -51,7 +51,7 @@ public class RegistryClient {
 		
 		
 		GGXCoreClientConfig ggconfig = new GGXCoreClientConfig();
-		
+		ggconfig.setGgxComponent(true);
 		ggconfig.setPingPongEnabled(true);
 		ggconfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
 		ggconfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
