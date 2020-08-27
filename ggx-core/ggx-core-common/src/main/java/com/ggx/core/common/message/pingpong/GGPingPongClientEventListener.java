@@ -11,6 +11,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.send.support.MakePackSupport;
+import com.ggx.core.common.session.GGSession;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -29,8 +30,8 @@ public class GGPingPongClientEventListener implements EventListener<Void>, MakeP
 
 	@Override
 	public void onEvent(EventData<Void> eventData) {
-		Channel channel = eventData.getChannel();
-		channel.writeAndFlush(makePack(new MessageData<>(eventData.getSession(), Ping.DEFAULT_INSTANT.getActionId(), null)));
+		GGSession session = eventData.getSession();
+		session.send(Ping.DEFAULT_INSTANT.getActionId());
 	}
 
 	@Override

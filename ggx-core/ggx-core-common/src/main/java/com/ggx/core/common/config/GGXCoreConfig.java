@@ -12,7 +12,9 @@ import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
+import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.handler.codec.DecodeHandler;
 import com.ggx.core.common.handler.codec.EncodeHandler;
 import com.ggx.core.common.handler.codec.impl.AESSupportDecodeHandler;
@@ -23,6 +25,7 @@ import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
+import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
@@ -54,10 +57,10 @@ public class GGXCoreConfig {
 	protected boolean ggxComponent = false;
 	
 	//指令前缀
-	protected String actionIdProfix;
+	protected String actionIdPrefix;
 	
 	//GGX组件指令前缀
-	protected String ggxComponentAtionIdProfix = "GGX.";
+	protected String ggxComponentAtionIdPrefix = "GGX.";
 
 	protected boolean autoShutdown = true;
 
@@ -202,6 +205,24 @@ public class GGXCoreConfig {
 					return !(actionString.equals(Ping.DEFAULT_INSTANT.getActionId()) || actionString.equals(Pong.DEFAULT_INSTANT.getActionId()));
 				});
 			}
+		}
+		
+		if (this.isGgxComponent()) {
+			this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
+				
+				@Override
+				public boolean doFilter(MessageData<?> data) {
+					String actionId = data.getAction();
+					if (getActionIdPrefix() != null) {
+						actionId = getActionIdPrefix()  + actionId;
+					}
+					if (isGgxComponent()) {
+						actionId = getGgxComponentAtionIdPrefix() + actionId.toUpperCase();;
+					}
+					data.setAction(actionId);
+					return true;
+				}
+			}, 0));
 		}
 
 		this.inited = true;
@@ -556,20 +577,20 @@ public class GGXCoreConfig {
 		this.ggxComponent = ggxComponent;
 	}
 
-	public String getActionIdProfix() {
-		return actionIdProfix;
+	public String getActionIdPrefix() {
+		return actionIdPrefix;
 	}
 	
-	public void setActionIdProfix(String actionIdProfix) {
-		this.actionIdProfix = actionIdProfix;
+	public void setActionIdPrefix(String actionIdProfix) {
+		this.actionIdPrefix = actionIdProfix;
 	}
 
-	public String getGgxComponentAtionIdProfix() {
-		return ggxComponentAtionIdProfix;
+	public String getGgxComponentAtionIdPrefix() {
+		return ggxComponentAtionIdPrefix;
 	}
 
-	public void setGgxComponentAtionIdProfix(String ggxComponentAtionIdProfix) {
-		this.ggxComponentAtionIdProfix = ggxComponentAtionIdProfix;
+	public void setGgxComponentAtionIdPrefix(String ggxComponentAtionIdProfix) {
+		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdProfix;
 	}
 	
 	

@@ -67,11 +67,11 @@ public class DefaultReceiveMessageManager implements ReceiveMessageManager {
 		if (handlerMap.containsKey(action)) {
 			throw new RuntimeException("Action '"+action+"' has been mapped!");
 		}
-		if (this.coreConfig.getActionIdProfix() != null) {
-			action = this.coreConfig.getActionIdProfix() + action;
+		if (this.coreConfig.getActionIdPrefix() != null) {
+			action = this.coreConfig.getActionIdPrefix() + action;
 		}
 		if (this.coreConfig.isGgxComponent()) {
-			action = this.coreConfig.getGgxComponentAtionIdProfix() + action.toUpperCase();
+			action = this.coreConfig.getGgxComponentAtionIdPrefix() + action.toUpperCase();
 		}
 		handlerMap.put(action, receiveMessageHandler);
 		actionList.add(action);
