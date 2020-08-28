@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.ggx.server.spring.boot.starter.config.GGXServerConfigModel;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationReadyEventListener;
+import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 
 @Configuration

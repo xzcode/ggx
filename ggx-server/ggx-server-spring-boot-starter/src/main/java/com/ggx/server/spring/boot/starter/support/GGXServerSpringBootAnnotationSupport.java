@@ -1,4 +1,4 @@
-package com.ggx.server.spring.boot.starter;
+package com.ggx.server.spring.boot.starter.support;
 
 import java.util.Map;
 import java.util.Map.Entry;

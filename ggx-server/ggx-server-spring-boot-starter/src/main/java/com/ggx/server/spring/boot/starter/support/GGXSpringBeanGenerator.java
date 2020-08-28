@@ -1,4 +1,4 @@
-package com.ggx.server.spring.boot.starter;
+package com.ggx.server.spring.boot.starter.support;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

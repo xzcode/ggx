@@ -15,6 +15,11 @@ public interface EventSupport extends EventManager {
 	default <T> void addEventListener(String event, EventListener<T> listener) {
 		getEventManager().addEventListener(event, listener);
 	}
+	
+	@Override
+	default <T> void addEventListener(EventListener<T> listener) {
+		getEventManager().addEventListener(listener.getEventId(), listener);
+	}
 
 	@Override
 	default <T> void removeEventListener(String event, EventListener<T> listener) {

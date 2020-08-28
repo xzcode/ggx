@@ -30,6 +30,16 @@ public interface EventManager {
 	 * 2019-12-05 10:50:46
 	 */
 	<T> void addEventListener(String event, EventListener<T> listener);
+	
+	/**
+	 * 添加事件监听
+	 *
+	 * @param <T>
+	 * @param listener
+	 * @author zai
+	 * 2020-08-28 16:44:14
+	 */
+	<T> void addEventListener(EventListener<T> listener);
 
 	/**
 	 * 移除事件监听

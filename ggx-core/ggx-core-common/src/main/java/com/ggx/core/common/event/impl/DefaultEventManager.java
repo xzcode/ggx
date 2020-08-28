@@ -54,6 +54,11 @@ public class DefaultEventManager implements EventManager {
 	}
 	
 	@Override
+	public <T> void addEventListener(EventListener<T> listener) {
+		this.addEventListener(listener.getEventId(), listener);
+	}
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> void removeEventListener(String event, EventListener<T> listener) {
 		EventListenerGroup<T> group = (EventListenerGroup<T>) eventMap.get(event);
