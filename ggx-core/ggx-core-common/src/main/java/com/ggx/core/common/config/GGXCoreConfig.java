@@ -59,6 +59,7 @@ public class GGXCoreConfig {
 	//指令前缀
 	protected String actionIdPrefix;
 	
+	
 	//GGX组件指令前缀
 	protected String ggxComponentAtionIdPrefix = "GGX.";
 
@@ -207,23 +208,21 @@ public class GGXCoreConfig {
 			}
 		}
 		
-		if (this.isGgxComponent()) {
-			this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
-				
-				@Override
-				public boolean doFilter(MessageData<?> data) {
-					String actionId = data.getAction();
-					if (getActionIdPrefix() != null) {
-						actionId = getActionIdPrefix()  + actionId;
-					}
-					if (isGgxComponent()) {
-						actionId = getGgxComponentAtionIdPrefix() + actionId.toUpperCase();;
-					}
-					data.setAction(actionId);
-					return true;
+		this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
+			
+			@Override
+			public boolean doFilter(MessageData<?> data) {
+				String actionId = data.getAction();
+				if (getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
+					actionId = getActionIdPrefix()  + actionId;
 				}
-			}, 0));
-		}
+				if (isGgxComponent()) {
+					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
+				}
+				data.setAction(actionId);
+				return true;
+			}
+		}, 0));
 
 		this.inited = true;
 	}
@@ -592,7 +591,6 @@ public class GGXCoreConfig {
 	public void setGgxComponentAtionIdPrefix(String ggxComponentAtionIdProfix) {
 		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdProfix;
 	}
-	
 	
 	
 }
