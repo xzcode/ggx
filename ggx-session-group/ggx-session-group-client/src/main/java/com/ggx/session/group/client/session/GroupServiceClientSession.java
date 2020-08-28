@@ -65,7 +65,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		if (this.groupSession == null) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		return groupSession.send(makePack(new MessageData<>(resp.getActionId(), resp)));
+		return groupSession.send(resp);
 	}
 
 	@Override
