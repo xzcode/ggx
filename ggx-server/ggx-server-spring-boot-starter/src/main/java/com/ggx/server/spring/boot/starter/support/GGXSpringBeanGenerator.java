@@ -18,6 +18,11 @@ public class GGXSpringBeanGenerator implements ApplicationContextAware {
 	public <T> T generateBean(Class<T> clazz) {
 		return this.applicationContext.getBean(clazz);
 	}
+	
+	public <T> T generateBean(Class<T> clazz, Object...args) {
+		return this.applicationContext.getBean(clazz, args);
+	}
+	
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
