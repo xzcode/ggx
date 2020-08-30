@@ -199,4 +199,5 @@ public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, E
 	 */
 	String getGroupId();
 
+
 }

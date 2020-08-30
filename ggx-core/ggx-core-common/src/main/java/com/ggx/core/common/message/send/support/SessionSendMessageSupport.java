@@ -1,14 +1,15 @@
 package com.ggx.core.common.message.send.support;
 
+import java.nio.charset.Charset;
 import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGNettyFuture;
+import com.ggx.core.common.handler.serializer.ISerializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -34,16 +35,21 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-11 16:35:06
 	 */
-	FilterManager getFilterManager();
+	default FilterManager getFilterManager() {
+		return getSession().getFilterManager();
+	}
 
-	/**
-	 * 获取计划任务执行器
-	 * 
-	 * @return
-	 * @author zai
-	 * 2019-12-11 16:35:12
-	 */
-	TaskExecutor getTaskExecutor();
+	
+	
+	@Override
+	default Charset getCharset() {
+		return getSession().getCharset();
+	}
+	
+	@Override
+	default ISerializer getSerializer() {
+		return getSession().getSerializer();
+	}
 
 	/**
 	 * 获取会话

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,16 +25,11 @@ import com.ggx.docs.core.protobuf.ProtoFile;
 import com.ggx.docs.core.protobuf.ProtoFileConverter;
 import com.ggx.docs.core.protobuf.ProtoMessage;
 
-/**
- * proto
- * 
- * @author zai 2019-12-17 14:07:59
- */
-public class ProtoV2FileConverter implements ProtoFileConverter {
+public class ProtoV3FileConverter implements ProtoFileConverter {
 	
 	private static String ENTER_LINE = "\n";
 	
-	private static String HEADER_SYNTAX = "syntax = \"proto2\";";
+	private static String HEADER_SYNTAX = "syntax = \"proto3\";";
 	
 	private static String MODIFIER_MESSAGE = "message";
 	
@@ -185,7 +181,13 @@ public class ProtoV2FileConverter implements ProtoFileConverter {
 		return files;
 	}
 	
-	
+	public String getFieldProtoModifier(Field field) {
+		Class<?> type = field.getType();
+		if (type.isArray() || type == List.class || type == ArrayList.class || type == LinkedList.class) {
+			return "repeated";
+		}
+		return "";
+	}
 	
 	
 }
