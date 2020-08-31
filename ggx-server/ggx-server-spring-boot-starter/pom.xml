@@ -8,15 +8,21 @@
 		<version>0.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ggx-server-spring-boot-starter</artifactId>
-	<packaging>jar</packaging>
-	
+
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>${spring.boot.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<version>${spring.boot.version}</version>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
