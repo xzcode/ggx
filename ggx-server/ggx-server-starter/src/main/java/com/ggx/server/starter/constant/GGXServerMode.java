@@ -8,10 +8,7 @@ public interface GGXServerMode {
 	
 	String CORE_SERVER = "CORE_SERVER";
 	
-	String ROUTER_SERVER = "ROUTER_SERVER";
-	
 	String LOADBALANCER = "LOADBALANCER";
-	
 	
 	String EVENTBUS_CLIENT = "REGISTRY_CLIENT";
 	
