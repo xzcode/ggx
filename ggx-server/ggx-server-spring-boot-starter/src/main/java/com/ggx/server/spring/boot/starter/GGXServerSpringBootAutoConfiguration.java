@@ -14,7 +14,7 @@ import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 
 @Configuration
-@ConditionalOnProperty(prefix = "ggx", havingValue = "enabled")
+@ConditionalOnProperty(prefix = "ggx", name = "enabled", havingValue = "true")
 public class GGXServerSpringBootAutoConfiguration implements ApplicationContextAware {
 
 	protected ApplicationContext applicationContext;
