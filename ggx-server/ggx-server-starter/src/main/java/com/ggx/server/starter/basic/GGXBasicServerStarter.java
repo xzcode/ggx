@@ -67,61 +67,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		
 	}
 
-	public RegistryServerConfig getRegistryServerConfig() {
-		return registryServerConfig;
-	}
-
-	public void setRegistryServerConfig(RegistryServerConfig registryServerConfig) {
-		this.registryServerConfig = registryServerConfig;
-	}
-
-	public RegistryClientConfig getRegistryClientConfig() {
-		return registryClientConfig;
-	}
-
-	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
-		this.registryClientConfig = registryClientConfig;
-	}
-
-	public EventbusServerConfig getEventbusServerConfig() {
-		return eventbusServerConfig;
-	}
-
-	public void setEventbusServerConfig(EventbusServerConfig eventbusServerConfig) {
-		this.eventbusServerConfig = eventbusServerConfig;
-	}
-
-	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
-		return eventbusGroupClientConfig;
-	}
-
-	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
-		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
-	}
-
-	public GGXCoreServerConfig getCoreServerConfig() {
-		return coreServerConfig;
-	}
-
-	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
-		this.coreServerConfig = coreServerConfig;
-	}
-
-	public RouterServerConfig getRouterServerConfig() {
-		return routerServerConfig;
-	}
-
-	public void setRouterServerConfig(RouterServerConfig routerServerConfig) {
-		this.routerServerConfig = routerServerConfig;
-	}
-
-	public RouterClientConfig getRouterClientConfig() {
-		return routerClientConfig;
-	}
-
-	public void setRouterClientConfig(RouterClientConfig routerClientConfig) {
-		this.routerClientConfig = routerClientConfig;
-	}
+	
 	
 	
 

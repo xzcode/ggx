@@ -2,6 +2,7 @@ package com.ggx.server.starter.loadbalancer;
 
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.client.RouterClient;
@@ -9,6 +10,7 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter{
 	
@@ -45,6 +47,54 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter{
 				this.shutdown();
 			}
 		});
+	}
+	
+	public RegistryClientConfig getRegistryClientConfig() {
+		return registryClientConfig;
+	}
+
+	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
+		this.registryClientConfig = registryClientConfig;
+	}
+
+	public EventbusServerConfig getEventbusServerConfig() {
+		return eventbusServerConfig;
+	}
+
+	public void setEventbusServerConfig(EventbusServerConfig eventbusServerConfig) {
+		this.eventbusServerConfig = eventbusServerConfig;
+	}
+
+	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
+		return eventbusGroupClientConfig;
+	}
+
+	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
+		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
+	}
+
+	public GGXCoreServerConfig getCoreServerConfig() {
+		return coreServerConfig;
+	}
+
+	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
+		this.coreServerConfig = coreServerConfig;
+	}
+
+	public RouterServerConfig getRouterServerConfig() {
+		return routerServerConfig;
+	}
+
+	public void setRouterServerConfig(RouterServerConfig routerServerConfig) {
+		this.routerServerConfig = routerServerConfig;
+	}
+
+	public RouterClientConfig getRouterClientConfig() {
+		return routerClientConfig;
+	}
+
+	public void setRouterClientConfig(RouterClientConfig routerClientConfig) {
+		this.routerClientConfig = routerClientConfig;
 	}
 
 }

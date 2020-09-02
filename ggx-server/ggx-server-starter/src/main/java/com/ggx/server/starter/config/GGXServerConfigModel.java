@@ -1,11 +1,8 @@
-package com.ggx.server.spring.boot.starter.config;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
+package com.ggx.server.starter.config;
 
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
-@ConfigurationProperties(prefix = "ggx")
 public class GGXServerConfigModel {
 	
 	protected boolean enabled = true;

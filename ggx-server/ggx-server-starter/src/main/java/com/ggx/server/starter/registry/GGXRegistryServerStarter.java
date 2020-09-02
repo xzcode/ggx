@@ -15,6 +15,14 @@ public class GGXRegistryServerStarter extends GGXBasicServerStarter{
 		this.registryServer.start();
 		
 	}
+	
+	public RegistryServerConfig getRegistryServerConfig() {
+		return registryServerConfig;
+	}
+
+	public void setRegistryServerConfig(RegistryServerConfig registryServerConfig) {
+		this.registryServerConfig = registryServerConfig;
+	}
 
 
 }

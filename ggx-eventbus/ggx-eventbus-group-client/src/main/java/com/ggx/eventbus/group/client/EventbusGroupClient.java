@@ -47,7 +47,7 @@ public class EventbusGroupClient{
 		RegistryClient registryClient = this.config.getRegistryClient();
 		ServiceManager serviceManager = registryClient.getConfig().getServiceManager();
 		
-		//
+		//注册服务监听
 		serviceManager.addRegisterListener(service -> {
 			addEventbusServerService(service);
 		});

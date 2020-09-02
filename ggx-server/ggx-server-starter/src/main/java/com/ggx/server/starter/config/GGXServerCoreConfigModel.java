@@ -1,4 +1,4 @@
-package com.ggx.server.spring.boot.starter.config;
+package com.ggx.server.starter.config;
 
 import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 

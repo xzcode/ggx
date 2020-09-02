@@ -7,11 +7,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.ggx.server.spring.boot.starter.config.GGXServerConfigModel;
+
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationReadyEventListener;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
+import com.ggx.server.starter.config.GGXServerConfigModel;
 
 @Configuration
 @ConditionalOnProperty(prefix = "ggx", name = "enabled", havingValue = "true")
@@ -29,6 +30,7 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 	public GGXServer ggxServer() {
 		GGXServerConfigModel configModel = ggxServerConfigModel();
 		GGXServer ggxserver = new GGXServer(configModel.getMode());
+		
 		return ggxserver;
 	}
 	

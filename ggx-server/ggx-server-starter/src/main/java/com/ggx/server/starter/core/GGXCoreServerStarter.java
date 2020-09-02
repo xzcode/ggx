@@ -7,6 +7,7 @@ import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
+import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	
@@ -40,5 +41,30 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 		});
 		
 	}
+	
+	public RegistryClientConfig getRegistryClientConfig() {
+		return registryClientConfig;
+	}
+
+	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
+		this.registryClientConfig = registryClientConfig;
+	}
+
+	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
+		return eventbusGroupClientConfig;
+	}
+
+	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
+		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
+	}
+
+	public GGXCoreServerConfig getCoreServerConfig() {
+		return coreServerConfig;
+	}
+
+	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
+		this.coreServerConfig = coreServerConfig;
+	}
+
 
 }

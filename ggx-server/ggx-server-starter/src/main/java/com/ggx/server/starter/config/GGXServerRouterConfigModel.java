@@ -1,4 +1,4 @@
-package com.ggx.server.spring.boot.starter.config;
+package com.ggx.server.starter.config;
 
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.config.RouterServerConfig;
