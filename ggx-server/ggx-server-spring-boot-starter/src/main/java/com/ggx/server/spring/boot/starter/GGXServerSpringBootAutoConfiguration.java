@@ -31,6 +31,7 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		GGXServerConfigModel configModel = ggxServerConfigModel();
 		GGXServer ggxserver = new GGXServer(configModel.getMode());
 		
+		
 		return ggxserver;
 	}
 	

@@ -1,5 +1,6 @@
 package com.ggx.server.starter;
 
+import com.ggx.server.starter.config.GGXServerConfigModel;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
 import com.ggx.server.starter.eventbus.GGXEventbusClientStarter;
@@ -14,8 +15,8 @@ public class GGXServer implements GGXServerStarter{
 	
 	private String mode = GGXServerMode.CORE_SERVER;
 
-	public GGXServer(String mode) {
-		this.mode = mode;
+	public GGXServer(GGXServerConfigModel configModel) {
+		this.mode = configModel.getMode();
 		init();
 	}
 
