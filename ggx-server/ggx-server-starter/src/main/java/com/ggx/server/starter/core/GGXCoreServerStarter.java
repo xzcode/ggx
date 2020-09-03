@@ -1,5 +1,15 @@
 package com.ggx.server.starter.core;
 
+import java.nio.charset.Charset;
+
+import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.event.EventManager;
+import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.filter.FilterManager;
+import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.session.manager.SessionManager;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -7,7 +17,6 @@ import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	
@@ -65,6 +74,12 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
 		this.coreServerConfig = coreServerConfig;
 	}
+
+	@Override
+	public GGXCore getGGXCore() {
+		return this.routerServer;
+	}
+
 
 
 }

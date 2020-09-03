@@ -1,6 +1,6 @@
 package com.ggx.server.starter.config;
 
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 
 public class GGXServerCoreConfigModel {
 

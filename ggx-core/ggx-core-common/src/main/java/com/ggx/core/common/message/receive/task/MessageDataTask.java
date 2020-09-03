@@ -2,7 +2,7 @@ package com.ggx.core.common.message.receive.task;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -44,7 +44,7 @@ public class MessageDataTask implements Runnable{
 
 	@Override
 	public void run() {
-		ISerializer serializer = config.getSerializer();
+		Serializer serializer = config.getSerializer();
 		FilterManager messageFilterManager = this.config.getFilterManager();
 		String action = null;
 		Object message = null;
@@ -61,7 +61,7 @@ public class MessageDataTask implements Runnable{
 				ReceiveMessageHandlerInfo messageHandler = config.getReceiveMessageManager().getMessageHandler(action);
 				if (messageHandler != null) {
 					if (pack.getSerializeType() != null) {
-						ISerializer getSerializer = SerializerFactory.getSerializer(pack.getSerializeType());
+						Serializer getSerializer = SerializerFactory.getSerializer(pack.getSerializeType());
 						if (getSerializer != null) {
 							message = getSerializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
 						}

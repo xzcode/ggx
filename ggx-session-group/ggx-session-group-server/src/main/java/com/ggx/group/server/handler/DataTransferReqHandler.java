@@ -7,13 +7,13 @@ import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.core.common.session.manager.SessionManager;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
 import com.ggx.group.server.session.GroupServiceServerSession;
 import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 /**
  * 客户端认证请求

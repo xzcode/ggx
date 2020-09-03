@@ -1,4 +1,4 @@
-package com.xzcode.ggserver.core.server.config;
+package com.ggx.core.server.config;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -8,7 +8,7 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
 import com.ggx.core.common.message.pingpong.model.Ping;
-import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
+import com.ggx.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

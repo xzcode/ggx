@@ -1,6 +1,8 @@
 package com.ggx.server.starter;
 
-public interface GGXServerStarter {
+import com.ggx.core.common.config.GGXCoreSupport;
+
+public interface GGXServerStarter extends GGXCoreSupport{
 	
 	
 	/**
@@ -19,5 +21,7 @@ public interface GGXServerStarter {
 	 * 2020-08-24 14:29:21
 	 */
 	public void shutdown();
+	
+	
 
 }

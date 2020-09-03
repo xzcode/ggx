@@ -3,7 +3,7 @@ package com.ggx.admin.collector.server.config;
 import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.admin.collector.server.session.ServiceIdSessionManager;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
+import com.ggx.core.server.GGXCoreServer;
 
 /**
  * 配置

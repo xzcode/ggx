@@ -4,10 +4,10 @@ import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.utils.GGXIdUtil;
+import com.ggx.core.server.GGXCoreServer;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.session.group.client.SessionGroupClient;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 import io.netty.channel.EventLoopGroup;
 

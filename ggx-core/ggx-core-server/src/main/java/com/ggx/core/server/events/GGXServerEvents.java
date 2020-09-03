@@ -1,4 +1,4 @@
-package com.xzcode.ggserver.core.server.events;
+package com.ggx.core.server.events;
 
 import com.ggx.core.common.event.GGXCoreEvents;
 

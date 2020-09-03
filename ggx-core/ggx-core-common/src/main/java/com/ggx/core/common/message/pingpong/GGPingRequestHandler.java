@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.Ping;
@@ -46,7 +46,7 @@ public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupp
 	}
 	
 	@Override
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return config.getSerializer();
 	}
 

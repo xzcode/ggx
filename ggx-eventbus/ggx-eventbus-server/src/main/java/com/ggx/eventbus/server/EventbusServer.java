@@ -1,21 +1,31 @@
 package com.ggx.eventbus.server;
 
+import java.nio.charset.Charset;
+
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.req.EventSubscribeReq;
+import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.event.EventManager;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.session.manager.SessionManager;
+import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.eventbus.server.handler.EventPublishReqHandler;
 import com.ggx.eventbus.server.handler.EventSubscribeReqHandler;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
 
-public class EventbusServer {
+public class EventbusServer implements GGXCore{
 	
 	private EventbusServerConfig config;
+	private GGXCoreServer serviceServer;
 	
 	public EventbusServer(EventbusServerConfig config) {
 		super();
@@ -46,10 +56,10 @@ public class EventbusServer {
 			});
 		}
 		
-		GGXCoreServer serviceServer = sessionServerConfig.getServiceServer();
+		this.serviceServer = sessionServerConfig.getServiceServer();
 		
-		serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
-		serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
+		this.serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
+		this.serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
 		
 		
 		GGFuture startFuture = sessionGroupServer.start();
@@ -80,6 +90,41 @@ public class EventbusServer {
 	
 	public EventbusServerConfig getConfig() {
 		return config;
+	}
+
+	@Override
+	public SessionManager getSessionManager() {
+		return null;
+	}
+
+	@Override
+	public FilterManager getFilterManager() {
+		return this.serviceServer ;
+	}
+
+	@Override
+	public Charset getCharset() {
+		return this.serviceServer.getCharset();
+	}
+
+	@Override
+	public Serializer getSerializer() {
+		return this.serviceServer.getSerializer();
+	}
+
+	@Override
+	public ReceiveMessageManager getReceiveMessageManager() {
+		return this.serviceServer.getReceiveMessageManager();
+	}
+
+	@Override
+	public TaskExecutor getTaskExecutor() {
+		return this.serviceServer.getTaskExecutor();
+	}
+
+	@Override
+	public EventManager getEventManager() {
+		return this.serviceServer.getEventManager();
 	}
 	
 }

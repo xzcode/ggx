@@ -5,9 +5,9 @@ import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.server.GGXCoreServer;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 
 public class RouterClientHostServerReceiveMessageFilter implements BeforeDeserializeFilter{

@@ -14,7 +14,7 @@ import com.ggx.core.common.session.GGSession;
 public interface GGFuture extends Future<Object>{
 
 
-	void addListener(IGGFutureListener<GGFuture> listener);
+	void addListener(GGXFutureListener<GGFuture> listener);
 	
 	boolean cancel();
 	

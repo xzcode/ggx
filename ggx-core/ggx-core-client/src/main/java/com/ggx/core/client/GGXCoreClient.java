@@ -4,7 +4,7 @@ import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGClientStarter;
 import com.ggx.core.client.starter.impl.DefaultClientStarter;
 import com.ggx.core.common.config.GGXCoreConfigSupport;
-import com.ggx.core.common.control.IGGContolSupport;
+import com.ggx.core.common.control.GGXSessionContolSupport;
 import com.ggx.core.common.future.GGFuture;
 
 /**
@@ -16,7 +16,7 @@ import com.ggx.core.common.future.GGFuture;
 public class GGXCoreClient 
 implements 
 	GGXCoreConfigSupport<GGXCoreClientConfig>,
-	IGGContolSupport
+	GGXSessionContolSupport
 {
 	
 	private GGXCoreClientConfig config;

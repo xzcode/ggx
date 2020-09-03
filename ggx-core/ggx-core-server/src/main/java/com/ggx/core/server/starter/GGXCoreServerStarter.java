@@ -1,7 +1,7 @@
-package com.xzcode.ggserver.core.server.starter;
+package com.ggx.core.server.starter;
 
 import com.ggx.core.common.future.GGFuture;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 
 /**
  * 统一服务器启动接口

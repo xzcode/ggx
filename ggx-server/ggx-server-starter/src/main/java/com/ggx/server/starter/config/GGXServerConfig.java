@@ -1,13 +1,15 @@
 package com.ggx.server.starter.config;
 
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
-public class GGXServerConfigModel {
+public class GGXServerConfig {
 	
 	protected boolean enabled = true;
 	
 	protected String mode = GGXServerMode.CORE_SERVER;
+	
+	protected GGXServerRouterConfigModel router;
 	
 	protected GGXCoreServerConfig core;
 	
@@ -15,13 +17,27 @@ public class GGXServerConfigModel {
 	
 	protected GGXServerRegistryConfigModel registry;
 	
-	protected GGXServerRouterConfigModel router;
-	
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 	public GGXCoreServerConfig getCore() {
 		return core;
 	}
-	
+
 	public void setCore(GGXCoreServerConfig core) {
 		this.core = core;
 	}
@@ -49,13 +65,6 @@ public class GGXServerConfigModel {
 	public void setRouter(GGXServerRouterConfigModel router) {
 		this.router = router;
 	}
-
-	public String getMode() {
-		return mode;
-	}
 	
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
 	
 }

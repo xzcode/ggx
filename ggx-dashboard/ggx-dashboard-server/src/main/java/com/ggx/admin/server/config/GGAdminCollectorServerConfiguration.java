@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.admin.collector.server.GGXAdminCollectorServer;
 import com.ggx.admin.collector.server.config.GGXAdminCollectorServerConfig;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 @Configuration
 public class GGAdminCollectorServerConfiguration implements CommandLineRunner {

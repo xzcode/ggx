@@ -1,5 +1,6 @@
 package com.ggx.server.starter.loadbalancer;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
@@ -10,7 +11,6 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter{
 	
@@ -49,6 +49,11 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter{
 		});
 	}
 	
+	@Override
+	public GGXCore getGGXCore() {
+		return this.routerServer;
+	}
+	
 	public RegistryClientConfig getRegistryClientConfig() {
 		return registryClientConfig;
 	}
@@ -73,13 +78,6 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter{
 		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
 	}
 
-	public GGXCoreServerConfig getCoreServerConfig() {
-		return coreServerConfig;
-	}
-
-	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
-		this.coreServerConfig = coreServerConfig;
-	}
 
 	public RouterServerConfig getRouterServerConfig() {
 		return routerServerConfig;

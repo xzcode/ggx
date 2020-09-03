@@ -1,5 +1,6 @@
 package com.ggx.server.starter.registry;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
@@ -24,5 +25,11 @@ public class GGXRegistryServerStarter extends GGXBasicServerStarter{
 		this.registryServerConfig = registryServerConfig;
 	}
 
+	@Override
+	public GGXCore getGGXCore() {
+		return this.registryServer.getConfig().getServer();
+	}
+
+	
 
 }

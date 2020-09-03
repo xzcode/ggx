@@ -1,5 +1,8 @@
 package com.ggx.server.starter.gateway;
 
+import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -7,8 +10,6 @@ import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 public class GGXGatewayStarter  extends GGXBasicServerStarter{
 	
@@ -53,7 +54,10 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		
 	}
 	
-	
+	@Override
+	public GGXCore getGGXCore() {
+		return this.coreServer;
+	}
 
 	public RegistryClientConfig getRegistryClientConfig() {
 		return registryClientConfig;

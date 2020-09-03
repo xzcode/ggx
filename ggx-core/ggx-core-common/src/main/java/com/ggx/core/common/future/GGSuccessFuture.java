@@ -46,7 +46,7 @@ public class GGSuccessFuture<V> implements GGFuture {
 	}
 
 	@Override
-	public void addListener(IGGFutureListener<GGFuture> listener) {
+	public void addListener(GGXFutureListener<GGFuture> listener) {
 		try {
 			listener.operationComplete(DEFAULT_SUCCESS_FUTURE);
 		} catch (Exception e) {

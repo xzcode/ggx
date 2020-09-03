@@ -8,7 +8,7 @@ import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -97,7 +97,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSess
 	}
 
 	@Override
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return getConfig().getSerializer();
 	}
 

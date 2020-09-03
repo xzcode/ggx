@@ -1,9 +1,9 @@
 package com.ggx.registry.server.config;
 
 import com.ggx.core.common.utils.GGXIdUtil;
+import com.ggx.core.server.GGXCoreServer;
 import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceManager;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
 
 /**
  * 配置

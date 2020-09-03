@@ -27,7 +27,7 @@ public class GGNettyFuture implements GGFuture {
 	
 	private io.netty.util.concurrent.Future<?> nettyFuture;
 	
-	private Set<IGGFutureListener<GGFuture>> listeners;
+	private Set<GGXFutureListener<GGFuture>> listeners;
 	
 	public GGNettyFuture() {
 		listeners = new LinkedHashSet<>(2);
@@ -45,7 +45,7 @@ public class GGNettyFuture implements GGFuture {
 			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;			
 		}
 		if (listeners != null && listeners.size() > 0) {
-			for (IGGFutureListener<GGFuture> listener : listeners) {
+			for (GGXFutureListener<GGFuture> listener : listeners) {
 				nettyFuture.addListener((f) -> {
 					listener.operationComplete(this);
 				});
@@ -54,7 +54,7 @@ public class GGNettyFuture implements GGFuture {
 	}
 
 	@Override
-	public void addListener(IGGFutureListener<GGFuture> listener) {
+	public void addListener(GGXFutureListener<GGFuture> listener) {
 		try {
 				synchronized (this) {
 					if (nettyFuture == null) {

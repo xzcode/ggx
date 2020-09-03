@@ -2,7 +2,7 @@ package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.common.message.resp.EventSubscribeResp;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -21,7 +21,7 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 	
 	private EventbusClientConfig config;
 	
-	private ISerializer serializer;
+	private Serializer serializer;
 	
 
 	public EventMessageRespHandler(EventbusClientConfig config) {

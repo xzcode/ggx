@@ -24,8 +24,7 @@ public class GGXServerRouterConfigModel {
 	public void setClient(RouterClientConfig client) {
 		this.client = client;
 	}
-	
-	
+
 	
 
 }

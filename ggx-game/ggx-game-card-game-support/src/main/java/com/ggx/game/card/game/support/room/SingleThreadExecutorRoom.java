@@ -6,7 +6,7 @@ import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.game.card.game.support.house.House;
 import com.ggx.game.card.game.support.player.RoomPlayer;
@@ -70,7 +70,7 @@ ExecutorSupport
 	}
 
 	@Override
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return getCore().getSerializer();
 	}
 

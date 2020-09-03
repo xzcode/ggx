@@ -9,7 +9,7 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.future.GGNettyFuture;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -47,7 +47,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	}
 	
 	@Override
-	default ISerializer getSerializer() {
+	default Serializer getSerializer() {
 		return getSession().getSerializer();
 	}
 

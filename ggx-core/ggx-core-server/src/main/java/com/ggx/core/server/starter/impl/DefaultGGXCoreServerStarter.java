@@ -1,4 +1,4 @@
-package com.xzcode.ggserver.core.server.starter.impl;
+package com.ggx.core.server.starter.impl;
 
 
 import java.io.InputStream;
@@ -14,9 +14,9 @@ import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
-import com.xzcode.ggserver.core.server.starter.GGXCoreServerStarter;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.port.PortChangeStrategy;
+import com.ggx.core.server.starter.GGXCoreServerStarter;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;

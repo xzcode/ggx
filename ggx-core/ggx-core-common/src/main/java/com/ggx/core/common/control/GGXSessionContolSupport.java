@@ -4,18 +4,9 @@ import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.session.GGSession;
 
-public interface IGGContolSupport extends  ExecutorSupport{
+public interface GGXSessionContolSupport extends  ExecutorSupport{
 	
 
-	/**
-	 * 断开当前连接
-	 * 
-	 * @author zai 2017-09-21
-	 */
-	default GGFuture disconnect() {
-		return disconnect(null, 0);
-	}
-	
 	/**
 	 * 延迟断开当前连接
 	 * 

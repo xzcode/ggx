@@ -1,6 +1,6 @@
 package com.ggx.core.common.handler.serializer.factory;
 
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.impl.JsonSerializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 
@@ -12,9 +12,9 @@ import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
  */
 public class SerializerFactory {
 	
-	private static final ISerializer JSON_SERIALIZER = new JsonSerializer();
+	private static final Serializer JSON_SERIALIZER = new JsonSerializer();
 	
-	private static final ISerializer PROTO_STUFF_SERIALIZER = new ProtoStuffSerializer();
+	private static final Serializer PROTO_STUFF_SERIALIZER = new ProtoStuffSerializer();
 	
 	/**
 	 * 序列化器类型定义
@@ -36,7 +36,7 @@ public class SerializerFactory {
 	 * @author zai
 	 * 2017-08-12 13:50:07
 	 */
-	public static ISerializer getSerializer(String serializerType) {
+	public static Serializer getSerializer(String serializerType) {
 		
 		switch (serializerType) {
 		
@@ -60,7 +60,7 @@ public class SerializerFactory {
 	 * @author zai
 	 * 2020-05-14 17:18:36
 	 */
-	public static String getSerializerType(ISerializer serializer) {
+	public static String getSerializerType(Serializer serializer) {
 		
 		if (serializer == PROTO_STUFF_SERIALIZER || serializer.getClass() == PROTO_STUFF_SERIALIZER.getClass()) {
 			return SerializerType.PROTO_STUFF;

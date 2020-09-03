@@ -1,5 +1,6 @@
 package com.ggx.server.starter.eventbus;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -46,6 +47,12 @@ public class GGXEventbusClientStarter extends GGXBasicServerStarter{
 
 	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
 		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
+	}
+
+
+	@Override
+	public GGXCore getGGXCore() {
+		return this.registryClientConfig.getCoreClient();
 	}
 
 

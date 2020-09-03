@@ -12,7 +12,7 @@ import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFa
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationReadyEventListener;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
-import com.ggx.server.starter.config.GGXServerConfigModel;
+import com.ggx.server.starter.config.GGXServerConfig;
 
 @Configuration
 @ConditionalOnProperty(prefix = "ggx", name = "enabled", havingValue = "true")
@@ -22,16 +22,14 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 	
 	@ConfigurationProperties(prefix = "ggx")
 	@Bean
-	public GGXServerConfigModel ggxServerConfigModel() {
-		return new GGXServerConfigModel();
+	public GGXServerConfig ggxServerConfig() {
+		return new GGXServerConfig();
 	}
 	
 	@Bean
 	public GGXServer ggxServer() {
-		GGXServerConfigModel configModel = ggxServerConfigModel();
-		GGXServer ggxserver = new GGXServer(configModel.getMode());
-		
-		
+		GGXServerConfig ggxServerConfig = ggxServerConfig();
+		GGXServer ggxserver = new GGXServer(ggxServerConfig);
 		return ggxserver;
 	}
 	

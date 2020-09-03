@@ -1,10 +1,10 @@
 package com.ggx.router.server.config;
 
+import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.server.RouterServer;
-import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.EventLoopGroup;
 

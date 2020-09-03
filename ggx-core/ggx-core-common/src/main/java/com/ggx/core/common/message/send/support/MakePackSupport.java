@@ -2,7 +2,7 @@ package com.ggx.core.common.message.send.support;
 
 import java.nio.charset.Charset;
 
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -35,7 +35,7 @@ public interface MakePackSupport{
 	 * @author zai
 	 * 2019-12-11 14:24:23
 	 */
-	ISerializer getSerializer();
+	Serializer getSerializer();
 	
 	/**
 	 * 生成字节码数据包
@@ -52,7 +52,7 @@ public interface MakePackSupport{
 			if (session != null) {
 				serType = session.getAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, String.class);
 			}
-			ISerializer serializer;
+			Serializer serializer;
 			Pack pack = new Pack();
 			if (serType != null) {
 				serializer = SerializerFactory.getSerializer(serType);

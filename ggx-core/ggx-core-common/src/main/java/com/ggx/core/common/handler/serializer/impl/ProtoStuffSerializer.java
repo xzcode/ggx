@@ -1,6 +1,6 @@
 package com.ggx.core.common.handler.serializer.impl;
 
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtobufIOUtil;
@@ -14,7 +14,7 @@ import io.protostuff.runtime.RuntimeSchema;
  * @author zai
  * 2019-09-09 10:51:42
  */
-public class ProtoStuffSerializer implements ISerializer {
+public class ProtoStuffSerializer implements Serializer {
 
 	@SuppressWarnings("unchecked")
 	public <T> byte[] serialize(T object) throws Exception {

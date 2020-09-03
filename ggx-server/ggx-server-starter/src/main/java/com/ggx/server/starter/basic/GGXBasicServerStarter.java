@@ -1,5 +1,16 @@
 package com.ggx.server.starter.basic;
 
+import java.nio.charset.Charset;
+
+import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.event.EventManager;
+import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.filter.FilterManager;
+import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.session.manager.SessionManager;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.EventbusServer;
@@ -13,8 +24,6 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.GGXServerStarter;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	
@@ -66,9 +75,44 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		}
 		
 	}
+	
+	public abstract GGXCore getGGXCore();
+	
+	@Override
+	public SessionManager getSessionManager() {
+		return getGGXCore().getSessionManager();
+	}
 
-	
-	
+	@Override
+	public FilterManager getFilterManager() {
+		return getGGXCore().getFilterManager();
+	}
+
+	@Override
+	public Charset getCharset() {
+		return getGGXCore().getCharset();
+	}
+
+	@Override
+	public Serializer getSerializer() {
+		return getGGXCore().getSerializer();
+	}
+
+	@Override
+	public ReceiveMessageManager getReceiveMessageManager() {
+		return getGGXCore().getReceiveMessageManager();
+	}
+
+	@Override
+	public TaskExecutor getTaskExecutor() {
+		return getGGXCore().getTaskExecutor();
+	}
+
+	@Override
+	public EventManager getEventManager() {
+		return getGGXCore().getEventManager();
+	}
+
 	
 
 }

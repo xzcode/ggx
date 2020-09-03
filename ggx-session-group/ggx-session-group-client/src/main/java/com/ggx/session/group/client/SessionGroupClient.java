@@ -12,7 +12,7 @@ import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -254,7 +254,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 
 
 	@Override
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return this.config.getSessionClient().getSerializer();
 	}
 

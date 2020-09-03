@@ -13,9 +13,9 @@ import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.impl.GGXDefaultCoreServer;
 
 
 public class GGXAdminCollectorServer  implements ReceiveMessageSupport, EventSupport{

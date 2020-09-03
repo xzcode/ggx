@@ -1,10 +1,10 @@
-package com.xzcode.ggserver.core.server.impl;
+package com.ggx.core.server.impl;
 
 import com.ggx.core.common.future.GGFuture;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.starter.GGXCoreServerStarter;
-import com.xzcode.ggserver.core.server.starter.impl.DefaultGGXCoreServerStarter;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.starter.GGXCoreServerStarter;
+import com.ggx.core.server.starter.impl.DefaultGGXCoreServerStarter;
 
 /**
  * 默认服务器实现
@@ -40,9 +40,9 @@ public class GGXDefaultCoreServer implements GGXCoreServer {
 		}
 	}
 
-	@Override
 	public GGXCoreServerConfig getConfig() {
 		return config;
 	}
+
 
 }

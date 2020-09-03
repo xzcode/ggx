@@ -8,10 +8,10 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.common.message.resp.DataTransferResp;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
 
 
 

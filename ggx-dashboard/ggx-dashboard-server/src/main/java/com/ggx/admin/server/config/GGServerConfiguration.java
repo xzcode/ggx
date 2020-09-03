@@ -6,11 +6,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 @Configuration
 public class GGServerConfiguration implements CommandLineRunner {

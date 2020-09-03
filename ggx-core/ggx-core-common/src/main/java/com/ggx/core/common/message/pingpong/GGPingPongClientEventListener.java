@@ -6,7 +6,7 @@ import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
@@ -40,7 +40,7 @@ public class GGPingPongClientEventListener implements EventListener<Void>, MakeP
 	}
 
 	@Override
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return config.getSerializer();
 	}
 

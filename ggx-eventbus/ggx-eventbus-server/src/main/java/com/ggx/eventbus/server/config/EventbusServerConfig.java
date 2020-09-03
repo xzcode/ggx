@@ -1,11 +1,11 @@
 package com.ggx.eventbus.server.config;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.eventbus.server.EventbusServer;
 import com.ggx.eventbus.server.subscription.SubscriptionManager;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
-import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 /**
  * 配置

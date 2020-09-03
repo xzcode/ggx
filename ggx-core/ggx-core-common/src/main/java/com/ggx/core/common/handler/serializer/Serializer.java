@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author zai
  * 2017-07-28
  */
-public interface ISerializer {
+public interface Serializer {
 
 	/**
 	 * 对象序列化成byte数组

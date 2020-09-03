@@ -23,7 +23,7 @@ import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
 import com.ggx.core.common.handler.codec.impl.DefaultEncodeHandler;
 import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
-import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.Ping;
@@ -106,7 +106,7 @@ public class GGXCoreConfig {
 	protected ChannelSessionFactory sessionFactory;
 	protected ISessionIdGenerator sessionIdGenerator;
 
-	protected ISerializer serializer;
+	protected Serializer serializer;
 
 	protected DecodeHandler decodeHandler;
 	protected EncodeHandler encodeHandler;
@@ -239,11 +239,11 @@ public class GGXCoreConfig {
 		this.workerGroup = workerGroup;
 	}
 
-	public void setSerializer(ISerializer serializer) {
+	public void setSerializer(Serializer serializer) {
 		this.serializer = serializer;
 	}
 
-	public ISerializer getSerializer() {
+	public Serializer getSerializer() {
 		return serializer;
 	}
 

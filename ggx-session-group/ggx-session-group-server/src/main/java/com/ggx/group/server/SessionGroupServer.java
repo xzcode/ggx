@@ -4,6 +4,9 @@ import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
@@ -16,9 +19,6 @@ import com.ggx.group.server.events.ConnCloseEventListener;
 import com.ggx.group.server.handler.AuthReqHandler;
 import com.ggx.group.server.handler.DataTransferReqHandler;
 import com.ggx.group.server.handler.SessionGroupRegisterReqHandler;
-import com.xzcode.ggserver.core.server.GGXCoreServer;
-import com.xzcode.ggserver.core.server.config.GGXCoreServerConfig;
-import com.xzcode.ggserver.core.server.impl.GGXDefaultCoreServer;
 
 /**
  * 会话组服务器启动类
