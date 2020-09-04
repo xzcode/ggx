@@ -107,7 +107,9 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     private void handleStartFutureCallback(ServerBootstrap boot, GGNettyFuture ggFuture, Future<? super Void> f) {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
-    		GGLoggerUtil.getLogger().warn("{}\n{} started successfully on port {}!\n", logoString, config.getServerName(), config.getPort());
+    		System.out.println(logoString);
+    		System.out.println(config.getServerName() + " started successfully on port " + config.getPort() + "!\n");
+    		//GGLoggerUtil.getLogger().warn("{}\n{} started successfully on port {}!\n", logoString, config.getServerName(), config.getPort());
     		ggFuture.setFuture(f);
 		}else {
 			int oldPort = this.config.getPort();
@@ -151,7 +153,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     private String getLogoString() {
     	StringBuilder sb = new StringBuilder(512);
     	try (
-    			InputStream is = this.getClass().getResourceAsStream("/ggserver-logo.txt");
+    			InputStream is = this.getClass().getResourceAsStream("/ggxserver-logo.txt");
 			){
     		byte[] buff = new byte[1024];
     		int len = -1;

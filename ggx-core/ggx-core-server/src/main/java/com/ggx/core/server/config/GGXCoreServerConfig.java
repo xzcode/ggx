@@ -14,7 +14,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 
 public class GGXCoreServerConfig extends GGXCoreConfig{
 	
-	protected String	serverName = "GGServer";
+	protected String	serverName = "GGXServer";
 	
 	protected String	host = "0.0.0.0";
 	
