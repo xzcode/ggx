@@ -99,6 +99,9 @@ public class RouterClientConfig {
 	//路由服务负载均衡器工厂
 	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(this);
 	
+	public RouterClientConfig() {
+		
+	}
 
 	public RouterClientConfig(GGXCoreServer routingServer) {
 		if (routingServer == null) {

@@ -5,18 +5,20 @@ import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
-public class GGXRegistryServerStarter extends GGXBasicServerStarter{
+public class GGXRegistryServerStarter extends GGXBasicServerStarter {
 
-	@Override
-	public void start() {
+	public void init() {
 		if (this.registryServerConfig == null) {
 			this.registryServerConfig = new RegistryServerConfig();
 		}
 		this.registryServer = new RegistryServer(this.registryServerConfig);
-		this.registryServer.start();
-		
 	}
-	
+
+	@Override
+	public void start() {
+		this.registryServer.start();
+	}
+
 	public RegistryServerConfig getRegistryServerConfig() {
 		return registryServerConfig;
 	}
@@ -29,7 +31,5 @@ public class GGXRegistryServerStarter extends GGXBasicServerStarter{
 	public GGXCore getGGXCore() {
 		return this.registryServer.getConfig().getServer();
 	}
-
-	
 
 }

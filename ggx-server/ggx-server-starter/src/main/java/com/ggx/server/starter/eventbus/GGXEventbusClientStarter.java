@@ -7,31 +7,28 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
-public class GGXEventbusClientStarter extends GGXBasicServerStarter{
-	
-	
-	
-	@Override
-	public void start() {
-		
+public class GGXEventbusClientStarter extends GGXBasicServerStarter {
+
+
+	public void init() {
 		if (this.registryClientConfig == null) {
 			this.registryClientConfig = new RegistryClientConfig();
 		}
 		this.registryClient = new RegistryClient(registryClientConfig);
-		
+
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
 		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
-		
+
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
-		
-		
-		this.registryClient.start();
-		
-		
+
 	}
-	
+
+	@Override
+	public void start() {
+		this.registryClient.start();
+	}
 
 	public RegistryClientConfig getRegistryClientConfig() {
 		return registryClientConfig;
@@ -49,11 +46,9 @@ public class GGXEventbusClientStarter extends GGXBasicServerStarter{
 		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
 	}
 
-
 	@Override
 	public GGXCore getGGXCore() {
 		return this.registryClientConfig.getCoreClient();
 	}
-
 
 }

@@ -13,25 +13,17 @@ import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
 public class GGXGatewayStarter  extends GGXBasicServerStarter{
 	
-	/**
-	 * 启动
-	 *
-	 * @author zzz
-	 * 2020-08-21 18:24:48
-	 */
-	public void start() {
-		
+	
+	public void init() {
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
 		
-		
 		if (this.coreServerConfig == null) {
 			this.coreServerConfig = new GGXCoreServerConfig();
 		}
 		this.coreServer = new GGXDefaultCoreServer(coreServerConfig);
-		
 		
 		if (this.registryClientConfig == null) {
 			this.registryClientConfig = new RegistryClientConfig();
@@ -40,9 +32,20 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		
 		if (this.routerClientConfig == null) {
 			this.routerClientConfig = new RouterClientConfig(coreServer);
+		}else {
+			this.routerClientConfig.setHostServer(coreServer);
 		}
 		this.routerClient = new RouterClient(routerClientConfig);
-		
+	}
+	
+	
+	/**
+	 * 启动
+	 *
+	 * @author zzz
+	 * 2020-08-21 18:24:48
+	 */
+	public void start() {
 		
 		this.coreServer.start().addListener(f -> {
 			if (f.isSuccess()) {

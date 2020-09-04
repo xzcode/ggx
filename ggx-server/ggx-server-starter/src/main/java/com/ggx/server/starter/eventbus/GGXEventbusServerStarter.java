@@ -9,9 +9,8 @@ import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
 public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 	
-	@Override
-	public void start() {
-		
+	
+	public void init() {
 		if (this.registryClientConfig == null) {
 			this.registryClientConfig = new RegistryClientConfig();
 		}
@@ -22,6 +21,10 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 			this.eventbusServerConfig = new EventbusServerConfig();
 		}
 		this.eventbusServer = new EventbusServer(eventbusServerConfig);
+	}
+	
+	@Override
+	public void start() {
 		
 		this.eventbusServer.start().addListener(f -> {
 			if (f.isSuccess()) {
