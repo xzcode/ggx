@@ -11,6 +11,7 @@ import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.EventbusServer;
@@ -78,6 +79,24 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	
 	public abstract GGXCore getGGXCore();
 	
+	
+	
+	@Override
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		if (this.eventbusGroupClient != null) {
+			this.eventbusGroupClient.subscribe(eventId, subscriber);
+		}
+		
+	}
+
+	@Override
+	public void publish(String eventId, Object data) {
+		if (this.eventbusGroupClient != null) {
+			this.eventbusGroupClient.publishEvent(eventId, data);
+		}
+		
+	}
+
 	@Override
 	public SessionManager getSessionManager() {
 		return getGGXCore().getSessionManager();

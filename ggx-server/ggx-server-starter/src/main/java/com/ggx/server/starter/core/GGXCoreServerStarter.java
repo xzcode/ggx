@@ -2,6 +2,7 @@ package com.ggx.server.starter.core;
 
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.server.config.GGXCoreServerConfig;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -78,6 +79,11 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	@Override
 	public GGXCore getGGXCore() {
 		return this.routerServer;
+	}
+
+	@Override
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		this.eventbusGroupClient.subscribe(eventId, subscriber);
 	}
 
 

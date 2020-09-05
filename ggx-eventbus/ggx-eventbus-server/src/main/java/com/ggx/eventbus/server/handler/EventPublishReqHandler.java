@@ -35,10 +35,9 @@ public class EventPublishReqHandler implements MessageHandler<EventPublishReq>{
 	public void handle(MessageData<EventPublishReq> messageData) {
 		EventPublishReq req = messageData.getMessage();
 		String eventId = req.getEventId();
-		String subscriberId = req.getSubscriberId();
 		byte[] eventData = req.getEventData();
 		
-		EventMessageResp resp = new EventMessageResp(eventId, subscriberId, eventData);
+		EventMessageResp resp = new EventMessageResp(eventId, eventData);
 		this.config.getSubscriptionManager().publish(resp);
 		
 		if (LOGGER.isInfoEnabled()) {

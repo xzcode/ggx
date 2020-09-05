@@ -21,9 +21,6 @@ public class EventMessageResp implements Message {
 	// 事件id
 	private String eventId;
 	
-	// 订阅器id
-	private String subscriberId;
-
 	// 事件数据
 	private byte[] eventData;
 
@@ -31,11 +28,10 @@ public class EventMessageResp implements Message {
 
 	}
 
-	public EventMessageResp(String eventId, String subscriberId,byte[] eventData) {
+	public EventMessageResp(String eventId, byte[] eventData) {
 		super();
 		this.eventId = eventId;
 		this.eventData = eventData;
-		this.subscriberId = subscriberId;
 	}
 
 	public String getEventId() {
@@ -53,15 +49,5 @@ public class EventMessageResp implements Message {
 	public void setEventData(byte[] eventData) {
 		this.eventData = eventData;
 	}
-
-	public String getSubscriberId() {
-		return subscriberId;
-	}
-
-	public void setSubscriberId(String subscriberId) {
-		this.subscriberId = subscriberId;
-	}
-	
-	
 
 }

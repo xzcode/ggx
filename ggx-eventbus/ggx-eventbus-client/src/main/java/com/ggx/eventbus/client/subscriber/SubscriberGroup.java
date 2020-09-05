@@ -1,8 +1,7 @@
 package com.ggx.eventbus.client.subscriber;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /***
  * 订阅信息
@@ -16,39 +15,25 @@ public class SubscriberGroup {
 	private String eventId;
 	
 	//订阅的会话集合
-	private Map<String, SubscriberInfo> subscriberInfos = new ConcurrentHashMap<>();
+	private List<Subscriber<?>> subscribers = new CopyOnWriteArrayList<>();
 	
 	
 	public SubscriberGroup(String eventId) {
-		super();
 		this.eventId = eventId;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void trigger(String subscriberId, Object data) {
-		for (Entry<String, SubscriberInfo> entry : subscriberInfos.entrySet()) {
-			Subscriber<Object> subscriber = (Subscriber<Object>) entry.getValue().getSubscriber();
-			subscriber.trigger(data);
+	public void trigger(SubscriptionData<?> subscriptionData) {
+		for (Subscriber<?> subscriber : subscribers) {
+			subscriber.trigger(subscriptionData);
 		}
 	}
 
-	public void add(SubscriberInfo subscriberInfo) {
-		this.subscriberInfos.put(subscriberInfo.getSubscriberId(), subscriberInfo);
+	public void add(Subscriber<?> subscriber) {
+		this.subscribers.add(subscriber);
 	}
 	
-	public void remove(SubscriberInfo subscriberInfo) {
-		this.subscriberInfos.remove(subscriberInfo.getSubscriberId());
-	}
-	
-	public SubscriberInfo getSubscriberInfo(String subscriberId) {
-		if (subscriberId == null) {
-			return this.subscriberInfos.get(Void.class.getName());
-		}
-		return this.subscriberInfos.get(subscriberId);
-	}
-	
-	public void remove(String subscriberId) {
-		this.subscriberInfos.remove(subscriberId);
+	public void remove(Subscriber<?> subscriber) {
+		this.subscribers.remove(subscriber);
 	}
 	
 	public String getEventId() {

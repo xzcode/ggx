@@ -14,14 +14,12 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.GGXIdUtil;
-import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.handler.EventMessageRespHandler;
 import com.ggx.eventbus.client.handler.EventPublishRespHandler;
 import com.ggx.eventbus.client.handler.EventSubscribeRespHandler;
 import com.ggx.eventbus.client.subscriber.Subscriber;
-import com.ggx.eventbus.client.subscriber.SubscriberInfo;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
@@ -127,10 +125,7 @@ public class EventbusClient{
 			EventPublishReq publishReq = new EventPublishReq();
 			publishReq.setEventId(eventId);
 			if (data != null) {
-				publishReq.setSubscriberId(data.getClass().getName());
 				publishReq.setEventData(this.serviceClient.getConfig().getSerializer().serialize(data));
-			}else {
-				publishReq.setSubscriberId(Void.class.getName());
 			}
 			
 			SessionManager sessionManager = this.serviceClient.getSessionManager();
@@ -154,13 +149,7 @@ public class EventbusClient{
 	 * 2020-04-11 22:54:45
 	 */
 	public <T> void subscribe(String eventId, Subscriber<T> subscriber) {
-		SubscriberInfo subscriberInfo = new SubscriberInfo();
-		Class<?> subscriberClass = GenericClassUtil.getInterfaceGenericClass(subscriber.getClass());
-		subscriberInfo.setClazz(subscriberClass);
-		subscriberInfo.setSubscriber(subscriber);
-		subscriberInfo.setSubscriberId(subscriberClass.getName());
-		
-		this.config.getSubscribeManager().subscribe(eventId, subscriberInfo);
+		this.config.getSubscribeManager().subscribe(eventId, subscriber);
 	}
 
 	public void shutdown() {

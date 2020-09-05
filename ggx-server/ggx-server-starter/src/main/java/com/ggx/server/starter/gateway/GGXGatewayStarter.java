@@ -3,6 +3,7 @@ package com.ggx.server.starter.gateway;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -15,20 +16,22 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 	
 	
 	public void init() {
+		if (this.registryClientConfig == null) {
+			this.registryClientConfig = new RegistryClientConfig();
+		}
+		this.registryClient = new RegistryClient(registryClientConfig);
+		
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
+		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
+		this.eventbusGroupClient.start();
 		
 		if (this.coreServerConfig == null) {
 			this.coreServerConfig = new GGXCoreServerConfig();
 		}
 		this.coreServer = new GGXDefaultCoreServer(coreServerConfig);
-		
-		if (this.registryClientConfig == null) {
-			this.registryClientConfig = new RegistryClientConfig();
-		}
-		this.registryClient = new RegistryClient(registryClientConfig);
 		
 		if (this.routerClientConfig == null) {
 			this.routerClientConfig = new RouterClientConfig(coreServer);
@@ -38,13 +41,12 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		this.routerClient = new RouterClient(routerClientConfig);
 	}
 	
+	@Override
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		this.eventbusGroupClient.subscribe(eventId, subscriber);
+	}
 	
-	/**
-	 * 启动
-	 *
-	 * @author zzz
-	 * 2020-08-21 18:24:48
-	 */
+	
 	public void start() {
 		
 		this.coreServer.start().addListener(f -> {

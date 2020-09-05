@@ -8,11 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.Subscriber;
-import com.ggx.eventbus.client.subscriber.SubscriberInfo;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -76,6 +74,10 @@ public class EventbusGroupClient{
 	}
 	
 	public void addEventbusServerService(ServiceInfo serviceInfo) {
+		
+		if (this.eventbusClients.get(serviceInfo.getServiceId()) != null) {
+			return;
+		}
 		
 		Map<String, String> customData = serviceInfo.getCustomData();
 		String eventbugGroupId = customData.get(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY);
@@ -147,13 +149,7 @@ public class EventbusGroupClient{
 	 * 2020-04-11 22:54:45
 	 */
 	public <T> void subscribe(String eventId, Subscriber<T> subscriber) {
-		SubscriberInfo subscriberInfo = new SubscriberInfo();
-		Class<?> subscriberClass = GenericClassUtil.getInterfaceGenericClass(subscriber.getClass());
-		subscriberInfo.setClazz(subscriberClass);
-		subscriberInfo.setSubscriber(subscriber);
-		subscriberInfo.setSubscriberId(subscriberClass.getName());
-		
-		this.config.getSubscribeManager().subscribe(eventId, subscriberInfo);
+		this.config.getSubscribeManager().subscribe(eventId, subscriber);
 	}
 
 }

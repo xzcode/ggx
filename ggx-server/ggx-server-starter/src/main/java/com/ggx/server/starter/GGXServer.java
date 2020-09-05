@@ -1,6 +1,7 @@
 package com.ggx.server.starter;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
@@ -70,25 +71,35 @@ public class GGXServer implements GGXServerStarter{
 			break;
 		case GGXServerMode.EVENTBUS_CLIENT:
 			GGXEventbusClientStarter ggxEventbusClientStarter = new GGXEventbusClientStarter();
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
 				ggxEventbusClientStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
+					ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
 			}
-			ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
 			ggxEventbusClientStarter.init();
 			this.serverStarter = ggxEventbusClientStarter;
 			break;
 		case GGXServerMode.EVENTBUS_SERVER:
 			GGXEventbusServerStarter ggxEventbusServerStarter = new GGXEventbusServerStarter();
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxEventbusServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			ggxEventbusServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			if (config.getEventbus() != null && config.getEventbus().getServer() != null) {
+					ggxEventbusServerStarter.setEventbusServerConfig(config.getEventbus().getServer());
 			}
-			ggxEventbusServerStarter.setEventbusServerConfig(config.getEventbus().getServer());
 			ggxEventbusServerStarter.init();
 			this.serverStarter = ggxEventbusServerStarter;
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		this.serverStarter.subscribe(eventId, subscriber);
+	}
+	
+
+	@Override
+	public void publish(String eventId, Object data) {
+		this.serverStarter.publish(eventId, data);
 	}
 
 	@Override
@@ -105,6 +116,7 @@ public class GGXServer implements GGXServerStarter{
 	public GGXCore getGGXCore() {
 		return this.serverStarter;
 	}
+
 	
 	
 	

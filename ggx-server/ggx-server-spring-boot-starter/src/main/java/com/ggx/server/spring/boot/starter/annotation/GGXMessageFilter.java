@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface GGXFilter {
+public @interface GGXMessageFilter {
 	
 	/**
 	 * 序号

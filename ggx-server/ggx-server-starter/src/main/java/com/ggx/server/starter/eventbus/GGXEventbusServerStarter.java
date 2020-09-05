@@ -1,6 +1,8 @@
 package com.ggx.server.starter.eventbus;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.server.EventbusServer;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -20,6 +22,7 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 		if (this.eventbusServerConfig == null) {
 			this.eventbusServerConfig = new EventbusServerConfig();
 		}
+		this.eventbusServerConfig.setRegistryClient(this.registryClient);
 		this.eventbusServer = new EventbusServer(eventbusServerConfig);
 	}
 	
@@ -36,6 +39,11 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 		
 	}
 	
+	@Override
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		GGLoggerUtil.getLogger(this).error("Eventbus Server can not subscribe events!");
+		
+	}
 	
 	@Override
 	public GGXCore getGGXCore() {

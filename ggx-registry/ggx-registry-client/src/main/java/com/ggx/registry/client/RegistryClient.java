@@ -23,11 +23,6 @@ import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
-import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
-import com.ggx.registry.common.message.resp.RegistryServiceListResp;
-import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
-import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
-import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
 
 import io.netty.channel.nio.NioEventLoopGroup;

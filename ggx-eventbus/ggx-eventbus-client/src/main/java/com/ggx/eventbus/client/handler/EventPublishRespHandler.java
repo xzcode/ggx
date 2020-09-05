@@ -13,7 +13,7 @@ import com.ggx.eventbus.client.config.EventbusClientConfig;
  */
 public class EventPublishRespHandler implements MessageHandler<EventPublishResp>{
 	
-	private EventbusClientConfig config;
+	protected EventbusClientConfig config;
 	
 
 	public EventPublishRespHandler(EventbusClientConfig config) {

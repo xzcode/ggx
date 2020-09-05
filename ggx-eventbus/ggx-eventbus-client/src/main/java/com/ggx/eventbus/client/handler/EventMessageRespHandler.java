@@ -1,15 +1,14 @@
 package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberGroup;
-import com.ggx.eventbus.client.subscriber.SubscriberInfo;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
+import com.ggx.eventbus.client.subscriber.SubscriptionData;
 
 /**
  * 消息接收处理器
@@ -37,19 +36,13 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 		try {
 			EventMessageResp resp = messageData.getMessage();
 			String eventId = resp.getEventId();
-			String subscriberId = resp.getSubscriberId();
 			byte[] eventData = resp.getEventData();
 			
 			SubscriberManager subscribeManager = this.config.getSubscribeManager();
 			
-			SubscriberInfo subscriberInfo = subscribeManager.getSubscriberInfo(eventId, subscriberId);
-			if (subscriberInfo != null) {
-				Class<?> clazz = subscriberInfo.getClazz();
-				Object data = null;
-				if (clazz != Void.class) {
-					data = this.serializer.deserialize(eventData, clazz);
-				}
-				subscribeManager.trigger(eventId, subscriberId, data);
+			SubscriberGroup subscriberGroup = subscribeManager.getSubscriberGroup(eventId);
+			if (subscriberGroup != null) {
+				subscriberGroup.trigger(new SubscriptionData<>(eventId, eventData, this.serializer));
 			}
 			
 		} catch (Exception e) {

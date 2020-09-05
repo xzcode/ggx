@@ -20,9 +20,6 @@ public class EventPublishReq implements Message {
 	// 事件id
 	private String eventId;
 
-	// 订阅器id
-	private String subscriberId;
-
 	// 事件数据
 	private byte[] eventData;
 
@@ -30,10 +27,9 @@ public class EventPublishReq implements Message {
 
 	}
 
-	public EventPublishReq(String eventId, String subscriberId, byte[] eventData) {
+	public EventPublishReq(String eventId, byte[] eventData) {
 		super();
 		this.eventId = eventId;
-		this.subscriberId = subscriberId;
 		this.eventData = eventData;
 	}
 
@@ -51,14 +47,6 @@ public class EventPublishReq implements Message {
 
 	public void setEventData(byte[] eventData) {
 		this.eventData = eventData;
-	}
-
-	public String getSubscriberId() {
-		return subscriberId;
-	}
-
-	public void setSubscriberId(String subscriberId) {
-		this.subscriberId = subscriberId;
 	}
 
 }

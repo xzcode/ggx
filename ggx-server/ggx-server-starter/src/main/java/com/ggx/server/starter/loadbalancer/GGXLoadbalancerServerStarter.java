@@ -1,6 +1,7 @@
 package com.ggx.server.starter.loadbalancer;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
@@ -16,20 +17,23 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 
 
 	public void init() {
+		
+		if (this.registryClientConfig == null) {
+			this.registryClientConfig = new RegistryClientConfig();
+		}
+		this.registryClient = new RegistryClient(registryClientConfig);
+		
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
+		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
+		this.eventbusGroupClient.start();
 
 		if (this.routerServerConfig == null) {
 			this.routerServerConfig = new RouterServerConfig();
 		}
 		this.routerServer = new RouterServer(routerServerConfig);
-
-		if (this.registryClientConfig == null) {
-			this.registryClientConfig = new RegistryClientConfig();
-		}
-		this.registryClient = new RegistryClient(registryClientConfig);
 
 		if (this.routerClientConfig == null) {
 			this.routerClientConfig = new RouterClientConfig(routerServer.getServiceServer());
@@ -47,6 +51,11 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 				this.shutdown();
 			}
 		});
+	}
+	
+	@Override
+	public void subscribe(String eventId, Subscriber<?> subscriber) {
+		this.eventbusGroupClient.subscribe(eventId, subscriber);
 	}
 
 	@Override

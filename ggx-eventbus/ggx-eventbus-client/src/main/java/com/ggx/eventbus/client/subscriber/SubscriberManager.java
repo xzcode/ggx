@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.handler.serializer.Serializer;
+
 /**
  * 订阅器管理器
  *
@@ -12,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * 2020-04-11 18:10:43
  */
 public class SubscriberManager {
-	
 	
 	//事件订阅器组集合
 	private Map<String, SubscriberGroup> groups = new ConcurrentHashMap<String, SubscriberGroup>();
@@ -36,7 +37,7 @@ public class SubscriberManager {
 	 * @author zai
 	 * 2020-04-11 18:10:20
 	 */
-	public <T> void subscribe(String eventId, SubscriberInfo subscriberInfo) {
+	public <T> void subscribe(String eventId, Subscriber<?> subscriber) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group == null) {
 			group = new SubscriberGroup(eventId);
@@ -45,7 +46,7 @@ public class SubscriberManager {
 				group = putIfAbsent;
 			}
 		}
-		group.add(subscriberInfo);
+		group.add(subscriber);
 	}
 	
 	/**
@@ -56,29 +57,13 @@ public class SubscriberManager {
 	 * @author zai
 	 * 2020-04-11 18:10:05
 	 */
-	public void removeSubscriber(String eventId, SubscriberInfo subscriber) {
+	public void removeSubscriber(String eventId, Subscriber<?> subscriber) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group != null) {
 			group.remove(subscriber);
 		}
 	}
 	
-	/**
-	 * 获取订阅器相关信息
-	 *
-	 * @param eventId
-	 * @param subscriberId
-	 * @return
-	 * @author zai
-	 * 2020-04-12 01:41:29
-	 */
-	public SubscriberInfo getSubscriberInfo(String eventId, String subscriberId) {
-		SubscriberGroup group = this.groups.get(eventId);
-		if (group != null) {
-			return group.getSubscriberInfo(subscriberId);
-		}
-		return null;
-	}
 	
 	/**
 	 * 
@@ -101,10 +86,10 @@ public class SubscriberManager {
 	 * @author zai
 	 * 2020-04-11 18:09:54
 	 */
-	public void trigger(String eventId, String subscriberId, Object data) {
+	public void trigger(String eventId, byte[] data, Serializer serializer) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group != null) {
-			group.trigger(subscriberId, data);
+			group.trigger(new SubscriptionData<>(eventId, data, serializer));
 		}
 	}
 	

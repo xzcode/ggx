@@ -6,7 +6,6 @@ import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFailedFuture;
 import com.ggx.core.common.future.GGFuture;
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;

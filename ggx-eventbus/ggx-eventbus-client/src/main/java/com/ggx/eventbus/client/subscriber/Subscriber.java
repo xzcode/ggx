@@ -15,6 +15,6 @@ public interface Subscriber<T> {
 	 * @author zai
 	 * 2020-04-11 17:35:54
 	 */
-	void trigger(T data);
+	void trigger(SubscriptionData<?> data);
 	
 }
