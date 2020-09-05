@@ -14,10 +14,18 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	
 	
 	public void init() {
+		if (this.registryClientConfig == null) {
+			this.registryClientConfig = new RegistryClientConfig();
+		}
+		this.registryClient = new RegistryClient(registryClientConfig);
+		
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
+		this.eventbusGroupClientConfig.setRegistryClient(this.registryClient);
+		
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
+		this.eventbusGroupClient.start();
 		
 		if (this.routerServerConfig == null) {
 			this.routerServerConfig = new RouterServerConfig();
@@ -25,10 +33,7 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 		this.routerServer = new RouterServer(routerServerConfig);
 		
 		
-		if (this.registryClientConfig == null) {
-			this.registryClientConfig = new RegistryClientConfig();
-		}
-		this.registryClient = new RegistryClient(registryClientConfig);
+		
 	}
 
 	@Override

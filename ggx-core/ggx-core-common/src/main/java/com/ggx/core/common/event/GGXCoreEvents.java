@@ -20,15 +20,15 @@ public interface GGXCoreEvents {
 		/**
 	     * 读空闲
 	     */
-		String READ = "GG.IDLE.READ";
+		String READ = "GGX.IDLE.READ";
 	    /**
 	     * 写空闲
 	     */
-		String WRITE = "GG.IDLE.WRITE";
+		String WRITE = "GGX.IDLE.WRITE";
 	    /**
 	     * 读与写空闲
 	     */
-		String ALL = "GG.IDLE.ALL";
+		String ALL = "GGX.IDLE.ALL";
 
 	}
 	
@@ -45,12 +45,12 @@ public interface GGXCoreEvents {
 		/**
 		 * 连接打开
 		 */
-		String OPENED = "GG.CONN.OPENED";
+		String OPENED = "GGX.CONN.OPENED";
 		
 		/**
 		 * 连接关闭
 		 */
-		String CLOSED = "GG.CONN.CLOSED";
+		String CLOSED = "GGX.CONN.CLOSED";
 
 	}
 	
@@ -65,7 +65,7 @@ public interface GGXCoreEvents {
 		/**
 		 * 会话超时
 		 */
-		String EXPIRED = "GG.SESSION.EXPIRED";
+		String EXPIRED = "GGX.SESSION.EXPIRED";
 		
 
 	}

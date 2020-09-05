@@ -162,7 +162,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 				sb.append(logoString);
 			}
 		} catch (Exception e) {
-			logger.error("GGServer print logo Error!", e);
+			logger.error("GGXServer print logo Error!", e);
 		}
     	return sb.toString();
     }
