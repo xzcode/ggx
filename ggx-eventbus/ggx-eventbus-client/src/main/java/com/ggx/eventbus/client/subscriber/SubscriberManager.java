@@ -37,7 +37,7 @@ public class SubscriberManager {
 	 * @author zai
 	 * 2020-04-11 18:10:20
 	 */
-	public <T> void subscribe(String eventId, Subscriber<?> subscriber) {
+	public <T> void subscribe(String eventId, Subscriber subscriber) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group == null) {
 			group = new SubscriberGroup(eventId);
@@ -57,7 +57,7 @@ public class SubscriberManager {
 	 * @author zai
 	 * 2020-04-11 18:10:05
 	 */
-	public void removeSubscriber(String eventId, Subscriber<?> subscriber) {
+	public void removeSubscriber(String eventId, Subscriber subscriber) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group != null) {
 			group.remove(subscriber);
@@ -89,7 +89,7 @@ public class SubscriberManager {
 	public void trigger(String eventId, byte[] data, Serializer serializer) {
 		SubscriberGroup group = groups.get(eventId);
 		if (group != null) {
-			group.trigger(new SubscriptionData<>(eventId, data, serializer));
+			group.trigger(new SubscriptionData(eventId, data, serializer));
 		}
 	}
 	

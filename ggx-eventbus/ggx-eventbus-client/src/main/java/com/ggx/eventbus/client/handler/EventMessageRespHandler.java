@@ -42,7 +42,7 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 			
 			SubscriberGroup subscriberGroup = subscribeManager.getSubscriberGroup(eventId);
 			if (subscriberGroup != null) {
-				subscriberGroup.trigger(new SubscriptionData<>(eventId, eventData, this.serializer));
+				subscriberGroup.trigger(new SubscriptionData(eventId, eventData, this.serializer));
 			}
 			
 		} catch (Exception e) {

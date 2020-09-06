@@ -148,7 +148,7 @@ public class EventbusClient{
 	 * @author zai
 	 * 2020-04-11 22:54:45
 	 */
-	public <T> void subscribe(String eventId, Subscriber<T> subscriber) {
+	public void subscribe(String eventId, Subscriber subscriber) {
 		this.config.getSubscribeManager().subscribe(eventId, subscriber);
 	}
 

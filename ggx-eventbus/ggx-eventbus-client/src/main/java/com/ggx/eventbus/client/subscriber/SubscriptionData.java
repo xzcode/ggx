@@ -8,7 +8,7 @@ import com.ggx.core.common.handler.serializer.Serializer;
  * @author zai
  * 2020-9-5 22:08:34
  */
-public class SubscriptionData<T> {
+public class SubscriptionData {
 	
 	private String eventId;
 	
@@ -35,7 +35,7 @@ public class SubscriptionData<T> {
 	
 
 	@SuppressWarnings("unchecked")
-	public T getData(Class<T> clazz) {
+	public <T> T getData(Class<T> clazz) {
 		if (this.cacheDataObject != null) {
 			return (T) this.cacheDataObject;
 		}

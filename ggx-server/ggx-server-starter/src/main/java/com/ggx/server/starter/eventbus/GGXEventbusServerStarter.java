@@ -40,7 +40,7 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 	}
 	
 	@Override
-	public void subscribe(String eventId, Subscriber<?> subscriber) {
+	public void subscribe(String eventId, Subscriber subscriber) {
 		GGLoggerUtil.getLogger(this).error("Eventbus Server can not subscribe events!");
 		
 	}

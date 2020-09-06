@@ -82,7 +82,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	
 	
 	@Override
-	public void subscribe(String eventId, Subscriber<?> subscriber) {
+	public void subscribe(String eventId, Subscriber subscriber) {
 		if (this.eventbusGroupClient != null) {
 			this.eventbusGroupClient.subscribe(eventId, subscriber);
 		}

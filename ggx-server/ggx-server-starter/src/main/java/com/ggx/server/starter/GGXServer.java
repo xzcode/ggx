@@ -92,7 +92,7 @@ public class GGXServer implements GGXServerStarter{
 		}
 	}
 	
-	public void subscribe(String eventId, Subscriber<?> subscriber) {
+	public void subscribe(String eventId, Subscriber subscriber) {
 		this.serverStarter.subscribe(eventId, subscriber);
 	}
 	

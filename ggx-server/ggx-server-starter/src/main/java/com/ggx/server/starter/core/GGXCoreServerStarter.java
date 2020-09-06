@@ -82,7 +82,7 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 	}
 
 	@Override
-	public void subscribe(String eventId, Subscriber<?> subscriber) {
+	public void subscribe(String eventId, Subscriber subscriber) {
 		this.eventbusGroupClient.subscribe(eventId, subscriber);
 	}
 

@@ -108,7 +108,7 @@ public class GGXServerSpringBootAnnotationSupport implements ApplicationContextA
 			if (!(entry.getValue() instanceof Subscriber)) {
 				continue;
 			}
-			Subscriber<?> obj = (Subscriber<?>) entry.getValue();
+			Subscriber obj = (Subscriber) entry.getValue();
 			//检查包路径
 			if (!checkPackage(obj.getClass())) {
 				continue;

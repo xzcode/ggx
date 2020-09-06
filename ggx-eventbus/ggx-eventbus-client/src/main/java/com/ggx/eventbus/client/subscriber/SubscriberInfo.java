@@ -16,7 +16,7 @@ public class SubscriberInfo {
 	/**
 	 * 订阅器对象
 	 */
-	protected Subscriber<?> subscriber;
+	protected Subscriber subscriber;
 	
 	/**
 	 * 订阅器id
@@ -31,11 +31,11 @@ public class SubscriberInfo {
 		this.clazz = clazz;
 	}
 	
-	public Subscriber<?> getSubscriber() {
+	public Subscriber getSubscriber() {
 		return subscriber;
 	}
 	
-	public void setSubscriber(Subscriber<?> subscriber) {
+	public void setSubscriber(Subscriber subscriber) {
 		this.subscriber = subscriber;
 	}
 

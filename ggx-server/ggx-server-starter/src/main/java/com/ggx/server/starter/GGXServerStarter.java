@@ -29,7 +29,7 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @param eventId
 	 * @param subscriber
 	 */
-	void subscribe(String eventId, Subscriber<?> subscriber);
+	void subscribe(String eventId, Subscriber subscriber);
 	
 	/**
 	 * 发布eventbus事件
