@@ -13,7 +13,7 @@ import com.ggx.core.spring.support.GGXCoreSpringAnnotationSupport;
 import com.ggx.registry.client.RegistryClient;
 
 @Configuration
-public class GGAdminCollectorServerConfiguration implements CommandLineRunner {
+public class GGXDashboardServerConfiguration implements CommandLineRunner {
 
 	@Autowired
 	private RegistryClient registryClient;

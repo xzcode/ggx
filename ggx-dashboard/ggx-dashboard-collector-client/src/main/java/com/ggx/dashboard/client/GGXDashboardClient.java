@@ -1,11 +1,5 @@
-package com.ggx.admin.collector.client;
+package com.ggx.dashboard.client;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
-import com.ggx.admin.collector.client.events.ConnCloseEventListener;
-import com.ggx.admin.collector.client.events.ConnOpenEventListener;
-import com.ggx.admin.collector.client.filter.AuthSendMessageFilter;
-import com.ggx.admin.collector.client.handler.AuthRespHandler;
-import com.ggx.admin.collector.client.handler.CollectServiceDataHandler;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
@@ -16,13 +10,19 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
+import com.ggx.dashboard.client.events.ConnCloseEventListener;
+import com.ggx.dashboard.client.events.ConnOpenEventListener;
+import com.ggx.dashboard.client.filter.AuthSendMessageFilter;
+import com.ggx.dashboard.client.handler.AuthRespHandler;
+import com.ggx.dashboard.client.handler.CollectServiceDataHandler;
 
-public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupport{
+public class GGXDashboardClient implements ReceiveMessageSupport, EventSupport{
 
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 
 
-	public GGXAdminCollectorClient(GGXAdminCollectorClientConfig config) {
+	public GGXDashboardClient(GGXDashboardClientConfig config) {
 		this.config = config;
 		this.config.setCollectorClient(this);
 		init();
@@ -80,7 +80,7 @@ public class GGXAdminCollectorClient implements ReceiveMessageSupport, EventSupp
 	}
 
 
-	public GGXAdminCollectorClientConfig getConfig() {
+	public GGXDashboardClientConfig getConfig() {
 		return config;
 	}
 

@@ -13,12 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 2018-06-16 19:57:43
  */
 @SpringBootApplication
-public class GGXAdminServerApplication{
+public class GGXDashboardServerApplication{
 	
-	private static Logger logger = LoggerFactory.getLogger(GGXAdminServerApplication.class);
+	private static Logger logger = LoggerFactory.getLogger(GGXDashboardServerApplication.class);
 	
 	public static void main(String[] args) { 
-		SpringApplication.run(GGXAdminServerApplication.class, args);
+		SpringApplication.run(GGXDashboardServerApplication.class, args);
 	}
 	
 }

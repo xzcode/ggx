@@ -1,14 +1,14 @@
-package com.ggx.admin.collector.client.events;
+package com.ggx.dashboard.client.events;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 	
-	public ConnCloseEventListener(GGXAdminCollectorClientConfig config) {
+	public ConnCloseEventListener(GGXDashboardClientConfig config) {
 		super();
 		this.config = config;
 	}

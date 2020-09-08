@@ -1,4 +1,4 @@
-package com.ggx.admin.collector.client.collector;
+package com.ggx.dashboard.client.collector;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.data.collector.DataCollector;
 import com.ggx.admin.common.collector.data.model.server.FileStoreInfo;
 import com.ggx.admin.common.collector.data.model.server.NetworkInfo;
 import com.ggx.admin.common.collector.data.model.server.ServerData;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -34,7 +34,7 @@ import oshi.software.os.OperatingSystem;
  */
 public class ServerDataCollector implements DataCollector<ServerData> {
 
-	protected GGXAdminCollectorClientConfig config;
+	protected GGXDashboardClientConfig config;
 
 	// 系统信息对象
 	protected SystemInfo si = new SystemInfo();
@@ -101,7 +101,7 @@ public class ServerDataCollector implements DataCollector<ServerData> {
 	// 上一个时间所有网卡点下行总流量
 	protected Map<String, Long> prevDownloadTotalMap = new ConcurrentHashMap<>();
 
-	public ServerDataCollector(GGXAdminCollectorClientConfig config) {
+	public ServerDataCollector(GGXDashboardClientConfig config) {
 		this.config = config;
 		this.taskExecutor = config.getTaskExecutor();
 	}

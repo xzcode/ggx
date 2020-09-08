@@ -1,19 +1,19 @@
-package com.ggx.admin.collector.client.filter;
+package com.ggx.dashboard.client.filter;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.message.req.AuthReq;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.message.MessageData;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 public class AuthSendMessageFilter implements SendMessageFilter{
 	
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 	
 	private AuthReq authReq = new AuthReq();
 	
 	
 
-	public AuthSendMessageFilter(GGXAdminCollectorClientConfig config) {
+	public AuthSendMessageFilter(GGXDashboardClientConfig config) {
 		super();
 		this.config = config;
 	}

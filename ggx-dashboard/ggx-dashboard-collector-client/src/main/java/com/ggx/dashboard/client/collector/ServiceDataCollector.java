@@ -1,9 +1,9 @@
-package com.ggx.admin.collector.client.collector;
+package com.ggx.dashboard.client.collector;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.data.collector.DataCollector;
 import com.ggx.admin.common.collector.data.model.server.ServerData;
 import com.ggx.admin.common.collector.data.model.service.ServiceData;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 import com.ggx.registry.common.service.ServiceInfo;
 
 /**
@@ -13,11 +13,11 @@ import com.ggx.registry.common.service.ServiceInfo;
  */
 public class ServiceDataCollector implements DataCollector<ServiceData> {
 
-	protected GGXAdminCollectorClientConfig config;
+	protected GGXDashboardClientConfig config;
 	
 	protected ServerDataCollector serverDataCollector;
 
-	public ServiceDataCollector(GGXAdminCollectorClientConfig config) {
+	public ServiceDataCollector(GGXDashboardClientConfig config) {
 		this.config = config;
 		serverDataCollector = new ServerDataCollector(config);
 

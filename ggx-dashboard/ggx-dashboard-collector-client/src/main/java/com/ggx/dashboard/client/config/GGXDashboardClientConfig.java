@@ -1,11 +1,11 @@
-package com.ggx.admin.collector.client.config;
+package com.ggx.dashboard.client.config;
 
-import com.ggx.admin.collector.client.GGXAdminCollectorClient;
 import com.ggx.admin.common.collector.constant.GGXAdminCollectorConstant;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.dashboard.client.GGXDashboardClient;
 import com.ggx.registry.client.RegistryClient;
 
 /**
@@ -13,10 +13,10 @@ import com.ggx.registry.client.RegistryClient;
  *
  * @author zai 2020-04-23 14:45:15
  */
-public class GGXAdminCollectorClientConfig {
+public class GGXDashboardClientConfig {
 
 	// gameMonitorClient对象
-	protected GGXAdminCollectorClient collectorClient;
+	protected GGXDashboardClient collectorClient;
 	
 
 	protected boolean printPingPongInfo = false;
@@ -101,11 +101,11 @@ public class GGXAdminCollectorClientConfig {
 		return session;
 	}
 
-	public GGXAdminCollectorClient getCollectorClient() {
+	public GGXDashboardClient getCollectorClient() {
 		return collectorClient;
 	}
 
-	public void setCollectorClient(GGXAdminCollectorClient discoveryClient) {
+	public void setCollectorClient(GGXDashboardClient discoveryClient) {
 		this.collectorClient = discoveryClient;
 	}
 

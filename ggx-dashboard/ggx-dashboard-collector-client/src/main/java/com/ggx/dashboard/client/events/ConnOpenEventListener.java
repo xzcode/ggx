@@ -1,16 +1,16 @@
-package com.ggx.admin.collector.client.events;
+package com.ggx.dashboard.client.events;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.message.req.AuthReq;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 public class ConnOpenEventListener implements EventListener<Void>{
 
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 	
-	public ConnOpenEventListener(GGXAdminCollectorClientConfig config) {
+	public ConnOpenEventListener(GGXDashboardClientConfig config) {
 		this.config = config;
 	}
 

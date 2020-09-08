@@ -1,10 +1,10 @@
-package com.ggx.admin.collector.client.handler;
+package com.ggx.dashboard.client.handler;
 
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.message.resp.AuthResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 /**
  * 客户端注册请求处理
@@ -15,10 +15,10 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  */
 public class AuthRespHandler implements MessageHandler<AuthResp>{
 	
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 	
 
-	public AuthRespHandler(GGXAdminCollectorClientConfig config) {
+	public AuthRespHandler(GGXDashboardClientConfig config) {
 		super();
 		this.config = config;
 	}

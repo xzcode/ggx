@@ -1,12 +1,12 @@
-package com.ggx.admin.collector.client.handler;
+package com.ggx.dashboard.client.handler;
 
-import com.ggx.admin.collector.client.collector.ServiceDataCollector;
-import com.ggx.admin.collector.client.config.GGXAdminCollectorClientConfig;
 import com.ggx.admin.common.collector.message.req.ServiceDataReq;
 import com.ggx.admin.common.collector.message.resp.CollectServiceDataResp;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
+import com.ggx.dashboard.client.collector.ServiceDataCollector;
+import com.ggx.dashboard.client.config.GGXDashboardClientConfig;
 
 /**
  * 客户端注册请求处理
@@ -16,12 +16,12 @@ import com.ggx.core.common.session.GGSession;
  */
 public class CollectServiceDataHandler implements MessageHandler<CollectServiceDataResp> {
 
-	private GGXAdminCollectorClientConfig config;
+	private GGXDashboardClientConfig config;
 
 	private ServiceDataCollector serviceDataCollector;
 	
 
-	public CollectServiceDataHandler(GGXAdminCollectorClientConfig config) {
+	public CollectServiceDataHandler(GGXDashboardClientConfig config) {
 		super();
 		this.config = config;
 		serviceDataCollector = new ServiceDataCollector(config);

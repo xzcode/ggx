@@ -1,4 +1,4 @@
-package com.ggx.admin.collector.client;
+package com.ggx.dashboard.client.test;
 
 
 import java.lang.management.ManagementFactory;
