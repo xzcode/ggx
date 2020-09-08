@@ -136,7 +136,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		if (!getFilterManager().doSendFilters(messageData)) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		return send(makePack(messageData));
+		return getSession().send(makePack(messageData));
 	}
 	
 	/**
