@@ -64,7 +64,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-17 18:44:14
 	 */
 	default GGFuture send(String action) {
-		return send(new MessageData<>((GGSession) this, action, null));
+		return send(new MessageData<>(getSession(), action, null));
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-17 18:44:20
 	 */
 	default GGFuture send(String action, Object message) {
-		return send(new MessageData<>((GGSession) this, action, message));
+		return send(new MessageData<>(getSession(), action, message));
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-25 11:57:05
 	 */
 	default GGFuture send(Message message) {
-		return send(new MessageData<>((GGSession) this, message.getActionId(), message));
+		return send(new MessageData<>(getSession(), message.getActionId(), message));
 	}
 	
 	
