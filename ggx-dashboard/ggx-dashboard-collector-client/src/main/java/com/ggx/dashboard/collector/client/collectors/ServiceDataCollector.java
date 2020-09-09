@@ -1,5 +1,7 @@
 package com.ggx.dashboard.collector.client.collectors;
 
+import java.util.Date;
+
 import com.ggx.dashboard.collector.client.config.GGXDashboardCollectorClientConfig;
 import com.ggx.dashboard.common.collector.data.collector.DataCollector;
 import com.ggx.dashboard.common.collector.data.model.server.ServerData;
@@ -40,7 +42,8 @@ public class ServiceDataCollector implements DataCollector<ServiceData> {
 		serviceData.setRegion(cachedServiceInfo.getRegion());
 		serviceData.setZone(cachedServiceInfo.getZone());
 		serviceData.setCustomData(cachedServiceInfo.getCustomData());
-
+		serviceData.setCreateTime(new Date().getTime());
+		
 		serviceData.setServerData(serverData);
 		
 		return serviceData;

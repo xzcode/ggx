@@ -32,6 +32,8 @@ public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 
 	@Autowired
 	private GGXDashboardCollectorServer ggxAdminCollectorServer;
+	
+	private ServiceDataService serviceDataService;
 
 
 	@PostConstruct
@@ -41,7 +43,6 @@ public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 	@Override
 	public void handle(MessageData<SyncServicesReq> messageData) {
 		GGSession session = messageData.getSession();
-		ServiceDataService serviceDataService = ggxAdminCollectorServer.getConfig().getServiceDataService();
 		List<ServiceData> dataList = serviceDataService.getDataList();
 
 		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(dataList.size());

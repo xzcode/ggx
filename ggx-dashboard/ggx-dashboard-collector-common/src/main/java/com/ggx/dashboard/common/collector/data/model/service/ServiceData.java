@@ -44,6 +44,9 @@ public class ServiceData {
 
 	// 自定义数据
 	protected Map<String, String> customData = new LinkedHashMap<>();
+	
+	//创建时间戳
+	protected long createTime;
 
 	public String getServiceId() {
 		return serviceId;
@@ -131,6 +134,14 @@ public class ServiceData {
 	
 	public ServerData getServerData() {
 		return serverData;
+	}
+	
+	public long getCreateTime() {
+		return createTime;
+	}
+	
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 
 }
