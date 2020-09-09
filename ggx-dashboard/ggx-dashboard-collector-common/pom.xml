@@ -27,7 +27,11 @@
 			<groupId>com.ggx</groupId>
 			<artifactId>ggx-util</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-server-starter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.oshi</groupId>
 			<artifactId>oshi-core</artifactId>

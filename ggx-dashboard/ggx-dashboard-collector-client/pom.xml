@@ -15,11 +15,6 @@
 	    <artifactId>ggx-dashboard-collector-common</artifactId>
 	    <version>${project.version}</version>
 	</dependency>
-	<dependency>
-		<groupId>com.ggx</groupId>
-		<artifactId>ggx-core-client</artifactId>
-		<version>${project.version}</version>
-	</dependency>
 	
   </dependencies>
 </project>
