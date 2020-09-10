@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.json.GGServerJsonUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
@@ -58,7 +58,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-11 16:35:24
 	 */
-	GGSession getSession();
+	GGXSession getSession();
 	
 	
 	/**
@@ -69,7 +69,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-17 18:44:14
 	 */
-	default GGFuture send(String action) {
+	default GGXFuture send(String action) {
 		return send(new MessageData<>(getSession(), action, null));
 	}
 	
@@ -82,7 +82,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-17 18:44:20
 	 */
-	default GGFuture send(String action, Object message) {
+	default GGXFuture send(String action, Object message) {
 		return send(new MessageData<>(getSession(), action, message));
 	}
 	
@@ -94,7 +94,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-25 11:57:05
 	 */
-	default GGFuture send(Message message) {
+	default GGXFuture send(Message message) {
 		return send(new MessageData<>(getSession(), message.getActionId(), message));
 	}
 	
@@ -109,7 +109,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:26:11
 	 */
-	default GGFuture send(GGSession session, String action, Object message) {
+	default GGXFuture send(GGXSession session, String action, Object message) {
 		return send(new MessageData<>(session,  action, message));
 	}
 	
@@ -122,7 +122,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-25 11:57:44
 	 */
-	default GGFuture send(GGSession session, Message message) {
+	default GGXFuture send(GGXSession session, Message message) {
 		return send(new MessageData<>(session, message.getActionId(), message));
 	}
 	
@@ -137,7 +137,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 
 	 * @author zai 2019-11-24 17:29:24
 	 */
-	default GGFuture send(MessageData<?> messageData) {
+	default GGXFuture send(MessageData<?> messageData) {
 		// 发送过滤器
 		if (!getFilterManager().doSendFilters(messageData)) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
@@ -155,9 +155,9 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 
 	 * @author zai 2019-11-24 23:08:36
 	 */
-	default GGFuture send(Pack pack) {
+	default GGXFuture send(Pack pack) {
 		
-		GGSession session = pack.getSession();
+		GGXSession session = pack.getSession();
 		
 		if (session == null) {
 			session = getSession();

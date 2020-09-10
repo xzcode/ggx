@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 
@@ -29,7 +29,7 @@ public class EventTask implements Runnable{
 	/**
 	 * session对象
 	 */
-	private GGSession session;
+	private GGXSession session;
 	
 	/**
 	 * event标识
@@ -43,13 +43,13 @@ public class EventTask implements Runnable{
 	
 	
 
-	public EventTask(GGSession session, String event, Object message, GGXCoreConfig config) {
+	public EventTask(GGXSession session, String event, Object message, GGXCoreConfig config) {
 		this.session = session;
 		this.event = event;
 		this.message = message;
 		this.config = config;
 	}
-	public EventTask(GGSession session, String event, Object message, GGXCoreConfig config, Channel channel) {
+	public EventTask(GGXSession session, String event, Object message, GGXCoreConfig config, Channel channel) {
 		this.session = session;
 		this.event = event;
 		this.message = message;

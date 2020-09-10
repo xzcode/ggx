@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 
@@ -16,7 +16,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * @author zai
  * 2019-12-01 16:28:44
  */
-public class GGSuccessFuture<V> implements GGFuture {
+public class GGSuccessFuture<V> implements GGXFuture {
 	
 	public static final GGSuccessFuture<?> DEFAULT_SUCCESS_FUTURE = new GGSuccessFuture<>();
 	
@@ -46,7 +46,7 @@ public class GGSuccessFuture<V> implements GGFuture {
 	}
 
 	@Override
-	public void addListener(GGXFutureListener<GGFuture> listener) {
+	public void addListener(GGXFutureListener<GGXFuture> listener) {
 		try {
 			listener.operationComplete(DEFAULT_SUCCESS_FUTURE);
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class GGSuccessFuture<V> implements GGFuture {
 	}
 
 	@Override
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return null;
 	}
 

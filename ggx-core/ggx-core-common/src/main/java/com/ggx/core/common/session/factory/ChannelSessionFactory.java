@@ -1,6 +1,6 @@
 package com.ggx.core.common.session.factory;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 
@@ -22,7 +22,7 @@ public interface ChannelSessionFactory {
 	 * @author zai
 	 * 2019-11-24 21:51:00
 	 */
-	GGSession getSession(Channel channel);
+	GGXSession getSession(Channel channel);
 	
 	/**
 	 * 通道激活

@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.router.client.service.RouterService;
@@ -147,7 +147,7 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-23 11:34:02
 	 */
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		return this.routerServiceLoadblancer.dispatch(pack);
 	}
 	
@@ -180,7 +180,7 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-22 18:24:40
 	 */
-	public GGFuture dispatchRandom(Pack pack) {
+	public GGXFuture dispatchRandom(Pack pack) {
 		RouterService randomRouterService = this.getRandomRouterService();
 		if (randomRouterService != null) {
 			return randomRouterService.dispatch(pack);

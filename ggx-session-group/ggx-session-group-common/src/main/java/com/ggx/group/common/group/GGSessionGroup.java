@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.send.support.MakePackSupport;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 会话组
@@ -28,7 +28,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @return
 	 * @author zai 2020-04-07 14:55:31
 	 */
-	Map<String, GGSession> getSessionMap();
+	Map<String, GGXSession> getSessionMap();
 	
 	/**
 	 * 获取会话组id
@@ -46,14 +46,14 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @return
 	 * @author zai 2020-04-07 14:45:01
 	 */
-	default GGFuture sendToAll(Pack pack) {
-		Map<String, GGSession> sessionMap = getSessionMap();
+	default GGXFuture sendToAll(Pack pack) {
+		Map<String, GGXSession> sessionMap = getSessionMap();
 		GGDefaultFuture defaultFuture = new GGDefaultFuture();
-		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
+		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		AtomicInteger count = new AtomicInteger(0);
-		for (Entry<String, GGSession> entry : sessionMap.entrySet()) {
-			GGSession session = entry.getValue();
+		for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
+			GGXSession session = entry.getValue();
 			if (session.isReady()) {
 				session.send(pack).addListener(f -> {
 					if (count.incrementAndGet() >= size && !defaultFuture.isDone()) {
@@ -77,18 +77,18 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @author zai 2020-04-07 14:49:06
 	 */
 	@SuppressWarnings("unchecked")
-	default GGFuture sendToRandomOne(Pack pack) {
-		Map<String, GGSession> sessionMap = getSessionMap();
-		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
+	default GGXFuture sendToRandomOne(Pack pack) {
+		Map<String, GGXSession> sessionMap = getSessionMap();
+		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		if (size == 0) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		//获取随机会话
-		GGSession session = (GGSession) ((Entry<String, GGSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
+		GGXSession session = (GGXSession) ((Entry<String, GGXSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
 		if(!session.isReady()) {
 			//如果随机会话未就绪，遍历并获取就绪会话进行发送
-			for (Entry<String, GGSession> entry : entrySet) {
+			for (Entry<String, GGXSession> entry : entrySet) {
 				session = entry.getValue();
 				if (session.isReady()) {
 					break;
@@ -104,15 +104,15 @@ public interface GGSessionGroup extends MakePackSupport {
 	
 	
 	@SuppressWarnings("unchecked")
-	default GGSession getRandomOne() {
-		Map<String, GGSession> sessionMap = getSessionMap();
-		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
+	default GGXSession getRandomOne() {
+		Map<String, GGXSession> sessionMap = getSessionMap();
+		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		if (size == 0) {
 			return null;
 		}
 		//获取随机会话
-		return (GGSession) ((Entry<String, GGSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
+		return (GGXSession) ((Entry<String, GGXSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	default GGFuture sendToRandomOne(Message message) {
+	default GGXFuture sendToRandomOne(Message message) {
 		return sendToRandomOne(makePack(new MessageData<>(null, message.getActionId(), message)));
 	}
 
@@ -133,7 +133,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @param session
 	 * @author zai 2020-04-07 14:55:13
 	 */
-	public void addSession(GGSession session);
+	public void addSession(GGXSession session);
 
 	/**
 	 * 移除会话
@@ -141,5 +141,5 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @param session
 	 * @author zai 2020-04-07 14:55:20
 	 */
-	public void removeSession(GGSession session);
+	public void removeSession(GGXSession session);
 }

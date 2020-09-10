@@ -1,12 +1,12 @@
 package com.ggx.core.common.event.model;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 
 public class EventData<T> {
 	protected String event;
-	protected GGSession session;
+	protected GGXSession session;
 	protected Channel channel;
 	protected T data;
 	
@@ -18,25 +18,25 @@ public class EventData<T> {
 		this.event = event;
 		this.data = data;
 	}
-	public EventData(GGSession session, String event) {
+	public EventData(GGXSession session, String event) {
 		this.session = session;
 		this.event = event;
 	}
-	public EventData(GGSession session, String event, T data) {
+	public EventData(GGXSession session, String event, T data) {
 		this.session = session;
 		this.event = event;
 		this.data = data;
 	}
-	public EventData(GGSession session, String event, T data, Channel channel) {
+	public EventData(GGXSession session, String event, T data, Channel channel) {
 		this.session = session;
 		this.data = data;
 		this.event = event;
 		this.channel = channel;
 	}
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 	

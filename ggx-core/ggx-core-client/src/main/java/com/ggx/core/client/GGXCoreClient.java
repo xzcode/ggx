@@ -1,11 +1,11 @@
 package com.ggx.core.client;
 
 import com.ggx.core.client.config.GGXCoreClientConfig;
-import com.ggx.core.client.starter.GGClientStarter;
-import com.ggx.core.client.starter.impl.DefaultClientStarter;
+import com.ggx.core.client.starter.GGXCoreClientStarter;
+import com.ggx.core.client.starter.impl.DefaultGGXCoreClientStarter;
 import com.ggx.core.common.config.GGXCoreConfigSupport;
 import com.ggx.core.common.control.GGXSessionContolSupport;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 
 /**
  * 客户端
@@ -21,9 +21,9 @@ implements
 	
 	private GGXCoreClientConfig config;
 	
-	private GGClientStarter clientStarter;
+	private GGXCoreClientStarter clientStarter;
 	
-	public GGFuture connect(String host, int port) {
+	public GGXFuture connect(String host, int port) {
 		return clientStarter.connect(host, port);
 	}
 	
@@ -33,7 +33,7 @@ implements
 		if (!this.config.isInited()) {
 			this.config.init();
 		}
-		this.clientStarter = new DefaultClientStarter(config);
+		this.clientStarter = new DefaultGGXCoreClientStarter(config);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ implements
 		return config;
 	}
 	
-	public GGFuture shutdown() {
+	public GGXFuture shutdown() {
 		return clientStarter.shutdown();
 	}
 

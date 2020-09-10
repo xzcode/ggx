@@ -1,8 +1,8 @@
 package com.ggx.core.common.control;
 
 import com.ggx.core.common.executor.support.ExecutorSupport;
-import com.ggx.core.common.future.GGFuture;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.session.GGXSession;
 
 public interface GGXSessionContolSupport extends  ExecutorSupport{
 	
@@ -12,7 +12,7 @@ public interface GGXSessionContolSupport extends  ExecutorSupport{
 	 * 
 	 * @author zai 2017-09-21
 	 */
-	default GGFuture  disconnect(long delayMs) {
+	default GGXFuture  disconnect(long delayMs) {
 		return disconnect(null, delayMs);
 	}
 
@@ -22,7 +22,7 @@ public interface GGXSessionContolSupport extends  ExecutorSupport{
 	 * @param userId
 	 * @author zai 2017-08-19 01:12:07
 	 */
-	default GGFuture  disconnect(GGSession session) {
+	default GGXFuture  disconnect(GGXSession session) {
 		return disconnect(session, 0);
 	}
 	
@@ -34,7 +34,7 @@ public interface GGXSessionContolSupport extends  ExecutorSupport{
 	 * @author zai
 	 * 2019-04-17 11:18:43
 	 */
-	default GGFuture  disconnect(GGSession session, long delayMs) {
+	default GGXFuture  disconnect(GGXSession session, long delayMs) {
 		return session.disconnect();
 	}
 	

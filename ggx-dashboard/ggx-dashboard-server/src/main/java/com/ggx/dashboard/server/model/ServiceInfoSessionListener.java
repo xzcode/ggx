@@ -1,6 +1,6 @@
 package com.ggx.dashboard.server.model;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 会话监听信息
@@ -15,7 +15,7 @@ public class ServiceInfoSessionListener {
 	public static final long TIMEOUT_DELAY_MS = 60L * 1000L;
 
 	// 会话对象
-	private GGSession session;
+	private GGXSession session;
 	
 	// 服务id
 	private String serviceId;
@@ -24,7 +24,7 @@ public class ServiceInfoSessionListener {
 	private long lastUpdateTime = System.currentTimeMillis();
 	
 
-	public ServiceInfoSessionListener(GGSession session, String serviceId) {
+	public ServiceInfoSessionListener(GGXSession session, String serviceId) {
 		this.session = session;
 		this.serviceId = serviceId;
 	}
@@ -50,11 +50,11 @@ public class ServiceInfoSessionListener {
 		this.lastUpdateTime = System.currentTimeMillis(); 
 	}
 
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 

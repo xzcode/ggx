@@ -13,12 +13,12 @@ import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.core.server.GGXCoreServer;
@@ -143,7 +143,7 @@ public class RouterService {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
-				GGSession session = data.getSession();
+				GGXSession session = data.getSession();
 				String action = data.getAction();
 				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
 					session.send(session.makePack(data));
@@ -177,7 +177,7 @@ public class RouterService {
 				}
 				
 				SessionManager sessionManager = config.getHostServer().getSessionManager();
-				GGSession session = sessionManager.getSession(pack.getSession().getSessonId());
+				GGXSession session = sessionManager.getSession(pack.getSession().getSessonId());
 				if (session != null) {
 					pack.setSession(session);
 					session.send(pack);
@@ -195,7 +195,7 @@ public class RouterService {
 					RouterSessionDisconnectTransferResp resp = messageData.getMessage();
 					String tranferSessionId = resp.getTranferSessionId();
 					SessionManager sessionManager = serviceClient.getSessionManager();
-					GGSession session = sessionManager.getSession(tranferSessionId);
+					GGXSession session = sessionManager.getSession(tranferSessionId);
 					if (session != null) {
 						
 						session.disconnect();
@@ -205,7 +205,7 @@ public class RouterService {
 						if (RouterService.this.config.isSessionDisconnectTransferResponseEnabled()) {
 							
 							SessionManager hostServersessionManager = config.getHostServer().getSessionManager();
-							GGSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
+							GGXSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
 							if (hostServerSession != null) {
 								hostServerSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
 								hostServerSession.send(resp).addListener(f -> {
@@ -228,13 +228,13 @@ public class RouterService {
 			@Override
 			public void handle(MessageData<RouterRedirectMessageToOtherRouterServicesResp> messageData) {
 				
-				GGSession session = messageData.getSession();
+				GGXSession session = messageData.getSession();
 				String sessionId = session.getSessonId();
 				RouterRedirectMessageToOtherRouterServicesResp message = messageData.getMessage();
 				
 				GGXCoreServer hostServer = config.getHostServer();
 				SessionManager hostSessionManager = hostServer.getSessionManager();
-				GGSession hostSession = hostSessionManager.getSession(sessionId);
+				GGXSession hostSession = hostSessionManager.getSession(sessionId);
 				
 				RouterServiceManager routerServiceManager = RouterService.this.config.getRouterServiceManager();
 				RouterService changeRouterService = routerServiceManager.getService(serviceGroupId, message.getServiceId());
@@ -281,29 +281,29 @@ public class RouterService {
 	 * @author zai
 	 * 2019-11-07 17:53:00
 	 */
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		if (!isAvailable()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		if (isShutdown()) {
 			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-		GGSession routeSession = pack.getSession();
+		GGXSession routeSession = pack.getSession();
 		String routeSessonId = pack.getSession().getSessonId();
 		
 		
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
 		
-		GGSession serviceClientSession = serviceClientSessionManager.getSession(routeSessonId);
+		GGXSession serviceClientSession = serviceClientSessionManager.getSession(routeSessonId);
 		
 		if (serviceClientSession == null) {
 			GGSessionGroupManager sessionGroupManager = this.sessionGroupClient.getConfig().getSessionGroupManager();
 			serviceClientSession = new GroupServiceClientSession(routeSessonId, this.sessionGroupClient.getConfig().getSessionGroupId(), sessionGroupManager, this.serviceClient.getConfig());
-			GGSession addSessionIfAbsent = serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
+			GGXSession addSessionIfAbsent = serviceClientSessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
 				serviceClientSession = addSessionIfAbsent;
 			}else {
-				GGSession finalServiceClientSession = serviceClientSession;
+				GGXSession finalServiceClientSession = serviceClientSession;
 				//服务session断开后，通知下一个路由节点session已断开
 				routeSession.addDisconnectListener(sesssion -> {
 					Integer tranType = sesssion.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);

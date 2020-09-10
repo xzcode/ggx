@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
@@ -46,7 +46,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     	this.config = config;
     }
     
-    public GGFuture start() {
+    public GGXFuture start() {
     	
         try {
         	

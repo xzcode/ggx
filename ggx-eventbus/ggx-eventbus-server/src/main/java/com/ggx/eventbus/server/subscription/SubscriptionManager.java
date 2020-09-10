@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 
 /**
@@ -36,7 +36,7 @@ public class SubscriptionManager {
 	 * @author zai
 	 * 2020-04-07 11:45:20
 	 */
-	public void addSubscription(String eventId, GGSession session) {
+	public void addSubscription(String eventId, GGXSession session) {
 		Subscription subscription = subscriptions.get(eventId);
 		if (subscription == null) {
 			subscription = new Subscription(eventId, this.config);
@@ -56,7 +56,7 @@ public class SubscriptionManager {
 	 * @author zai
 	 * 2020-04-12 15:54:32
 	 */
-	public void addSubscription(List<String> eventIds, GGSession session) {
+	public void addSubscription(List<String> eventIds, GGXSession session) {
 		if (eventIds == null || session == null) {
 			return;
 		}
@@ -73,7 +73,7 @@ public class SubscriptionManager {
 	 * @author zai
 	 * 2020-04-07 15:40:47
 	 */
-	public void removeSubscription(String eventId, GGSession session) {
+	public void removeSubscription(String eventId, GGXSession session) {
 		Subscription subscription = subscriptions.get(eventId);
 		if (subscription != null) {
 			subscription.removeSubscription(session);

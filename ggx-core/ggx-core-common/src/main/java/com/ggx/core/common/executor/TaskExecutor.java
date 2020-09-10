@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.executor.timeout.TimeoutTask;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 
 /**
  * 任务执行器
@@ -24,7 +24,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:55:00
 	 */
-	GGFuture submitTask(Runnable runnable);
+	GGXFuture submitTask(Runnable runnable);
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:56:05
 	 */
-	<V> GGFuture submitTask(Callable<V> callable);
+	<V> GGXFuture submitTask(Callable<V> callable);
 	
 	
 	/**
@@ -48,7 +48,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-20 19:27:05
 	 */
-	GGFuture schedule(long delayMs, Runnable runnable);
+	GGXFuture schedule(long delayMs, Runnable runnable);
 	
 	/**
 	 * 执行计划任务
@@ -60,7 +60,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:46:16
 	 */
-	GGFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable);
+	GGXFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable);
 	
 	/**
 	 * 计划任务
@@ -73,7 +73,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:47:11
 	 */
-	<V> GGFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable);
+	<V> GGXFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable);
 	
 	/**
 	 * 等待指定future执行完成后再进行计划任务的执行
@@ -86,7 +86,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:46:16
 	 */
-	GGFuture scheduleAfter(GGFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable);
+	GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable);
 	
 	
 
@@ -100,7 +100,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-25 14:52:04
 	 */
-	GGFuture scheduleAfter(GGFuture afterFuture, long delayMs, Runnable runnable);
+	GGXFuture scheduleAfter(GGXFuture afterFuture, long delayMs, Runnable runnable);
 	
 	
 	/**
@@ -115,7 +115,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:46:16
 	 */
-	<V> GGFuture scheduleAfter(GGFuture afterFuture, long delay, TimeUnit timeUnit, Callable<V> callable);
+	<V> GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Callable<V> callable);
 
 	/**
 	 * 固定延迟计划任务
@@ -128,7 +128,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-01 15:48:27
 	 */
-	GGFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable);
+	GGXFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable);
 	
 	/**
 	 * 创建超时任务对象

@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.GGSessionGroup;
 import com.ggx.group.common.group.impl.DefaultSessionGroup;
 
@@ -43,7 +43,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-07 15:11:47
 	 */
-	public void addSession(String sessionGroupId, GGSession session) {
+	public void addSession(String sessionGroupId, GGXSession session) {
 		
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(sessionGroupId);
 		if (sessionGroup == null) {
@@ -67,7 +67,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-07 15:12:00
 	 */
-	public void removeSession(String sessionGroupId, GGSession session) {
+	public void removeSession(String sessionGroupId, GGXSession session) {
 		if (session == null) {
 			return;
 		}
@@ -86,7 +86,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-08 16:23:40
 	 */
-	public GGFuture sendToAll(String groupId, Pack pack) {
+	public GGXFuture sendToAll(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToAll(pack);
@@ -102,7 +102,7 @@ public class GGSessionGroupManager {
 	 * @return
 	 * @author zai 2020-04-07 14:49:06
 	 */
-	public GGFuture sendToRandomOne(String groupId, Pack pack) {
+	public GGXFuture sendToRandomOne(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(pack);
@@ -111,7 +111,7 @@ public class GGSessionGroupManager {
 	}
 	
 	
-	public GGSession getRandomOne(String groupId) {
+	public GGXSession getRandomOne(String groupId) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.getRandomOne();
@@ -127,7 +127,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	public GGFuture sendToRandomOne(String groupId, Message message) {
+	public GGXFuture sendToRandomOne(String groupId, Message message) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(message);

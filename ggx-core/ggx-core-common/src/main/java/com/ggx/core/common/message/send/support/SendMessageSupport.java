@@ -1,11 +1,11 @@
 package com.ggx.core.common.message.send.support;
 
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
@@ -73,7 +73,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 22:09:31
 	 */
-	default GGFuture send(GGSession session, Pack pack) {
+	default GGXFuture send(GGXSession session, Pack pack) {
 		return session.send(pack);
 	}
 	
@@ -88,7 +88,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:24:23
 	 */
-	default GGFuture send(GGSession session, String action, Object message) {
+	default GGXFuture send(GGXSession session, String action, Object message) {
 		return send(new MessageData<>(session, action, message));
 	}
 	
@@ -104,7 +104,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:23:47
 	 */
-	default GGFuture send(GGSession session, Message message) {
+	default GGXFuture send(GGXSession session, Message message) {
 		return send(new MessageData<>(session, message.getActionId(), message));
 	}
 
@@ -119,8 +119,8 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 21:53:08
 	 */
-	default GGFuture send(MessageData<?> messageData) {
-		GGSession session = messageData.getSession();
+	default GGXFuture send(MessageData<?> messageData) {
+		GGXSession session = messageData.getSession();
 		if (session != null) {
 			try {
 			// 发送过滤器
@@ -143,7 +143,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-16 10:20:47
 	 */
-	default GGFuture send(Pack pack) {
+	default GGXFuture send(Pack pack) {
 		return send(null, pack);
 	}
 	

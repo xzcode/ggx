@@ -1,6 +1,6 @@
 package com.ggx.core.server.starter;
 
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 
 /**
@@ -18,7 +18,7 @@ public interface GGXCoreServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:27:57
 	 */
-	GGFuture start();
+	GGXFuture start();
 	
 	/**
 	 * 关闭

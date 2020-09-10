@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.ggx.core.common.executor.SingleThreadTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.support.ExecutorSupport;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.dashboard.server.model.ServiceInfoSessionListener;
 
 /**
@@ -19,7 +19,7 @@ public abstract class BasicSessionListenerManager implements ExecutorSupport {
 
 	protected TaskExecutor taskExecutor;
 
-	protected Map<GGSession, ServiceInfoSessionListener> sessionListenrs = new ConcurrentHashMap<>();
+	protected Map<GGXSession, ServiceInfoSessionListener> sessionListenrs = new ConcurrentHashMap<>();
 
 	protected Map<String, AtomicInteger> listenerCounters = new ConcurrentHashMap<>();
 

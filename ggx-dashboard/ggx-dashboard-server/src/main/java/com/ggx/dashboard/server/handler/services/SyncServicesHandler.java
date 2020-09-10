@@ -11,7 +11,7 @@ import com.ggx.admin.collector.server.GGXDashboardCollectorServer;
 import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.dashboard.common.collector.data.model.service.ServiceData;
 import com.ggx.dashboard.server.handler.services.model.req.SyncServicesReq;
 import com.ggx.dashboard.server.handler.services.model.resp.ServiceDataModel;
@@ -39,7 +39,7 @@ public class SyncServicesHandler implements MessageHandler<SyncServicesReq> {
 
 	@Override
 	public void handle(MessageData<SyncServicesReq> messageData) {
-		GGSession session = messageData.getSession();
+		GGXSession session = messageData.getSession();
 		List<ServiceData> dataList = serviceDataService.getDataList();
 
 		List<ServiceDataModel> serviceModels = new ArrayList<ServiceDataModel>(dataList.size());

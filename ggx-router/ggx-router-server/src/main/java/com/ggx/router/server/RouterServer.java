@@ -12,14 +12,14 @@ import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -90,7 +90,7 @@ public class RouterServer implements GGXCore {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
-				GGSession session = data.getSession();
+				GGXSession session = data.getSession();
 				String action = data.getAction();
 				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
 					session.send(session.makePack(data));
@@ -118,7 +118,7 @@ public class RouterServer implements GGXCore {
 		this.serviceServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new EventListener<Void>() {
 			@Override
 			public void onEvent(EventData<Void> eventData) {
-				GGSession session = eventData.getSession();
+				GGXSession session = eventData.getSession();
 				if (session != null) {
 					Integer tranType = session.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
 					if (tranType  != null && RouterSessionDisconnectTransferType.REQ == tranType) {
@@ -139,7 +139,7 @@ public class RouterServer implements GGXCore {
 				RouterSessionDisconnectTransferReq req = messageData.getMessage();
 				String tranferSessionId = req.getTranferSessionId();
 				SessionManager sessionManager = serviceServer.getSessionManager();
-				GGSession session = sessionManager.getSession(tranferSessionId);
+				GGXSession session = sessionManager.getSession(tranferSessionId);
 				if (session != null) {
 					session.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.REQ);
 					session.disconnect();
@@ -158,8 +158,8 @@ public class RouterServer implements GGXCore {
 		return config;
 	}
 
-	public GGFuture start() {
-		GGFuture startFuture = this.config.getSessionGroupServer().start();
+	public GGXFuture start() {
+		GGXFuture startFuture = this.config.getSessionGroupServer().start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
 				this.config.setPort(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort());
@@ -189,7 +189,7 @@ public class RouterServer implements GGXCore {
 	 * @author zai
 	 * 2020-06-01 14:55:48
 	 */
-	public void redirectMessageToOtherRouterServices(GGSession redirectingSession, String redirectServiceId, Message redirectingMessage) {
+	public void redirectMessageToOtherRouterServices(GGXSession redirectingSession, String redirectServiceId, Message redirectingMessage) {
 		
 		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
 		

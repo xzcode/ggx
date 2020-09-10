@@ -1,7 +1,7 @@
 package com.ggx.eventbus.client.config;
 
 import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.session.group.client.SessionGroupClient;
@@ -32,7 +32,7 @@ public class EventbusClientConfig {
 	protected int connectionSize = 4;
 	
 	
-	protected GGSession defaultClientSession;
+	protected GGXSession defaultClientSession;
 
 
 	// 订阅者管理器
@@ -135,11 +135,11 @@ public class EventbusClientConfig {
 		this.printEventbusPackLog = printEventbusPackLog;
 	}
 	
-	public void setDefaultClientSession(GGSession defaultClientSession) {
+	public void setDefaultClientSession(GGXSession defaultClientSession) {
 		this.defaultClientSession = defaultClientSession;
 	}
 	
-	public GGSession getDefaultClientSession() {
+	public GGXSession getDefaultClientSession() {
 		return defaultClientSession;
 	}
 

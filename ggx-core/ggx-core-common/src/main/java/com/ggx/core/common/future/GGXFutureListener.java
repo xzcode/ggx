@@ -9,7 +9,7 @@ import java.util.EventListener;
  * @author zai
  * 2019-11-24 17:49:22
  */
-public interface GGXFutureListener<F extends GGFuture> extends EventListener{
+public interface GGXFutureListener<F extends GGXFuture> extends EventListener{
 
 	/**
 	 * 操作完成调用

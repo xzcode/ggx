@@ -9,8 +9,8 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.session.GGSession;
-import com.ggx.core.common.session.listener.ISessionDisconnectListener;
+import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.listener.SessionDisconnectListener;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 /**
@@ -19,7 +19,7 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  * 
  * @author zai 2019-10-02 22:48:34
  */
-public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSession {
+public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSession {
 	
 
 	// 具体的配置
@@ -47,7 +47,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSess
 	protected String groupId;
 
 	// 断开连接监听器
-	protected List<ISessionDisconnectListener> disconnectListeners = new CopyOnWriteArrayList<ISessionDisconnectListener>();
+	protected List<SessionDisconnectListener> disconnectListeners = new CopyOnWriteArrayList<SessionDisconnectListener>();
 
 	public AbstractSession(String sessionId, C config) {
 		this.config = config;
@@ -56,7 +56,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSess
 	}
 
 	@Override
-	public void addDisconnectListener(ISessionDisconnectListener listener) {
+	public void addDisconnectListener(SessionDisconnectListener listener) {
 		this.disconnectListeners.add(listener);
 	}
 
@@ -67,7 +67,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSess
 	 */
 	public void triggerDisconnectListeners() {
 		if (this.disconnectListeners.size() > 0) {
-			for (ISessionDisconnectListener lis : disconnectListeners) {
+			for (SessionDisconnectListener lis : disconnectListeners) {
 				try {
 					lis.onDisconnect(this);
 				} catch (Exception e) {
@@ -107,7 +107,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGSess
 	}
 
 	@Override
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return this;
 	}
 

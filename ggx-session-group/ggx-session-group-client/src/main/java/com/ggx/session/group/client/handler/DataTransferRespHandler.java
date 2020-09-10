@@ -6,7 +6,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -42,7 +42,7 @@ public class DataTransferRespHandler implements MessageHandler<DataTransferResp>
 			GGXCoreClient serviceClient = this.config.getServiceClient();
 			GGXCoreClientConfig serviceClientConfig = serviceClient.getConfig();
 			SessionManager sessionManager = serviceClient.getSessionManager();
-			GGSession session = sessionManager.getSession(tranferSessionId);
+			GGXSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {
 				//提交任务到业务客户端
 				Pack pack = new Pack(session, resp.getAction(), resp.getMessage());
@@ -57,7 +57,7 @@ public class DataTransferRespHandler implements MessageHandler<DataTransferResp>
 			GGXCoreServer serviceServer = this.config.getServiceServer();
 			GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
 			SessionManager sessionManager = serviceServerConfig.getSessionManager();
-			GGSession session = sessionManager.getSession(tranferSessionId);
+			GGXSession session = sessionManager.getSession(tranferSessionId);
 			if (session != null) {
 				//提交任务到业务客户端
 				Pack pack = new Pack(session, resp.getAction(), resp.getMessage());

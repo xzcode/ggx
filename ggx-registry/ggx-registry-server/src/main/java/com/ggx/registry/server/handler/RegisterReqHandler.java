@@ -2,7 +2,7 @@ package com.ggx.registry.server.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
@@ -32,7 +32,7 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 
 	@Override
 	public void handle(MessageData<RegistryServiceRegisterReq> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		RegistryServiceRegisterReq req = request.getMessage();
 		String serverAuthToken = config.getAuthToken();
 		//判断认证token是否正确

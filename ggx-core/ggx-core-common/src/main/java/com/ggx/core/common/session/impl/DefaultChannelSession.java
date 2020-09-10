@@ -1,7 +1,7 @@
 package com.ggx.core.common.session.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGNettyFuture;
 
 import io.netty.channel.Channel;
@@ -66,7 +66,7 @@ public class DefaultChannelSession extends AbstractSession<GGXCoreConfig> {
 		}
 
 	@Override
-	public GGFuture disconnect() {
+	public GGXFuture disconnect() {
 		GGNettyFuture future = new GGNettyFuture(this.getChannel().close());
 		future.addListener(f -> {
 			triggerDisconnectListeners();

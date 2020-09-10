@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * session管理器
@@ -22,7 +22,7 @@ public class DefaultSessionManager implements SessionManager {
 	
 	private GGXCoreConfig config;
 	
-	private final Map<String, GGSession> sessionMap = new ConcurrentHashMap<>(1000);
+	private final Map<String, GGXSession> sessionMap = new ConcurrentHashMap<>(1000);
 	
 	public DefaultSessionManager(GGXCoreConfig config) {
 		this.config = config;
@@ -40,8 +40,8 @@ public class DefaultSessionManager implements SessionManager {
 	protected void startSessionExpireCheckTask() {
 		TaskExecutor taskExecutor = this.config.getTaskExecutor();
 		taskExecutor.scheduleWithFixedDelay(10L * 1000L, this.config.getSessionExpireMs(), TimeUnit.MILLISECONDS, () -> {
-			for (Entry<String, GGSession> entry : sessionMap.entrySet()) {
-				GGSession session = entry.getValue();
+			for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
+				GGXSession session = entry.getValue();
 				session.checkExpire();
 				if (session.isExpired()) {
 					session.disconnect();
@@ -52,8 +52,8 @@ public class DefaultSessionManager implements SessionManager {
 	
 	
 	@Override
-	public GGSession addSessionIfAbsent(GGSession session) {
-		GGSession putIfAbsent = sessionMap.putIfAbsent(session.getSessonId(), session);
+	public GGXSession addSessionIfAbsent(GGXSession session) {
+		GGXSession putIfAbsent = sessionMap.putIfAbsent(session.getSessonId(), session);
 		if (putIfAbsent == null) {
 			//添加断开监听
 			session.addDisconnectListener( s -> {
@@ -66,9 +66,9 @@ public class DefaultSessionManager implements SessionManager {
 	}
 	
 	@Override
-	public GGSession getSession(String sessionId) {
+	public GGXSession getSession(String sessionId) {
 		if (sessionId != null) {
-			GGSession session = sessionMap.get(sessionId);
+			GGXSession session = sessionMap.get(sessionId);
 			if (session != null) {
 				session.updateExpire();
 			}
@@ -78,7 +78,7 @@ public class DefaultSessionManager implements SessionManager {
 	}
 	
 	@Override
-	public GGSession remove(String sessionId) {
+	public GGXSession remove(String sessionId) {
 		if (sessionId != null) {
 			return sessionMap.remove(sessionId);
 		}
@@ -86,9 +86,9 @@ public class DefaultSessionManager implements SessionManager {
 	}
 
 	@Override
-	public void eachSession(EachData<GGSession> eachData) {
+	public void eachSession(EachData<GGXSession> eachData) {
 		
-		for (Entry<String, GGSession> entry : sessionMap.entrySet()) {
+		for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
 			if (!eachData.each(entry.getValue())) {
 				break;
 			}
@@ -107,13 +107,13 @@ public class DefaultSessionManager implements SessionManager {
 
 
 	@Override
-	public GGSession randomGetSession() {
-		Set<Entry<String, GGSession>> entrySet = sessionMap.entrySet();
+	public GGXSession randomGetSession() {
+		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		if (entrySet.size() == 0) {
 			return null;
 		}
 		@SuppressWarnings("unchecked")
-		Entry<String, GGSession> entry = (Entry<String, GGSession>) entrySet.toArray()[ThreadLocalRandom.current().nextInt(entrySet.size())];
+		Entry<String, GGXSession> entry = (Entry<String, GGXSession>) entrySet.toArray()[ThreadLocalRandom.current().nextInt(entrySet.size())];
 		return entry.getValue();
 	}
 

@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 /**
@@ -14,9 +14,9 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
  *
  * @author zai 2020-04-07 14:26:57
  */
-public class GGDefaultFuture implements GGFuture {
+public class GGDefaultFuture implements GGXFuture {
 
-	private Set<GGXFutureListener<GGFuture>> listeners = new LinkedHashSet<>(2);
+	private Set<GGXFutureListener<GGXFuture>> listeners = new LinkedHashSet<>(2);
 
 	private boolean success;
 
@@ -24,10 +24,10 @@ public class GGDefaultFuture implements GGFuture {
 
 	private boolean cancel;
 	
-	private GGSession session;
+	private GGXSession session;
 
 	@Override
-	public void addListener(GGXFutureListener<GGFuture> listener) {
+	public void addListener(GGXFutureListener<GGXFuture> listener) {
 		synchronized (this) {
 			if (this.done) {
 				triggerListener(listener);
@@ -88,11 +88,11 @@ public class GGDefaultFuture implements GGFuture {
 	}
 
 	@Override
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 	
@@ -109,12 +109,12 @@ public class GGDefaultFuture implements GGFuture {
 	}
 
 	private void triggerListeners() {
-		for (GGXFutureListener<GGFuture> listener : listeners) {
+		for (GGXFutureListener<GGXFuture> listener : listeners) {
 			triggerListener(listener);
 		}
 	}
 
-	private void triggerListener(GGXFutureListener<GGFuture> listener) {
+	private void triggerListener(GGXFutureListener<GGXFuture> listener) {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {

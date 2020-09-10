@@ -2,7 +2,7 @@ package com.ggx.registry.server.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.message.resp.RegistryServiceUpdateResp;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -26,7 +26,7 @@ public class ServiceUpdateReqHandler implements MessageHandler<RegistryServiceUp
 
 	@Override
 	public void handle(MessageData<RegistryServiceUpdateReq> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		RegistryServiceUpdateReq req = request.getMessage();
 		ServiceManager serviceManager = config.getServiceManager();
 		

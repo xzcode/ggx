@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.GGSessionGroup;
 
 /**
@@ -29,7 +29,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 	/**
 	 * 会话集合
 	 */
-	protected Map<String, GGSession> sessionMap = new ConcurrentHashMap<String, GGSession>();
+	protected Map<String, GGXSession> sessionMap = new ConcurrentHashMap<String, GGXSession>();
 	
 	
 	
@@ -39,11 +39,11 @@ public class DefaultSessionGroup implements GGSessionGroup {
 	}
 
 	@Override
-	public Map<String, GGSession> getSessionMap() {
+	public Map<String, GGXSession> getSessionMap() {
 		return this.sessionMap;
 	}
 
-	public void addSession(GGSession session) {
+	public void addSession(GGXSession session) {
 		if (session == null) {
 			return;
 		}
@@ -54,7 +54,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 		});
 	}
 
-	public void removeSession(GGSession session) {
+	public void removeSession(GGXSession session) {
 		if (session == null) {
 			return;
 		}

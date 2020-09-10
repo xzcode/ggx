@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
 
@@ -27,7 +27,7 @@ public class RouterClient{
 		this.config.init();
 	}
 	
-	public GGFuture route(Pack pack) {
+	public GGXFuture route(Pack pack) {
 		try {
 				return config.getServiceProvider().dispatch(pack);
 		} catch (Exception e) {

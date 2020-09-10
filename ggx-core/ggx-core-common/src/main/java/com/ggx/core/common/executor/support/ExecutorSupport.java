@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 
 /**
  * 计划任务执行支持接口
@@ -26,48 +26,48 @@ public interface ExecutorSupport extends TaskExecutor {
 	TaskExecutor getTaskExecutor();
 
 	@Override
-	default GGFuture submitTask(Runnable runnable) {
+	default GGXFuture submitTask(Runnable runnable) {
 		return getTaskExecutor().submitTask(runnable);
 	}
 
 	@Override
-	default <V> GGFuture submitTask(Callable<V> callable) {
+	default <V> GGXFuture submitTask(Callable<V> callable) {
 		return getTaskExecutor().submitTask(callable);
 	}
 
 	@Override
-	default GGFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
 		return  getTaskExecutor().schedule(delay, timeUnit, runnable);
 	}
 
 	@Override
-	default <V> GGFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
+	default <V> GGXFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
 		return  getTaskExecutor().schedule(delay, timeUnit, callable);
 	}
 
 	@Override
-	default GGFuture scheduleAfter(GGFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, runnable);
 	}
 	
 	@Override
-	default GGFuture scheduleAfter(GGFuture afterFuture, long delayMs, Runnable runnable) {
+	default GGXFuture scheduleAfter(GGXFuture afterFuture, long delayMs, Runnable runnable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delayMs, TimeUnit.MILLISECONDS, runnable);
 	}
 
 	@Override
-	default <V> GGFuture scheduleAfter(GGFuture afterFuture, long delay, TimeUnit timeUnit,
+	default <V> GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit,
 			Callable<V> callable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, callable);
 	}
 
 	@Override
-	default GGFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable) {
 		return getTaskExecutor().scheduleWithFixedDelay(initialDelay, delay, timeUnit, runnable);
 	}
 
 	@Override
-	default GGFuture schedule(long delayMs, Runnable runnable) {
+	default GGXFuture schedule(long delayMs, Runnable runnable) {
 		return getTaskExecutor().schedule(delayMs, runnable);
 	}
 

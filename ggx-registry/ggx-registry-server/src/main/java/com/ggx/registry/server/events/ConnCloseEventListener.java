@@ -2,7 +2,7 @@ package com.ggx.registry.server.events;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -26,7 +26,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 	@Override
 	public void onEvent(EventData<Void> eventData) {
 		//连接关闭.立即移除服务信息
-		GGSession session = eventData.getSession();
+		GGXSession session = eventData.getSession();
 		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
 		if (serviceInfo == null) {
 			return;

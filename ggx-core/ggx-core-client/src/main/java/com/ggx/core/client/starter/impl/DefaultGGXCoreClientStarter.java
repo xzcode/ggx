@@ -5,14 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.config.GGXCoreClientConfig;
-import com.ggx.core.client.starter.GGClientStarter;
+import com.ggx.core.client.starter.GGXCoreClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -22,15 +22,15 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.Future;
 
-public class DefaultClientStarter implements GGClientStarter {
+public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DefaultClientStarter.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefaultGGXCoreClientStarter.class);
 	
 	private GGXCoreClientConfig config;
 	
 	
 	
-    public DefaultClientStarter(GGXCoreClientConfig config) {
+    public DefaultGGXCoreClientStarter(GGXCoreClientConfig config) {
     	this.config = config;
     	init();
     }
@@ -70,7 +70,7 @@ public class DefaultClientStarter implements GGClientStarter {
 	}
     
     
-    public GGFuture connect(String host, int port) {
+    public GGXFuture connect(String host, int port) {
         try {
         	Bootstrap boot = config.getBootstrap();
             // 连接服务器
@@ -84,11 +84,11 @@ public class DefaultClientStarter implements GGClientStarter {
     
 
 	@Override
-	public GGFuture disconnect(GGSession session) {
+	public GGXFuture disconnect(GGXSession session) {
 		return session.disconnect();
 	}
 	
-	public GGFuture shutdown() {
+	public GGXFuture shutdown() {
 		GGNettyFuture ggFuture = new GGNettyFuture();
 		try {
 			Future<?> future = config.getWorkerGroup().shutdownGracefully();

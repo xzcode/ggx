@@ -65,7 +65,7 @@
 
 			<dependency>
 				<groupId>com.ggx</groupId>
-				<artifactId>ggx-game</artifactId>
+				<artifactId>ggx-server-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

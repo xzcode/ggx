@@ -6,7 +6,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
@@ -29,7 +29,7 @@ public class GGPongResponseHandler implements MessageHandler<Pong>{
 
 	@Override
 	public void handle(MessageData<Pong> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		GGPingPongInfo ggPingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
 		if (ggPingPongInfo == null) {
 			ggPingPongInfo = new GGPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());

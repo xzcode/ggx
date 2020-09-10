@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
@@ -29,7 +29,7 @@ public class SessionGroupRegisterRespHandler implements MessageHandler<SessionGr
 
 	@Override
 	public void handle(MessageData<SessionGroupRegisterResp> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		SessionGroupRegisterResp resp = request.getMessage();
 		//会话组注册成功
 		if (resp.isSuccess()) {

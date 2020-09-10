@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.service.listener.RegisterServiceListener;
 import com.ggx.registry.common.service.listener.UnregisterServiceListener;
 import com.ggx.registry.common.service.listener.UpdateServiceListener;
@@ -280,7 +280,7 @@ public class ServiceManager {
 	public void sendToAllServices(Message message) {
 		List<ServiceInfo> serviceList = getServiceList();
 		for (ServiceInfo info : serviceList) {
-			GGSession infoSession = info.getSession();
+			GGXSession infoSession = info.getSession();
 			if (infoSession != null) {
 				infoSession.send(message);
 			}

@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -188,7 +188,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		String actionId = pack.getActionString();
 		
 		//尝试从缓存中获取服务

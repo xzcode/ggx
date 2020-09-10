@@ -4,7 +4,7 @@ import java.net.InetSocketAddress;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.DefaultChannelSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 
@@ -22,7 +22,7 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	
 	protected GGXCoreConfig config; 
 	
-	protected AttributeKey<GGSession> sessAttributeKey = AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION);
+	protected AttributeKey<GGXSession> sessAttributeKey = AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION);
 	
 	public DefaultChannelSessionFactory(GGXCoreConfig config) {
 		super();
@@ -30,8 +30,8 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	}
 
 	@Override
-	public GGSession getSession(Channel channel) {
-		GGSession session = channel.attr(sessAttributeKey).get();
+	public GGXSession getSession(Channel channel) {
+		GGXSession session = channel.attr(sessAttributeKey).get();
 		return session;
 	}
 	
@@ -52,7 +52,7 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 
 	@Override
 	public void channelInActive(Channel channel) {
-		GGSession session = getSession(channel);
+		GGXSession session = getSession(channel);
 		if (session != null) {
 			session.disconnect();
 		}

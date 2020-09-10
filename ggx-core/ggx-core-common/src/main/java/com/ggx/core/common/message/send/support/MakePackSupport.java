@@ -6,7 +6,7 @@ import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
@@ -47,7 +47,7 @@ public interface MakePackSupport{
 	 */
 	default Pack makePack(MessageData<?> messageData) {
 		try {
-			GGSession session = messageData.getSession();
+			GGXSession session = messageData.getSession();
 			String serType = null;
 			if (session != null) {
 				serType = session.getAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, String.class);

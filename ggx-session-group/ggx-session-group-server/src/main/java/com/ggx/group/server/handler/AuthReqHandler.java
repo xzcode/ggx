@@ -2,7 +2,7 @@ package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.group.common.message.resp.AuthResp;
 import com.ggx.group.server.config.SessionGroupServerConfig;
@@ -23,7 +23,7 @@ public class AuthReqHandler implements MessageHandler<AuthReq> {
 
 	@Override
 	public void handle(MessageData<AuthReq> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		AuthReq req = request.getMessage();
 		if (this.config.getAuthToken().equals(req.getAuthToken())) {
 			session.send(new AuthResp(true));

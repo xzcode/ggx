@@ -10,7 +10,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -32,7 +32,7 @@ public class EventbusServer implements GGXCore{
 		this.config = config;
 	}
 
-	public GGFuture start() {
+	public GGXFuture start() {
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
 		sessionServerConfig.setEnableServiceServer(true);
@@ -62,7 +62,7 @@ public class EventbusServer implements GGXCore{
 		this.serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
 		
 		
-		GGFuture startFuture = sessionGroupServer.start();
+		GGXFuture startFuture = sessionGroupServer.start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
 				//获取注册中心客户端

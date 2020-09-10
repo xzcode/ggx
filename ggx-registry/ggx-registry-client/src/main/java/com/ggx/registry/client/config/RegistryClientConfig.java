@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.client.GGXCoreClient;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.registry.RegistryInfo;
@@ -32,7 +32,7 @@ public class RegistryClientConfig {
 	protected GGXCoreClient coreClient;
 	
 	//GGSession对象
-	protected GGSession session;
+	protected GGXSession session;
 	
 	//是否打印注册中心信息
 	protected boolean 	showRegistryLog = false;
@@ -219,10 +219,10 @@ public class RegistryClientConfig {
 		this.serviceGroupId = serviceGroupId;
 	}
 	
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 	

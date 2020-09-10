@@ -1,6 +1,6 @@
 package com.ggx.core.common.session.manager;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 会话管理器接口
@@ -18,7 +18,7 @@ public interface SessionManager{
 	 * @author zai
 	 * 2019-11-16 11:07:21
 	 */
-	GGSession addSessionIfAbsent(GGSession session);
+	GGXSession addSessionIfAbsent(GGXSession session);
 
 	/**
 	 * 获取会话
@@ -28,7 +28,7 @@ public interface SessionManager{
 	 * @author zai
 	 * 2019-11-16 11:07:31
 	 */
-	GGSession getSession(String sessionId);
+	GGXSession getSession(String sessionId);
 
 	
 	/**
@@ -39,7 +39,7 @@ public interface SessionManager{
 	 * @author zai
 	 * 2019-11-16 11:07:47
 	 */
-	GGSession remove(String sessionId);
+	GGXSession remove(String sessionId);
 	
 	/**
 	 * 清除所有session
@@ -58,7 +58,7 @@ public interface SessionManager{
 	 * @author zai
 	 * 2019-11-16 11:19:20
 	 */
-	void eachSession(EachData<GGSession> eachData);
+	void eachSession(EachData<GGXSession> eachData);
 	
 	
 	
@@ -69,6 +69,6 @@ public interface SessionManager{
 	 * @author zai
 	 * 2020-04-13 15:42:46
 	 */
-	GGSession randomGetSession();
+	GGXSession randomGetSession();
 
 }

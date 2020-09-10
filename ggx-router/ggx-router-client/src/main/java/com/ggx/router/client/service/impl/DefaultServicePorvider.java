@@ -3,7 +3,7 @@ package com.ggx.router.client.service.impl;
 import java.util.Map.Entry;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
@@ -48,7 +48,7 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		for (Entry<String, RouterServiceGroup> entry : this.config.getRouterServiceManager().getServiceGroups().entrySet()) {
 			RouterServiceMatcher routerServiceMatcher = this.config.getRouterServiceMatcher();
 			RouterServiceGroup group = entry.getValue();

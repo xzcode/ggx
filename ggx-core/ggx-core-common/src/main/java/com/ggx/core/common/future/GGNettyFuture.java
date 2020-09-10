@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 import io.netty.channel.Channel;
@@ -23,11 +23,11 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2019-11-24 17:54:50
  */
-public class GGNettyFuture implements GGFuture {
+public class GGNettyFuture implements GGXFuture {
 	
 	private io.netty.util.concurrent.Future<?> nettyFuture;
 	
-	private Set<GGXFutureListener<GGFuture>> listeners;
+	private Set<GGXFutureListener<GGXFuture>> listeners;
 	
 	public GGNettyFuture() {
 		listeners = new LinkedHashSet<>(2);
@@ -45,7 +45,7 @@ public class GGNettyFuture implements GGFuture {
 			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;			
 		}
 		if (listeners != null && listeners.size() > 0) {
-			for (GGXFutureListener<GGFuture> listener : listeners) {
+			for (GGXFutureListener<GGXFuture> listener : listeners) {
 				nettyFuture.addListener((f) -> {
 					listener.operationComplete(this);
 				});
@@ -54,7 +54,7 @@ public class GGNettyFuture implements GGFuture {
 	}
 
 	@Override
-	public void addListener(GGXFutureListener<GGFuture> listener) {
+	public void addListener(GGXFutureListener<GGXFuture> listener) {
 		try {
 				synchronized (this) {
 					if (nettyFuture == null) {
@@ -122,11 +122,11 @@ public class GGNettyFuture implements GGFuture {
 	}
 
 	@Override
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		if (this.nettyFuture instanceof ChannelFuture) {
 			Channel channel = ((ChannelFuture)this.nettyFuture).channel();
 			if (channel != null) {
-				return (GGSession) channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
+				return (GGXSession) channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
 			}
 		}
 		return null;

@@ -1,6 +1,6 @@
 package com.ggx.core.common.message;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 
@@ -14,7 +14,7 @@ import io.netty.channel.Channel;
 public class MessageData<T> {
 	
 	//会话对象
-	private GGSession session;
+	private GGXSession session;
 
 	//发送消息标识
 	private String action;
@@ -30,7 +30,7 @@ public class MessageData<T> {
 	
 	
 	
-	public MessageData(GGSession session, String action, T message) {
+	public MessageData(GGXSession session, String action, T message) {
 		this.session = session;
 		this.action = action;
 		this.message = message;
@@ -49,11 +49,11 @@ public class MessageData<T> {
 		return message;
 	}
 
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 	
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 	

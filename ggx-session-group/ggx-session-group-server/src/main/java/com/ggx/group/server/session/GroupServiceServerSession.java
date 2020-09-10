@@ -5,9 +5,9 @@ import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGDefaultFuture;
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.resp.DataTransferResp;
@@ -27,7 +27,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 	//会话组管理器
 	protected GGSessionGroupManager sessionGroupManager;
 	
-	protected GGSession groupSession;
+	protected GGXSession groupSession;
 
 	public GroupServiceServerSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
 		super(sessionId, config);
@@ -49,7 +49,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 
 
 	@Override
-	public GGFuture send(Pack pack) {
+	public GGXFuture send(Pack pack) {
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
@@ -65,7 +65,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 	}
 
 	@Override
-	public GGFuture disconnect() {
+	public GGXFuture disconnect() {
 		
 		triggerDisconnectListeners();
 		

@@ -5,7 +5,7 @@ import java.util.List;
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.eventbus.server.subscription.SubscriptionManager;
 
@@ -33,7 +33,7 @@ public class EventSubscribeReqHandler implements MessageHandler<EventSubscribeRe
 	public void handle(MessageData<EventSubscribeReq> messageData) {
 		EventSubscribeReq req = messageData.getMessage();
 		List<String> eventIds = req.getEventIds();
-		GGSession session = messageData.getSession();
+		GGXSession session = messageData.getSession();
 		//添加监听
 		this.subscriptionManager.addSubscription(eventIds, session);
 	}

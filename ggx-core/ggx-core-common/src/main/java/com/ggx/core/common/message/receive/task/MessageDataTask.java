@@ -7,7 +7,7 @@ import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 import io.netty.channel.Channel;
@@ -48,7 +48,7 @@ public class MessageDataTask implements Runnable{
 		FilterManager messageFilterManager = this.config.getFilterManager();
 		String action = null;
 		Object message = null;
-		GGSession session = pack.getSession();
+		GGXSession session = pack.getSession();
 		try {
 			//反序列化前过滤器
 			if (!messageFilterManager.doBeforeDeserializeFilters(pack)) {

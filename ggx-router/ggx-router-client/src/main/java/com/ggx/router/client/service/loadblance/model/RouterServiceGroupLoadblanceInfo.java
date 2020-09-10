@@ -3,7 +3,7 @@ package com.ggx.router.client.service.loadblance.model;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 路由服务组负载均衡信息
@@ -15,7 +15,7 @@ public class RouterServiceGroupLoadblanceInfo {
 	
 	
 	//会话与服务绑定集合
-	protected final Map<GGSession, SessionBindRouterServiceInfo> sessionBindServiceInfos = new ConcurrentHashMap<>(1000);
+	protected final Map<GGXSession, SessionBindRouterServiceInfo> sessionBindServiceInfos = new ConcurrentHashMap<>(1000);
 
 	/**
 	 * 添加绑定信息
@@ -25,7 +25,7 @@ public class RouterServiceGroupLoadblanceInfo {
 	 * @author zai
 	 * 2020-05-06 17:07:33
 	 */
-	public SessionBindRouterServiceInfo getSessionBindRouterServiceInfo(GGSession session) {
+	public SessionBindRouterServiceInfo getSessionBindRouterServiceInfo(GGXSession session) {
 		return sessionBindServiceInfos.get(session);
 	}
 	
@@ -38,7 +38,7 @@ public class RouterServiceGroupLoadblanceInfo {
 	 * @author zai
 	 * 2020-05-06 17:07:43
 	 */
-	public SessionBindRouterServiceInfo putIfAbsentSessionBindRouterServiceInfo(GGSession key, SessionBindRouterServiceInfo value) {
+	public SessionBindRouterServiceInfo putIfAbsentSessionBindRouterServiceInfo(GGXSession key, SessionBindRouterServiceInfo value) {
 		return sessionBindServiceInfos.putIfAbsent(key, value);
 	}
 	
@@ -50,7 +50,7 @@ public class RouterServiceGroupLoadblanceInfo {
 	 * @author zai
 	 * 2020-05-06 17:08:14
 	 */
-	public SessionBindRouterServiceInfo removeSessionBindRouterServiceInfo(GGSession session) {
+	public SessionBindRouterServiceInfo removeSessionBindRouterServiceInfo(GGXSession session) {
 		return sessionBindServiceInfos.remove(session);
 	}
 	

@@ -3,7 +3,7 @@ package com.ggx.session.group.client.events;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
@@ -27,7 +27,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 	@Override
 	public void onEvent(EventData<Void> e) {
 		//打开连接，发送认证
-		GGSession groupSession = e.getSession();
+		GGXSession groupSession = e.getSession();
 		groupSession.send(new AuthReq(config.getAuthToken()));
 		
 		GGSessionGroupManager sessionGroupManager = this.config.getSessionGroupManager();
@@ -40,7 +40,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
 			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
-			GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
+			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 			if (addSessionIfAbsent != null) {
 				serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;
 			}

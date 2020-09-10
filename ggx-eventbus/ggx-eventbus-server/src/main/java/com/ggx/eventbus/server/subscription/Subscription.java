@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.group.common.group.GGSessionGroup;
 import com.ggx.group.common.group.impl.DefaultSessionGroup;
@@ -43,7 +43,7 @@ public class Subscription {
 		}
 	}
 
-	public void addSubscription(GGSession session) {
+	public void addSubscription(GGXSession session) {
 		GGSessionGroup sessionGroup = sessionGroups.get(session.getGroupId());
 		if (sessionGroup == null) {
 			sessionGroup = new DefaultSessionGroup(session.getGroupId(), config.getSessionGroupServer().getConfig().getSessionServer().getConfig());
@@ -60,7 +60,7 @@ public class Subscription {
 		
 	}
 	
-	public void removeSubscription(GGSession session) {
+	public void removeSubscription(GGXSession session) {
 		GGSessionGroup group = this.sessionGroups.get(session.getGroupId());
 		if (group != null) {
 			group.removeSession(session);

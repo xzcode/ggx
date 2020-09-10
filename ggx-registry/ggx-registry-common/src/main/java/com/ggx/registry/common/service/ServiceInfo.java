@@ -3,7 +3,7 @@ package com.ggx.registry.common.service;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 服务信息
@@ -14,7 +14,7 @@ import com.ggx.core.common.session.GGSession;
 public class ServiceInfo {
 
 	// 会话
-	protected transient GGSession session;
+	protected transient GGXSession session;
 
 	// 服务id
 	protected String serviceId;
@@ -93,11 +93,11 @@ public class ServiceInfo {
 		this.customData = extraData;
 	}
 
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 

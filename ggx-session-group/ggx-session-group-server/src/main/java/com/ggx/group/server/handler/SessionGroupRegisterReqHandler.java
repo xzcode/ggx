@@ -2,7 +2,7 @@ package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
@@ -25,7 +25,7 @@ public class SessionGroupRegisterReqHandler implements MessageHandler<SessionGro
 
 	@Override
 	public void handle(MessageData<SessionGroupRegisterReq> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		SessionGroupRegisterReq req = request.getMessage();
 		String groupId = req.getGroupId();
 		GGSessionGroupManager sessionGroupManager = config.getSessionGroupManager();

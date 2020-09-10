@@ -11,7 +11,7 @@ import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.send.support.MakePackSupport;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 /**
  * 内置ping处理器
@@ -29,7 +29,7 @@ public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupp
 
 	@Override
 	public void handle(MessageData<Ping> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		request.getSession().send(Pong.DEFAULT_INSTANT.getActionId(), null);
 		
 		GGPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);

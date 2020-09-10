@@ -1,6 +1,6 @@
 package com.ggx.core.server.impl;
 
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.starter.GGXCoreServerStarter;
@@ -27,7 +27,7 @@ public class GGXDefaultCoreServer implements GGXCoreServer {
 	}
 
 	@Override
-	public GGFuture start() {
+	public GGXFuture start() {
 		this.shutdown();
 		this.serverStarter = new DefaultGGXCoreServerStarter(config);
 		return this.serverStarter.start();

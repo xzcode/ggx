@@ -11,7 +11,7 @@ import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -76,7 +76,7 @@ public class EventbusClient{
 			
 			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
 			
-			GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
+			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
 				serviceClientSession = (GroupServiceClientSession) addSessionIfAbsent;
 			}
@@ -129,7 +129,7 @@ public class EventbusClient{
 			}
 			
 			SessionManager sessionManager = this.serviceClient.getSessionManager();
-			GGSession session = sessionManager.randomGetSession();
+			GGXSession session = sessionManager.randomGetSession();
 			if (session != null) {
 				session.send(publishReq);
 			}

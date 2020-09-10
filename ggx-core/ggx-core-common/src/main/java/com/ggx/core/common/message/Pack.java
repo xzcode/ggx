@@ -2,7 +2,7 @@ package com.ggx.core.common.message;
 
 import java.nio.charset.Charset;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.Channel;
 
@@ -15,7 +15,7 @@ import io.netty.channel.Channel;
 public class Pack {
 	
 	/* 会话 */
-	private GGSession session;
+	private GGXSession session;
 	
 	/* 消息标识 */
 	private byte[] action;
@@ -55,7 +55,7 @@ public class Pack {
 	}
 	
 
-	public Pack(GGSession session, byte[] action, byte[] message) {
+	public Pack(GGXSession session, byte[] action, byte[] message) {
 		super();
 		this.session = session;
 		this.action = action;
@@ -107,12 +107,12 @@ public class Pack {
 		this.message = message;
 	}
 	
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 
 
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 	

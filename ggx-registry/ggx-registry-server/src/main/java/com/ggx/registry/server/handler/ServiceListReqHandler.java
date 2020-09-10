@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -27,7 +27,7 @@ public class ServiceListReqHandler implements MessageHandler<RegistryServiceList
 
 	@Override
 	public void handle(MessageData<RegistryServiceListReq> request) {
-		GGSession session = request.getSession();
+		GGXSession session = request.getSession();
 		List<ServiceInfo> serviceList = config.getServiceManager().getServiceList();
 		RegistryServiceListResp resp = new RegistryServiceListResp(serviceList);
 		session.send(resp);

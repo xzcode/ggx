@@ -2,9 +2,9 @@ package com.ggx.core.common.session;
 
 import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.support.ExecutorSupport;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.send.support.SessionSendMessageSupport;
-import com.ggx.core.common.session.listener.ISessionDisconnectListener;
+import com.ggx.core.common.session.listener.SessionDisconnectListener;
 
 import io.netty.channel.Channel;
 
@@ -14,7 +14,7 @@ import io.netty.channel.Channel;
  * 
  * @author zai 2019-11-16 23:35:39
  */
-public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, EventSupport {
+public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, EventSupport {
 
 	/**
 	 * 添加属性
@@ -65,7 +65,7 @@ public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, E
 	 * @author zai
 	 * 2020-04-08 11:30:08
 	 */
-	GGFuture disconnect();
+	GGXFuture disconnect();
 	
 	/**
 	 * 获取会话域名
@@ -154,7 +154,7 @@ public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, E
 	 * @author zai
 	 * 2020-04-09 10:21:24
 	 */
-	void addDisconnectListener(ISessionDisconnectListener listener);
+	void addDisconnectListener(SessionDisconnectListener listener);
 	
 	/**
 	 * 是否超时

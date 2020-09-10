@@ -1,6 +1,6 @@
 package com.ggx.router.client.service;
 
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 
 /**
@@ -40,7 +40,7 @@ public interface RouterServiceProvider {
 	 * @author zai
 	 * 2019-11-07 16:41:42
 	 */
-	GGFuture dispatch(Pack pack);
+	GGXFuture dispatch(Pack pack);
 
 	/**
 	 * 添加路由服务

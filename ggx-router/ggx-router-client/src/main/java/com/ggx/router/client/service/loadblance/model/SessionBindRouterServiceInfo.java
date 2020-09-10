@@ -1,6 +1,6 @@
 package com.ggx.router.client.service.loadblance.model;
 
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.router.client.service.RouterService;
 
 /**
@@ -14,7 +14,7 @@ public class SessionBindRouterServiceInfo {
 	/**
 	 * 会话对象
 	 */
-	protected GGSession session;
+	protected GGXSession session;
 	
 	/**
 	 * 路由服务
@@ -28,16 +28,16 @@ public class SessionBindRouterServiceInfo {
 		
 	}
 
-	public SessionBindRouterServiceInfo(GGSession session, RouterService routerService) {
+	public SessionBindRouterServiceInfo(GGXSession session, RouterService routerService) {
 		this.session = session;
 		this.routerService = routerService;
 	}
 
-	public GGSession getSession() {
+	public GGXSession getSession() {
 		return session;
 	}
 
-	public void setSession(GGSession session) {
+	public void setSession(GGXSession session) {
 		this.session = session;
 	}
 

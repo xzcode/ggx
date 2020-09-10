@@ -14,7 +14,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.send.support.MakePackSupport;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
@@ -116,7 +116,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			avaliableConnections.incrementAndGet();
 			
 			//打开连接，发送认证
-			GGSession groupSession = eventData.getSession();
+			GGXSession groupSession = eventData.getSession();
 			groupSession.send(new AuthReq(config.getAuthToken()));
 			
 			this.config.getSessionGroupManager().addSession(this.config.getSessionGroupId(), groupSession);
@@ -128,7 +128,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
 				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
-				GGSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
+				GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 				if (addSessionIfAbsent != null) {
 					serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;
 				}

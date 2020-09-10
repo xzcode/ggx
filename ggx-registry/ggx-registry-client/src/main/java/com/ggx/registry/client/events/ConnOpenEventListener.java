@@ -3,7 +3,7 @@ package com.ggx.registry.client.events;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -22,7 +22,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		
 		//打开连接，发送注册请求
 		//发送注册请求
-		GGSession session = e.getSession();
+		GGXSession session = e.getSession();
 		config.setSession(session);
 		
 		RegistryServiceRegisterReq req = new RegistryServiceRegisterReq();

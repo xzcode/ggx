@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.future.GGFailedFuture;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
@@ -30,11 +30,11 @@ public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadbla
 	}
 
 	@Override
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		RouterService routerService = null;
 		
 		
-		GGSession session = pack.getSession();
+		GGXSession session = pack.getSession();
 		String sessonId = session.getSessonId();
 		
 		routerService = sessionBindServiceCache.get(sessonId);

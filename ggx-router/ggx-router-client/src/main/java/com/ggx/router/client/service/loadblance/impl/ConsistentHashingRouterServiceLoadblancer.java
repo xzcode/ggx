@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.future.GGFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
@@ -56,9 +56,9 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	}
 
 	@Override
-	public GGFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack) {
 		
-		GGSession session = pack.getSession();
+		GGXSession session = pack.getSession();
 		String sessonId = session.getSessonId();
 		
 		RouterService routerService = this.sessionBindServiceCache.get(sessonId);

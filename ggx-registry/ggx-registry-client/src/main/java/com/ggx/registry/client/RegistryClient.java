@@ -9,7 +9,7 @@ import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.events.ConnCloseEventListener;
@@ -71,7 +71,7 @@ public class RegistryClient {
 		
 		
 		ggClient.scheduleWithFixedDelay(30L * 1000L, 30L * 1000L, TimeUnit.MILLISECONDS, () -> {
-			GGSession session = config.getSession();
+			GGXSession session = config.getSession();
 			if (config.isRequireServices() && session != null && !session.isExpired()) {
 				config.getSession().send(RegistryServiceListReq.ALL_SERVICE_INSTANT);				
 			}
@@ -117,7 +117,7 @@ public class RegistryClient {
 	 * 2020-02-04 17:11:08
 	 */
 	private void updateService() {
-		GGSession session = config.getSession();
+		GGXSession session = config.getSession();
 		if (session == null) {
 			return;
 		}
