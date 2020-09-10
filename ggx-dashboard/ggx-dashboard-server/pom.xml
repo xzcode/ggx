@@ -26,12 +26,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ggx</groupId>
-			<artifactId>ggx-eventbus-group-client</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ggx</groupId>
-			<artifactId>ggx-core-spring-support</artifactId>
+			<artifactId>ggx-server-spring-boot-starter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

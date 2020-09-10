@@ -12,14 +12,11 @@ import com.ggx.admin.collector.server.service.ServiceDataService;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGSession;
-import com.ggx.core.spring.support.annotation.GGXMessageHandler;
 import com.ggx.dashboard.common.collector.data.model.service.ServiceData;
 import com.ggx.dashboard.server.handler.services.model.req.SyncServicesReq;
 import com.ggx.dashboard.server.handler.services.model.resp.ServiceDataModel;
 import com.ggx.dashboard.server.handler.services.model.resp.SyncServicesResp;
-import com.ggx.registry.client.RegistryClient;
-import com.ggx.registry.common.service.ServiceInfo;
-import com.ggx.registry.common.service.ServiceManager;
+import com.ggx.server.spring.boot.starter.annotation.GGXMessageHandler;
 
 /**
  * 登录控制器

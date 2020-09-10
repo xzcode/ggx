@@ -2,9 +2,9 @@ package com.ggx.dashboard.server.handler.login;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.spring.support.annotation.GGXMessageHandler;
 import com.ggx.dashboard.server.handler.login.model.req.LoginReq;
 import com.ggx.dashboard.server.handler.login.model.resp.LoginResp;
+import com.ggx.server.spring.boot.starter.annotation.GGXMessageHandler;
 
 /**
  * 登录控制器
