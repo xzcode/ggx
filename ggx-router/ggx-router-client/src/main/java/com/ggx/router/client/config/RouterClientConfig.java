@@ -1,5 +1,6 @@
 package com.ggx.router.client.config;
 
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.GGXIdUtil;
@@ -118,10 +119,11 @@ public class RouterClientConfig {
 	public void init() {
 
 		if (this.sharedEventLoopGroup == null) {
-			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("gg-router-", false));
+			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("ggx-router-", false));
 		}
 		
 		this.hostServer.addFilter(new RouterClientHostServerReceiveMessageFilter(this));
+		
 
 		if (routerGroupId == null) {
 			routerGroupId = GGXIdUtil.newRandomStringId24();
