@@ -2,6 +2,7 @@ package com.ggx.core.common.message.receive.action;
 
 
 import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.model.Message;
 
 /**
  * 消息绑定接口
@@ -10,7 +11,7 @@ import com.ggx.core.common.message.MessageData;
  * @author zai
  * 2019-01-01 22:09:24
  */
-public interface MessageHandler<T> {
+public interface MessageHandler<T extends Message> {
 
 	/**
 	 * 处理消息

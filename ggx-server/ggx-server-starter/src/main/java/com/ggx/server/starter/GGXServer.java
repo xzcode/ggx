@@ -10,6 +10,7 @@ import com.ggx.server.starter.eventbus.GGXEventbusServerStarter;
 import com.ggx.server.starter.gateway.GGXGatewayStarter;
 import com.ggx.server.starter.loadbalancer.GGXLoadbalancerServerStarter;
 import com.ggx.server.starter.registry.GGXRegistryServerStarter;
+import com.ggx.server.starter.service.GGXServiceStarter;
 
 public class GGXServer implements GGXServerStarter{
 	
@@ -34,7 +35,7 @@ public class GGXServer implements GGXServerStarter{
 		case GGXServerMode.CORE_SERVER:
 			GGXCoreServerStarter ggxCoreServerStarter = new GGXCoreServerStarter();
 			ggxCoreServerStarter.setCoreServerConfig(config.getCore());
-			if (config.getEventbus().getClient() != null) {
+			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
 				ggxCoreServerStarter.setEventbusGroupClientConfig(ggxCoreServerStarter.getEventbusGroupClientConfig());
 			}
 			ggxCoreServerStarter.setRegistryClientConfig(ggxCoreServerStarter.getRegistryClientConfig());
@@ -51,6 +52,16 @@ public class GGXServer implements GGXServerStarter{
 			ggxLoadbalancerServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			ggxLoadbalancerServerStarter.init();
 			this.serverStarter = ggxLoadbalancerServerStarter;
+			break;
+		case GGXServerMode.SERVICE:
+			GGXServiceStarter ggxServiceStarter = new GGXServiceStarter();
+			ggxServiceStarter.setRouterServerConfig(config.getRouter().getServer());
+			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
+				ggxServiceStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+			}
+			ggxServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			ggxServiceStarter.init();
+			this.serverStarter = ggxServiceStarter;
 			break;
 		case GGXServerMode.REGISTRY_SERVER:
 			GGXRegistryServerStarter ggxRegistryServerStarter = new GGXRegistryServerStarter();

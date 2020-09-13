@@ -1,6 +1,7 @@
 package com.ggx.core.common.message.receive.handler;
 
 import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 
 /**
@@ -10,7 +11,7 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
  * 2019-01-01 22:11:15
  * @param <T>
  */
-public class DefaultReceiveMessagerHandlerInfo implements ReceiveMessageHandlerInfo{
+public class DefaultReceiveMessagerHandlerInfo<T extends Message> implements ReceiveMessageHandlerInfo{
 	
 	
 	/**
@@ -27,13 +28,13 @@ public class DefaultReceiveMessagerHandlerInfo implements ReceiveMessageHandlerI
 	/**
 	 * 消息调用对象
 	 */
-	private MessageHandler<Object> messageAcion;
+	private MessageHandler<T> messageAcion;
 
 
 
 	@SuppressWarnings("unchecked")
 	public void handle(MessageData<?> request) throws Exception {
-		messageAcion.handle((MessageData<Object>) request);
+		messageAcion.handle((MessageData<T>) request);
 	}
 
 
@@ -64,7 +65,7 @@ public class DefaultReceiveMessagerHandlerInfo implements ReceiveMessageHandlerI
 
 	@SuppressWarnings("unchecked")
 	public void setHandler(MessageHandler<?> messageAcion) {
-		this.messageAcion =  (MessageHandler<Object>) messageAcion;
+		this.messageAcion = (MessageHandler<T>) messageAcion;
 	}
 
 

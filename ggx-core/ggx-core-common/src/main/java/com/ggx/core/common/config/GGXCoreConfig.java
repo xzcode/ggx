@@ -11,6 +11,7 @@ import com.ggx.core.common.event.impl.DefaultEventManager;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
@@ -26,6 +27,7 @@ import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
@@ -208,7 +210,7 @@ public class GGXCoreConfig {
 			}
 		}
 		
-		this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
+		/*this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
 			
 			@Override
 			public boolean doFilter(MessageData<?> data) {
@@ -220,6 +222,21 @@ public class GGXCoreConfig {
 					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
 				}
 				data.setAction(actionId);
+				return true;
+			}
+		}, 0));*/
+		this.filterManager.addFilter(new FilterInfo<>(new AfterSerializeFilter() {
+			
+			@Override
+			public boolean doFilter(Pack data) {
+				String actionId = data.getActionString(charset);
+				if (getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
+					actionId = getActionIdPrefix()  + actionId;
+				}
+				if (isGgxComponent()) {
+					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
+				}
+				data.setAction(actionId.getBytes(charset));
 				return true;
 			}
 		}, 0));

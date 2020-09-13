@@ -10,6 +10,8 @@ public interface GGXServerMode {
 	
 	String LOADBALANCER = "LOADBALANCER";
 	
+	String SERVICE = "SERVICE";
+	
 	String EVENTBUS_CLIENT = "EVENTBUS_CLIENT";
 	
 	String EVENTBUS_SERVER = "EVENTBUS_SERVER";

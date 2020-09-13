@@ -9,6 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 
 /**
@@ -115,6 +119,18 @@ public class DefaultSessionManager implements SessionManager {
 		@SuppressWarnings("unchecked")
 		Entry<String, GGXSession> entry = (Entry<String, GGXSession>) entrySet.toArray()[ThreadLocalRandom.current().nextInt(entrySet.size())];
 		return entry.getValue();
+	}
+
+
+	@Override
+	public void sendToAllSession(Message message) {
+		
+		eachSession(session -> {
+			Pack pa = session.makePack(new MessageData<>(session, message));
+			session.send(pa);
+			return true;
+		});
+		
 	}
 
 }

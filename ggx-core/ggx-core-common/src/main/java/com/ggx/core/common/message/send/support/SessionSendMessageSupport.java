@@ -82,7 +82,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-17 18:44:20
 	 */
-	default GGXFuture send(String action, Object message) {
+	default GGXFuture send(String action, Message message) {
 		return send(new MessageData<>(getSession(), action, message));
 	}
 	
@@ -109,7 +109,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:26:11
 	 */
-	default GGXFuture send(GGXSession session, String action, Object message) {
+	default GGXFuture send(GGXSession session, String action, Message message) {
 		return send(new MessageData<>(session,  action, message));
 	}
 	

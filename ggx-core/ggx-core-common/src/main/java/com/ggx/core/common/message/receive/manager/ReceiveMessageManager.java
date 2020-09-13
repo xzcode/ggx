@@ -70,9 +70,9 @@ public interface ReceiveMessageManager {
 	 * 2019-01-02 09:41:59
 	 * @param <T>
 	 */
-	default <T> void onMessage(String actionId, MessageHandler<T> messageAcion) {
+	default <T> void onMessage(String actionId, MessageHandler<?> messageAcion) {
 		
-		DefaultReceiveMessagerHandlerInfo handler = new DefaultReceiveMessagerHandlerInfo();
+		DefaultReceiveMessagerHandlerInfo<?> handler = new DefaultReceiveMessagerHandlerInfo<>();
 		handler.setHandler(messageAcion);
 		handler.setActionId(actionId);
 		Class<?> msgClass = GenericClassUtil.getInterfaceGenericClass(messageAcion.getClass());
@@ -83,7 +83,7 @@ public interface ReceiveMessageManager {
 	}
 	
 	
-	default <T> void onMessage(MessageHandler<T> messageAcion) {
+	default <T> void onMessage(MessageHandler<?> messageAcion) {
 		this.onMessage(MessageActionIdUtil.generateClassNameDotSplitActionId(GenericClassUtil.getInterfaceGenericClass(messageAcion.getClass())), messageAcion);
 	}
 

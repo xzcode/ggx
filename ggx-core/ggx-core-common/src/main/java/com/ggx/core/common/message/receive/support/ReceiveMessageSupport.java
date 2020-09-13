@@ -27,17 +27,17 @@ public interface ReceiveMessageSupport {
 	 * 动态监听消息
 	 * 
 	 * @param string
-	 * @param messageAcion
+	 * @param messageHandler
 	 * @author zai
 	 * 2019-01-02 09:41:59
 	 * @param <T>
 	 */
-	default <T> void onMessage(String actionId, MessageHandler<T> messageAcion) {
-		getReceiveMessageManager().onMessage(actionId, messageAcion);
+	default <T> void onMessage(String actionId, MessageHandler<?> messageHandler) {
+		getReceiveMessageManager().onMessage(actionId, messageHandler);
 	}
 	
-	default <T> void onMessage(MessageHandler<T> messageAcion) {
-		getReceiveMessageManager().onMessage(messageAcion);
+	default <T> void onMessage(MessageHandler<?> messageHandler) {
+		getReceiveMessageManager().onMessage(messageHandler);
 	}
 
 }
