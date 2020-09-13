@@ -25,7 +25,7 @@ public abstract class AbstractMessage implements Message{
 			return actionId;
 		}
 		actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(this.getClass());
-		ACTION_ID_CACHE.put(this.getClass(), actionId);
+		ACTION_ID_CACHE.put(this.getClass(), getActionIdPrefix() + actionId);
 		return actionId;
 	}
 

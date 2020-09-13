@@ -1,7 +1,7 @@
 package com.ggx.core.common.utils;
 
 public class MessageActionIdUtil {
-
+	
 	public static String generateClassNameDotSplitActionId(Class<?> clazz) {
 		String simpleName = clazz.getSimpleName();
 		int len = simpleName.length();

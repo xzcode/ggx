@@ -1,19 +1,22 @@
-package com.ggx.server.starter.core;
+package com.ggx.server.starter.service;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.server.config.GGXCoreServerConfig;
-import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
+import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
+import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.server.RouterServer;
+import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
-public class GGXCoreServerStarter extends GGXBasicServerStarter{
-	
-	
+public class GGXServiceStarter extends GGXBasicServerStarter {
+
+
 	public void init() {
+		
 		if (this.registryClientConfig == null) {
 			this.registryClientConfig = new RegistryClientConfig();
 		}
@@ -22,42 +25,53 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 		if (this.eventbusGroupClientConfig == null) {
 			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
 		}
-		this.eventbusGroupClientConfig.setRegistryClient(this.registryClient);
-		
+		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
 		this.eventbusGroupClient.start();
-		
-		if (this.coreServerConfig == null) {
-			this.coreServerConfig = new GGXCoreServerConfig();
+
+		if (this.routerServerConfig == null) {
+			this.routerServerConfig = new RouterServerConfig();
 		}
-		
-		this.coreServer = new GGXDefaultCoreServer(this.coreServerConfig);
-		
-		
-		
+		this.routerServer = new RouterServer(routerServerConfig);
+
 	}
 
 	@Override
 	public void start() {
-		
-		
-		
+
 		this.routerServer.start().addListener(f -> {
 			if (f.isSuccess()) {
 				this.registryClient.start();
-			}else {
+			} else {
 				this.shutdown();
 			}
 		});
-		
 	}
 	
+	@Override
+	public void subscribe(String eventId, Subscriber subscriber) {
+		this.eventbusGroupClient.subscribe(eventId, subscriber);
+	}
+
+	@Override
+	public GGXCore getGGXCore() {
+		return this.routerServer;
+	}
+
 	public RegistryClientConfig getRegistryClientConfig() {
 		return registryClientConfig;
 	}
 
 	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
 		this.registryClientConfig = registryClientConfig;
+	}
+
+	public EventbusServerConfig getEventbusServerConfig() {
+		return eventbusServerConfig;
+	}
+
+	public void setEventbusServerConfig(EventbusServerConfig eventbusServerConfig) {
+		this.eventbusServerConfig = eventbusServerConfig;
 	}
 
 	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
@@ -68,24 +82,20 @@ public class GGXCoreServerStarter extends GGXBasicServerStarter{
 		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
 	}
 
-	public GGXCoreServerConfig getCoreServerConfig() {
-		return coreServerConfig;
+	public RouterServerConfig getRouterServerConfig() {
+		return routerServerConfig;
 	}
 
-	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
-		this.coreServerConfig = coreServerConfig;
+	public void setRouterServerConfig(RouterServerConfig routerServerConfig) {
+		this.routerServerConfig = routerServerConfig;
 	}
 
-	@Override
-	public GGXCore getGGXCore() {
-		return this.routerServer;
+	public RouterClientConfig getRouterClientConfig() {
+		return routerClientConfig;
 	}
 
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.eventbusGroupClient.subscribe(eventId, subscriber);
+	public void setRouterClientConfig(RouterClientConfig routerClientConfig) {
+		this.routerClientConfig = routerClientConfig;
 	}
-
-
 
 }

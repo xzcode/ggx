@@ -1,5 +1,6 @@
 package com.ggx.core.common.session.manager;
 
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 
 /**
@@ -70,5 +71,13 @@ public interface SessionManager{
 	 * 2020-04-13 15:42:46
 	 */
 	GGXSession randomGetSession();
+	
+	/**
+	 * 发送给所有会话
+	 * @param message
+	 * @author zai
+	 * 2020-9-13 12:11:12
+	 */
+	void sendToAllSession(Message message);
 
 }

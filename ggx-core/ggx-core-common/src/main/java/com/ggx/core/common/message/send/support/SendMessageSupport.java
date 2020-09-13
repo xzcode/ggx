@@ -88,7 +88,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:24:23
 	 */
-	default GGXFuture send(GGXSession session, String action, Object message) {
+	default GGXFuture send(GGXSession session, String action, Message message) {
 		return send(new MessageData<>(session, action, message));
 	}
 	

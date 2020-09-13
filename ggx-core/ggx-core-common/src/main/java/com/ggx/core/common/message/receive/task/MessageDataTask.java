@@ -6,6 +6,7 @@ import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -47,7 +48,7 @@ public class MessageDataTask implements Runnable{
 		Serializer serializer = config.getSerializer();
 		FilterManager messageFilterManager = this.config.getFilterManager();
 		String action = null;
-		Object message = null;
+		Message message = null;
 		GGXSession session = pack.getSession();
 		try {
 			//反序列化前过滤器
@@ -63,10 +64,10 @@ public class MessageDataTask implements Runnable{
 					if (pack.getSerializeType() != null) {
 						Serializer getSerializer = SerializerFactory.getSerializer(pack.getSerializeType());
 						if (getSerializer != null) {
-							message = getSerializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+							message = (Message) getSerializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
 						}
 					}else {
-						message = serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+						message = (Message) serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
 					}
 				}
 			}
