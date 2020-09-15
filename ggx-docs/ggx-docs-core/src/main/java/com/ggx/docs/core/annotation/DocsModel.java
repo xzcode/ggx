@@ -15,6 +15,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DocsModel {
 	
+	/**
+	 * 默认数值，说明
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-09-15 16:10:49
+	 */
+	public String value() default "";
 	
 	/**
 	 * action id
@@ -32,5 +40,5 @@ public @interface DocsModel {
 	 * @author zai
 	 * 2018-12-30 11:17:01
 	 */
-	public String desc();
+	public String desc() default "";
 }

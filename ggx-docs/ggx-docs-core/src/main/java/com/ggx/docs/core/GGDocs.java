@@ -104,6 +104,10 @@ public class GGDocs {
 			String namespaceName = "default";
 			String namespaceDesc = "默认命名空间";
 			
+			if (desc.isEmpty()) {
+				desc = docsModel.value();
+			}
+			
 			
 			DocsNamespace docsNamespace = loadClass.getAnnotation(DocsNamespace.class);
 			
