@@ -2,16 +2,14 @@ package com.ggx.router.server;
 
 import java.nio.charset.Charset;
 
+import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventManager;
-import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.filter.FilterSupport;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGFuture;
@@ -21,8 +19,6 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.message.receive.support.ReceiveMessageSupport;
-import com.ggx.core.common.message.send.support.SendMessageSupport;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.server.SessionGroupServer;
@@ -45,7 +41,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
  * 
  * @author zai 2019-12-05 10:34:03
  */
-public class RouterServer implements SendMessageSupport, ReceiveMessageSupport, FilterSupport, ExecutorSupport, EventSupport {
+public class RouterServer implements GGXCore {
 
 	private RouterServerConfig config;
 	
