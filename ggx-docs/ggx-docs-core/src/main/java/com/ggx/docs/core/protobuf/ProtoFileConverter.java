@@ -133,6 +133,12 @@ public interface ProtoFileConverter {
 		if (type == long.class || type == Long.class || type == long[].class || type == Long[].class) {
 			return "int64";
 		}
+		if (type == double.class || type == Double.class || type == double[].class || type == Double[].class) {
+			return "double";
+		}
+		if (type == float.class || type == Float.class || type == float[].class || type == Float[].class) {
+			return "float";
+		}
 		return null;
 	}
 
