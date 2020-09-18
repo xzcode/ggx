@@ -134,7 +134,7 @@ public interface ProtoFileConverter {
 			return "int64";
 		}
 		if (type == double.class || type == Double.class || type == double[].class || type == Double[].class) {
-			return "dobule";
+			return "double";
 		}
 		if (type == float.class || type == Float.class || type == float[].class || type == Float[].class) {
 			return "float";
