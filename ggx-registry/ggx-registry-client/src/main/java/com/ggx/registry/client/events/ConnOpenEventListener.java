@@ -2,8 +2,9 @@ package com.ggx.registry.client.events;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.executor.timeout.TimeoutTask;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -40,7 +41,14 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		
 		req.setServiceInfo(serviceInfo);
 		
-		session.send(req);
+		GGXFuture future = session.send(req);
+		future.addListener(f -> {
+			if (f.isSuccess()) {
+				GGLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Success!");
+			}else {
+				GGLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Failed!");
+			}
+		});
 		
 	}
 
