@@ -26,8 +26,8 @@ public class ServiceUnregisterRespHandler implements MessageHandler<RegistryServ
 
 
 	@Override
-	public void handle(MessageData<RegistryServiceUnregisterResp> request) {
-		RegistryServiceUnregisterResp resp = request.getMessage();
+	public void handle(MessageData<RegistryServiceUnregisterResp> messageData) {
+		RegistryServiceUnregisterResp resp = messageData.getMessage();
 		String serviceGroupId = resp.getServiceGroupId();
 		String serviceId = resp.getServiceId();
 		ServiceManager serviceManager = config.getServiceManager();
