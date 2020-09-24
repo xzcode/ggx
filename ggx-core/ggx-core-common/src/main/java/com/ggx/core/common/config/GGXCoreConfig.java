@@ -1,6 +1,8 @@
 package com.ggx.core.common.config;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
@@ -59,6 +61,8 @@ public class GGXCoreConfig {
 	//指令前缀
 	protected String actionIdPrefix;
 	
+	//忽略处理的指令前缀
+	protected List<String> ignoreActionIdPrefixes = new ArrayList<>();
 	
 	//GGX组件指令前缀
 	protected String ggxComponentAtionIdPrefix = "GGX.";
@@ -213,10 +217,17 @@ public class GGXCoreConfig {
 			@Override
 			public boolean doFilter(MessageData<?> data) {
 				String actionId = data.getAction();
-				if (getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
+				boolean ignore = false;
+				for (String ignoreActionIdPrefix : ignoreActionIdPrefixes) {
+					ignore = actionId.startsWith(ignoreActionIdPrefix);
+					if (ignore) {
+						break;
+					}
+				}
+				if (!ignore &&  getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
 					actionId = getActionIdPrefix()  + actionId;
 				}
-				if (isGgxComponent()) {
+				if (isGgxComponent() && !actionId.contains(getGgxComponentAtionIdPrefix())) {
 					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
 				}
 				data.setAction(actionId);
@@ -231,6 +242,17 @@ public class GGXCoreConfig {
 		super();
 	}
 
+	/**
+	 * 添加忽略actionId前缀
+	 *
+	 * @param ignoreActionIdPrefix
+	 * @author zzz
+	 * 2020-09-22 10:18:49
+	 */
+	public void addIgnoreActionIdPrefix(String ignoreActionIdPrefix) {
+		this.ignoreActionIdPrefixes.add(ignoreActionIdPrefix);
+	}
+	
 	public EventLoopGroup getWorkerGroup() {
 		return workerGroup;
 	}
@@ -591,6 +613,15 @@ public class GGXCoreConfig {
 	public void setGgxComponentAtionIdPrefix(String ggxComponentAtionIdProfix) {
 		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdProfix;
 	}
+
+	public List<String> getIgnoreActionIdPrefixes() {
+		return ignoreActionIdPrefixes;
+	}
+
+	public void setIgnoreActionIdPrefixes(List<String> ignoreActionIdPrefixes) {
+		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
+	}
+	
 	
 	
 }

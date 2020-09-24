@@ -1,5 +1,8 @@
 package com.ggx.router.server.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
@@ -43,6 +46,9 @@ public class RouterServerConfig {
 	protected String routerGroupId = RouterConstant.DEFAULT_ROUTER_GROUP;
 
 	protected String actionIdPrefix;
+	
+	//忽略处理的指令前缀
+	protected List<String> ignoreActionIdPrefixes = new ArrayList<>();
 
 	protected RegistryClient registryClient;
 	
@@ -60,6 +66,17 @@ public class RouterServerConfig {
 	
 	//会话断开推送传递是否开启
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
+	
+	/**
+	 * 添加忽略actionId前缀
+	 *
+	 * @param ignoreActionIdPrefix
+	 * @author zzz
+	 * 2020-09-22 10:18:49
+	 */
+	public void addIgnoreActionIdPrefix(String ignoreActionIdPrefix) {
+		this.ignoreActionIdPrefixes.add(ignoreActionIdPrefix);
+	}
 	
 	public boolean isBootWithRandomPort() {
 		return bootWithRandomPort;
@@ -189,7 +206,13 @@ public class RouterServerConfig {
 		this.sessionDisconnectTransferResponseEnabled = sessionDisconnectTransferRsponseEnabled;
 	}
 	
+	public List<String> getIgnoreActionIdPrefixes() {
+		return ignoreActionIdPrefixes;
+	}
 	
+	public void setIgnoreActionIdPrefixes(List<String> ignoreActionIdPrefixes) {
+		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
+	}
 	
 	
 }

@@ -11,7 +11,7 @@ public interface RouterConstant {
 	/**
 	 * 指令前缀
 	 */
-	String ACTION_ID_PREFIX = "GG.ROUTER";
+	String ACTION_ID_PREFIX = "GGX.ROUTER";
 	
 	/**
 	 * 默认服务地址
