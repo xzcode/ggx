@@ -84,6 +84,7 @@ public class RouterServer implements GGXCore {
 		
 		
 		this.serviceServer = sessionServerConfig.getServiceServer();
+		this.serviceServer.getConfig().setIgnoreActionIdPrefixes(config.getIgnoreActionIdPrefixes());
 		
 		//添加发送过滤器
 		this.serviceServer.addFilter(new SendMessageFilter() {

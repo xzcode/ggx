@@ -1,6 +1,8 @@
 package com.ggx.core.common.config;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
@@ -13,7 +15,6 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.handler.codec.DecodeHandler;
@@ -26,7 +27,6 @@ import com.ggx.core.common.handler.pack.IReceivePackHandler;
 import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
@@ -60,6 +60,9 @@ public class GGXCoreConfig {
 	
 	//指令前缀
 	protected String actionIdPrefix;
+	
+	//忽略处理的指令前缀
+	protected List<String> ignoreActionIdPrefixes = new ArrayList<>();
 	
 	
 	//GGX组件指令前缀
@@ -210,30 +213,22 @@ public class GGXCoreConfig {
 			}
 		}
 		
-		/*this.filterManager.addFilter(new FilterInfo<>(new SendMessageFilter() {
-			
-			@Override
-			public boolean doFilter(MessageData<?> data) {
-				String actionId = data.getAction();
-				if (getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
-					actionId = getActionIdPrefix()  + actionId;
-				}
-				if (isGgxComponent()) {
-					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
-				}
-				data.setAction(actionId);
-				return true;
-			}
-		}, 0));*/
 		this.filterManager.addFilter(new FilterInfo<>(new AfterSerializeFilter() {
 			
 			@Override
 			public boolean doFilter(Pack data) {
 				String actionId = data.getActionString(charset);
-				if (getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
+				boolean ignore = false;
+				for (String ignoreActionIdPrefix : ignoreActionIdPrefixes) {
+					ignore = actionId.startsWith(ignoreActionIdPrefix);
+					if (ignore) {
+						break;
+					}
+				}
+				if (!ignore &&  getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
 					actionId = getActionIdPrefix()  + actionId;
 				}
-				if (isGgxComponent()) {
+				if (isGgxComponent() && !actionId.contains(getGgxComponentAtionIdPrefix())) {
 					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
 				}
 				data.setAction(actionId.getBytes(charset));
@@ -246,6 +241,17 @@ public class GGXCoreConfig {
 
 	public GGXCoreConfig() {
 		super();
+	}
+	
+	/**
+	 * 添加忽略actionId前缀
+	 *
+	 * @param ignoreActionIdPrefix
+	 * @author zai
+	 * 2020-09-22 10:18:49
+	 */
+	public void addIgnoreActionIdPrefix(String ignoreActionIdPrefix) {
+		this.ignoreActionIdPrefixes.add(ignoreActionIdPrefix);
 	}
 
 	public EventLoopGroup getWorkerGroup() {
@@ -609,5 +615,11 @@ public class GGXCoreConfig {
 		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdProfix;
 	}
 	
+	public void setIgnoreActionIdPrefixes(List<String> ignoreActionIdPrefixes) {
+		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
+	}
 	
+	public List<String> getIgnoreActionIdPrefixes() {
+		return ignoreActionIdPrefixes;
+	}
 }
