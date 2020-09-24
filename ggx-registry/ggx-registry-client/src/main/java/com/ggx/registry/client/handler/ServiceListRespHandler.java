@@ -1,6 +1,5 @@
 package com.ggx.registry.client.handler;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
