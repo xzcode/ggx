@@ -1,12 +1,13 @@
 package com.ggx.server.spring.boot.starter.event;
 
-import org.springframework.boot.context.event.ApplicationFailedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 
-public class GGXServerSpringBootApplicationReadyEventListener implements  ApplicationListener<ApplicationFailedEvent> {
+public class GGXServerSpringBootApplicationReadyEventListener implements  ApplicationListener<ApplicationReadyEvent> {
 
-    @Override
-    public void onApplicationEvent(ApplicationFailedEvent event) {
-    	
-    }
+
+	@Override
+	public void onApplicationEvent(ApplicationReadyEvent event) {
+		
+	}
 }
