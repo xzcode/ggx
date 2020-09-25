@@ -218,18 +218,21 @@ public class GGXCoreConfig {
 			@Override
 			public boolean doFilter(Pack data) {
 				String actionId = data.getActionString(charset);
-				boolean ignore = false;
-				for (String ignoreActionIdPrefix : ignoreActionIdPrefixes) {
-					ignore = actionId.startsWith(ignoreActionIdPrefix);
-					if (ignore) {
-						break;
+				boolean startWithGGX = (actionId.startsWith(getGgxComponentAtionIdPrefix()) || actionId.startsWith(getGgxComponentAtionIdPrefix().toLowerCase()));
+				if (!startWithGGX) {
+					boolean ignore = false;
+					for (String ignoreActionIdPrefix : ignoreActionIdPrefixes) {
+						ignore = actionId.startsWith(ignoreActionIdPrefix);
+						if (ignore) {
+							break;
+						}
 					}
-				}
-				if (!ignore &&  getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
-					actionId = getActionIdPrefix()  + actionId;
-				}
-				if (isGgxComponent() && !actionId.contains(getGgxComponentAtionIdPrefix())) {
-					actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
+					if (!ignore &&  getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
+						actionId = getActionIdPrefix()  + actionId;
+					}
+					if (isGgxComponent()) {
+						actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
+					}
 				}
 				data.setAction(actionId.getBytes(charset));
 				return true;

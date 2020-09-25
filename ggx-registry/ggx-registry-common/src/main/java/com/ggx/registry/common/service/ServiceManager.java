@@ -95,11 +95,13 @@ public class ServiceManager {
 		}
 		
 		ServiceInfo oldServiceInfo = group.addServiceInfo(service);
-		if (this.registerListeners != null) {
-			for (RegisterServiceListener listener : registerListeners) {
-				listener.onRegister(service);						
+		if (oldServiceInfo == null) {
+			if (this.registerListeners != null) {
+				for (RegisterServiceListener listener : registerListeners) {
+					listener.onRegister(service);						
+				}
+				GGLoggerUtil.getLogger(this).warn("Service {}:{} register success!", service.getServiceName(), service.getServiceId());
 			}
-			GGLoggerUtil.getLogger(this).warn("Service {}:{} register success!", service.getServiceName(), service.getServiceId());
 		}
 		return oldServiceInfo;
 		
