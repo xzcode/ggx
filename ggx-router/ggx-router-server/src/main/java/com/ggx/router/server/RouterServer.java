@@ -194,7 +194,10 @@ public class RouterServer implements GGXCore {
 		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
 		
 		Pack pack = makePack(new MessageData<>(redirectingMessage.getActionId(), redirectingMessage));
-		
+		// 序列化后发送过滤器
+		if (!redirectingSession.getFilterManager().doAfterSerializeFilters(pack)) {
+			return;
+		}
 		resp.setServiceId(redirectServiceId);
 		resp.setSessionId(redirectingSession.getSessonId());
 		resp.setAction(pack.getAction());

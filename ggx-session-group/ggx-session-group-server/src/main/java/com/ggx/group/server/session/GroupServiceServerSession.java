@@ -51,6 +51,10 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 
 	@Override
 	public GGFuture send(Pack pack) {
+		// 序列化后发送过滤器
+		if (!getFilterManager().doAfterSerializeFilters(pack)) {
+			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		}
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
