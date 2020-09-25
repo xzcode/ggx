@@ -39,7 +39,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 		ServiceManager serviceManager = config.getServiceManager();
 		serviceManager.sendToAllServices(resp);
 		
-		GGLoggerUtil.getLogger(this).warn("Service unregristry! serviceName: {}, serviceId: {}", serviceInfo.getServiceGroupId(), serviceInfo.getServiceId());
+		GGLoggerUtil.getLogger(this).warn("Service unregister! serviceName: {}, serviceId: {}", serviceInfo.getServiceGroupId(), serviceInfo.getServiceId());
 		
 	}
 

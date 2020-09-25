@@ -57,7 +57,7 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 		session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, infoModel);
 		oldServiceInfo = serviceManager.registerService(infoModel);
 		
-		GGLoggerUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", oldServiceInfo.getServiceName(), oldServiceInfo.getServiceId());
+		GGLoggerUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
 		
 		if (oldServiceInfo != null) {
 			oldServiceInfo.getSession().disconnect();
