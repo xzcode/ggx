@@ -150,7 +150,7 @@ public interface TaskExecutor extends Executor{
 	 * @author zai
 	 * 2019-12-22 17:12:55
 	 */
-	TaskExecutor nextEvecutor();
+	TaskExecutor nextExecutor();
 
 	
 }

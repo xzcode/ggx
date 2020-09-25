@@ -137,7 +137,7 @@ public class RouterService {
 		
 		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
 		
-		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
+		this.executor = this.serviceClient.getTaskExecutor().nextExecutor();
 		
 		this.serviceClient.addFilter(new SendMessageFilter() {
 			

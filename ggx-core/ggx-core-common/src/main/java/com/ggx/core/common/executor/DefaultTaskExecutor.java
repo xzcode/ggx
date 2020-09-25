@@ -86,7 +86,7 @@ public class DefaultTaskExecutor implements TaskExecutor{
 	}
 
 	@Override
-	public TaskExecutor nextEvecutor() {
+	public TaskExecutor nextExecutor() {
 		return new DefaultTaskExecutor(executor.next());
 	}
 	@Override

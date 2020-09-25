@@ -77,8 +77,8 @@ public interface ExecutorSupport extends TaskExecutor {
 	}
 
 	@Override
-	default TaskExecutor nextEvecutor() {
-		return getTaskExecutor().nextEvecutor();
+	default TaskExecutor nextExecutor() {
+		return getTaskExecutor().nextExecutor();
 	}
 	
 	@Override

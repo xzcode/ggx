@@ -90,7 +90,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		this.config.setSessionClient(sessionClient);
 		
 		//获取一个单线程执行器
-		this.singleThreadEvecutor = sessionClient.getTaskExecutor().nextEvecutor();
+		this.singleThreadEvecutor = sessionClient.getTaskExecutor().nextExecutor();
 
 
 		sessionClient.onMessage(AuthResp.ACTION_ID, new AnthRespHandler(this.config));

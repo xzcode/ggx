@@ -27,7 +27,7 @@ public class SingleThreadTaskExecutor extends DefaultTaskExecutor{
 	}
 
 	@Override
-	public TaskExecutor nextEvecutor() {
+	public TaskExecutor nextExecutor() {
 		return this;
 	}
 

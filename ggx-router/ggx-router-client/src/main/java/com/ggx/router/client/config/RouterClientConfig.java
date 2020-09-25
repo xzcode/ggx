@@ -140,7 +140,7 @@ public class RouterClientConfig {
 	}
 	
 	public TaskExecutor getSingleThreadTaskExecutor() {
-		return this.getHostServer().getTaskExecutor().nextEvecutor();
+		return this.getHostServer().getTaskExecutor().nextExecutor();
 	}
 
 	public RouterServiceProvider getServiceProvider() {

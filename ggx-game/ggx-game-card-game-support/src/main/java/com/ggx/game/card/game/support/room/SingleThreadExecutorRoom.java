@@ -42,7 +42,7 @@ ExecutorSupport
 
 	public SingleThreadExecutorRoom(GGXCore core) {
 		this.core = core;
-		this.taskExecutor = core.nextEvecutor();
+		this.taskExecutor = core.nextExecutor();
 	}
 	
 	/**
