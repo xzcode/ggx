@@ -35,9 +35,11 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		
 		if (this.routerClientConfig == null) {
 			this.routerClientConfig = new RouterClientConfig(coreServer);
-		}else {
-			this.routerClientConfig.setHostServer(coreServer);
 		}
+		this.routerClientConfig.setRegistryClient(registryClient);
+		this.routerClientConfig.setHostServer(coreServer);
+		
+		
 		this.routerClient = new RouterClient(routerClientConfig);
 	}
 	

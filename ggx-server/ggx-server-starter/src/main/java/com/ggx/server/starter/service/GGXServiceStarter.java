@@ -32,6 +32,7 @@ public class GGXServiceStarter extends GGXBasicServerStarter {
 		if (this.routerServerConfig == null) {
 			this.routerServerConfig = new RouterServerConfig();
 		}
+		this.routerServerConfig.setRegistryClient(registryClient);
 		this.routerServer = new RouterServer(routerServerConfig);
 
 	}
