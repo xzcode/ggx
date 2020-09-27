@@ -53,7 +53,7 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("channel Inactive:{}", ctx.channel());
 		}
-		config.getTaskExecutor().submitTask(new EventTask((GGSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, null, config));
+		config.getTaskExecutor().submitTask(new EventTask((GGSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, "channel Inactive", config));
 		super.channelInactive(ctx);
 	}
 	

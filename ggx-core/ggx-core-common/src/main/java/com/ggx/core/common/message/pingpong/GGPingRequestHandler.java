@@ -30,7 +30,7 @@ public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupp
 	@Override
 	public void handle(MessageData<Ping> request) {
 		GGSession session = request.getSession();
-		request.getSession().send(Pong.DEFAULT_INSTANT.getActionId(), null);
+		session.send(Pong.DEFAULT_INSTANT.getActionId(), null);
 		
 		GGPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
 		if (pingPongInfo == null) {

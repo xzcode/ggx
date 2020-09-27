@@ -3,18 +3,17 @@ package com.ggx.core.common.message.pingpong;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventListener;
+import com.ggx.core.common.event.EventTask;
+import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
-
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
+import com.ggx.core.common.session.GGSession;
 
 
 public class GGPingPongServerEventListener implements EventListener<Void>{
 	
 	protected GGXCoreConfig config;
 	
-	protected static final AttributeKey<GGPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
 	
 	public GGPingPongServerEventListener(GGXCoreConfig config) {
 		super();
@@ -23,17 +22,18 @@ public class GGPingPongServerEventListener implements EventListener<Void>{
 
 	@Override
 	public void onEvent(EventData<Void> eventData) {
-		Channel channel = eventData.getChannel();
-		GGPingPongInfo pingPongInfo = channel.attr(PING_PONG_INFO_KEY).get();
+		GGSession session = eventData.getSession();
+		GGPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
 		if (pingPongInfo == null) {
 			pingPongInfo = new GGPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
-			channel.attr(PING_PONG_INFO_KEY).set(pingPongInfo);
+			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, pingPongInfo);
 		}
 		pingPongInfo.heartBeatLostTimesIncrease();
 		
 		//超过心跳丢失次数，断开连接
 		if (pingPongInfo.isHeartBeatLost()) {
-			channel.disconnect();
+			session.disconnect();
+			session.submitTask(new EventTask(session, GGXCoreEvents.HeartBeat.LOST, "Heart beat lost!", config));
 			return;
 		}
 	}
