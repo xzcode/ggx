@@ -69,5 +69,21 @@ public interface GGXCoreEvents {
 		
 
 	}
+	
+	/**
+	 * 心跳事件常量
+	 *
+	 * @author zai
+	 * 2020-09-27 17:32:53
+	 */
+	interface HeartBeat {
+		
+		/**
+		 * 心跳丢失
+		 */
+		String LOST = "GGX.HEART.BEAT.LOST";
+		
+
+	}
 
 }

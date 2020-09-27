@@ -10,17 +10,13 @@ import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
-import com.ggx.registry.common.constant.RegistryConstant;
-import com.ggx.registry.common.message.req.RegistryServiceListReq;
-import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
-import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.service.ServiceGroup;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
-import com.ggx.registry.server.constant.RegistryServerSessionKeys;
 import com.ggx.registry.server.events.ConnActiveEventListener;
 import com.ggx.registry.server.events.ConnCloseEventListener;
+import com.ggx.registry.server.events.ConnHeartbeatLostEventListener;
 import com.ggx.registry.server.handler.RegisterReqHandler;
 import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
@@ -70,6 +66,7 @@ public class RegistryServer {
 		
 		ggServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
 		ggServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
+		ggServer.addEventListener(GGXCoreEvents.HeartBeat.LOST, new ConnHeartbeatLostEventListener(config));
 		
 		ggServer.onMessage(new RegisterReqHandler(config));
 		ggServer.onMessage(new ServiceListReqHandler(config));
