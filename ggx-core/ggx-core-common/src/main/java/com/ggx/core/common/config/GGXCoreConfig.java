@@ -30,6 +30,8 @@ import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
+import com.ggx.core.common.message.receive.action.AddActionIdPrefixHandler;
+import com.ggx.core.common.message.receive.action.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
@@ -66,6 +68,8 @@ public class GGXCoreConfig {
 	
 	//GGX组件指令前缀
 	protected String ggxComponentAtionIdPrefix = "GGX.";
+	
+	protected AddActionIdPrefixHandler addActionIdPrefixHandler = new DefaultAddActionIdPrefixHandler(this);
 
 	protected boolean autoShutdown = true;
 
@@ -217,22 +221,7 @@ public class GGXCoreConfig {
 			@Override
 			public boolean doFilter(Pack data) {
 				String actionId = data.getActionString(charset);
-				boolean startWithGGX = (actionId.startsWith(getGgxComponentAtionIdPrefix()) || actionId.startsWith(getGgxComponentAtionIdPrefix().toLowerCase()));
-				if (!startWithGGX) {
-					boolean ignore = false;
-					for (String ignoreActionIdPrefix : ignoreActionIdPrefixes) {
-						ignore = actionId.startsWith(ignoreActionIdPrefix);
-						if (ignore) {
-							break;
-						}
-					}
-					if (!ignore &&  getActionIdPrefix() != null && !actionId.startsWith(getActionIdPrefix())) {
-						actionId = getActionIdPrefix()  + actionId;
-					}
-					if (isGgxComponent()) {
-						actionId = (getGgxComponentAtionIdPrefix() + actionId).toUpperCase();
-					}
-				}
+				actionId = addActionIdPrefixHandler.handle(actionId);
 				data.setAction(actionId.getBytes(charset));
 				return true;
 			}
@@ -625,6 +614,11 @@ public class GGXCoreConfig {
 		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
 	}
 	
-	
+	public AddActionIdPrefixHandler getAddActionIdPrefixHandler() {
+		return addActionIdPrefixHandler;
+	}
+	public void setAddActionIdPrefixHandler(AddActionIdPrefixHandler addActionIdPrefixHandler) {
+		this.addActionIdPrefixHandler = addActionIdPrefixHandler;
+	}
 	
 }
