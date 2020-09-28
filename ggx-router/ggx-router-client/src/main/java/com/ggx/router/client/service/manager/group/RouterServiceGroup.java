@@ -2,6 +2,8 @@ package com.ggx.router.client.service.manager.group;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -98,7 +100,7 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-04 17:39:11
 	 */
-	public void reomoveService(String serviceId) {
+	public void removeService(String serviceId) {
 		RouterService routerService = this.services.remove(serviceId);
 		if (routerService != null) {
 			handleServiceAfterRemove(routerService);
@@ -218,6 +220,23 @@ public class RouterServiceGroup {
 
 	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
 		return routerServiceLoadblancer;
+	}
+
+
+	public void removeAllUnavaliableRouterServices() {
+		RouterServiceGroup group = this;
+		Map<String, RouterService> services = group.getServices();
+		Set<Entry<String, RouterService>> servicesEntrySet = services.entrySet();
+		for (Entry<String, RouterService> serviceEntry : servicesEntrySet) {
+			RouterService service = serviceEntry.getValue();
+			if (!service.isAvailable()) {
+				//移除服务
+				group.removeService(service.getServiceId());
+				//关闭服务
+				service.shutdown();
+			}
+		}
+		
 	}
 
 }

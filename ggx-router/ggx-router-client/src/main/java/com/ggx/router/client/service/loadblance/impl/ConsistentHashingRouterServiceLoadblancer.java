@@ -1,22 +1,18 @@
 package com.ggx.router.client.service.loadblance.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.loadblance.impl.model.VirtualRouterServiceInfo;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
+import com.ggx.util.hash.HashUtil;
 
 /**
  * 一致性哈希路由服务负载均衡器
@@ -67,7 +63,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 				return routerService.dispatch(pack);
 			}
 		}
-		int sessionHash = getHash(pack.getSession().getSessonId());
+		int sessionHash = HashUtil.getFNV1_32_HASH(pack.getSession().getSessonId());
 		
 		Integer firstKey = this.virtualRouterServices.ceilingKey(sessionHash);
 		if (firstKey == null) {
@@ -84,26 +80,6 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		}
 		
 		return routerService.dispatch(pack);
-	}
-
-	/*
-	 * 使用FNV1_32_HASH算法计算服务器的Hash值
-	 */
-	private static int getHash(String str) {
-		final int p = 16777619;
-		int hash = (int) 2166136261L;
-		for (int i = 0; i < str.length(); i++)
-			hash = (hash ^ str.charAt(i)) * p;
-		hash += hash << 13;
-		hash ^= hash >> 7;
-		hash += hash << 3;
-		hash ^= hash >> 17;
-		hash += hash << 5;
-
-		// 如果算出来的值为负数则取其绝对值
-		if (hash < 0)
-			hash = Math.abs(hash);
-		return hash;
 	}
 	
 	
@@ -132,7 +108,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
 			String virtualServiceId = serviceId + "#" + (i + 1);
 			VirtualRouterServiceInfo virtualRouterServiceInfo = new VirtualRouterServiceInfo(routerService, virtualServiceId);
-			this.virtualRouterServices.put(getHash(virtualServiceId), virtualRouterServiceInfo);
+			this.virtualRouterServices.put(HashUtil.getFNV1_32_HASH(virtualServiceId), virtualRouterServiceInfo);
 		}
 		
 	}
@@ -140,7 +116,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		String serviceId = routerService.getServiceId();
 		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
 			String virtualServiceId = serviceId + "#" + (i + 1);
-			this.virtualRouterServices.remove(getHash(virtualServiceId));
+			this.virtualRouterServices.remove(HashUtil.getFNV1_32_HASH(virtualServiceId));
 			
 		}
 		
@@ -151,40 +127,27 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 		this.sessionBindServiceCache.replace(sessionId, routerService);
 	}
 	
-	private static void hashTest() {
-		//哈希分布测试
-		ConcurrentSkipListMap<Integer, String> vMap = new ConcurrentSkipListMap<>();
-		
-		Map<String, AtomicInteger> countMap = new HashMap<>();
-		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < 5; i++) {
-			String id = GGXIdUtil.newRandomStringId24();
-			list.add(id);
-			for (int j = 0; j < 100; j++) {
-				String id2 = id  + "#" + (j+1);
-				vMap.put(getHash(id2), id2);
-				countMap.put(id, new AtomicInteger());
-			}
-		}
-		int total = 10000 * 100;
-		for (int i = 0; i < total; i++) {
-			String sessionId = GGXIdUtil.newRandomStringId24();
-			int hash = getHash(sessionId);
-			Integer ceilingKey = vMap.ceilingKey(hash);
-			if (ceilingKey != null) {
-				String id2 = vMap.get(ceilingKey);
-				String id = id2.split("#")[0];
-				countMap.get(id).getAndIncrement();
-			}else {
-				countMap.get(list.get(0)).getAndIncrement();
-			}
-			
-		}
-		
-		//System.out.println(countMap);
-		//System.out.println(1d * total / hit * 100D + "%");
-		
-	}
-
+	/*
+	 * private static void hashTest() { //哈希分布测试 ConcurrentSkipListMap<Integer,
+	 * String> vMap = new ConcurrentSkipListMap<>();
+	 * 
+	 * Map<String, AtomicInteger> countMap = new HashMap<>(); List<String> list =
+	 * new ArrayList<String>(); for (int i = 0; i < 5; i++) { String id =
+	 * GGXIdUtil.newRandomStringId24(); list.add(id); for (int j = 0; j < 100; j++)
+	 * { String id2 = id + "#" + (j+1); vMap.put(HashUtil.getFNV1_32_HASH(id2), id2);
+	 * countMap.put(id, new AtomicInteger()); } } int total = 10000 * 100; for (int
+	 * i = 0; i < total; i++) { String sessionId = GGXIdUtil.newRandomStringId24();
+	 * int hash = HashUtil.getFNV1_32_HASH(sessionId); Integer ceilingKey = vMap.ceilingKey(hash); if
+	 * (ceilingKey != null) { String id2 = vMap.get(ceilingKey); String id =
+	 * id2.split("#")[0]; countMap.get(id).getAndIncrement(); }else {
+	 * countMap.get(list.get(0)).getAndIncrement(); }
+	 * 
+	 * }
+	 * 
+	 * //System.out.println(countMap); //System.out.println(1d * total / hit * 100D
+	 * + "%");
+	 * 
+	 * }
+	 */
 
 }

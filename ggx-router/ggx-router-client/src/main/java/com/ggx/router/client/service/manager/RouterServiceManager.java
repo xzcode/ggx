@@ -77,7 +77,7 @@ public class RouterServiceManager {
 	public void removeService(String serviceGroupId, String serviceId) {
 		RouterServiceGroup group = this.serviceGroups.get(serviceGroupId);
 		if (group != null) {
-			group.reomoveService(serviceId);
+			group.removeService(serviceId);
 		}
 	}
 	
@@ -120,7 +120,7 @@ public class RouterServiceManager {
 				RouterService service = serviceEntry.getValue();
 				if (!service.isAvailable()) {
 					//移除服务
-					group.reomoveService(service.getServiceId());
+					group.removeService(service.getServiceId());
 					//关闭服务
 					service.shutdown();
 				}

@@ -9,6 +9,7 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
@@ -37,6 +38,9 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 
 		if (this.routerClientConfig == null) {
 			this.routerClientConfig = new RouterClientConfig(routerServer.getServiceServer());
+		}
+		if (this.routerClientConfig.getServiceProvider() == null) {
+			this.routerClientConfig.setServiceProvider(new RegistrySingleServicePorvider(this.routerClientConfig));
 		}
 		this.routerClientConfig.setHostServer(this.routerServer.getServiceServer());
 		this.routerClient = new RouterClient(routerClientConfig);

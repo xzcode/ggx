@@ -1,6 +1,5 @@
 package com.ggx.router.client.config;
 
-import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.utils.GGXIdUtil;
@@ -13,8 +12,11 @@ import com.ggx.router.client.service.RouterServiceMatcher;
 import com.ggx.router.client.service.RouterServiceProvider;
 import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
+import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
+import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
 import com.ggx.router.client.service.loadblance.constant.RouterServiceLoadblanceType;
+import com.ggx.router.client.service.loadblance.constant.RouterServiceProviderType;
 import com.ggx.router.client.service.loadblance.factory.DefaultRouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.manager.RouterServiceManager;
@@ -27,27 +29,25 @@ import io.netty.channel.nio.NioEventLoopGroup;
 /**
  * 路由客户端配置
  *
- * @author zai
- * 2020-04-14 17:18:45
+ * @author zai 2020-04-14 17:18:45
  */
 public class RouterClientConfig {
 
-	//路由组id
+	// 路由组id
 	protected String routerGroupId;
-	
-	//注册中心客户端
+
+	// 注册中心客户端
 	protected RegistryClient registryClient;
 
 	// routerClient对象
 	protected RouterClient routerClient;
-	
+
 	// eventbus组客户端
 	protected EventbusGroupClient eventbusGroupClient;
-	
 
 	// 是否输出底层ping pong信息
 	protected boolean printPingPongInfo = false;
-	
+
 	// 是否输出路由调试信息
 	protected boolean printRouterInfo = false;
 
@@ -56,7 +56,6 @@ public class RouterClientConfig {
 
 	// 连接数
 	protected int connectionSize = 4;
-
 
 	// 服务端地址
 	protected String serverHost = RouterConstant.DEFAULT_SERVER_HOST;
@@ -72,36 +71,39 @@ public class RouterClientConfig {
 	 */
 	protected GGXCoreServer hostServer;
 
-	//不参与路由的actionid
+	// 不参与路由的actionid
 	protected String[] excludedActionId;
 
-	//路由服务提供者
+	// 路由服务提供者
 	protected RouterServiceProvider serviceProvider;
 
-	//共享的线程组
+	// 路由服务提供者类型
+	protected String serviceProviderType = RouterServiceProviderType.REGISTRY_MULTI_SERVICES;
+
+	// 共享的线程组
 	protected EventLoopGroup sharedEventLoopGroup;
-	
-	
-	//路由服务匹配器
+
+	// 路由服务匹配器
 	protected RouterServiceMatcher routerServiceMatcher = new RouterServiceActionPrefixMatcher();
-	
-	//路由服务负载均衡器类型
+
+	// 路由服务负载均衡器类型
 	protected String routerServiceLoadblanceType = RouterServiceLoadblanceType.HASH;
-	
-	//路由服务管理器
+
+	// 路由服务管理器
 	protected RouterServiceManager routerServiceManager = new RouterServiceManager(this);
-	
-	//会话断开请求传递是否开启
-	protected boolean 	sessionDisconnectTransferRequestEnabled = true;
-	
-	//会话断开推送传递是否开启
-	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
-	
-	//路由服务负载均衡器工厂
-	protected RouterServiceLoadblancerFactory 	routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(this);
-	
+
+	// 会话断开请求传递是否开启
+	protected boolean sessionDisconnectTransferRequestEnabled = true;
+
+	// 会话断开推送传递是否开启
+	protected boolean sessionDisconnectTransferResponseEnabled = false;
+
+	// 路由服务负载均衡器工厂
+	protected RouterServiceLoadblancerFactory routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(
+			this);
+
 	public RouterClientConfig() {
-		
+
 	}
 
 	public RouterClientConfig(GGXCoreServer routingServer) {
@@ -119,11 +121,11 @@ public class RouterClientConfig {
 	public void init() {
 
 		if (this.sharedEventLoopGroup == null) {
-			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize, new GGThreadFactory("ggx-router-", false));
+			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize,
+					new GGThreadFactory("ggx-router-", false));
 		}
-		
+
 		this.hostServer.addFilter(new RouterClientHostServerReceiveMessageFilter(this));
-		
 
 		if (routerGroupId == null) {
 			routerGroupId = GGXIdUtil.newRandomStringId24();
@@ -133,17 +135,30 @@ public class RouterClientConfig {
 			this.registryClient.addCustomData(RouterServiceCustomDataKeys.FORWARD_ROUTER_GROUP_ID, getRouterGroupId());
 			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
-		
+
 		if (this.routerServiceMatcher != null) {
 			this.routerServiceMatcher = new RouterServiceActionPrefixMatcher();
 		}
-		
+
 		if (this.serviceProvider == null) {
-			this.serviceProvider = new DefaultServicePorvider(this);
+			if (this.registryClient != null) {
+				if (this.routerServiceLoadblanceType.contentEquals(RouterServiceProviderType.REGISTRY_MULTI_SERVICES)) {
+					this.serviceProvider = new DefaultRegistryServicePorvider(this);
+				} else if (this.routerServiceLoadblanceType
+						.contentEquals(RouterServiceProviderType.REGISTRY_SINGLE_SERVICE)) {
+					this.serviceProvider = new RegistrySingleServicePorvider(this);
+				}
+			} else {
+				this.serviceProvider = new DefaultServicePorvider(this);
+			}
 		}
-		
+
 	}
-	
+
+	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
+		return this.getRouterServiceLoadblancerFactory().getLoadblancer(this.getRouterServiceLoadblanceType());
+	}
+
 	public TaskExecutor getSingleThreadTaskExecutor() {
 		return this.getHostServer().getTaskExecutor().nextEvecutor();
 	}
@@ -159,7 +174,6 @@ public class RouterClientConfig {
 	public GGXCoreServer getHostServer() {
 		return hostServer;
 	}
-
 
 	public String[] getExcludedActionId() {
 		return excludedActionId;
@@ -188,7 +202,6 @@ public class RouterClientConfig {
 	public void setRouterGroupId(String routerGroupId) {
 		this.routerGroupId = routerGroupId;
 	}
-
 
 	public RegistryClient getRegistryClient() {
 		return registryClient;
@@ -261,17 +274,15 @@ public class RouterClientConfig {
 	public void setPrintRouterInfo(boolean printRouterInfo) {
 		this.printRouterInfo = printRouterInfo;
 	}
-	
+
 	public RouterServiceMatcher getRouterServiceMatcher() {
 		return routerServiceMatcher;
 	}
-	
+
 	public void setRouterServiceMatcher(RouterServiceMatcher routerServiceMatcher) {
 		this.routerServiceMatcher = routerServiceMatcher;
 	}
-	
-	
-	
+
 	public String getRouterServiceLoadblanceType() {
 		return routerServiceLoadblanceType;
 	}
@@ -283,15 +294,15 @@ public class RouterClientConfig {
 	public RouterServiceManager getRouterServiceManager() {
 		return routerServiceManager;
 	}
-	
+
 	public void setRouterServiceManager(RouterServiceManager routerServiceManager) {
 		this.routerServiceManager = routerServiceManager;
 	}
-	
+
 	public EventbusGroupClient getEventbusGroupClient() {
 		return eventbusGroupClient;
 	}
-	
+
 	public void setEventbusGroupClient(EventbusGroupClient eventbusGroupClient) {
 		this.eventbusGroupClient = eventbusGroupClient;
 	}
@@ -319,7 +330,5 @@ public class RouterClientConfig {
 	public void setRouterServiceLoadblancerFactory(RouterServiceLoadblancerFactory routerServiceLoadblancerFactory) {
 		this.routerServiceLoadblancerFactory = routerServiceLoadblancerFactory;
 	}
-	
-	
 
 }
