@@ -125,6 +125,11 @@ public class DefaultSessionManager implements SessionManager {
 	@Override
 	public void sendToAllSession(Message message) {
 		
+		// 序列化后发送过滤器
+		/*
+		 * if (!config.getFilterManager().doAfterSerializeFilters(pack)) { return
+		 * GGFailedFuture.DEFAULT_FAILED_FUTURE; }
+		 */
 		eachSession(session -> {
 			Pack pa = session.makePack(new MessageData<>(session, message));
 			session.send(pa);
