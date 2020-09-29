@@ -11,14 +11,14 @@ public interface RouterServiceProviderType {
 	/**
 	 * 单一服务
 	 */
-	String REGISTRY_SINGLE_SERVICE = "REGISTRY_SINGLE_SERVICE";
+	String REGISTRY_SINGLE_SERVICE = "registry_single_service";
 	
 	/**
 	 * 多服务
 	 */
-	String REGISTRY_MULTI_SERVICES = "REGISTRY_MULTI_SERVICES";
+	String REGISTRY_MULTI_SERVICES = "registry_multi_services";
 	
 	
-	String DEFAULT = "DEFAULT";
+	String DEFAULT = "default";
 	
 }

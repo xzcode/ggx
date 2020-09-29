@@ -12,7 +12,7 @@
 
 
 	<properties>
-		<jdk.version>1.8</jdk.version>
+		<java.version>11</java.version>
 		<spring.boot.version>2.3.3.RELEASE</spring.boot.version>
 		<netty.version>4.1.49.Final</netty.version>
 		<common.host>common.host</common.host>
@@ -104,6 +104,17 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.9</version>
 			</dependency>
+			<dependency>
+			    <groupId>io.protostuff</groupId>
+			    <artifactId>protostuff-core</artifactId>
+			    <version>1.7.2</version>
+			</dependency> 
+			  
+			<dependency>  
+			    <groupId>io.protostuff</groupId>  
+			    <artifactId>protostuff-runtime</artifactId>  
+			    <version>1.7.2</version>  
+			</dependency>  
 		</dependencies>
 	</dependencyManagement>
 
@@ -145,8 +156,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 
