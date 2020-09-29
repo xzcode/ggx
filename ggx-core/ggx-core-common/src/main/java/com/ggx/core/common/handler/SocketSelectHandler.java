@@ -82,7 +82,7 @@ public class SocketSelectHandler extends ByteToMessageDecoder {
 			LOGGER.debug("Channel Active:{}", channel);
 		}
 		GGXSession session = (GGXSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
-		config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Connection.OPENED, null, config, channel));
+		config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Connection.OPENED, null, config.getEventManager(), channel));
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class SocketSelectHandler extends ByteToMessageDecoder {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("channel Inactive:{}", ctx.channel());
 		}
-		config.getTaskExecutor().submitTask(new EventTask((GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, null, config));
+		config.getTaskExecutor().submitTask(new EventTask((GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, null, config.getEventManager()));
 	}
 
 }

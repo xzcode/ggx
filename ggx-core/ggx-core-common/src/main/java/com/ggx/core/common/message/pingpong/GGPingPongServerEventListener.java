@@ -36,7 +36,7 @@ public class GGPingPongServerEventListener implements EventListener<Void>{
 		//超过心跳丢失次数，断开连接
 		if (pingPongInfo.isHeartBeatLost()) {
 			session.disconnect();
-			session.submitTask(new EventTask(session, GGXCoreEvents.HeartBeat.LOST, "Heart beat lost!", config));
+			session.submitTask(new EventTask(session, GGXCoreEvents.HeartBeat.LOST, "Heart beat lost!", config.getEventManager()));
 			return;
 		}
 	}

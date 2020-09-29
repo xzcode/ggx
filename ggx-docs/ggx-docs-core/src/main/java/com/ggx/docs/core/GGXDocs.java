@@ -2,6 +2,9 @@ package com.ggx.docs.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -18,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.docs.core.annotation.DocsModel;
 import com.ggx.docs.core.annotation.DocsModelProperty;
 import com.ggx.docs.core.annotation.DocsNamespace;
-import com.ggx.docs.core.config.GGDocsConfig;
+import com.ggx.docs.core.config.GGXDocsConfig;
 import com.ggx.docs.core.model.Doc;
 import com.ggx.docs.core.model.Model;
 import com.ggx.docs.core.model.ModelProperty;
@@ -34,14 +37,15 @@ import io.github.classgraph.ScanResult;
  * 
  * @author zai 2018-12-30 11:22:54
  */
-public class GGDocs {
+public class GGXDocs {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(GGDocs.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GGXDocs.class);
 
-	private GGDocsConfig config;
+	private GGXDocsConfig config;
 
 
-	public GGDocs(GGDocsConfig config) {
+
+	public GGXDocs(GGXDocsConfig config) {
 		super();
 		this.config = config;
 	}
@@ -86,15 +90,20 @@ public class GGDocs {
 			if (actionId == null || actionId.isEmpty()) {
 				try {
 					Method getActionIdMethod = null;
-					try {
-						getActionIdMethod = loadClass.getDeclaredMethod("getActionId");
-					} catch (Exception e) {
-						System.out.println("Can not find method 'getActionId' in '"+loadClass.getName()+", try superclass!");
-						getActionIdMethod = loadClass.getSuperclass().getDeclaredMethod("getActionId");
+					boolean hasNext = true;
+					Class<?> sc = loadClass;
+					while (hasNext) {
+						try {
+							getActionIdMethod = sc.getDeclaredMethod("getActionId");								
+						} catch (Exception e) {
+							System.out.println("Can not find method 'getActionId' in '"+loadClass.getName()+", try superclass!");
+							sc = sc.getSuperclass();
+						}
+						hasNext = getActionIdMethod == null;
 					}
 					
 					if (getActionIdMethod != null) {
-						actionId = (String) getActionIdMethod.invoke(loadClass.newInstance());
+						actionId = (String) getActionIdMethod.invoke(loadClass.getDeclaredConstructor().newInstance());
 					}
 				} catch (Exception e) {
 					System.out.println("Can not find method 'getActionId' in '"+loadClass.getName());
@@ -137,75 +146,84 @@ public class GGDocs {
 			
 			doc.addNamespace(namespaceModel);
 
-			Class<?> tempClazz = loadClass;
+			annoModel.setClazz(loadClass);
 			
-			annoModel.setClazz(tempClazz);
-
-			while (tempClazz != null) {
-				Field[] fields = tempClazz.getDeclaredFields();
+			var classList = new ArrayList<Class<?>>();
+			var fieldList = new ArrayList<Field>();
+			
+			
+			Class<?> tempClazz = loadClass;
+			do {
+				classList.add(tempClazz);
 				tempClazz = tempClazz.getSuperclass();
-				for (Field field : fields) {
-					DocsModelProperty modelProperty = field.getAnnotation(DocsModelProperty.class);
-					if (modelProperty == null) {
-						continue;
-					}
-					annoProperty = new ModelProperty();
-					annoProperty.setField(field);
-					annoProperty.setDesc(modelProperty.value());
-					annoProperty.setName(field.getName());
-					annoProperty.setDataType(field.getType().getSimpleName());
-					annoModel.addProperty(annoProperty);
+			}while(tempClazz != null);
+			Collections.reverse(classList);
+			for (Class<?> cc : classList) {
+				fieldList.addAll(Arrays.asList(cc.getDeclaredFields()));
+			}
+			
+			for (Field field : fieldList) {
+				DocsModelProperty modelProperty = field.getAnnotation(DocsModelProperty.class);
+				if (modelProperty == null) {
+					continue;
+				}
+				annoProperty = new ModelProperty();
+				annoProperty.setField(field);
+				annoProperty.setDesc(modelProperty.value());
+				annoProperty.setName(field.getName());
+				annoProperty.setDataType(field.getType().getSimpleName());
+				annoModel.addProperty(annoProperty);
 
-					NotNull notNull = field.getAnnotation(NotNull.class);
-					if (notNull != null) {
-						annoProperty.setRequired(true);
-					}
+				NotNull notNull = field.getAnnotation(NotNull.class);
+				if (notNull != null) {
+					annoProperty.setRequired(true);
+				}
 
-					NotEmpty notEmpty = field.getAnnotation(NotEmpty.class);
-					if (notEmpty != null) {
-						annoProperty.setRequired(true);
-					}
+				NotEmpty notEmpty = field.getAnnotation(NotEmpty.class);
+				if (notEmpty != null) {
+					annoProperty.setRequired(true);
+				}
 
-					NotBlank notBlank = field.getAnnotation(NotBlank.class);
-					if (notBlank != null) {
-						annoProperty.setRequired(true);
+				NotBlank notBlank = field.getAnnotation(NotBlank.class);
+				if (notBlank != null) {
+					annoProperty.setRequired(true);
 
-						String extra = annoProperty.getExtra();
-						extra = extra == null ? "" : extra + " | ";
-						annoProperty.setExtra(extra + "必须至少包含一个有效字符");
-					}
+					String extra = annoProperty.getExtra();
+					extra = extra == null ? "" : extra + " | ";
+					annoProperty.setExtra(extra + "必须至少包含一个有效字符");
+				}
 
-					Size size = field.getAnnotation(Size.class);
-					if (size != null) {
-						annoProperty.setMaxLength(size.max());
-						annoProperty.setMinLength(size.min());
-					}
+				Size size = field.getAnnotation(Size.class);
+				if (size != null) {
+					annoProperty.setMaxLength(size.max());
+					annoProperty.setMinLength(size.min());
+				}
 
-					Min min = field.getAnnotation(Min.class);
-					if (min != null) {
-						annoProperty.setMinLength((int) min.value());
-					}
+				Min min = field.getAnnotation(Min.class);
+				if (min != null) {
+					annoProperty.setMinLength((int) min.value());
+				}
 
-					Max max = field.getAnnotation(Max.class);
-					if (max != null) {
-						annoProperty.setMaxLength((int) max.value());
-					}
+				Max max = field.getAnnotation(Max.class);
+				if (max != null) {
+					annoProperty.setMaxLength((int) max.value());
+				}
 
-					Pattern pattern = field.getAnnotation(Pattern.class);
-					if (pattern != null) {
-						String extra = annoProperty.getExtra();
-						extra = extra == null ? "" : extra + " | ";
-						annoProperty.setExtra(extra + "必须符合正则表达式：" + pattern.regexp());
-					}
+				Pattern pattern = field.getAnnotation(Pattern.class);
+				if (pattern != null) {
+					String extra = annoProperty.getExtra();
+					extra = extra == null ? "" : extra + " | ";
+					annoProperty.setExtra(extra + "必须符合正则表达式：" + pattern.regexp());
+				}
 
-					Email email = field.getAnnotation(Email.class);
-					if (email != null) {
-						String extra = annoProperty.getExtra();
-						extra = extra == null ? "" : extra + " | ";
-						annoProperty.setExtra(extra + "Email格式(" + email.regexp() + ")");
-					}
+				Email email = field.getAnnotation(Email.class);
+				if (email != null) {
+					String extra = annoProperty.getExtra();
+					extra = extra == null ? "" : extra + " | ";
+					annoProperty.setExtra(extra + "Email格式(" + email.regexp() + ")");
 				}
 			}
+			
 		}
 
 		return doc;

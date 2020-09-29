@@ -7,7 +7,7 @@ package com.ggx.docs.core.config;
  * @author zai
  * 2019-11-30 13:18:10
  */
-public class GGDocsConfig {
+public class GGXDocsConfig {
 	
 	//扫描的包路径
 	private String[] scanPackages;

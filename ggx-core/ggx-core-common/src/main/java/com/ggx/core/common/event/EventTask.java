@@ -3,7 +3,6 @@ package com.ggx.core.common.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGXSession;
 
@@ -19,7 +18,7 @@ public class EventTask implements Runnable{
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(EventTask.class);
 	
-	private GGXCoreConfig config;
+	private EventManager eventManager;
 	
 	/**
 	 * Channel对象
@@ -42,18 +41,24 @@ public class EventTask implements Runnable{
 	private Object message;
 	
 	
-
-	public EventTask(GGXSession session, String event, Object message, GGXCoreConfig config) {
-		this.session = session;
+	public EventTask(String event, Object message, EventManager eventManager) {
 		this.event = event;
 		this.message = message;
-		this.config = config;
+		this.eventManager = eventManager;
 	}
-	public EventTask(GGXSession session, String event, Object message, GGXCoreConfig config, Channel channel) {
+	
+
+	public EventTask(GGXSession session, String event, Object message, EventManager eventManager) {
 		this.session = session;
 		this.event = event;
 		this.message = message;
-		this.config = config;
+		this.eventManager = eventManager;
+	}
+	public EventTask(GGXSession session, String event, Object message, EventManager eventManager, Channel channel) {
+		this.session = session;
+		this.event = event;
+		this.message = message;
+		this.eventManager = eventManager;
 		this.channel = channel;
 	}
 
@@ -62,7 +67,7 @@ public class EventTask implements Runnable{
 	public void run() {
 		EventData eventData = new EventData(session, event, message, channel);
 		try {
-			config.getEventManager().emitEvent(eventData);	
+			this.eventManager.emitEvent(eventData);	
 		} catch (Exception e) {
 			LOGGER.error("EventTask Error!!", e);
 		}
