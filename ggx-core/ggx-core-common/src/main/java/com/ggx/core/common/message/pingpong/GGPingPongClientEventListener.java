@@ -25,7 +25,7 @@ public class GGPingPongClientEventListener implements EventListener<Void>, MakeP
 	@Override
 	public void onEvent(EventData<Void> eventData) {
 		GGSession session = eventData.getSession();
-		session.send(Ping.DEFAULT_INSTANT.getActionId());
+		session.send(Ping.DEFAULT_INSTANT);
 	}
 
 	@Override

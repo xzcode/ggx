@@ -7,7 +7,6 @@ import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
 import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
-import com.ggx.core.common.message.pingpong.model.Ping;
 import com.xzcode.ggserver.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -29,7 +28,7 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 	//最大随机端口
 	protected int 		maxRandomPort = 40000;
 	
-	//使用随机端口启动
+	//使用随机端口启动	
 	protected boolean 	bootWithRandomPort = false;
 	
 	//如果端口被占用是否更换端口并重新启动
