@@ -6,7 +6,7 @@ import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
+import com.ggx.core.common.message.pingpong.model.GGXPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.action.MessageHandler;
@@ -19,11 +19,11 @@ import com.ggx.core.common.session.GGXSession;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupport{
+public class GGXPingRequestHandler implements MessageHandler<Ping> , MakePackSupport{
 	
 	protected GGXCoreConfig config;
 	
-	public GGPingRequestHandler(GGXCoreConfig config) {
+	public GGXPingRequestHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 
@@ -32,9 +32,9 @@ public class GGPingRequestHandler implements MessageHandler<Ping> , MakePackSupp
 		GGXSession session = request.getSession();
 		request.getSession().send(Pong.DEFAULT_INSTANT.getActionId(), null);
 		
-		GGPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
+		GGXPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (pingPongInfo == null) {
-			pingPongInfo = new GGPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			pingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, pingPongInfo);
 		}
 		pingPongInfo.heartBeatLostTimesReset();

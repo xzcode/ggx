@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.common.service.listener.RegisterServiceListener;
 import com.ggx.registry.common.service.listener.UnregisterServiceListener;
 import com.ggx.registry.common.service.listener.UpdateServiceListener;
@@ -100,7 +99,7 @@ public class ServiceManager {
 				for (RegisterServiceListener listener : registerListeners) {
 					listener.onRegister(service);						
 				}
-				GGLoggerUtil.getLogger(this).warn("Service {}:{} register success!", service.getServiceName(), service.getServiceId());
+				//GGLoggerUtil.getLogger(this).warn("Service {}:{} register success!", service.getServiceName(), service.getServiceId());
 			}
 		}
 		return oldServiceInfo;
@@ -157,7 +156,7 @@ public class ServiceManager {
 			for (UnregisterServiceListener listener : unregisterListeners) {
 				listener.onUnregister(service);						
 			}
-			GGLoggerUtil.getLogger(this).warn("Service {}:{} remove success!", service.getServiceName(), service.getServiceId());
+			//GGLoggerUtil.getLogger(this).warn("Service {}:{} remove success!", service.getServiceName(), service.getServiceId());
 		}
 		
 		if (group.getServices().size() == 0) {
@@ -191,7 +190,7 @@ public class ServiceManager {
 					for (UpdateServiceListener listener : updateListeners) {
 						listener.onUpdate(service);						
 					}
-					GGLoggerUtil.getLogger(this).warn("Service {}:{} update success!", service.getServiceName(), service.getServiceId());
+					//GGLoggerUtil.getLogger(this).warn("Service {}:{} update success!", service.getServiceName(), service.getServiceId());
 				}
 			}
 		}

@@ -5,8 +5,8 @@ import java.util.concurrent.ThreadFactory;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.message.pingpong.GGPingPongServerEventListener;
-import com.ggx.core.common.message.pingpong.GGPingRequestHandler;
+import com.ggx.core.common.message.pingpong.GGXPingPongServerEventListener;
+import com.ggx.core.common.message.pingpong.GGXPingRequestHandler;
 import com.ggx.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -60,8 +60,8 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 		
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(new GGPingRequestHandler(this));			
-			eventManager.addEventListener(GGXCoreEvents.Idle.READ, new GGPingPongServerEventListener(this));
+			receiveMessageManager.onMessage(new GGXPingRequestHandler(this));			
+			eventManager.addEventListener(GGXCoreEvents.Idle.READ, new GGXPingPongServerEventListener(this));
 		}
 		
 	}

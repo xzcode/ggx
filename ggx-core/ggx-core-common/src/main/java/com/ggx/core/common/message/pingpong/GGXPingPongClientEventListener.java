@@ -11,13 +11,13 @@ import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGXSession;
 
 
-public class GGPingPongClientEventListener implements EventListener<Void>, MakePackSupport{
+public class GGXPingPongClientEventListener implements EventListener<Void>, MakePackSupport{
 	
 	protected GGXCoreConfig config;
 	
 	//protected static final AttributeKey<GGPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
 	
-	public GGPingPongClientEventListener(GGXCoreConfig config) {
+	public GGXPingPongClientEventListener(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}

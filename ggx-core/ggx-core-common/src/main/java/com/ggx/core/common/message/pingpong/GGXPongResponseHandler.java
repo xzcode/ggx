@@ -3,7 +3,7 @@ package com.ggx.core.common.message.pingpong;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
+import com.ggx.core.common.message.pingpong.model.GGXPingPongInfo;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
@@ -17,11 +17,11 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class GGPongResponseHandler implements MessageHandler<Pong>{
+public class GGXPongResponseHandler implements MessageHandler<Pong>{
 	
 	protected GGXCoreConfig config;
 	
-	public GGPongResponseHandler(GGXCoreConfig config) {
+	public GGXPongResponseHandler(GGXCoreConfig config) {
 		this.config = config;
 	}
 
@@ -30,9 +30,9 @@ public class GGPongResponseHandler implements MessageHandler<Pong>{
 	@Override
 	public void handle(MessageData<Pong> request) {
 		GGXSession session = request.getSession();
-		GGPingPongInfo ggPingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
+		GGXPingPongInfo ggPingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (ggPingPongInfo == null) {
-			ggPingPongInfo = new GGPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			ggPingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, ggPingPongInfo);
 		}
 		ggPingPongInfo.heartBeatLostTimesReset();

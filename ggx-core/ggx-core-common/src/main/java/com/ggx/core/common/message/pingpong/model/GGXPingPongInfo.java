@@ -7,7 +7,7 @@ package com.ggx.core.common.message.pingpong.model;
  * @author zai
  * 2017-08-02
  */
-public class GGPingPongInfo {
+public class GGXPingPongInfo {
 	
 	/**
 	 * 心跳失败次数
@@ -20,9 +20,9 @@ public class GGPingPongInfo {
 	private int maxLoseTimes = 3;
 	
 	
-	public GGPingPongInfo() {}
+	public GGXPingPongInfo() {}
 	
-	public GGPingPongInfo(int lostTimes, int maxLoseTimes) {
+	public GGXPingPongInfo(int lostTimes, int maxLoseTimes) {
 		super();
 		this.lostTimes = lostTimes;
 		this.maxLoseTimes = maxLoseTimes;

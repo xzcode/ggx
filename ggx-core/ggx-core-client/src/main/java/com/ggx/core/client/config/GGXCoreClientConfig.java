@@ -2,8 +2,8 @@ package com.ggx.core.client.config;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.message.pingpong.GGPingPongClientEventListener;
-import com.ggx.core.common.message.pingpong.GGPongResponseHandler;
+import com.ggx.core.common.message.pingpong.GGXPingPongClientEventListener;
+import com.ggx.core.common.message.pingpong.GGXPongResponseHandler;
 import com.ggx.core.common.message.pingpong.model.Pong;
 
 import io.netty.bootstrap.Bootstrap;
@@ -27,8 +27,8 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 		super.init();
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(new GGPongResponseHandler(this));
-			eventManager.addEventListener(GGXCoreEvents.Idle.WRITE, new GGPingPongClientEventListener(this));
+			receiveMessageManager.onMessage(new GGXPongResponseHandler(this));
+			eventManager.addEventListener(GGXCoreEvents.Idle.WRITE, new GGXPingPongClientEventListener(this));
 		}
 
 	}

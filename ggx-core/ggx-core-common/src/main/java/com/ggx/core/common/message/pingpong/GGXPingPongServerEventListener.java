@@ -6,19 +6,19 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventTask;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.message.pingpong.model.GGPingPongInfo;
+import com.ggx.core.common.message.pingpong.model.GGXPingPongInfo;
 import com.ggx.core.common.session.GGXSession;
 
 import io.netty.util.AttributeKey;
 
 
-public class GGPingPongServerEventListener implements EventListener<Void>{
+public class GGXPingPongServerEventListener implements EventListener<Void>{
 	
 	protected GGXCoreConfig config;
 	
-	protected static final AttributeKey<GGPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
+	protected static final AttributeKey<GGXPingPongInfo> PING_PONG_INFO_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PING_INFO);
 	
-	public GGPingPongServerEventListener(GGXCoreConfig config) {
+	public GGXPingPongServerEventListener(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}
@@ -26,9 +26,9 @@ public class GGPingPongServerEventListener implements EventListener<Void>{
 	@Override
 	public void onEvent(EventData<Void> eventData) {
 		GGXSession session = eventData.getSession();
-		GGPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGPingPongInfo.class);
+		GGXPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (pingPongInfo == null) {
-			pingPongInfo = new GGPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			pingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, pingPongInfo);
 		}
 		pingPongInfo.heartBeatLostTimesIncrease();
