@@ -28,7 +28,7 @@ public class GGClientConfig extends GGConfig {
 
 		if (isPingPongEnabled()) {
 			receiveMessageManager.onMessage(GGPong.ACTION_ID, new GGPongResponseHandler(this));
-			eventManager.addEventListener(GGEvents.Idle.ALL, new GGPingPongClientEventListener(this));
+			eventManager.addEventListener(GGEvents.Idle.WRITE, new GGPingPongClientEventListener(this));
 		}
 
 	}
