@@ -28,7 +28,7 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 
 		if (isPingPongEnabled()) {
 			receiveMessageManager.onMessage(new GGPongResponseHandler(this));
-			eventManager.addEventListener(GGXCoreEvents.Idle.ALL, new GGPingPongClientEventListener(this));
+			eventManager.addEventListener(GGXCoreEvents.Idle.WRITE, new GGPingPongClientEventListener(this));
 		}
 
 	}
