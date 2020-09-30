@@ -71,7 +71,7 @@ public class DefaultReceiveMessageManager implements ReceiveMessageManager {
 		handlerMap.put(actionId, receiveMessageHandler);
 		actionList.add(actionId);
 		if (GGLoggerUtil.getLogger().isInfoEnabled()) {
-			GGLoggerUtil.getLogger().info("GGServer Mapped Message Action: {}", action);
+			GGLoggerUtil.getLogger().info("GGXServer Added Message Handler: {}", actionId);
 		}
 	}
 

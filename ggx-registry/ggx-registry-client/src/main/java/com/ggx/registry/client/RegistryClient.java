@@ -54,7 +54,6 @@ public class RegistryClient {
 		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
 		});
-		ggconfig.setGgxComponent(true);
 		ggconfig.init();
 		
 		GGXCoreClient ggClient = new GGXCoreClient(ggconfig);
