@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -148,8 +149,8 @@ public class GGXDocs {
 
 			annoModel.setClazz(loadClass);
 			
-			var classList = new ArrayList<Class<?>>();
-			var fieldList = new ArrayList<Field>();
+			List<Class<?>> classList = new ArrayList<Class<?>>();
+			List<Field> fieldList = new ArrayList<Field>();
 			
 			
 			Class<?> tempClazz = loadClass;
