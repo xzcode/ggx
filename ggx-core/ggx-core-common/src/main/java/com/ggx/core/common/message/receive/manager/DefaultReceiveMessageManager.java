@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 
 /**
@@ -48,11 +48,11 @@ public class DefaultReceiveMessageManager implements ReceiveMessageManager {
 			try {
 				invoker.handle(messageData);
 			} catch (Exception e) {
-				GGLoggerUtil.getLogger(this.getClass()).error("Handle request Error!", e);
+				GGXLoggerUtil.getLogger(this.getClass()).error("Handle request Error!", e);
 			}
 			return;
 		}
-		GGLoggerUtil.getLogger().warn("No such action: {} ", messageData.getAction());
+		GGXLoggerUtil.getLogger().warn("No such action: {} ", messageData.getAction());
 	}
 
 	/**
@@ -70,8 +70,8 @@ public class DefaultReceiveMessageManager implements ReceiveMessageManager {
 		String actionId = this.coreConfig.getAddActionIdPrefixHandler().handle(action);
 		handlerMap.put(actionId, receiveMessageHandler);
 		actionList.add(actionId);
-		if (GGLoggerUtil.getLogger().isInfoEnabled()) {
-			GGLoggerUtil.getLogger().info("GGXServer Added Message Handler: {}", actionId);
+		if (GGXLoggerUtil.getLogger().isInfoEnabled()) {
+			GGXLoggerUtil.getLogger().info("GGXServer Added Message Handler: {}", actionId);
 		}
 	}
 

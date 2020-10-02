@@ -7,7 +7,7 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventListenerGroup;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 默认事件管理器
@@ -31,7 +31,7 @@ public class DefaultEventManager implements EventManager {
 			try {
 				group.onEvent(eventData);
 			} catch (Exception e) {
-				GGLoggerUtil.getLogger(this).error("Emit Event Error!", e);
+				GGXLoggerUtil.getLogger(this).error("Emit Event Error!", e);
 			}
 		}
 	}

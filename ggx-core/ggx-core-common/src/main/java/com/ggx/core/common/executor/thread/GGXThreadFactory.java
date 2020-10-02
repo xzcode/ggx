@@ -3,25 +3,16 @@ package com.ggx.core.common.executor.thread;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.common.executor.TaskExecutor;
-
 import io.netty.util.concurrent.FastThreadLocalThread;
 
-public class GGThreadFactory implements ThreadFactory {
+public class GGXThreadFactory implements ThreadFactory {
     private final String threadNamePrefix;
     private final AtomicInteger THREAD_IDX = new AtomicInteger();
     private final boolean daemon;
-    private TaskExecutor taskExecutor;
 
-    public GGThreadFactory(final String threadNamePrefix, final boolean daemon) {
+    public GGXThreadFactory(final String threadNamePrefix, final boolean daemon) {
         this.threadNamePrefix = threadNamePrefix;
         this.daemon = daemon;
-    }
-    public GGThreadFactory(final String threadNamePrefix, final boolean daemon, TaskExecutor bindThreadLocalTaskExecutor) {
-    	this.threadNamePrefix = threadNamePrefix;
-    	this.daemon = daemon;
-    	this.taskExecutor = bindThreadLocalTaskExecutor;
-    	
     }
 
     @Override

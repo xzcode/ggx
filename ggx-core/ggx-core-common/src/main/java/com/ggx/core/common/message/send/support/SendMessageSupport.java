@@ -7,7 +7,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 消息发送接口
@@ -57,7 +57,7 @@ public interface SendMessageSupport extends MakePackSupport {
 				return true;
 			});
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger().error("GGServer sendToAll ERROR!");
+			GGXLoggerUtil.getLogger().error("GGServer sendToAll ERROR!");
 		}
 
 	}
@@ -129,7 +129,7 @@ public interface SendMessageSupport extends MakePackSupport {
 			}
 				session.send(makePack(messageData));
 			} catch (Exception e) {
-				GGLoggerUtil.getLogger().error("Send message Error!", e);
+				GGXLoggerUtil.getLogger().error("Send message Error!", e);
 			}
 		}
 		return null;

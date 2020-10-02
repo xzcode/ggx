@@ -2,7 +2,7 @@ package com.ggx.core.common.executor;
 
 import java.util.concurrent.ThreadFactory;
 
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 
 import io.netty.channel.DefaultEventLoop;
 
@@ -19,7 +19,7 @@ public class SingleThreadTaskExecutor extends DefaultTaskExecutor{
 	}
 
 	public SingleThreadTaskExecutor(String threadNamePrefix) {
-		super(new DefaultEventLoop(new GGThreadFactory(threadNamePrefix, false)));
+		super(new DefaultEventLoop(new GGXThreadFactory(threadNamePrefix, false)));
 	}
 
 	public SingleThreadTaskExecutor(ThreadFactory threadFactory) {

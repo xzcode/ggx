@@ -10,11 +10,10 @@ import com.ggx.common.message.resp.EventPublishResp;
 import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.GGXIdUtil;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.handler.EventMessageRespHandler;
 import com.ggx.eventbus.client.handler.EventPublishRespHandler;
@@ -25,6 +24,7 @@ import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 public class EventbusClient{
 	
@@ -50,7 +50,7 @@ public class EventbusClient{
 		SessionGroupClientConfig sessionGroupClientConfig = new SessionGroupClientConfig();
 		sessionGroupClientConfig.setEnableServiceClient(true);
 		sessionGroupClientConfig.setAuthToken(this.config.getAuthToken());
-		sessionGroupClientConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-cli-", false));
+		sessionGroupClientConfig.setWorkThreadFactory(new GGXThreadFactory("ggx-evt-cli-", false));
 		sessionGroupClientConfig.setConnectionSize(this.config.getConnectionSize());
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionGroupClientConfig.setServerHost(this.config.getServerHost());
@@ -135,7 +135,7 @@ public class EventbusClient{
 			}
 			
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger(this).error("Eventbus publish event ERROR!", e);
+			GGXLoggerUtil.getLogger(this).error("Eventbus publish event ERROR!", e);
 		}
 	}
 

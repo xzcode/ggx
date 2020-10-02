@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.message.pingpong.GGXPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGXPingRequestHandler;
 import com.ggx.core.server.port.PortChangeStrategy;
@@ -49,7 +49,7 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 		}
 		
 		if (bossGroupThreadFactory == null) {
-			bossGroupThreadFactory = new GGThreadFactory("gg-boss-", false);
+			bossGroupThreadFactory = new GGXThreadFactory("gg-boss-", false);
 		}
 		
 		if (bossGroup == null) {

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -66,7 +66,7 @@ public class GGNettyFuture implements GGXFuture {
 					});
 				}
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
+			GGXLoggerUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}
 		
 	}

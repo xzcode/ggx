@@ -8,7 +8,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
@@ -59,7 +59,7 @@ public class RouterServer implements GGXCore {
 	public void init() {
 		
 		if (this.config.getSharedEventLoopGroup() == null) {
-			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-router-serv-", false)));
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("gg-router-serv-", false)));
 		}
 
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();

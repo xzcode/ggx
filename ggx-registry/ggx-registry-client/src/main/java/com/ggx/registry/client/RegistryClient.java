@@ -8,9 +8,8 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.events.ConnCloseEventListener;
 import com.ggx.registry.client.events.ConnOpenEventListener;
@@ -24,6 +23,7 @@ import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.service.ServiceInfo;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -49,7 +49,7 @@ public class RegistryClient {
 		ggconfig.setGgxComponent(true);
 		ggconfig.setPingPongEnabled(true);
 		ggconfig.setPrintPingPongInfo(config.isPrintPingPongInfo());
-		ggconfig.setWorkerGroup(new NioEventLoopGroup(1, new GGThreadFactory("registry-client-", false)));
+		ggconfig.setWorkerGroup(new NioEventLoopGroup(1, new GGXThreadFactory("registry-client-", false)));
 		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
 		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
@@ -97,13 +97,13 @@ public class RegistryClient {
 			.addListener(f -> {
 				if (!f.isSuccess()) {
 					//连接失败，进行进行重连操作
-					GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
+					GGXLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
 					ggClient.schedule(config.getTryRegisterInterval(), () -> {
 						connect();
 					});
 					return;
 				}
-				GGLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+				GGXLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
 			});
 		});
 		

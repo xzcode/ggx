@@ -12,7 +12,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.impl.DefaultEventManager;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
@@ -152,7 +152,7 @@ public class GGXCoreConfig {
 		eventManager = new DefaultEventManager();
 
 		if (workerGroupThreadFactory == null) {
-			workerGroupThreadFactory = new GGThreadFactory("gg-worker-", false);
+			workerGroupThreadFactory = new GGXThreadFactory("gg-worker-", false);
 		}
 		if (workerGroup == null) {
 			workerGroup = new NioEventLoopGroup(getWorkThreadSize(), getWorkerGroupThreadFactory());

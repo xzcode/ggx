@@ -4,10 +4,10 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.service.ServiceInfo;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 public class ConnOpenEventListener implements EventListener<Void>{
 
@@ -44,9 +44,9 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		GGXFuture future = session.send(req);
 		future.addListener(f -> {
 			if (f.isSuccess()) {
-				GGLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Success!");
+				GGXLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Success!");
 			}else {
-				GGLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Failed!");
+				GGXLoggerUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Failed!");
 			}
 		});
 		

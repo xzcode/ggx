@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.executor.task.AsyncCallableTask;
 import com.ggx.core.common.executor.task.AsyncRunnableTask;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.future.GGXFuture;
@@ -22,10 +22,10 @@ public class DefaultTaskExecutor implements TaskExecutor{
 		this.executor = executor;
 	}
 	public DefaultTaskExecutor(String threadNamePrefix, int threadSize) {
-		this.executor = new DefaultEventLoopGroup(threadSize, new GGThreadFactory(threadNamePrefix, false));
+		this.executor = new DefaultEventLoopGroup(threadSize, new GGXThreadFactory(threadNamePrefix, false));
 	}
 	public DefaultTaskExecutor(int threadSize) {
-		this.executor = new DefaultEventLoopGroup(threadSize, new GGThreadFactory("ITaskExecutor-", false));
+		this.executor = new DefaultEventLoopGroup(threadSize, new GGXThreadFactory("ITaskExecutor-", false));
 	}
 
 	@Override

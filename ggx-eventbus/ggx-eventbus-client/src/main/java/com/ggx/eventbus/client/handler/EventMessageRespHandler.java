@@ -4,11 +4,11 @@ import com.ggx.common.message.resp.EventMessageResp;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberGroup;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.eventbus.client.subscriber.SubscriptionData;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 消息接收处理器
@@ -46,7 +46,7 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 			}
 			
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger(this).error("Eventbus receive message ERROR!", e);
+			GGXLoggerUtil.getLogger(this).error("Eventbus receive message ERROR!", e);
 		}
 	}
 

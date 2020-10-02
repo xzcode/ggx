@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventListenerGroup;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 默认事件监听组
@@ -49,7 +49,7 @@ public class DefaultEventListenerGroup<T> implements EventListenerGroup<T>{
 			try {
 				li.onEvent(eventData);				
 			} catch (Exception e) {
-				GGLoggerUtil.getLogger(this.getClass()).error("Invoke Event Error!", e);
+				GGXLoggerUtil.getLogger(this.getClass()).error("Invoke Event Error!", e);
 			}
 		}
 		

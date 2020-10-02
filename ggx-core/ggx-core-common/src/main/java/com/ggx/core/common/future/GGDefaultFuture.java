@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 默认future
@@ -118,7 +118,7 @@ public class GGDefaultFuture implements GGXFuture {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger(this).error(e.getMessage(), e);
+			GGXLoggerUtil.getLogger(this).error(e.getMessage(), e);
 		}
 	}
 

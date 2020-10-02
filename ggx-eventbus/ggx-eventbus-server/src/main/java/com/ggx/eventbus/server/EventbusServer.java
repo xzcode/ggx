@@ -8,7 +8,7 @@ import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
@@ -39,7 +39,7 @@ public class EventbusServer implements GGXCore{
 		sessionServerConfig.setPort(this.config.getPort());
 		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		sessionServerConfig.setWorkThreadFactory(new GGThreadFactory("gg-evt-serv-", false));
+		sessionServerConfig.setWorkThreadFactory(new GGXThreadFactory("gg-evt-serv-", false));
 		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
 		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());

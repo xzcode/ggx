@@ -20,7 +20,6 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -37,6 +36,7 @@ import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 路由服务
@@ -359,7 +359,7 @@ public class RouterService {
 				try {
 					listener.onShutdown(this);
 				} catch (Exception e) {
-					GGLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
+					GGXLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
 				}
 				
 			}

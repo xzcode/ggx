@@ -1,7 +1,7 @@
 package com.ggx.router.client.config;
 
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
@@ -122,7 +122,7 @@ public class RouterClientConfig {
 
 		if (this.sharedEventLoopGroup == null) {
 			this.sharedEventLoopGroup = new NioEventLoopGroup(workThreadSize,
-					new GGThreadFactory("ggx-router-", false));
+					new GGXThreadFactory("ggx-router-", false));
 		}
 
 		this.hostServer.addFilter(new RouterClientHostServerReceiveMessageFilter(this));

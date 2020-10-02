@@ -3,7 +3,6 @@ package com.ggx.registry.server.handler;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
@@ -11,6 +10,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.constant.RegistryServerSessionKeys;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 客户端注册请求处理
@@ -56,11 +56,11 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 		session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, infoModel);
 		ServiceInfo oldServiceInfo = serviceManager.registerService(infoModel);
 		
-		GGLoggerUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
+		GGXLoggerUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
 		
 		if (oldServiceInfo != null) {
 			oldServiceInfo.getSession().disconnect();
-			GGLoggerUtil.getLogger(this).warn("Disconnecting old service! serviceName: {}, serviceId: {}", oldServiceInfo.getServiceName(), oldServiceInfo.getServiceId());
+			GGXLoggerUtil.getLogger(this).warn("Disconnecting old service! serviceName: {}, serviceId: {}", oldServiceInfo.getServiceName(), oldServiceInfo.getServiceId());
 		}
 		
 		session.send(new RegistryServiceRegisterResp(infoModel, true));

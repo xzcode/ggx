@@ -8,7 +8,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 生成字节码数据包支持
@@ -68,7 +68,7 @@ public interface MakePackSupport{
 			
 			return pack;
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger().error("Make pack Error!", e);
+			GGXLoggerUtil.getLogger().error("Make pack Error!", e);
 		}
 		return null;
 	}

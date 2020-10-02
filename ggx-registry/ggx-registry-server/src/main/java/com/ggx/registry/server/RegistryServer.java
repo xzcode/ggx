@@ -5,8 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
@@ -20,6 +19,7 @@ import com.ggx.registry.server.events.ConnHeartbeatLostEventListener;
 import com.ggx.registry.server.handler.RegisterReqHandler;
 import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
+import com.ggx.util.logger.GGXLoggerUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -55,8 +55,8 @@ public class RegistryServer {
 		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
 		ggconfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		ggconfig.setPort(this.config.getPort());
-		ggconfig.setBossGroupThreadFactory(new GGThreadFactory("gg-registry-boss-", false));
-		ggconfig.setWorkerGroupThreadFactory(new GGThreadFactory("gg-registry-worker-", false));
+		ggconfig.setBossGroupThreadFactory(new GGXThreadFactory("gg-registry-boss-", false));
+		ggconfig.setWorkerGroupThreadFactory(new GGXThreadFactory("gg-registry-worker-", false));
 		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
 		});
@@ -141,7 +141,7 @@ public class RegistryServer {
 				sb.append("Total Groups:   \t").append(groupNum).append("\n");
 				sb.append("Total Services: \t").append(serviceNum).append("\n");
 				sb.append("-----------------------------------\n");
-				GGLoggerUtil.getLogger(this).warn(sb.toString());
+				GGXLoggerUtil.getLogger(this).warn(sb.toString());
 				sb.setLength(0);
 			});
 		}

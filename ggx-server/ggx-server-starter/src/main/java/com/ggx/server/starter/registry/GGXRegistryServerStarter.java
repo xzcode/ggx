@@ -1,11 +1,11 @@
 package com.ggx.server.starter.registry;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 public class GGXRegistryServerStarter extends GGXBasicServerStarter {
 
@@ -36,7 +36,7 @@ public class GGXRegistryServerStarter extends GGXBasicServerStarter {
 
 	@Override
 	public void subscribe(String eventId, Subscriber subscriber) {
-		GGLoggerUtil.getLogger(this).error("Registry Server can not subscribe events!");
+		GGXLoggerUtil.getLogger(this).error("Registry Server can not subscribe events!");
 	}
 
 }

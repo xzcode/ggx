@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 客户端注册请求处理
@@ -43,7 +43,7 @@ public class RegisterRespHandler implements MessageHandler<RegistryServiceRegist
 				try {
 					listener.onRegisterSuccess();
 				} catch (Exception e) {
-					GGLoggerUtil.getLogger(this).error("ClientRegisterSuccessListener ERROR!", e);
+					GGXLoggerUtil.getLogger(this).error("ClientRegisterSuccessListener ERROR!", e);
 				}
 			}
 			if (config.isRequireServices()) {

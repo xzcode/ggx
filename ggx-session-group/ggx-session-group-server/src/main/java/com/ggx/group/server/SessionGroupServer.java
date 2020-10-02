@@ -2,7 +2,7 @@ package com.ggx.group.server;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -40,9 +40,9 @@ public class SessionGroupServer {
 
 	public void init() {
 		
-		GGThreadFactory bossThreadFactory = new GGThreadFactory("gg-group-boss-", false);
+		GGXThreadFactory bossThreadFactory = new GGXThreadFactory("gg-group-boss-", false);
 		if (this.config.getWorkThreadFactory() == null) {
-			this.config.setWorkThreadFactory(new GGThreadFactory("gg-group-worker-", false));
+			this.config.setWorkThreadFactory(new GGXThreadFactory("gg-group-worker-", false));
 		}
 		
 		GGXCoreServerConfig sessionServerConfig = new GGXCoreServerConfig();

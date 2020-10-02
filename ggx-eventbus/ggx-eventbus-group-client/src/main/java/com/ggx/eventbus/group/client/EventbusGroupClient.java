@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.Subscriber;
@@ -39,7 +39,7 @@ public class EventbusGroupClient{
 	public void start() {
 		
 		if (this.config.getSharedEventLoopGroup() == null) {
-			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGThreadFactory("gg-evt-group-", false)));
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("gg-evt-group-", false)));
 		}
 		
 		RegistryClient registryClient = this.config.getRegistryClient();

@@ -11,12 +11,11 @@ import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGThreadFactory;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
@@ -29,6 +28,7 @@ import com.ggx.session.group.client.handler.AnthRespHandler;
 import com.ggx.session.group.client.handler.DataTransferRespHandler;
 import com.ggx.session.group.client.handler.SessionGroupRegisterRespHandler;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * 会话组客户端
@@ -57,7 +57,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	private void init() {
 		
 		if (this.config.getWorkThreadFactory() == null) {
-			this.config.setWorkThreadFactory(new GGThreadFactory("gg-group-cli-", false));
+			this.config.setWorkThreadFactory(new GGXThreadFactory("gg-group-cli-", false));
 		}
 		
 		GGXCoreClientConfig sessionClientConfig = new GGXCoreClientConfig();
@@ -195,13 +195,13 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 					}
 					if (!f.isSuccess()) {
 						// 连接失败，进行进行重连操作
-						GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
+						GGXLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
 						ggclient.schedule(config.getReconnectInterval(), () -> {
 							connectOne(host, port);
 						});
 						return;
 					}
-					GGLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
+					GGXLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
 				});
 				
 			});

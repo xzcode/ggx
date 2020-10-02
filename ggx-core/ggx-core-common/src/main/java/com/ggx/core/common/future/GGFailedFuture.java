@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 
 /**
@@ -50,7 +50,7 @@ public class GGFailedFuture implements GGXFuture {
 		try {
 			listener.operationComplete(DEFAULT_FAILED_FUTURE);
 		} catch (Exception e) {
-			GGLoggerUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
+			GGXLoggerUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}
 		
 	}

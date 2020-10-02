@@ -11,7 +11,7 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 /**
  * sesson默认实现
@@ -71,7 +71,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 				try {
 					lis.onDisconnect(this);
 				} catch (Exception e) {
-					GGLoggerUtil.getLogger(this).error("Session disconnect listener Error!", e);
+					GGXLoggerUtil.getLogger(this).error("Session disconnect listener Error!", e);
 				}
 			}
 		}

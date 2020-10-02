@@ -187,6 +187,7 @@
 		<module>ggx-eventbus</module>
 		<module>ggx-registry</module>
 		<module>ggx-router</module>
+		<module>ggx-rpc</module>
 		<module>ggx-session-group</module>
 		<module>ggx-util</module>
 		<module>ggx-server</module>

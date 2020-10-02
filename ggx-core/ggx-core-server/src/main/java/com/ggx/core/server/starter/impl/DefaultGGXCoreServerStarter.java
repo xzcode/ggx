@@ -13,10 +13,10 @@ import com.ggx.core.common.future.GGNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
-import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.core.server.starter.GGXCoreServerStarter;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -124,7 +124,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 						newPort += 1;
 					}
 					this.config.setPort(newPort);
-					GGLoggerUtil.getLogger(this).warn("Port [{}] is already in use, try to change another port [{}] and restart!", oldPort, newPort );
+					GGXLoggerUtil.getLogger(this).warn("Port [{}] is already in use, try to change another port [{}] and restart!", oldPort, newPort );
 					
 					boot.bind(config.getPort()).addListener((f2) -> {
 		            	handleStartFutureCallback(boot, ggFuture, f2);
@@ -133,7 +133,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 				return;
 			}
 			
-			GGLoggerUtil.getLogger().warn("{}\n{} FAILED to start on port {}!\nError:{}\n", logoString, config.getServerName(), config.getPort(),f.cause());
+			GGXLoggerUtil.getLogger().warn("{}\n{} FAILED to start on port {}!\nError:{}\n", logoString, config.getServerName(), config.getPort(),f.cause());
 			
 			shutdown();
 		}

@@ -1,10 +1,10 @@
-package com.ggx.core.common.utils.logger;
+package com.ggx.util.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GGLoggerUtil {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GGLoggerUtil.class);
+public class GGXLoggerUtil {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GGXLoggerUtil.class);
 	
 	
 	public static Logger getLogger() {
