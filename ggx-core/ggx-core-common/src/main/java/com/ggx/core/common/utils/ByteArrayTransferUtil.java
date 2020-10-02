@@ -1,5 +1,6 @@
 package com.ggx.core.common.utils;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -72,7 +73,7 @@ public class ByteArrayTransferUtil {
 	 * @author zai
 	 * 2020-06-15 14:36:19
 	 */
-	public static short bytesToUnsignedShort(byte[] bytes) {  
+	public static short bytesToShort(byte[] bytes) {  
 		return (short) (((bytes[1] << 8) | bytes[0] & 0xff));  
 	}
 	
@@ -85,7 +86,7 @@ public class ByteArrayTransferUtil {
 	 * @author zai
 	 * 2020-06-15 15:10:39
 	 */
-	public static short bytesToUnsignedShort(byte[] bytes, int startOffset) {  
+	public static short bytesToShort(byte[] bytes, int startOffset) {  
         return (short) (((bytes[startOffset + 1] << 8) | bytes[startOffset] & 0xff));  
     }
 	
@@ -97,7 +98,7 @@ public class ByteArrayTransferUtil {
 	 * @author zai
 	 * 2020-06-10 18:56:57
 	 */
-	public static byte[] unsignedShortToBytes(short number){ 
+	public static byte[] shortToBytes(short number){ 
 		return new byte[] {(byte) (number >> 8 & 0xFF), (byte) (number & 0xFF)}; 
     }
 	
@@ -147,5 +148,118 @@ public class ByteArrayTransferUtil {
 		}
 	}
 	
+	/**
+	 * long值转字节数组
+	 * @param n
+	 * @return
+	 * @author zai
+	 * 2020-10-2 21:31:44
+	 */
+	public static byte[] longToBytes(long n) {  
+		  return new byte[] {
+				  (byte) (n & 0xff), 
+				  (byte) (n >> 8 & 0xff), 
+				  (byte) (n >> 16 & 0xff), 
+				  (byte) (n >> 24 & 0xff),
+				  (byte) (n >> 32 & 0xff),
+				  (byte) (n >> 40 & 0xff),
+				  (byte) (n >> 48 & 0xff),
+				  (byte) (n >> 56 & 0xff),
+				  };  
+	}
+	
+	
+	/**
+	 * 字节数组转long值
+	 *
+	 * @param bytes
+	 * @return
+	 * @author zai
+	 * 2020-06-15 14:23:21
+	 */
+	public static long bytesToLong(byte[] bytes ) {
+		return 
+				bytes[0] & 0xff | 
+				((bytes[1] & 0xff) << 8) | 
+				((bytes[2] & 0xff) << 16) | 
+				((bytes[3] & 0xff) << 24) |
+				((bytes[4] & 0xff) << 32) |
+				((bytes[5] & 0xff) << 40) |
+				((bytes[6] & 0xff) << 48) |
+				((bytes[7] & 0xff) << 56) 
+				;
+	}
+	
+	/**
+	 * double值转字节数组
+	 * @param n
+	 * @return
+	 * @author zai
+	 * 2020-10-2 21:31:44
+	 */
+	public static byte[] doubleToBytes(double n) {  
+		  return ByteBuffer.allocate(8).putDouble(n).array();  
+	}
+	
+	
+	/**
+	 * 字节数组转double值
+	 *
+	 * @param bytes
+	 * @return
+	 * @author zai
+	 * 2020-06-15 14:23:21
+	 */
+	public static double bytesToDouble(byte[] bytes ) {
+		return ByteBuffer.wrap(bytes).getDouble();
+	}
+	
+	/**
+	 * float值转字节数组
+	 * @param n
+	 * @return
+	 * @author zai
+	 * 2020-10-2 21:31:44
+	 */
+	public static byte[] floatToBytes(float n) {  
+		return ByteBuffer.allocate(4).putFloat(n).array();  
+	}
+	
+	
+	/**
+	 * 字节数组转float值
+	 *
+	 * @param bytes
+	 * @return
+	 * @author zai
+	 * 2020-06-15 14:23:21
+	 */
+	public static float bytesToFloat(byte[] bytes ) {
+		return ByteBuffer.wrap(bytes).getFloat();
+	}
+	
+	/**
+	 * char值转字节数组
+	 * @param n
+	 * @return
+	 * @author zai
+	 * 2020-10-2 21:31:44
+	 */
+	public static byte[] chatToBytes(char n) {  
+		return new byte[] {(byte) n};  
+	}
+	
+	
+	/**
+	 * 字节数组转char值
+	 *
+	 * @param bytes
+	 * @return
+	 * @author zai
+	 * 2020-06-15 14:23:21
+	 */
+	public static char bytesToChar(byte[] bytes ) {
+		return (char) bytes[0];
+	}
 
 }

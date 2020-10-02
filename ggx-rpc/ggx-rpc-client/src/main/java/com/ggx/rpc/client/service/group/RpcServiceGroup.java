@@ -14,6 +14,5 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	//rpc组id
 	protected String rpcGroupId;
 	
-	
 
 }

@@ -1,8 +1,9 @@
 package com.ggx.rpc.common.message.req;
 
+import java.util.List;
+
 import com.ggx.core.common.message.model.AbstractMessage;
-import com.ggx.core.common.message.model.Message;
-import com.ggx.rpc.common.constant.RpcConstant;
+import com.ggx.rpc.common.message.model.BytesModel;
 
 /**
  * 事件订发布请求
@@ -11,37 +12,54 @@ import com.ggx.rpc.common.constant.RpcConstant;
  */
 public class RpcReq extends AbstractMessage{
 
+	//接口名称
+	private String interfaceName;
 
-	// 事件id
-	private String eventId;
-
-	// 事件数据
-	private byte[] eventData;
+	// 方法名称
+	private String methodName;
+	
+	//参数名列表
+	private List<String> paramNames;
+	
+	//参数名列表
+	private List<BytesModel> paramDatas;
 
 	public RpcReq() {
 
 	}
 
-	public RpcReq(String eventId, byte[] eventData) {
-		super();
-		this.eventId = eventId;
-		this.eventData = eventData;
+	public String getInterfaceName() {
+		return interfaceName;
 	}
 
-	public String getEventId() {
-		return eventId;
+	public void setInterfaceName(String className) {
+		this.interfaceName = className;
 	}
 
-	public void setEventId(String eventId) {
-		this.eventId = eventId;
+	public String getMethodName() {
+		return methodName;
 	}
 
-	public byte[] getEventData() {
-		return eventData;
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
 	}
 
-	public void setEventData(byte[] eventData) {
-		this.eventData = eventData;
+	public List<String> getParamNames() {
+		return paramNames;
 	}
+
+	public void setParamNames(List<String> paramNames) {
+		this.paramNames = paramNames;
+	}
+
+	public List<BytesModel> getParamDatas() {
+		return paramDatas;
+	}
+
+	public void setParamDatas(List<BytesModel> paramDatas) {
+		this.paramDatas = paramDatas;
+	}
+	
+	
 
 }

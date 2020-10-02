@@ -88,7 +88,7 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		int buffReadIndex = 0;
 		
 		//读取预留内容 2 字节
-		ByteArrayTransferUtil.bytesToUnsignedShort(buff, buffReadIndex);
+		ByteArrayTransferUtil.bytesToShort(buff, buffReadIndex);
 		
 		buffReadIndex += 2;
 		

@@ -81,6 +81,21 @@
 			<artifactId>ggx-core-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-rpc-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-rpc-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-rpc-server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.apache.commons</groupId>
