@@ -6,9 +6,9 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.future.GGNettyFuture;
+import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -140,7 +140,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	default GGXFuture send(MessageData<?> messageData) {
 		// 发送过滤器
 		if (!getFilterManager().doSendFilters(messageData)) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		return getSession().send(makePack(messageData));
 	}
@@ -172,16 +172,16 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		}
 		
 		if (channel == null || !channel.isActive()) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		
 		// 序列化后发送过滤器
 		if (!getFilterManager().doAfterSerializeFilters(pack)) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		
 		if (channel.isActive()) {
-			GGNettyFuture future = new GGNettyFuture();
+			GGXNettyFuture future = new GGXNettyFuture();
 			ChannelFuture channelFuture = channel.writeAndFlush(pack);
 			future.setFuture((Future<?>) channelFuture);
 
@@ -191,7 +191,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Channel is inactived! Message will not be send, Pack:{}", GGXServerJsonUtil.toJson(pack));
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 

@@ -23,17 +23,17 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2019-11-24 17:54:50
  */
-public class GGNettyFuture implements GGXFuture {
+public class GGXNettyFuture implements GGXFuture {
 	
 	private io.netty.util.concurrent.Future<?> nettyFuture;
 	
 	private Set<GGXFutureListener<GGXFuture>> listeners;
 	
-	public GGNettyFuture() {
+	public GGXNettyFuture() {
 		listeners = new LinkedHashSet<>(2);
 	}
 	
-	public GGNettyFuture(Future<?> nettyFuture) {
+	public GGXNettyFuture(Future<?> nettyFuture) {
 		this.setFuture(nettyFuture);
 	}
 

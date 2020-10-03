@@ -8,7 +8,7 @@ import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGXCoreClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.future.GGNettyFuture;
+import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
@@ -75,7 +75,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
         	Bootstrap boot = config.getBootstrap();
             // 连接服务器
             ChannelFuture future = boot.connect(host, port);
-            return new GGNettyFuture(future);
+            return new GGXNettyFuture(future);
         }catch (Exception e) {
         	throw new RuntimeException("GGClient connect error !! ", e);
 		}
@@ -89,7 +89,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 	}
 	
 	public GGXFuture shutdown() {
-		GGNettyFuture ggFuture = new GGNettyFuture();
+		GGXNettyFuture ggFuture = new GGXNettyFuture();
 		try {
 			Future<?> future = config.getWorkerGroup().shutdownGracefully();
 			ggFuture.setFuture(future);

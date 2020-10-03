@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.util.logger.GGXLoggerUtil;
@@ -89,8 +89,6 @@ public class RpcService {
 
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 
-		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
-
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 
 	}
@@ -101,17 +99,17 @@ public class RpcService {
 	 * @param pack
 	 * @author zai 2019-11-07 17:53:00
 	 */
-	public GGXFuture invoke(Pack pack) {
+	public GGXFuture invoke(RpcReq req) {
 		if (!isAvailable()) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		if (isShutdown()) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
 		GGXSession serviceClientSession = serviceClientSessionManager.randomGetSession();
 		
-		return serviceClientSession.send(pack);
+		return serviceClientSession.send(req);
 
 	}
 
@@ -142,7 +140,7 @@ public class RpcService {
 				try {
 					listener.onTrigger(this);
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
+					GGXLoggerUtil.getLogger(this).error(listener.getClass().getSimpleName() + " ERROR!", e);
 				}
 
 			}

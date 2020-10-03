@@ -7,7 +7,7 @@ import com.ggx.core.common.executor.task.AsyncCallableTask;
 import com.ggx.core.common.executor.task.AsyncRunnableTask;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
-import com.ggx.core.common.future.GGNettyFuture;
+import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.future.GGXFuture;
 
 import io.netty.channel.DefaultEventLoopGroup;
@@ -30,26 +30,26 @@ public class DefaultTaskExecutor implements TaskExecutor{
 
 	@Override
 	public GGXFuture submitTask(Runnable runnable) {
-		return new GGNettyFuture(executor.submit(new AsyncRunnableTask(runnable)));
+		return new GGXNettyFuture(executor.submit(new AsyncRunnableTask(runnable)));
 	}
 
 	@Override
 	public <V> GGXFuture submitTask(Callable<V> callable) {
-		return new GGNettyFuture(executor.submit(new AsyncCallableTask<>(callable)));
+		return new GGXNettyFuture(executor.submit(new AsyncCallableTask<>(callable)));
 	}
 	@Override
 	public GGXFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
-		return new GGNettyFuture(executor.schedule(new AsyncRunnableTask(runnable), delay, timeUnit));
+		return new GGXNettyFuture(executor.schedule(new AsyncRunnableTask(runnable), delay, timeUnit));
 	}
 
 	@Override
 	public <V> GGXFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
-		return new GGNettyFuture(executor.schedule(new AsyncCallableTask<>(callable), delay, timeUnit));
+		return new GGXNettyFuture(executor.schedule(new AsyncCallableTask<>(callable), delay, timeUnit));
 	}
 
 	@Override
 	public GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
-		GGNettyFuture taskFuture = new GGNettyFuture();
+		GGXNettyFuture taskFuture = new GGXNettyFuture();
 		afterFuture.addListener(f -> {
 			AsyncRunnableTask asyncTask = new AsyncRunnableTask(runnable);
 			ScheduledFuture<?> future = executor.schedule(asyncTask, delay, timeUnit);
@@ -66,7 +66,7 @@ public class DefaultTaskExecutor implements TaskExecutor{
 
 	@Override
 	public <V> GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Callable<V> callable) {
-		GGNettyFuture taskFuture = new GGNettyFuture();
+		GGXNettyFuture taskFuture = new GGXNettyFuture();
 		afterFuture.addListener(f -> {
 			AsyncCallableTask<V> asyncTask = new AsyncCallableTask<>(callable);
 			ScheduledFuture<?> future = executor.schedule(asyncTask, delay, timeUnit);
@@ -77,7 +77,7 @@ public class DefaultTaskExecutor implements TaskExecutor{
 
 	@Override
 	public GGXFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable) {
-		return new GGNettyFuture(executor.scheduleWithFixedDelay(new AsyncRunnableTask(runnable), initialDelay, delay, timeUnit));
+		return new GGXNettyFuture(executor.scheduleWithFixedDelay(new AsyncRunnableTask(runnable), initialDelay, delay, timeUnit));
 	}
 
 	@Override

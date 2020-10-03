@@ -11,7 +11,10 @@ import com.ggx.rpc.common.message.model.BytesModel;
  * @author zai 2020-04-06 18:50:10
  */
 public class RpcReq extends AbstractMessage{
-
+	
+	//调用id
+	private String rpcId;
+	
 	//接口名称
 	private String interfaceName;
 
@@ -26,6 +29,14 @@ public class RpcReq extends AbstractMessage{
 
 	public RpcReq() {
 
+	}
+	
+	public String getRpcId() {
+		return rpcId;
+	}
+	
+	public void setRpcId(String rpcId) {
+		this.rpcId = rpcId;
 	}
 
 	public String getInterfaceName() {

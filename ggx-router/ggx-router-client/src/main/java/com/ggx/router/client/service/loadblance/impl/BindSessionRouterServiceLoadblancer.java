@@ -3,7 +3,7 @@ package com.ggx.router.client.service.loadblance.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
@@ -49,7 +49,7 @@ public class BindSessionRouterServiceLoadblancer implements RouterServiceLoadbla
 		routerService = routerServiceGroup.getRandomRouterService();
 		
 		if (routerService == null) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		
 		Map<String, RouterService> services = routerServiceGroup.getServices();

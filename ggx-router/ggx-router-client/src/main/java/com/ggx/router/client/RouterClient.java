@@ -3,7 +3,7 @@ package com.ggx.router.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -33,7 +33,7 @@ public class RouterClient{
 		} catch (Exception e) {
 			LOGGER.error("Route Message Error!", e);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 	public RouterClientConfig getConfig() {

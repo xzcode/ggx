@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
@@ -187,7 +187,7 @@ public class RouterServiceGroup {
 		if (randomRouterService != null) {
 			return randomRouterService.dispatch(pack);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 	public void addAddRouterServiceListener(AddRouterServiceListener listener) {

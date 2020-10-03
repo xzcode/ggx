@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.common.future.GGDefaultFuture;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXDefaultFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -48,7 +48,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 */
 	default GGXFuture sendToAll(Pack pack) {
 		Map<String, GGXSession> sessionMap = getSessionMap();
-		GGDefaultFuture defaultFuture = new GGDefaultFuture();
+		GGXDefaultFuture defaultFuture = new GGXDefaultFuture();
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		AtomicInteger count = new AtomicInteger(0);
@@ -82,7 +82,7 @@ public interface GGSessionGroup extends MakePackSupport {
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		if (size == 0) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		//获取随机会话
 		GGXSession session = (GGXSession) ((Entry<String, GGXSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
@@ -99,7 +99,7 @@ public interface GGSessionGroup extends MakePackSupport {
 			pack.setSession(session);
 			return session.send(pack);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 	

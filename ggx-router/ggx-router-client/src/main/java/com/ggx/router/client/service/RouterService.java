@@ -12,7 +12,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -283,10 +283,10 @@ public class RouterService {
 	 */
 	public GGXFuture dispatch(Pack pack) {
 		if (!isAvailable()) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		if (isShutdown()) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		GGXSession routeSession = pack.getSession();
 		String routeSessonId = pack.getSession().getSessonId();

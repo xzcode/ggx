@@ -30,6 +30,17 @@ public interface MapDataManager<K, V> {
 	}
 	
 	/**
+	 * 获取
+	 * @param key
+	 * @return
+	 * @author zai
+	 * 2020-10-3 11:47:22
+	 */
+	default V get(K key) {
+		return getMap().get(key);
+	}
+	
+	/**
 	 * 移除
 	 *
 	 * @param key
@@ -57,6 +68,16 @@ public interface MapDataManager<K, V> {
 			return (V) array[ThreadLocalRandom.current().nextInt(array.length)];
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取map中元素个数
+	 * @return
+	 * @author zai
+	 * 2020-10-3 15:19:43
+	 */
+	default int size() {
+		return this.getMap().size();
 	}
 
 }

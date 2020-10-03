@@ -20,6 +20,12 @@
 	    <artifactId>ggx-util</artifactId>
 	</dependency>
 	
+	<dependency>
+	    <groupId>com.ggx</groupId>
+	    <artifactId>ggx-registry-client</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	
   
   </dependencies>
 </project>

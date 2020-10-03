@@ -7,6 +7,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
@@ -15,9 +16,10 @@ import com.ggx.core.server.GGXCoreServer;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
-import com.ggx.rpc.common.constant.RpcConstant;
+import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.rpc.server.handler.RpcReqHandler;
+import com.ggx.util.logger.GGXLoggerUtil;
 
 public class RpcServer implements GGXCore{
 	
@@ -30,6 +32,12 @@ public class RpcServer implements GGXCore{
 	}
 
 	public GGXFuture start() {
+		String serviceGroupId = this.config.getServiceGroupId();
+		
+		if (serviceGroupId == null || serviceGroupId.isEmpty()) {
+			GGXLoggerUtil.getLogger(this).error("'RpcServerConfig.serviceGroupId' must not be 'null' or empty!!");
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		}
 		
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
@@ -56,12 +64,10 @@ public class RpcServer implements GGXCore{
 				//获取注册中心客户端
 				RegistryClient registryClient = this.config.getRegistryClient();
 				if (registryClient != null) {
-					//添加自定义参数
-					
 					//添加自定义rpc组id
-					registryClient.addCustomData(RpcConstant.REGISTRY_CUSTOM_RPC_GROUP_KEY, this.config.getRpcGroupId());
+					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_SERVICE, "true");
 					//添加自定义rpc服务端端口
-					registryClient.addCustomData(RpcConstant.REGISTRY_CUSTOM_RPC_PORT_KEY, String.valueOf(this.config.getPort()));
+					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_SERVICE_PORT, String.valueOf(this.config.getPort()));
 				}
 			}
 		});

@@ -37,6 +37,13 @@ public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K
 		}
 		return oldV;
 	}
+	
+	
+	@Override
+	public V get(K key) {
+		return this.getMap().get(key);
+	}
+	
 
 	@Override
 	public V remove(K key) {

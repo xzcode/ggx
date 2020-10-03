@@ -2,7 +2,7 @@ package com.ggx.router.client.service.impl;
 
 import java.util.Map.Entry;
 
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -57,7 +57,7 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 				return group.dispatch(pack);
 			}
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 

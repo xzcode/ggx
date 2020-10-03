@@ -3,8 +3,8 @@ package com.ggx.group.server.session;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.future.GGDefaultFuture;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXDefaultFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
@@ -52,7 +52,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 	public GGXFuture send(Pack pack) {
 		// 序列化后发送过滤器
 		if (!getFilterManager().doAfterSerializeFilters(pack)) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
@@ -63,7 +63,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		}
 		if (this.groupSession == null) {
-			return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		return groupSession.send(resp);
 	}
@@ -76,7 +76,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		//触发断开连接事件
 		this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
 		
-		GGDefaultFuture future = new GGDefaultFuture();
+		GGXDefaultFuture future = new GGXDefaultFuture();
 		future.setSession(this);
 		future.setDone(true);
 		future.setSuccess(true);

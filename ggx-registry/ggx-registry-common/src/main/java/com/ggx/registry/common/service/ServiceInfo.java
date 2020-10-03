@@ -36,7 +36,7 @@ public class ServiceInfo {
 	
 	// 服务端口
 	protected int port;
-
+	
 	// 所在地区
 	protected String region = "default";
 

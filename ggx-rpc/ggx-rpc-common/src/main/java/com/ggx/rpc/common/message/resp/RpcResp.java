@@ -1,42 +1,37 @@
 package com.ggx.rpc.common.message.resp;
 
-import com.ggx.core.common.message.model.Message;
-import com.ggx.rpc.common.constant.RpcConstant;
+import com.ggx.core.common.message.model.AbstractMessage;
 
-/**
- * 事件订发布响应
- *
- * @author zai 2020-04-06 18:50:10
- */
-public class RpcResp implements Message {
+public class RpcResp extends AbstractMessage {
 
-	public static final String ACTION_ID = RpcConstant.ACTION_ID_PREFIX + "EVENT.PUB.RESP";
+	private String rpcId;
 
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
-
-	/**
-	 * 是否发布成功
-	 */
-	private boolean success;
+	private byte[] returnData;
 
 	public RpcResp() {
-
-	}
-
-	public RpcResp(boolean success) {
 		super();
-		this.success = success;
 	}
 
-	public boolean isSuccess() {
-		return success;
+	public RpcResp(String rpcId, byte[] returnData) {
+		super();
+		this.rpcId = rpcId;
+		this.returnData = returnData;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public String getRpcId() {
+		return rpcId;
+	}
+
+	public void setRpcId(String rpcId) {
+		this.rpcId = rpcId;
+	}
+
+	public byte[] getReturnData() {
+		return returnData;
+	}
+
+	public void setReturnData(byte[] returnData) {
+		this.returnData = returnData;
 	}
 
 }

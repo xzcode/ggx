@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.future.GGNettyFuture;
+import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
 import com.ggx.core.common.handler.WebSocketChannelInitializer;
@@ -90,7 +90,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 			}
     
             ChannelFuture future = boot.bind(this.config.getPort());
-            GGNettyFuture ggFuture = new GGNettyFuture();
+            GGXNettyFuture ggFuture = new GGXNettyFuture();
             
             future.addListener((f) -> {
             	handleStartFutureCallback(boot, ggFuture, f);
@@ -104,7 +104,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
         }
     }
     
-    private void handleStartFutureCallback(ServerBootstrap boot, GGNettyFuture ggFuture, Future<? super Void> f) {
+    private void handleStartFutureCallback(ServerBootstrap boot, GGXNettyFuture ggFuture, Future<? super Void> f) {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
     		System.out.println(logoString);

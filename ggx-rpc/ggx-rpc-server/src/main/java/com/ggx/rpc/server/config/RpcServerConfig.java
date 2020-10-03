@@ -48,8 +48,8 @@ public class RpcServerConfig {
 	//使用随机端口启动
 	protected boolean 	bootWithRandomPort = true;
 	
-	//rpc服务组id
-	protected String rpcGroupId;
+	//服务组id
+	protected String serviceGroupId;
 	
 	
 	public int getPort() {
@@ -148,12 +148,12 @@ public class RpcServerConfig {
 		this.portChangeStrategy = portChangeStrategy;
 	}
 
-	public String getRpcGroupId() {
-		return rpcGroupId;
+	public String getServiceGroupId() {
+		return serviceGroupId;
 	}
 
-	public void setRpcGroupId(String rpcGroupId) {
-		this.rpcGroupId = rpcGroupId;
+	public void setServiceGroupId(String rpcGroupId) {
+		this.serviceGroupId = rpcGroupId;
 	}
 	
 	

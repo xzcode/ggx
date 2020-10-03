@@ -14,7 +14,7 @@ import com.ggx.util.logger.GGXLoggerUtil;
  *
  * @author zai 2020-04-07 14:26:57
  */
-public class GGDefaultFuture implements GGXFuture {
+public class GGXDefaultFuture implements GGXFuture {
 
 	private Set<GGXFutureListener<GGXFuture>> listeners = new LinkedHashSet<>(2);
 

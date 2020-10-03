@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.future.GGFailedFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -91,7 +91,7 @@ public class GGSessionGroupManager {
 		if (sessionGroup != null) {
 			return sessionGroup.sendToAll(pack);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 
@@ -107,7 +107,7 @@ public class GGSessionGroupManager {
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(pack);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 	
@@ -132,7 +132,7 @@ public class GGSessionGroupManager {
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(message);
 		}
-		return GGFailedFuture.DEFAULT_FAILED_FUTURE;
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 }

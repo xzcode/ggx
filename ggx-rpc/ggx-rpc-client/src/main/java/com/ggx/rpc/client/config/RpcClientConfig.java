@@ -1,6 +1,15 @@
 package com.ggx.rpc.client.config;
 
+import java.lang.reflect.InvocationHandler;
+
+import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
+import com.ggx.rpc.client.invocation.ProxyInvocationHandler;
+import com.ggx.rpc.client.proxy.RpcProxyManager;
+import com.ggx.rpc.client.service.RpcServiceManager;
+import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadblancer;
+import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadblancer;
+import com.ggx.rpc.client.service.provider.RpcServiceProvider;
 import com.ggx.rpc.common.constant.RpcConstant;
 
 import io.netty.channel.EventLoopGroup;
@@ -8,6 +17,8 @@ import io.netty.channel.EventLoopGroup;
 public class RpcClientConfig {
 
 	protected RpcClient rpcClient;
+	
+	protected RegistryClient registryClient;
 	
 	//是否输出底层ping pong信息
 	protected boolean printPingPongInfo = false;
@@ -29,6 +40,20 @@ public class RpcClientConfig {
 	
 	//共享线程组
 	protected EventLoopGroup sharedEventLoopGroup;
+	
+	//代理调用处理器
+	protected InvocationHandler invocationHandler = new  ProxyInvocationHandler(this);
+	
+	//代理管理器
+	protected RpcProxyManager proxyManager = new  RpcProxyManager(this);
+	
+	//代理服务管理器
+	protected RpcServiceManager serviceManager = new  RpcServiceManager(this);
+	
+	//代理服务供应器
+	protected RpcServiceProvider serviceProvider= new  RpcServiceProvider(this);
+	
+
 
 
 	public RpcClient getRpcClient() {
@@ -94,5 +119,46 @@ public class RpcClientConfig {
 	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
 		this.sharedEventLoopGroup = sharedEventLoopGroup;
 	}
+	
+	public void setInvocationHandler(InvocationHandler invocationHandler) {
+		this.invocationHandler = invocationHandler;
+	}
+	
+	public InvocationHandler getInvocationHandler() {
+		return invocationHandler;
+	}
+	
+	public RpcProxyManager getProxyManager() {
+		return proxyManager;
+	}
+	
+	public void setProxyManager(RpcProxyManager proxyManager) {
+		this.proxyManager = proxyManager;
+	}
+	
+	public RpcServiceManager getServiceManager() {
+		return serviceManager;
+	}
+	
+	public void setServiceManager(RpcServiceManager serviceManager) {
+		this.serviceManager = serviceManager;
+	}
+	
+	public RpcServiceProvider getServiceProvider() {
+		return serviceProvider;
+	}
+	
+	public void setServiceProvider(RpcServiceProvider serviceProvider) {
+		this.serviceProvider = serviceProvider;
+	}
+
+	public RegistryClient getRegistryClient() {
+		return registryClient;
+	}
+
+	public void setRegistryClient(RegistryClient registryClient) {
+		this.registryClient = registryClient;
+	}
+	
 	
 }

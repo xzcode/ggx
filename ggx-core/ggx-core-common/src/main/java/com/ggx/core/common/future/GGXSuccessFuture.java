@@ -10,15 +10,15 @@ import com.ggx.util.logger.GGXLoggerUtil;
 
 
 /**
- * 默认失败future
- * @param 
+ * 默认成功future
+ * @param <V>
  * 
  * @author zai
  * 2019-12-01 16:28:44
  */
-public class GGFailedFuture implements GGXFuture {
+public class GGXSuccessFuture<V> implements GGXFuture {
 	
-	public static final GGFailedFuture DEFAULT_FAILED_FUTURE = new GGFailedFuture();
+	public static final GGXSuccessFuture<?> DEFAULT_SUCCESS_FUTURE = new GGXSuccessFuture<>();
 	
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
@@ -32,36 +32,34 @@ public class GGFailedFuture implements GGXFuture {
 
 	@Override
 	public boolean isDone() {
-		return false;
+		return true;
 	}
 
 	@Override
-	public Object get() throws InterruptedException, ExecutionException {
+	public V get() throws InterruptedException, ExecutionException {
 		return null;
 	}
 
 	@Override
-	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+	public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
 		return null;
 	}
 
 	@Override
 	public void addListener(GGXFutureListener<GGXFuture> listener) {
 		try {
-			listener.operationComplete(DEFAULT_FAILED_FUTURE);
+			listener.operationComplete(DEFAULT_SUCCESS_FUTURE);
 		} catch (Exception e) {
 			GGXLoggerUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}
-		
 	}
 	
-
 
 	@Override
 	public boolean cancel() {
 		return false;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(Class<T> clazz) {
@@ -74,13 +72,12 @@ public class GGFailedFuture implements GGXFuture {
 
 	@Override
 	public boolean isSuccess() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public GGXSession getSession() {
 		return null;
 	}
-
 
 }
