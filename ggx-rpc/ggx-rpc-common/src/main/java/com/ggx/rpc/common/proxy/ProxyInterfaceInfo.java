@@ -18,6 +18,7 @@ public class ProxyInterfaceInfo {
 	
 	protected Map<String, Method> methods;
 	
+	//方法
 	protected Map<Method, Class<?>[]> methodParamTypes;
 	
 	//方法注解类型集合
