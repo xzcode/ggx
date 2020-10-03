@@ -22,6 +22,7 @@ public class ProxyInvocationHandler implements InvocationHandler {
 
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		
 		//TODO 确认需要调用的服务
 		
 		//TODO 组装数据包

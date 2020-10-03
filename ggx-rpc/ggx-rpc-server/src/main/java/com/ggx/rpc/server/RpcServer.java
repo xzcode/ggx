@@ -64,10 +64,15 @@ public class RpcServer implements GGXCore{
 				//获取注册中心客户端
 				RegistryClient registryClient = this.config.getRegistryClient();
 				if (registryClient != null) {
+					
 					//添加自定义rpc组id
 					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_SERVICE, "true");
+					
 					//添加自定义rpc服务端端口
 					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_SERVICE_PORT, String.valueOf(this.config.getPort()));
+					
+					//添加自定义rpc接口列表信息
+					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_INTTERFACE_LIST, String.valueOf(this.config.getPort()));
 				}
 			}
 		});

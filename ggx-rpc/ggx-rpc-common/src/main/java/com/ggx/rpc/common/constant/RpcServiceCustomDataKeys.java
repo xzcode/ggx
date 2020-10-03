@@ -7,14 +7,20 @@ package com.ggx.rpc.common.constant;
  * 2020-10-3 12:31:47
  */
 public interface RpcServiceCustomDataKeys {
+	
+	/**
+	 * RPC服务标识
+	 */
+	String RPC_SERVICE = "RPC_SERVICE";
+	
 	/**
 	 * 服务端口
 	 */
 	String RPC_SERVICE_PORT = "RPC_SERVICE_PORT";
 	
 	/**
-	 * RPC服务标识
+	 * RPC服务接口列表
 	 */
-	String RPC_SERVICE = "RPC_SERVICE";
+	String RPC_INTTERFACE_LIST = "RPC_INTTERFACE_LIST";
 	
 }
