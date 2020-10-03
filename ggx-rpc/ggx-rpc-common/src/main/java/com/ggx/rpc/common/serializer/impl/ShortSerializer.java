@@ -1,6 +1,7 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * Short序列化器
@@ -12,15 +13,15 @@ public class ShortSerializer implements ParameterSerializer<Short>{
 	
 
 	@Override
-	public byte[] serialize(Short param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return ByteArrayTransferUtil.shortToBytes(param);
+		return ByteArrayTransferUtil.shortToBytes((short) param);
 	}
 
 	@Override
-	public Short deserialize(byte[] bytes, Class<Short> t) throws Exception {
+	public Short deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return ByteArrayTransferUtil.bytesToShort(bytes);
 	}
 

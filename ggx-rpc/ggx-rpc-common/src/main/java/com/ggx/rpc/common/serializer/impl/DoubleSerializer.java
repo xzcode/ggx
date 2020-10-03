@@ -1,6 +1,7 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * Double序列化器
@@ -12,15 +13,15 @@ public class DoubleSerializer implements ParameterSerializer<Double>{
 	
 
 	@Override
-	public byte[] serialize(Double param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return ByteArrayTransferUtil.doubleToBytes(param);
+		return ByteArrayTransferUtil.doubleToBytes((double) param);
 	}
 
 	@Override
-	public Double deserialize(byte[] bytes, Class<Double> t) throws Exception {
+	public Double deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return ByteArrayTransferUtil.bytesToDouble(bytes);
 	}
 

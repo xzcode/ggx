@@ -1,6 +1,7 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * Long序列化器
@@ -12,15 +13,15 @@ public class LongSerializer implements ParameterSerializer<Long>{
 	
 
 	@Override
-	public byte[] serialize(Long param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return ByteArrayTransferUtil.longToBytes(param);
+		return ByteArrayTransferUtil.longToBytes((long) param);
 	}
 
 	@Override
-	public Long deserialize(byte[] bytes, Class<Long> t) throws Exception {
+	public Long deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return ByteArrayTransferUtil.bytesToLong(bytes);
 	}
 

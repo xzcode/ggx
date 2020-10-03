@@ -7,10 +7,11 @@ import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.invocation.ProxyInvocationHandler;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.RpcServiceManager;
-import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadblancer;
-import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadblancer;
 import com.ggx.rpc.client.service.provider.RpcServiceProvider;
+import com.ggx.rpc.common.cache.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
+import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
+import com.ggx.rpc.common.serializer.factory.impl.DefaultParameterSerializerFactory;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -53,7 +54,11 @@ public class RpcClientConfig {
 	//代理服务供应器
 	protected RpcServiceProvider serviceProvider= new  RpcServiceProvider(this);
 	
-
+	//接口信息解析器
+	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
+	
+	//参数序列化器工厂
+	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
 
 
 	public RpcClient getRpcClient() {
@@ -159,6 +164,23 @@ public class RpcClientConfig {
 	public void setRegistryClient(RegistryClient registryClient) {
 		this.registryClient = registryClient;
 	}
+	
+	public InterfaceInfoParser getInterfaceInfoParser() {
+		return interfaceInfoParser;
+	}
+	
+	public void setInterfaceInfoParser(InterfaceInfoParser interfaceInfoParser) {
+		this.interfaceInfoParser = interfaceInfoParser;
+	}
+
+	public ParameterSerializerFactory getParameterSerializerFactory() {
+		return parameterSerializerFactory;
+	}
+
+	public void setParameterSerializerFactory(ParameterSerializerFactory parameterSerializerFactory) {
+		this.parameterSerializerFactory = parameterSerializerFactory;
+	}
+	
 	
 	
 }

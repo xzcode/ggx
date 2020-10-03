@@ -3,8 +3,12 @@ package com.ggx.rpc.server.config;
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.rpc.common.cache.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
+import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
+import com.ggx.rpc.common.serializer.factory.impl.DefaultParameterSerializerFactory;
 import com.ggx.rpc.server.RpcServer;
+import com.ggx.rpc.server.invocation.InvocationManager;
 
 /**
  * 配置
@@ -50,6 +54,15 @@ public class RpcServerConfig {
 	
 	//服务组id
 	protected String serviceGroupId;
+	
+	//接口信息解析器
+	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
+	
+	//RPC接口调用管理器
+	protected InvocationManager invocationManager = new InvocationManager(this);
+	
+	//参数序列化器工厂
+	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
 	
 	
 	public int getPort() {
@@ -154,6 +167,32 @@ public class RpcServerConfig {
 
 	public void setServiceGroupId(String rpcGroupId) {
 		this.serviceGroupId = rpcGroupId;
+	}
+	
+	public InterfaceInfoParser getInterfaceInfoParser() {
+		return interfaceInfoParser;
+	}
+	
+	public void setInterfaceInfoParser(InterfaceInfoParser interfaceInfoParser) {
+		this.interfaceInfoParser = interfaceInfoParser;
+	}
+	
+	public InvocationManager getInvocationManager() {
+		return invocationManager;
+	}
+	
+	public void setInvocationManager(InvocationManager invocationManager) {
+		this.invocationManager = invocationManager;
+	}
+
+
+	public ParameterSerializerFactory getParameterSerializerFactory() {
+		return parameterSerializerFactory;
+	}
+
+
+	public void setParameterSerializerFactory(ParameterSerializerFactory parameterSerializerFactory) {
+		this.parameterSerializerFactory = parameterSerializerFactory;
 	}
 	
 	

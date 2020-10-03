@@ -19,16 +19,23 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.rpc.server.handler.RpcReqHandler;
+import com.ggx.rpc.server.invocation.InvocationManager;
 import com.ggx.util.logger.GGXLoggerUtil;
 
 public class RpcServer implements GGXCore{
 	
 	private RpcServerConfig config;
 	private GGXCoreServer serviceServer;
+	private InvocationManager invocationManager;
 	
 	public RpcServer(RpcServerConfig config) {
-		super();
 		this.config = config;
+		this.invocationManager = config.getInvocationManager();
+	}
+	
+	public void register(Class<?> serviceInterface, Object instance) {
+		this.invocationManager.register(serviceInterface, instance);
+		
 	}
 
 	public GGXFuture start() {

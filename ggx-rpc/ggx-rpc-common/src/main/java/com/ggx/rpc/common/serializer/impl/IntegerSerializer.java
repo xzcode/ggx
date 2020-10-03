@@ -1,6 +1,7 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * 字符串序列化器
@@ -11,15 +12,15 @@ import com.ggx.core.common.utils.ByteArrayTransferUtil;
 public class IntegerSerializer implements ParameterSerializer<Integer>{
 	
 	@Override
-	public byte[] serialize(Integer param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return ByteArrayTransferUtil.intToBytes(param);
+		return ByteArrayTransferUtil.intToBytes((int) param);
 	}
 
 	@Override
-	public Integer deserialize(byte[] bytes, Class<Integer> t) throws Exception {
+	public Integer deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return ByteArrayTransferUtil.bytesToInt(bytes);
 	}
 

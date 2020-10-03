@@ -1,7 +1,8 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * Double序列化器
@@ -23,7 +24,7 @@ public class ObjectSerializer implements ParameterSerializer<Object>{
 	}
 
 	@Override
-	public Object deserialize(byte[] bytes, Class<Object> t) throws Exception {
+	public Object deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return serializer.deserialize(bytes, t);
 	}
 

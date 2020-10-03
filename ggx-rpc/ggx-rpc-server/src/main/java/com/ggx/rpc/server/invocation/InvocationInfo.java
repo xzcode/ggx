@@ -1,23 +1,20 @@
 package com.ggx.rpc.server.invocation;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+import com.ggx.rpc.common.cache.InterfaceInfo;
 
 public class InvocationInfo {
 	
-	private String fullInterfaceName;
+	
+	private InterfaceInfo interfaceInfo;
 	
 	private Object instance;
 	
-	private Map<String, Method> methodsCache;
-	
-
-	public String getFullInterfaceName() {
-		return fullInterfaceName;
+	public void setInterfaceInfo(InterfaceInfo interfaceInfo) {
+		this.interfaceInfo = interfaceInfo;
 	}
-
-	public void setFullInterfaceName(String fullInterfaceName) {
-		this.fullInterfaceName = fullInterfaceName;
+	
+	public InterfaceInfo getInterfaceInfo() {
+		return interfaceInfo;
 	}
 
 	public Object getInstance() {
@@ -28,14 +25,5 @@ public class InvocationInfo {
 		this.instance = instance;
 	}
 
-	public Map<String, Method> getMethodsCache() {
-		return methodsCache;
-	}
-
-	public void setMethodsCache(Map<String, Method> methodsCache) {
-		this.methodsCache = methodsCache;
-	}
-	
-	
 
 }

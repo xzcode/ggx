@@ -1,6 +1,8 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import java.nio.charset.Charset;
+
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * 字符串序列化器
@@ -13,15 +15,15 @@ public class StringSerializer implements ParameterSerializer<String>{
 	private Charset charset = Charset.forName("utf-8");
 
 	@Override
-	public byte[] serialize(String param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return param.getBytes(charset);
+		return ((String) param).getBytes(charset);
 	}
 
 	@Override
-	public String deserialize(byte[] bytes, Class<String> t) throws Exception {
+	public String deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return new String(bytes, charset);
 	}
 

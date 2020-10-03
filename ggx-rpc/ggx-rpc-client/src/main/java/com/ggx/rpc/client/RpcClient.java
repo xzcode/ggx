@@ -23,8 +23,8 @@ public class RpcClient{
 		
 	}
 	 
-	public void register(Class<?> serviceInterface) {
-		
+	public void register(Class<?> serviceInterface, Object fallbackObj) {
+		this.proxyManager.register(serviceInterface, fallbackObj);
 		
 	}
 	

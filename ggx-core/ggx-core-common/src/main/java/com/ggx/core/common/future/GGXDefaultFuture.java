@@ -24,7 +24,24 @@ public class GGXDefaultFuture implements GGXFuture {
 
 	private boolean cancel;
 	
+	private Object data;
+	
 	private GGXSession session;
+	
+	
+
+	public GGXDefaultFuture() {
+	}
+	
+	
+
+	public GGXDefaultFuture(boolean success, Object data) {
+		super();
+		this.success = success;
+		this.data = data;
+	}
+
+
 
 	@Override
 	public void addListener(GGXFutureListener<GGXFuture> listener) {
@@ -69,12 +86,12 @@ public class GGXDefaultFuture implements GGXFuture {
 
 	@Override
 	public Object get() throws InterruptedException, ExecutionException {
-		return null;
+		return data;
 	}
 
 	@Override
 	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-		return null;
+		return data;
 	}
 
 	@SuppressWarnings("unchecked")

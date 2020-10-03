@@ -1,4 +1,4 @@
-package com.ggx.rpc.common.message.model;
+package com.ggx.rpc.common.model;
 
 public class BytesModel {
 	

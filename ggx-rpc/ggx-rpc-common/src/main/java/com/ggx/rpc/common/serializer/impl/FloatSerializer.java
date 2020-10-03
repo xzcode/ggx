@@ -1,6 +1,7 @@
-package com.ggx.rpc.common.serializer;
+package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.utils.ByteArrayTransferUtil;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
  * Float序列化器
@@ -12,15 +13,15 @@ public class FloatSerializer implements ParameterSerializer<Float>{
 	
 
 	@Override
-	public byte[] serialize(Float param) throws Exception {
+	public byte[] serialize(Object param) throws Exception {
 		if (param == null) {
 			return null;
 		}
-		return ByteArrayTransferUtil.floatToBytes(param);
+		return ByteArrayTransferUtil.floatToBytes((float) param);
 	}
 
 	@Override
-	public Float deserialize(byte[] bytes, Class<Float> t) throws Exception {
+	public Float deserialize(byte[] bytes, Class<?> t) throws Exception {
 		return ByteArrayTransferUtil.bytesToFloat(bytes);
 	}
 
