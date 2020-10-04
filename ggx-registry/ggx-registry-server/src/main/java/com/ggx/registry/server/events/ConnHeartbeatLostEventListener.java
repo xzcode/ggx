@@ -6,7 +6,7 @@ import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.constant.RegistryServerSessionKeys;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 public class ConnHeartbeatLostEventListener implements EventListener<Void>{
 	
@@ -27,7 +27,7 @@ public class ConnHeartbeatLostEventListener implements EventListener<Void>{
 		GGXSession session = eventData.getSession();
 		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
 		
-		GGXLoggerUtil.getLogger(this).warn("Service heart beat lost! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
+		GGXLogUtil.getLogger(this).warn("Service heart beat lost! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
 		
 	}
 

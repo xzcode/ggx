@@ -17,6 +17,12 @@ public class InterfaceInfo {
 
 	//接口class
 	protected Class<?> interfaceClass;
+	
+	//备用实例class name
+	protected String fallbackClassName;
+	
+	//备用实例class
+	protected Class<?> fallbackClass;
 
 	//所有方法集合
 	protected Map<String, Method> methods;
@@ -90,7 +96,20 @@ public class InterfaceInfo {
 		this.interfaceName = interfaceName;
 	}
 	
+	public Class<?> getFallbackClass() {
+		return fallbackClass;
+	}
 	
+	public void setFallbackClass(Class<?> fallbackClass) {
+		this.fallbackClass = fallbackClass;
+	}
 
 
+	public String getFallbackClassName() {
+		return fallbackClassName;
+	}
+	
+	public void setFallbackClassName(String fallbackClassName) {
+		this.fallbackClassName = fallbackClassName;
+	}
 }

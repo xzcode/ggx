@@ -24,7 +24,7 @@ import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 public class EventbusClient{
 	
@@ -135,7 +135,7 @@ public class EventbusClient{
 			}
 			
 		} catch (Exception e) {
-			GGXLoggerUtil.getLogger(this).error("Eventbus publish event ERROR!", e);
+			GGXLogUtil.getLogger(this).error("Eventbus publish event ERROR!", e);
 		}
 	}
 

@@ -9,7 +9,7 @@ import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.resp.RegistryServiceRegisterResp;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 客户端注册请求处理
@@ -43,7 +43,7 @@ public class RegisterRespHandler implements MessageHandler<RegistryServiceRegist
 				try {
 					listener.onRegisterSuccess();
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error("ClientRegisterSuccessListener ERROR!", e);
+					GGXLogUtil.getLogger(this).error("ClientRegisterSuccessListener ERROR!", e);
 				}
 			}
 			if (config.isRequireServices()) {

@@ -1,6 +1,7 @@
 package com.ggx.rpc.server;
 
 import java.nio.charset.Charset;
+import java.util.Set;
 
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.event.EventManager;
@@ -20,7 +21,8 @@ import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.rpc.server.handler.RpcReqHandler;
 import com.ggx.rpc.server.invocation.InvocationManager;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.json.GGXJsonUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 public class RpcServer implements GGXCore{
 	
@@ -42,7 +44,7 @@ public class RpcServer implements GGXCore{
 		String serviceGroupId = this.config.getServiceGroupId();
 		
 		if (serviceGroupId == null || serviceGroupId.isEmpty()) {
-			GGXLoggerUtil.getLogger(this).error("'RpcServerConfig.serviceGroupId' must not be 'null' or empty!!");
+			GGXLogUtil.getLogger(this).error("'RpcServerConfig.serviceGroupId' must not be 'null' or empty!!");
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		
@@ -63,6 +65,7 @@ public class RpcServer implements GGXCore{
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		
 		this.serviceServer.onMessage(new RpcReqHandler(config));
+	
 		
 		
 		GGXFuture startFuture = sessionGroupServer.start();
@@ -78,8 +81,8 @@ public class RpcServer implements GGXCore{
 					//添加自定义rpc服务端端口
 					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_SERVICE_PORT, String.valueOf(this.config.getPort()));
 					
-					//添加自定义rpc接口列表信息
-					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_INTTERFACE_LIST, String.valueOf(this.config.getPort()));
+					//添加自定义rpc接口信息列表
+					registryClient.addCustomData(RpcServiceCustomDataKeys.RPC_INTERFACE_INFO_LIST, GGXJsonUtil.toJson(invocationManager.getInterfaceInfoModelList()));
 				}
 			}
 		});

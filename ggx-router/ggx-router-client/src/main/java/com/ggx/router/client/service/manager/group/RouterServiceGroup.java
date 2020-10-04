@@ -15,7 +15,7 @@ import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
 import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 路由服务组
@@ -79,7 +79,7 @@ public class RouterServiceGroup {
 				try {
 					addRouterServiceListener.trigger(service);
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+					GGXLogUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
 				}
 			}
 		}else {
@@ -124,7 +124,7 @@ public class RouterServiceGroup {
 			try {
 				removeRouterServiceListener.trigger(routerService);
 			} catch (Exception e) {
-				GGXLoggerUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
+				GGXLogUtil.getLogger(this).error("AddRouterServiceListener Error!", e);
 			}
 		}
 	}

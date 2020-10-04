@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
@@ -16,12 +15,7 @@ import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.rpc.server.invocation.InvocationManager;
 import com.google.gson.Gson;
 
-/**
- * 事件发布请求
- *
- * @author zai
- * 2020-04-10 14:49:48
- */
+
 public class RpcReqHandler implements MessageHandler<RpcReq>{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(RpcReqHandler.class);

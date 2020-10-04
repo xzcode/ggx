@@ -15,7 +15,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.json.GGXServerJsonUtil;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -187,7 +187,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 
 			return future;
 		}
-		Logger logger = GGXLoggerUtil.getLogger();
+		Logger logger = GGXLogUtil.getLogger();
 		if (logger.isDebugEnabled()) {
 			logger.debug("Channel is inactived! Message will not be send, Pack:{}", GGXServerJsonUtil.toJson(pack));
 		}

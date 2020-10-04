@@ -16,7 +16,7 @@ import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 import com.ggx.util.manager.listener.Listener;
 
 public class RpcService {
@@ -140,7 +140,7 @@ public class RpcService {
 				try {
 					listener.onTrigger(this);
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error(listener.getClass().getSimpleName() + " ERROR!", e);
+					GGXLogUtil.getLogger(this).error(listener.getClass().getSimpleName() + " ERROR!", e);
 				}
 
 			}

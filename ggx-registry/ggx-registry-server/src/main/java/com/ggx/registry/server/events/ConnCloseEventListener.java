@@ -8,7 +8,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.constant.RegistryServerSessionKeys;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	
@@ -39,7 +39,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 		ServiceManager serviceManager = config.getServiceManager();
 		serviceManager.sendToAllServices(resp);
 		
-		GGXLoggerUtil.getLogger(this).warn("Service unregister! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
+		GGXLogUtil.getLogger(this).warn("Service unregister! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
 		
 	}
 

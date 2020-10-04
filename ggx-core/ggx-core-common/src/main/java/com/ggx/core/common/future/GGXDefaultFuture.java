@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 默认future
@@ -36,9 +36,10 @@ public class GGXDefaultFuture implements GGXFuture {
 	
 
 	public GGXDefaultFuture(boolean success, Object data) {
-		super();
 		this.success = success;
 		this.data = data;
+		this.done = true;
+		this.triggerListeners();
 	}
 
 
@@ -135,7 +136,7 @@ public class GGXDefaultFuture implements GGXFuture {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {
-			GGXLoggerUtil.getLogger(this).error(e.getMessage(), e);
+			GGXLogUtil.getLogger(this).error("GGXFuture trigger listener ERROR!", e);
 		}
 	}
 

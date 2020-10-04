@@ -26,19 +26,19 @@ public class DefaultParameterSerializerFactory implements ParameterSerializerFac
 		if (paramType == String.class) {
 			return STRING_SERIALIZER;
 		}
-		if (paramType == Integer.class) {
+		if (paramType == Integer.class || paramType == int.class) {
 			return INTEGER_SERIALIZER;
 		}
-		if (paramType == Long.class) {
+		if (paramType == Long.class || paramType == long.class) {
 			return LONG_SERIALIZER;
 		}
-		if (paramType == Double.class) {
+		if (paramType == Double.class || paramType == double.class) {
 			return DOUBLE_SERIALIZER;
 		}
-		if (paramType == Short.class) {
+		if (paramType == Short.class || paramType == short.class) {
 			return SHORT_SERIALIZER;
 		}
-		if (paramType == Float.class) {
+		if (paramType == Float.class || paramType == float.class) {
 			return FLOAT_SERIALIZER;
 		}
 		

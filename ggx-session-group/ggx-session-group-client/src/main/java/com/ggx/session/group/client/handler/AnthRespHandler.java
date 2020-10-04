@@ -7,7 +7,7 @@ import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
 import com.ggx.group.common.message.resp.AuthResp;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 客户端认证请求
@@ -33,7 +33,7 @@ public class AnthRespHandler implements MessageHandler<AuthResp> {
 			return;
 		}
 		//认证失败
-		GGXLoggerUtil.getLogger(this).error("SessionGroupClient Auth Failed!!");
+		GGXLogUtil.getLogger(this).error("SessionGroupClient Auth Failed!!");
 		session.schedule(5000, () -> {
 			session.send(new AuthReq(config.getAuthToken()));
 		});

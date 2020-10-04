@@ -9,7 +9,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 import io.netty.channel.Channel;
 
@@ -85,7 +85,7 @@ public class MessageDataTask implements Runnable{
 			config.getReceiveMessageManager().handle(messageData);
 			
 		} catch (Exception e) {
-			GGXLoggerUtil.getLogger().error("Request Message Task ERROR!! -- actionId: {}, error: {}", action, e);
+			GGXLogUtil.getLogger().error("Request Message Task ERROR!! -- actionId: {}, error: {}", action, e);
 		}
 		
 	}

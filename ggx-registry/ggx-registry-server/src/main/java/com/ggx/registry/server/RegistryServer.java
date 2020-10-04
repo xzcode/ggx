@@ -19,7 +19,7 @@ import com.ggx.registry.server.events.ConnHeartbeatLostEventListener;
 import com.ggx.registry.server.handler.RegisterReqHandler;
 import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -141,7 +141,7 @@ public class RegistryServer {
 				sb.append("Total Groups:   \t").append(groupNum).append("\n");
 				sb.append("Total Services: \t").append(serviceNum).append("\n");
 				sb.append("-----------------------------------\n");
-				GGXLoggerUtil.getLogger(this).warn(sb.toString());
+				GGXLogUtil.getLogger(this).warn(sb.toString());
 				sb.setLength(0);
 			});
 		}

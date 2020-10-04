@@ -33,7 +33,6 @@ public class SessionGroupServerConfig {
 	//会话组管理器
 	private GGSessionGroupManager sessionGroupManager;
 	
-	
 	//自定义数据传输处理器
 	private CustomDataTransferHandler customDataTransferHandler;
 	
@@ -42,7 +41,6 @@ public class SessionGroupServerConfig {
 	
 	//工作线程数
 	protected int workThreadSize = 8;
-	
 	
 	//服务端口
 	private int port = GGSesssionGroupConstant.DEFAULT_SERVER_PORT;

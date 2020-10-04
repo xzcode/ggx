@@ -8,7 +8,7 @@ import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberGroup;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.eventbus.client.subscriber.SubscriptionData;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 消息接收处理器
@@ -46,7 +46,7 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 			}
 			
 		} catch (Exception e) {
-			GGXLoggerUtil.getLogger(this).error("Eventbus receive message ERROR!", e);
+			GGXLogUtil.getLogger(this).error("Eventbus receive message ERROR!", e);
 		}
 	}
 

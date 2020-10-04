@@ -36,7 +36,7 @@ import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 路由服务
@@ -359,7 +359,7 @@ public class RouterService {
 				try {
 					listener.onShutdown(this);
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
+					GGXLogUtil.getLogger(this).error("RouterServiceShutdownListener ERROR!", e);
 				}
 				
 			}

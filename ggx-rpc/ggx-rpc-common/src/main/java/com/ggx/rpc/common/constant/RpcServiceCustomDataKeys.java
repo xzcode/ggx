@@ -21,6 +21,7 @@ public interface RpcServiceCustomDataKeys {
 	/**
 	 * RPC服务接口列表
 	 */
-	String RPC_INTTERFACE_LIST = "RPC_INTTERFACE_LIST";
+	String RPC_INTERFACE_INFO_LIST = "RPC_INTERFACE_INFO_LIST";
+	
 	
 }

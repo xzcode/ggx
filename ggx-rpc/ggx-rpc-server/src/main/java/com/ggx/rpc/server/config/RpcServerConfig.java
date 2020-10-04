@@ -55,14 +55,15 @@ public class RpcServerConfig {
 	//服务组id
 	protected String serviceGroupId;
 	
+	
+	//参数序列化器工厂
+	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
+	
 	//接口信息解析器
 	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
 	
 	//RPC接口调用管理器
 	protected InvocationManager invocationManager = new InvocationManager(this);
-	
-	//参数序列化器工厂
-	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
 	
 	
 	public int getPort() {

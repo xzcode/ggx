@@ -6,7 +6,11 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.invocation.ProxyInvocationHandler;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
+import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
+import com.ggx.rpc.client.service.RpcServiceClassCache;
 import com.ggx.rpc.client.service.RpcServiceManager;
+import com.ggx.rpc.client.service.fallback.DefaultFallbackInstanceFactory;
+import com.ggx.rpc.client.service.fallback.FallbackInstanceFactory;
 import com.ggx.rpc.client.service.provider.RpcServiceProvider;
 import com.ggx.rpc.common.cache.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
@@ -42,8 +46,6 @@ public class RpcClientConfig {
 	//共享线程组
 	protected EventLoopGroup sharedEventLoopGroup;
 	
-	//代理调用处理器
-	protected InvocationHandler invocationHandler = new  ProxyInvocationHandler(this);
 	
 	//代理管理器
 	protected RpcProxyManager proxyManager = new  RpcProxyManager(this);
@@ -56,6 +58,15 @@ public class RpcClientConfig {
 	
 	//接口信息解析器
 	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
+	
+	//接口与rpc服务关联缓存
+	protected InterfaceServiceGroupCache interfaceServiceGroupCache = new  InterfaceServiceGroupCache();
+	
+	//rpc服务相关类型缓存
+	protected RpcServiceClassCache classCache = new  RpcServiceClassCache();
+	
+	//rpc服务备用实例工厂
+	protected FallbackInstanceFactory fallbackInstanceFactory = new  DefaultFallbackInstanceFactory();
 	
 	//参数序列化器工厂
 	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
@@ -125,14 +136,6 @@ public class RpcClientConfig {
 		this.sharedEventLoopGroup = sharedEventLoopGroup;
 	}
 	
-	public void setInvocationHandler(InvocationHandler invocationHandler) {
-		this.invocationHandler = invocationHandler;
-	}
-	
-	public InvocationHandler getInvocationHandler() {
-		return invocationHandler;
-	}
-	
 	public RpcProxyManager getProxyManager() {
 		return proxyManager;
 	}
@@ -182,5 +185,26 @@ public class RpcClientConfig {
 	}
 	
 	
+	public InterfaceServiceGroupCache getInterfaceServiceGroupCache() {
+		return interfaceServiceGroupCache;
+	}
+	public void setInterfaceServiceGroupCache(InterfaceServiceGroupCache interfaceServiceCache) {
+		this.interfaceServiceGroupCache = interfaceServiceCache;
+	}
 	
+	public RpcServiceClassCache getClassCache() {
+		return classCache;
+	}
+	
+	public void setClassCache(RpcServiceClassCache classCache) {
+		this.classCache = classCache;
+	}
+	
+	public FallbackInstanceFactory getFallbackInstanceFactory() {
+		return fallbackInstanceFactory;
+	}
+	
+	public void setFallbackInstanceFactory(FallbackInstanceFactory fallbackInstanceFactory) {
+		this.fallbackInstanceFactory = fallbackInstanceFactory;
+	}
 }

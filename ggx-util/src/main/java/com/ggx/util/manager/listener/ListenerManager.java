@@ -2,7 +2,7 @@ package com.ggx.util.manager.listener;
 
 import java.util.List;
 
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 取消行为支持接口
@@ -71,7 +71,7 @@ public interface ListenerManager<T> {
 				try {
 					listener.onTrigger(data);
 				} catch (Exception e) {
-					GGXLoggerUtil.getLogger(this).error("Trigger Listener Error!", e);
+					GGXLogUtil.getLogger(this).error("Trigger Listener Error!", e);
 				}
 			}else {
 				triggerListeners(data);

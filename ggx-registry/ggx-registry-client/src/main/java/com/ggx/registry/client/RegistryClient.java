@@ -23,7 +23,7 @@ import com.ggx.registry.client.registry.RegistryInfo;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.service.ServiceInfo;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -97,13 +97,13 @@ public class RegistryClient {
 			.addListener(f -> {
 				if (!f.isSuccess()) {
 					//连接失败，进行进行重连操作
-					GGXLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
+					GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",registry.getDomain(), registry.getPort());
 					ggClient.schedule(config.getTryRegisterInterval(), () -> {
 						connect();
 					});
 					return;
 				}
-				GGXLoggerUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
+				GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",registry.getDomain(), registry.getPort());
 			});
 		});
 		

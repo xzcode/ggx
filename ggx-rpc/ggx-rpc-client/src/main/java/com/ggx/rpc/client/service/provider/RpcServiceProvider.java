@@ -1,15 +1,21 @@
 package com.ggx.rpc.client.service.provider;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.proxy.RpcProxyManager;
+import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcService;
+import com.ggx.rpc.client.service.RpcServiceClassCache;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadblancer;
 import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
+import com.ggx.rpc.common.model.InterfaceInfoModel;
+import com.ggx.util.json.GGXJsonUtil;
 import com.ggx.util.manager.impl.ListenableMapDataManager;
 
 public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServiceGroup>{
@@ -62,6 +68,11 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		if (servicePortString == null) {
 			return;
 		}
+		String interfaceInfosJson = customData.get(RpcServiceCustomDataKeys.RPC_INTERFACE_INFO_LIST);
+		@SuppressWarnings("unchecked")
+		List<InterfaceInfoModel> interfaceInfos = GGXJsonUtil.fromJson(interfaceInfosJson, List.class, InterfaceInfoModel.class);
+		
+		
 		Integer servicePort = Integer.valueOf(servicePortString);
 		
 		String serviceGroupId = service.getServiceGroupId();
@@ -69,9 +80,8 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		String serviceId = service.getServiceId();
 		
 		RpcServiceGroup serviceGroup = this.get(serviceGroupId);
-		
+		boolean newGroup = false;
 		if (serviceGroup != null) {
-			
 			//检查是否存在id一样的旧服务
 			RpcService oldService = serviceGroup.get(serviceId);
 			if (oldService != null) {
@@ -86,6 +96,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 					return;
 				}
 			}else {
+				newGroup = true;
 				serviceGroup = new RpcServiceGroup(serviceGroupId, new ConsistentHashingRpcServiceLoadblancer(serviceGroup));
 				RpcServiceGroup fServiceGroup = serviceGroup;
 				serviceGroup.onRemove(rpcService -> {
@@ -110,7 +121,32 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
         rpcService.setServiceName(service.getServiceName());
         rpcService.addAllExtraData(service.getCustomData());
         
+        //添加到服务组
         serviceGroup.put(serviceId, rpcService);
+        
+        //如果是新创建的组，需要注册接口信息
+        if (newGroup) {
+	        RpcServiceClassCache classCache = this.config.getClassCache();
+	        InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
+	        RpcProxyManager proxyManager = this.config.getProxyManager();
+			for (InterfaceInfoModel info : interfaceInfos) {
+				String interfaceName = info.getInterfaceName();
+				String fallbackClassName = info.getFallbackClassName();
+				
+				//注册并接口动态代理
+				proxyManager.register(classCache.get(interfaceName),this.config.getFallbackInstanceFactory().instant(classCache.get(fallbackClassName)));
+				
+				//接口服务组缓存
+				interfaceServiceCache.put(info.getInterfaceName(), serviceGroup);
+			}
+			
+			//当移除组的时候，移除接口服务组缓存
+			this.onRemove(group -> {
+				for (InterfaceInfoModel info : interfaceInfos) {
+					interfaceServiceCache.remove(info.getInterfaceName());
+				}
+			});
+        }
         
         rpcService.init();
         

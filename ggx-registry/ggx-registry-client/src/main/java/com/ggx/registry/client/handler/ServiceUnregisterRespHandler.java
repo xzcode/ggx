@@ -5,7 +5,7 @@ import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.resp.RegistryServiceUnregisterResp;
 import com.ggx.registry.common.service.ServiceManager;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 客户端注册请求处理
@@ -34,7 +34,7 @@ public class ServiceUnregisterRespHandler implements MessageHandler<RegistryServ
 		ServiceManager serviceManager = config.getServiceManager();
 		serviceManager.removeService(serviceGroupId, serviceId);
 		
-		GGXLoggerUtil.getLogger(this).warn("Service Unregister [{}:{}]!", resp.getServiceGroupId(), resp.getServiceId());
+		GGXLogUtil.getLogger(this).warn("Service Unregister [{}:{}]!", resp.getServiceGroupId(), resp.getServiceId());
 	}
 
 	

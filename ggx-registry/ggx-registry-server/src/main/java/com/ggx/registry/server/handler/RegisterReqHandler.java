@@ -10,7 +10,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.constant.RegistryServerSessionKeys;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 客户端注册请求处理
@@ -56,11 +56,11 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 		session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, infoModel);
 		ServiceInfo oldServiceInfo = serviceManager.registerService(infoModel);
 		
-		GGXLoggerUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
+		GGXLogUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
 		
 		if (oldServiceInfo != null) {
 			oldServiceInfo.getSession().disconnect();
-			GGXLoggerUtil.getLogger(this).warn("Disconnecting old service! serviceName: {}, serviceId: {}", oldServiceInfo.getServiceName(), oldServiceInfo.getServiceId());
+			GGXLogUtil.getLogger(this).warn("Disconnecting old service! serviceName: {}, serviceId: {}", oldServiceInfo.getServiceName(), oldServiceInfo.getServiceId());
 		}
 		
 		session.send(new RegistryServiceRegisterResp(infoModel, true));

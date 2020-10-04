@@ -28,7 +28,7 @@ import com.ggx.session.group.client.handler.AnthRespHandler;
 import com.ggx.session.group.client.handler.DataTransferRespHandler;
 import com.ggx.session.group.client.handler.SessionGroupRegisterRespHandler;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
-import com.ggx.util.logger.GGXLoggerUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 会话组客户端
@@ -195,13 +195,13 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 					}
 					if (!f.isSuccess()) {
 						// 连接失败，进行进行重连操作
-						GGXLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
+						GGXLogUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
 						ggclient.schedule(config.getReconnectInterval(), () -> {
 							connectOne(host, port);
 						});
 						return;
 					}
-					GGXLoggerUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
+					GGXLogUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
 				});
 				
 			});
