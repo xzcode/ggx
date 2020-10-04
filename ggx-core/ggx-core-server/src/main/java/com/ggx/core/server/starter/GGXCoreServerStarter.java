@@ -26,7 +26,7 @@ public interface GGXCoreServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:28:02
 	 */
-	void shutdown();
+	GGXFuture shutdown();
 	
 	/**
 	 * 设置配置

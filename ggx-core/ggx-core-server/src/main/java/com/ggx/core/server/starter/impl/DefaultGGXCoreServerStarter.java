@@ -174,13 +174,14 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
      * @author zai
      * 2017-07-27
      */
-    public void shutdown() {
-    	if (config.getBossGroup() != null) {
-    		config.getBossGroup().shutdownGracefully();			
-		}
-    	if (config.getWorkerGroup() != null) {
-    		config.getWorkerGroup().shutdownGracefully();		
-		}
+    public GGXFuture shutdown() {
+    	GGXNettyFuture future = new GGXNettyFuture();
+		Future<?> f1 = config.getBossGroup().shutdownGracefully();	
+		f1.addListener(f2 -> {
+			Future<?> f3 = config.getWorkerGroup().shutdownGracefully();	
+			future.setFuture(f3);
+		});
+    	return future;
 	}
     
     public void setConfig(GGXCoreServerConfig config) {

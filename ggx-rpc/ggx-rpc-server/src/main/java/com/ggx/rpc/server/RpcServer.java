@@ -90,8 +90,11 @@ public class RpcServer implements GGXCore{
 		return startFuture;
 	}
 	
-	public void shutdown() {
-		this.config.getSessionGroupServer().shutdown();
+	public GGXFuture shutdown() {
+		if (this.config.getSessionGroupServer() != null) {
+			return this.config.getSessionGroupServer().shutdown();			
+		}
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
 	public void setConfig(RpcServerConfig config) {

@@ -6,6 +6,8 @@ import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
+import com.ggx.rpc.client.RpcClient;
+import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
 public class GGXEventbusClientStarter extends GGXBasicServerStarter {
@@ -23,6 +25,12 @@ public class GGXEventbusClientStarter extends GGXBasicServerStarter {
 		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
 		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
 		this.eventbusGroupClient.start();
+		
+		if (this.rpcClientConfig == null) {
+			this.rpcClientConfig = new RpcClientConfig();
+		}
+		this.rpcClientConfig.setRegistryClient(registryClient);
+		this.rpcClient = new RpcClient(rpcClientConfig);
 
 	}
 	
@@ -36,21 +44,6 @@ public class GGXEventbusClientStarter extends GGXBasicServerStarter {
 		this.registryClient.start();
 	}
 
-	public RegistryClientConfig getRegistryClientConfig() {
-		return registryClientConfig;
-	}
-
-	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
-		this.registryClientConfig = registryClientConfig;
-	}
-
-	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
-		return eventbusGroupClientConfig;
-	}
-
-	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
-		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
-	}
 
 	@Override
 	public GGXCore getGGXCore() {

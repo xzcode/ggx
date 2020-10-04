@@ -39,6 +39,16 @@ public class RpcClient{
 		return (T) this.proxyManager.register(serviceInterface, fallbackObj);
 	}
 	
+
+	public void shutdown() {
+		if (this.config.getSharedEventLoopGroup() != null) {
+			this.config.getSharedEventLoopGroup().shutdownGracefully();
+		}
+		if (this.config.getTaskExecutor() != null && this.config.getTaskExecutor().getEventLoopGroup() != null) {
+			this.config.getTaskExecutor().getEventLoopGroup().shutdownGracefully();
+		}
+	}
+	
 	public static void main(String[] args) {
 		RpcClientConfig config = new RpcClientConfig();
 		RpcClient client = new RpcClient(config);
@@ -46,5 +56,6 @@ public class RpcClient{
 		RpcProxyManager proxyManager = config.getProxyManager();
 		proxyObj.getTestB();
 	}
+
 
 }

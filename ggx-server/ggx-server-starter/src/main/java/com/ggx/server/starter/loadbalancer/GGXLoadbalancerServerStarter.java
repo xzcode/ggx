@@ -12,6 +12,8 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
+import com.ggx.rpc.client.RpcClient;
+import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
 public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
@@ -44,6 +46,12 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 		}
 		this.routerClientConfig.setHostServer(this.routerServer.getServiceServer());
 		this.routerClient = new RouterClient(routerClientConfig);
+		
+		if (this.rpcClientConfig == null) {
+			this.rpcClientConfig = new RpcClientConfig();
+		}
+		this.rpcClientConfig.setRegistryClient(registryClient);
+		this.rpcClient = new RpcClient(rpcClientConfig);
 	}
 
 	@Override
@@ -68,44 +76,5 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 		return this.routerServer;
 	}
 
-	public RegistryClientConfig getRegistryClientConfig() {
-		return registryClientConfig;
-	}
-
-	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
-		this.registryClientConfig = registryClientConfig;
-	}
-
-	public EventbusServerConfig getEventbusServerConfig() {
-		return eventbusServerConfig;
-	}
-
-	public void setEventbusServerConfig(EventbusServerConfig eventbusServerConfig) {
-		this.eventbusServerConfig = eventbusServerConfig;
-	}
-
-	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
-		return eventbusGroupClientConfig;
-	}
-
-	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
-		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
-	}
-
-	public RouterServerConfig getRouterServerConfig() {
-		return routerServerConfig;
-	}
-
-	public void setRouterServerConfig(RouterServerConfig routerServerConfig) {
-		this.routerServerConfig = routerServerConfig;
-	}
-
-	public RouterClientConfig getRouterClientConfig() {
-		return routerClientConfig;
-	}
-
-	public void setRouterClientConfig(RouterClientConfig routerClientConfig) {
-		this.routerClientConfig = routerClientConfig;
-	}
 
 }

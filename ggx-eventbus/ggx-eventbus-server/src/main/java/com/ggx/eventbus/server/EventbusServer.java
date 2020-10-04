@@ -80,8 +80,8 @@ public class EventbusServer implements GGXCore{
 		return startFuture;
 	}
 	
-	public void shutdown() {
-		this.config.getSessionGroupServer().shutdown();
+	public GGXFuture shutdown() {
+		return this.config.getSessionGroupServer().shutdown();
 	}
 	
 	public void setConfig(EventbusServerConfig config) {

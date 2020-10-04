@@ -1,13 +1,23 @@
 package com.ggx.server.spring.boot.starter.support;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
@@ -19,6 +29,7 @@ import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageHandler;
+import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
 import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.starter.GGXServer;
 
@@ -26,16 +37,14 @@ public class GGXServerSpringBootAnnotationSupport implements ApplicationContextA
 
 	private ApplicationContext applicationContext;
 
+	@Autowired
 	private GGXServer ggxServer;
-	
-	//给所有扫描到的actionId加上前缀
-	private String actionIdPrefix;
 	
 	private String[] basicPackage;
 	
 	
-	public GGXServerSpringBootAnnotationSupport(GGXServer ggxServer) {
-		this.ggxServer = ggxServer;
+	public GGXServerSpringBootAnnotationSupport() {
+		
 	}
 
 	@PostConstruct
@@ -120,6 +129,31 @@ public class GGXServerSpringBootAnnotationSupport implements ApplicationContextA
 		}
 		
 		
+		//注册RPC服务
+		
+		Map<String, Object> rpcServices = this.applicationContext.getBeansWithAnnotation(GGXRpcService.class);
+		for (Entry<String, Object> entry : rpcServices.entrySet()) {
+			Object obj = entry.getValue();
+			Class<? extends Object> clazz = obj.getClass();
+			AnnotatedType[] annotatedInterfaces = clazz.getAnnotatedInterfaces();
+			for (AnnotatedType annotatedType : annotatedInterfaces) {
+				Class<?> interfaceClass = (Class<?>) annotatedType.getType();
+				GGXRpcService annotation = interfaceClass.getDeclaredAnnotation(GGXRpcService.class);
+				if (annotation != null) {
+					Class<?> fallbackClass = annotation.fallback();
+
+					if (fallbackClass != Void.class && fallbackClass == clazz) {
+						Object proxy = this.ggxServer.registerRpcClient(interfaceClass, obj);
+						registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy);
+					} else {
+						this.ggxServer.registerRpcService(interfaceClass, obj);
+					}
+				}
+				break;
+			}
+		}
+		 
+		
 
 	}
 
@@ -128,6 +162,37 @@ public class GGXServerSpringBootAnnotationSupport implements ApplicationContextA
 		this.applicationContext = applicationContext;
 
 	}
+	
+	public void registerRpcProxyBean(String name, Class<?> clazz, Object obj) {
+		ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) this.applicationContext;
+        if(applicationContext.containsBean(name)) {
+            throw new RuntimeException("Duplicate bean name!");
+        }
+
+
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+        
+        GenericBeanDefinition beanDefinition = (GenericBeanDefinition) beanDefinitionBuilder.getRawBeanDefinition();
+        beanDefinition.setBeanClass(new FactoryBean<Object>() {
+
+			@Override
+			public Object getObject() throws Exception {
+				return obj;
+			}
+
+			@Override
+			public Class<?> getObjectType() {
+				return clazz;
+			}
+			
+		}.getClass());
+      //这里采用的是byType方式注入，类似的还有byName等
+    beanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_TYPE);
+    beanDefinition.setPrimary(true);
+    BeanDefinitionRegistry registry = (BeanDefinitionRegistry) applicationContext.getBeanFactory();
+    registry.registerBeanDefinition(name, beanDefinition);
+        
+    }
 	
 	public boolean checkPackage(Class<?> checkClass) {
 		if (this.basicPackage != null && this.basicPackage.length > 0) {
@@ -142,13 +207,6 @@ public class GGXServerSpringBootAnnotationSupport implements ApplicationContextA
 		return true;
 	}
 
-	public String getActionIdPrefix() {
-		return actionIdPrefix;
-	}
-
-	public void setActionIdPrefix(String actionIdPrefix) {
-		this.actionIdPrefix = actionIdPrefix;
-	}
 	
 	public void setBasicPackage(String[] basicPackage) {
 		this.basicPackage = basicPackage;

@@ -46,6 +46,7 @@ public class SessionGroupServer {
 		}
 		
 		GGXCoreServerConfig sessionServerConfig = new GGXCoreServerConfig();
+		sessionServerConfig.setGgxComponent(true);
 		sessionServerConfig.setPingPongEnabled(true);
 		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionServerConfig.setProtocolType(ProtocolTypeConstants.TCP);
@@ -82,6 +83,7 @@ public class SessionGroupServer {
 		
 		
 		GGXCoreServerConfig serviceServerConfig = new GGXCoreServerConfig();
+		serviceServerConfig.setGgxComponent(true);
 		serviceServerConfig.setActionIdPrefix(config.getServiceActionIdPrefix());
 		serviceServerConfig.setBossGroup(sessionServerConfig.getBossGroup());
 		serviceServerConfig.setWorkerGroup(sessionServerConfig.getWorkerGroup());
@@ -92,9 +94,8 @@ public class SessionGroupServer {
 		
 	}
 	
-	public void shutdown() {
-		this.config.getWorkEventLoopGroup().shutdownGracefully();
-		this.config.getSessionServer().shutdown();
+	public GGXFuture shutdown() {
+		return this.config.getSessionServer().shutdown();
 	}
 	
 	public GGXFuture start() {

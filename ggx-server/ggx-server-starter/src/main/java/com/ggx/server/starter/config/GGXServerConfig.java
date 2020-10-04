@@ -17,6 +17,8 @@ public class GGXServerConfig {
 	
 	protected GGXServerRegistryConfigModel registry;
 	
+	protected GGXServerRpcConfigModel rpc;
+	
 
 	public boolean isEnabled() {
 		return enabled;
@@ -64,6 +66,14 @@ public class GGXServerConfig {
 
 	public void setRouter(GGXServerRouterConfigModel router) {
 		this.router = router;
+	}
+
+	public GGXServerRpcConfigModel getRpc() {
+		return rpc;
+	}
+
+	public void setRpc(GGXServerRpcConfigModel rpc) {
+		this.rpc = rpc;
 	}
 	
 	

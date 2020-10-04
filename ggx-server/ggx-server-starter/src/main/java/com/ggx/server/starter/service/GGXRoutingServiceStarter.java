@@ -10,9 +10,11 @@ import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
+import com.ggx.rpc.client.RpcClient;
+import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
-public class GGXServiceStarter extends GGXBasicServerStarter {
+public class GGXRoutingServiceStarter extends GGXBasicServerStarter {
 
 
 	public void init() {
@@ -34,6 +36,12 @@ public class GGXServiceStarter extends GGXBasicServerStarter {
 		}
 		this.routerServerConfig.setRegistryClient(registryClient);
 		this.routerServer = new RouterServer(routerServerConfig);
+		
+		if (this.rpcClientConfig == null) {
+			this.rpcClientConfig = new RpcClientConfig();
+		}
+		this.rpcClientConfig.setRegistryClient(registryClient);
+		this.rpcClient = new RpcClient(rpcClientConfig);
 
 	}
 

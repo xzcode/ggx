@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationReadyEventListener;
+import com.ggx.server.spring.boot.starter.support.GGXServerSpringBootAnnotationSupport;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
@@ -31,6 +32,11 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		GGXServerConfig ggxServerConfig = ggxServerConfig();
 		GGXServer ggxserver = new GGXServer(ggxServerConfig);
 		return ggxserver;
+	}
+	
+	@Bean
+	public GGXServerSpringBootAnnotationSupport ggxServerSpringBootAnnotationSupport() {
+		return new GGXServerSpringBootAnnotationSupport();
 	}
 	
 	@Bean

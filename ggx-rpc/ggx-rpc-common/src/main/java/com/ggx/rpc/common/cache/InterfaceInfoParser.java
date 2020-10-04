@@ -28,7 +28,6 @@ public class InterfaceInfoParser {
 		
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
 		
-		
 		GGXRpcFallback fallback = proxyInterface.getAnnotation(GGXRpcFallback.class);
 		if (fallback != null) {
 			interfaceInfo.setFallbackClass(fallback.value());
@@ -75,6 +74,8 @@ public class InterfaceInfoParser {
 				methodGenericReturnTypes.put(mtd, genericReturnTypeList);
 			}
 		}
+		
+		
 		
 		interfaceInfo.setMethods(methods);
 		interfaceInfo.setMethodParamTypes(methodParamTypes);

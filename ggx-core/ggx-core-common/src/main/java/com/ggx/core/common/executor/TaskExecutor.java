@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.future.GGXFuture;
 
+import io.netty.channel.EventLoopGroup;
+
 /**
  * 任务执行器
  * 
@@ -152,5 +154,20 @@ public interface TaskExecutor extends Executor{
 	 */
 	TaskExecutor nextEvecutor();
 
+	/**
+	 * 关闭执行器
+	 * 
+	 * @author zai
+	 * 2020-10-4 19:10:12
+	 */
+	GGXFuture shutdown();
+	
+	/**
+	 * 获取事件循环组
+	 * @return
+	 * @author zai
+	 * 2020-10-4 19:10:19
+	 */
+	EventLoopGroup getEventLoopGroup();
 	
 }

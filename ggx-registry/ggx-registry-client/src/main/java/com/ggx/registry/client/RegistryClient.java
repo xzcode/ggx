@@ -80,7 +80,9 @@ public class RegistryClient {
 	}
 	
 	public void shutdown() {
-		this.config.getCoreClient().shutdown();
+		if (this.config.getCoreClient() != null) {
+			this.config.getCoreClient().shutdown();			
+		}
 	}
 	
 	

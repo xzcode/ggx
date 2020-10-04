@@ -10,6 +10,8 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.rpc.client.RpcClient;
+import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
 public class GGXGatewayStarter  extends GGXBasicServerStarter{
@@ -38,9 +40,13 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		}
 		this.routerClientConfig.setRegistryClient(registryClient);
 		this.routerClientConfig.setHostServer(coreServer);
-		
-		
 		this.routerClient = new RouterClient(routerClientConfig);
+		
+		if (this.rpcClientConfig == null) {
+			this.rpcClientConfig = new RpcClientConfig();
+		}
+		this.rpcClientConfig.setRegistryClient(registryClient);
+		this.rpcClient = new RpcClient(rpcClientConfig);
 	}
 	
 	@Override
@@ -65,40 +71,5 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 	public GGXCore getGGXCore() {
 		return this.coreServer;
 	}
-
-	public RegistryClientConfig getRegistryClientConfig() {
-		return registryClientConfig;
-	}
-
-	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
-		this.registryClientConfig = registryClientConfig;
-	}
-
-
-	public EventbusGroupClientConfig getEventbusGroupClientConfig() {
-		return eventbusGroupClientConfig;
-	}
-
-	public void setEventbusGroupClientConfig(EventbusGroupClientConfig eventbusGroupClientConfig) {
-		this.eventbusGroupClientConfig = eventbusGroupClientConfig;
-	}
-
-	public GGXCoreServerConfig getCoreServerConfig() {
-		return coreServerConfig;
-	}
-
-	public void setCoreServerConfig(GGXCoreServerConfig coreServerConfig) {
-		this.coreServerConfig = coreServerConfig;
-	}
-
-
-	public RouterClientConfig getRouterClientConfig() {
-		return routerClientConfig;
-	}
-
-	public void setRouterClientConfig(RouterClientConfig routerClientConfig) {
-		this.routerClientConfig = routerClientConfig;
-	}
-	
 	
 }

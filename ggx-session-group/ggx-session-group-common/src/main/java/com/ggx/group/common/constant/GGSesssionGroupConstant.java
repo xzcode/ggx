@@ -11,7 +11,7 @@ public interface GGSesssionGroupConstant {
 	/**
 	 * 指令前缀
 	 */
-	String ACTION_ID_PREFIX = "GG.SESSION.GROUP.";
+	String ACTION_ID_PREFIX = "SESSION.GROUP.";
 	
 	/**
 	 * 默认服务器端口

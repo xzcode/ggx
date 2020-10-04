@@ -24,6 +24,6 @@ public interface GGXCoreServer extends GGXCoreConfigSupport<GGXCoreServerConfig>
 	 * 
 	 * @author zai 2019-12-05 10:41:16
 	 */
-	void shutdown();
+	GGXFuture shutdown();
 
 }

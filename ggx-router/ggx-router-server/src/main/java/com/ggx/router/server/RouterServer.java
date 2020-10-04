@@ -211,8 +211,8 @@ public class RouterServer implements GGXCore {
 	}
 	
 	
-	public void shutdown() {
-		this.config.getSharedEventLoopGroup().shutdownGracefully();
+	public GGXFuture shutdown() {
+		return this.config.getSessionGroupServer().shutdown();
 	}
 
 	@Override

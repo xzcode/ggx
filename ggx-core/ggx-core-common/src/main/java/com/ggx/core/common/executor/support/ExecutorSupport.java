@@ -6,6 +6,9 @@ import java.util.concurrent.TimeUnit;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXNettyFuture;
+
+import io.netty.channel.EventLoopGroup;
 
 /**
  * 计划任务执行支持接口
@@ -85,5 +88,18 @@ public interface ExecutorSupport extends TaskExecutor {
 	default void execute(Runnable command) {
 		getTaskExecutor().submitTask(command);
 	}
+
+	@Override
+	default GGXFuture shutdown() {
+		return new GGXNettyFuture(getEventLoopGroup().shutdownGracefully());
+		
+	}
+
+	@Override
+	default EventLoopGroup getEventLoopGroup() {
+		return getTaskExecutor().getEventLoopGroup();
+	}
+
+	
 	
 }

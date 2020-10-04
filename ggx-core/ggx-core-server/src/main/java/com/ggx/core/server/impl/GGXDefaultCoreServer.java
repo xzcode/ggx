@@ -1,5 +1,6 @@
 package com.ggx.core.server.impl;
 
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -34,10 +35,11 @@ public class GGXDefaultCoreServer implements GGXCoreServer {
 	}
 
 	@Override
-	public void shutdown() {
+	public GGXFuture shutdown() {
 		if (this.serverStarter != null) {
-			this.serverStarter.shutdown();
+			return this.serverStarter.shutdown();
 		}
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 	public GGXCoreServerConfig getConfig() {

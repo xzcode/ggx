@@ -11,7 +11,7 @@ public interface EventbusConstant {
 	/**
 	 * 指令前缀
 	 */
-	String ACTION_ID_PREFIX = "GG.EVENTBUS.";
+	String ACTION_ID_PREFIX = "EVENTBUS.";
 	
 	/**
 	 * 默认服务端口

@@ -97,6 +97,14 @@ public class DefaultTaskExecutor implements TaskExecutor{
 	public void execute(Runnable command) {
 		submitTask(command);
 	}
+	@Override
+	public GGXFuture shutdown() {
+		return new GGXNettyFuture(this.executor.shutdownGracefully());
+	}
+	@Override
+	public EventLoopGroup getEventLoopGroup() {
+		return this.executor;
+	}
 
 
 

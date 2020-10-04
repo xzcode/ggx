@@ -50,21 +50,6 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 		return this.eventbusServer;
 	}
 
-	public RegistryClientConfig getRegistryClientConfig() {
-		return registryClientConfig;
-	}
-
-	public void setRegistryClientConfig(RegistryClientConfig registryClientConfig) {
-		this.registryClientConfig = registryClientConfig;
-	}
-
-	public EventbusServerConfig getEventbusServerConfig() {
-		return eventbusServerConfig;
-	}
-
-	public void setEventbusServerConfig(EventbusServerConfig eventbusServerConfig) {
-		this.eventbusServerConfig = eventbusServerConfig;
-	}
 
 
 }
