@@ -1,7 +1,7 @@
 package com.ggx.core.common.future;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -16,7 +16,7 @@ import com.ggx.util.logger.GGXLogUtil;
  */
 public class GGXDefaultFuture implements GGXFuture {
 
-	private Set<GGXFutureListener<GGXFuture>> listeners = new LinkedHashSet<>(2);
+	private Set<GGXFutureListener<GGXFuture>> listeners = new ConcurrentSkipListSet<>();
 
 	private boolean success;
 
@@ -112,6 +112,10 @@ public class GGXDefaultFuture implements GGXFuture {
 
 	public void setSession(GGXSession session) {
 		this.session = session;
+	}
+	
+	public void setData(Object data) {
+		this.data = data;
 	}
 	
 	public void setDone(boolean done) {

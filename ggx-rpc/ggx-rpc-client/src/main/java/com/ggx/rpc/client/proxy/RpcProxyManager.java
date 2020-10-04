@@ -3,7 +3,7 @@ package com.ggx.rpc.client.proxy;
 import java.lang.reflect.Proxy;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.client.invocation.ProxyInvocationHandler;
+import com.ggx.rpc.client.invocation.handler.ProxyInvocationHandler;
 import com.ggx.rpc.common.cache.InterfaceInfo;
 import com.ggx.rpc.common.cache.InterfaceInfoParser;
 import com.ggx.util.manager.impl.ListenableMapDataManager;

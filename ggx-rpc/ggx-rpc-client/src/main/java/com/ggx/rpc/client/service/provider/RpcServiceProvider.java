@@ -137,13 +137,13 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				proxyManager.register(classCache.get(interfaceName),this.config.getFallbackInstanceFactory().instant(classCache.get(fallbackClassName)));
 				
 				//接口服务组缓存
-				interfaceServiceCache.put(info.getInterfaceName(), serviceGroup);
+				interfaceServiceCache.put(classCache.get(interfaceName), serviceGroup);
 			}
 			
 			//当移除组的时候，移除接口服务组缓存
 			this.onRemove(group -> {
 				for (InterfaceInfoModel info : interfaceInfos) {
-					interfaceServiceCache.remove(info.getInterfaceName());
+					interfaceServiceCache.remove(classCache.get(info.getInterfaceName()));
 				}
 			});
         }

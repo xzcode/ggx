@@ -1,6 +1,9 @@
 package com.ggx.rpc.common.cache;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,10 +56,10 @@ public class InterfaceInfoParser {
 			Class<?>[] parameterTypes = mtd.getParameterTypes();
 			methodParamTypes.put(mtd, parameterTypes);
 			
-			methods.put(makeMethodKey(mtd, parameterTypes), mtd);
+			methods.put(makeMethodName(mtd, parameterTypes), mtd);
 			
 			
-			/*Class<?> returnType = mtd.getReturnType();
+			Class<?> returnType = mtd.getReturnType();
 			
 			methodReturnClasses.put(mtd, returnType);
 			
@@ -70,17 +73,19 @@ public class InterfaceInfoParser {
 					genericReturnTypeList.add((Class<?>) type);
 				}
 				methodGenericReturnTypes.put(mtd, genericReturnTypeList);
-			}*/
+			}
 		}
 		
 		interfaceInfo.setMethods(methods);
 		interfaceInfo.setMethodParamTypes(methodParamTypes);
+		interfaceInfo.setMethodReturnClasses(methodReturnClasses);
+		interfaceInfo.setMethodGenericReturnTypes(methodGenericReturnTypes);
 		
 		return interfaceInfo;
 	}
 	
-	public String makeMethodKey(Method method, Class<?>[] parameterTypes) {
-		StringBuilder sb = new StringBuilder(100);
+	public String makeMethodName(Method method, Class<?>[] parameterTypes) {
+		StringBuilder sb = new StringBuilder(32);
 		sb.append(method.getName()).append("(");
 		if (parameterTypes != null && parameterTypes.length > 0) {
 			for (Class<?> paramType : parameterTypes) {

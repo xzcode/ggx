@@ -1,14 +1,13 @@
 package com.ggx.rpc.client.config;
 
-import java.lang.reflect.InvocationHandler;
-
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
-import com.ggx.rpc.client.invocation.ProxyInvocationHandler;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcServiceClassCache;
 import com.ggx.rpc.client.service.RpcServiceManager;
+import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.fallback.DefaultFallbackInstanceFactory;
 import com.ggx.rpc.client.service.fallback.FallbackInstanceFactory;
 import com.ggx.rpc.client.service.provider.RpcServiceProvider;
@@ -47,6 +46,12 @@ public class RpcClientConfig {
 	protected EventLoopGroup sharedEventLoopGroup;
 	
 	
+	//任务执行器
+	protected TaskExecutor taskExecutor;
+	
+	//rpc调用超时时长 毫秒ms
+	protected long rpcTimeout = 10L * 1000L;
+	
 	//代理管理器
 	protected RpcProxyManager proxyManager = new  RpcProxyManager(this);
 	
@@ -70,6 +75,9 @@ public class RpcClientConfig {
 	
 	//参数序列化器工厂
 	protected ParameterSerializerFactory parameterSerializerFactory = new  DefaultParameterSerializerFactory();
+	
+	//RPC方法回调管理器
+	protected RpcMethodCallbackManager rpcMethodCallbackManager = new RpcMethodCallbackManager(this);
 
 
 	public RpcClient getRpcClient() {
@@ -134,6 +142,14 @@ public class RpcClientConfig {
 	
 	public void setSharedEventLoopGroup(EventLoopGroup sharedEventLoopGroup) {
 		this.sharedEventLoopGroup = sharedEventLoopGroup;
+	}
+	
+	public TaskExecutor getTaskExecutor() {
+		return taskExecutor;
+	}
+	
+	public void setTaskExecutor(TaskExecutor taskExecutor) {
+		this.taskExecutor = taskExecutor;
 	}
 	
 	public RpcProxyManager getProxyManager() {
@@ -206,5 +222,20 @@ public class RpcClientConfig {
 	
 	public void setFallbackInstanceFactory(FallbackInstanceFactory fallbackInstanceFactory) {
 		this.fallbackInstanceFactory = fallbackInstanceFactory;
+	}
+
+	public long getRpcTimeout() {
+		return rpcTimeout;
+	}
+
+	public void setRpcTimeout(long rpcTimeout) {
+		this.rpcTimeout = rpcTimeout;
+	}
+	
+	public RpcMethodCallbackManager getRpcMethodCallbackManager() {
+		return rpcMethodCallbackManager;
+	}
+	public void setRpcMethodCallbackManager(RpcMethodCallbackManager rpcMethodCallbackManager) {
+		this.rpcMethodCallbackManager = rpcMethodCallbackManager;
 	}
 }

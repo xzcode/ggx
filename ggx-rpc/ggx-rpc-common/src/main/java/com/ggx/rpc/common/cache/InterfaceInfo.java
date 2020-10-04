@@ -3,6 +3,7 @@ package com.ggx.rpc.common.cache;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /***
  * 代理接口信息类
@@ -29,6 +30,9 @@ public class InterfaceInfo {
 
 	// 方法
 	protected Map<Method, Class<?>[]> methodParamTypes;
+	
+	// 方法异步集合
+	protected Map<Method,Boolean> methodAsyncMap;
 
 	// 方法注解类型集合
 	protected Map<Method, Class<?>[]> methodAnnotatedTypes;
@@ -111,5 +115,13 @@ public class InterfaceInfo {
 	
 	public void setFallbackClassName(String fallbackClassName) {
 		this.fallbackClassName = fallbackClassName;
+	}
+	
+	public Map<Method, Boolean> getMethodAsyncMap() {
+		return methodAsyncMap;
+	}
+	
+	public void setMethodAsyncMap(Map<Method, Boolean> methodAsyncMap) {
+		this.methodAsyncMap = methodAsyncMap;
 	}
 }
