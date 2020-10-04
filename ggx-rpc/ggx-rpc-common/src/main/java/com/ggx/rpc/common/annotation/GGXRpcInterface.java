@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface GGXRpcFallback {
-	
-	Class<?> value() default Void.class;
-
+public @interface GGXRpcInterface {
+	Class<?> fallback() default Void.class;
 }

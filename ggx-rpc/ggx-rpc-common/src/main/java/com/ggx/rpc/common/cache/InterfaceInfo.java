@@ -3,7 +3,6 @@ package com.ggx.rpc.common.cache;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /***
  * 代理接口信息类

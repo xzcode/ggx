@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ggx.rpc.common.annotation.GGXRpcFallback;
+import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.util.reflect.GGXReflectUtil;
 
 /***
@@ -28,10 +28,13 @@ public class InterfaceInfoParser {
 		
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
 		
-		GGXRpcFallback fallback = proxyInterface.getAnnotation(GGXRpcFallback.class);
-		if (fallback != null) {
-			interfaceInfo.setFallbackClass(fallback.value());
-			interfaceInfo.setFallbackClassName(fallback.value().getCanonicalName());
+		GGXRpcInterface annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcInterface.class);
+		if (annotatedRpcInterface != null) {
+			Class<?> fallback = annotatedRpcInterface.fallback();
+			if (fallback != null) {
+				interfaceInfo.setFallbackClass(fallback);
+				interfaceInfo.setFallbackClassName(fallback.getCanonicalName());
+			}
 		}
 		
 		
