@@ -66,8 +66,6 @@ public class SessionGroupClientConfig {
 
 	protected boolean printPingPongInfo = false;
 	
-	//是否输出会话组包信息
-	protected boolean printSessionGroupPackLog = false;
 
 	// 会话组id
 	protected String sessionGroupId = GGXIdUtil.newRandomStringId24();
@@ -217,14 +215,6 @@ public class SessionGroupClientConfig {
 		this.serviceServer = serviceServer;
 	}
 	
-	public boolean isPrintSessionGroupPackLog() {
-		return printSessionGroupPackLog;
-	}
-	
-	public void setPrintSessionGroupPackLog(boolean printSessionGroupPackLog) {
-		this.printSessionGroupPackLog = printSessionGroupPackLog;
-	}
-
 	public EventLoopGroup getWorkEventLoopGroup() {
 		return workEventLoopGroup;
 	}

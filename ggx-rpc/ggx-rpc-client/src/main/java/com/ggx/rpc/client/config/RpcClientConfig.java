@@ -1,6 +1,8 @@
 package com.ggx.rpc.client.config;
 
+import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
@@ -16,7 +18,9 @@ import com.ggx.rpc.common.constant.RpcConstant;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.rpc.common.serializer.factory.impl.DefaultParameterSerializerFactory;
 
+import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 
 public class RpcClientConfig {
 
@@ -39,6 +43,9 @@ public class RpcClientConfig {
 	// 验证token
 	protected String authToken = RpcConstant.DEFAULT_AUTH_TOKEN;
 	
+	//服务组id
+	protected String serviceGroupId = RpcConstant.DEFAULT_RPC_SERVICE_GROUP_ID;
+	
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
 	
@@ -59,7 +66,7 @@ public class RpcClientConfig {
 	protected RpcServiceManager serviceManager = new  RpcServiceManager(this);
 	
 	//代理服务供应器
-	protected RpcServiceProvider serviceProvider= new  RpcServiceProvider(this);
+	protected RpcServiceProvider serviceProvider;
 	
 	//接口信息解析器
 	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
@@ -78,6 +85,25 @@ public class RpcClientConfig {
 	
 	//RPC方法回调管理器
 	protected RpcMethodCallbackManager rpcMethodCallbackManager = new RpcMethodCallbackManager(this);
+	
+
+	public void init() {
+		
+
+		if (this.getSharedEventLoopGroup() == null) {
+			this.setSharedEventLoopGroup(new NioEventLoopGroup(this.getWorkThreadSize(), new GGXThreadFactory("ggx-rpc-cli-", false)));
+		}
+		
+		if (this.getTaskExecutor() == null) {
+			this.setTaskExecutor(new DefaultTaskExecutor(this.getSharedEventLoopGroup()));
+		}
+		
+		if (this.getRegistryClient() != null) {
+			if (this.getServiceProvider() == null) {
+				this.setServiceProvider(new RpcServiceProvider(this));
+			}
+		}
+	}
 
 
 	public RpcClient getRpcClient() {
@@ -237,5 +263,13 @@ public class RpcClientConfig {
 	}
 	public void setRpcMethodCallbackManager(RpcMethodCallbackManager rpcMethodCallbackManager) {
 		this.rpcMethodCallbackManager = rpcMethodCallbackManager;
+	}
+
+	public String getServiceGroupId() {
+		return serviceGroupId;
+	}
+	
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 }

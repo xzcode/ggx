@@ -17,5 +17,10 @@ public interface RpcConstant {
 	 * 默认验证token
 	 */
 	String DEFAULT_AUTH_TOKEN = "70507975-1bb7-4c7f-be43-a22e4e2540a6";
+	
+	/**
+	 * 默认组id
+	 */
+	String DEFAULT_RPC_SERVICE_GROUP_ID= "default_rpc_service_group";
 
 }

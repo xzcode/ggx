@@ -54,11 +54,17 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		if (!getFilterManager().doAfterSerializeFilters(pack)) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
+		String actionId = pack.getActionString(config.getCharset());
+		actionId = config.getAddActionIdPrefixHandler().handle(actionId);
+		
 		DataTransferResp resp = new DataTransferResp();
-		resp.setAction(pack.getAction());
+		resp.setAction(actionId.getBytes(config.getCharset()));
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
 		resp.setSerializeType(pack.getSerializeType());
+		
+		
+		
 		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		}

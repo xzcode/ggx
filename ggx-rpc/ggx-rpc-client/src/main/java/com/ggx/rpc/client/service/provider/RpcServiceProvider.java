@@ -24,6 +24,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 
 	public RpcServiceProvider(RpcClientConfig config) {
 		this.config = config;
+		this.init();
 	}
 
 	public void init() {
@@ -57,8 +58,14 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 	
 	private void registerRpcService(ServiceInfo service) {
 		
+		String serviceGroupId = service.getServiceGroupId();
+		//跳过同组注册信息
+		if (serviceGroupId.equals(config.getServiceGroupId())) {
+			return;
+		}
+		
 		//获取自定义参数
-		Map<String, String> customData = service.getCustomData();
+				Map<String, String> customData = service.getCustomData();
 		
 		String isRpcService = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE);
 		if (isRpcService == null || isRpcService.isEmpty()) {
@@ -75,7 +82,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		
 		Integer servicePort = Integer.valueOf(servicePortString);
 		
-		String serviceGroupId = service.getServiceGroupId();
+		
 		
 		String serviceId = service.getServiceId();
 		
@@ -95,20 +102,21 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				}else {
 					return;
 				}
-			}else {
-				newGroup = true;
-				serviceGroup = new RpcServiceGroup(serviceGroupId, new ConsistentHashingRpcServiceLoadblancer(serviceGroup));
-				RpcServiceGroup fServiceGroup = serviceGroup;
-				serviceGroup.onRemove(rpcService -> {
-					rpcService.shutdown();
-					//如果组内无服务，则移除组
-					if (fServiceGroup.size() == 0) {
-						this.remove(fServiceGroup.getServiceGroupId());
-					}
-				});
-				this.put(serviceGroupId, serviceGroup);
-				
 			}
+		}else {
+			newGroup = true;
+			serviceGroup = new RpcServiceGroup(serviceGroupId);
+			serviceGroup.setLoadblancer(new ConsistentHashingRpcServiceLoadblancer(serviceGroup));
+			RpcServiceGroup fServiceGroup = serviceGroup;
+			serviceGroup.onRemove(rpcService -> {
+				rpcService.shutdown();
+				//如果组内无服务，则移除组
+				if (fServiceGroup.size() == 0) {
+					this.remove(fServiceGroup.getServiceGroupId());
+				}
+			});
+			this.put(serviceGroupId, serviceGroup);
+			
 		}
 		
 		//创建新服务对象

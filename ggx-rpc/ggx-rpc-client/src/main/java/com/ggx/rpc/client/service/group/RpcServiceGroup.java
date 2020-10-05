@@ -46,5 +46,13 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	public String getServiceGroupId() {
 		return serviceGroupId;
 	}
+	
+	public void setLoadblancer(RpcServiceLoadblancer loadblancer) {
+		this.loadblancer = loadblancer;
+	}
+	
+	public RpcServiceLoadblancer getLoadblancer() {
+		return loadblancer;
+	}
 
 }

@@ -1,5 +1,6 @@
 package com.ggx.group.common.message.req;
 
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 
@@ -8,14 +9,9 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
  *
  * @author zai 2020-04-08 10:31:48
  */
-public class DataTransferReq implements Message {
+public class DataTransferReq extends AbstractMessage {
 
 	public static final String ACTION = GGSesssionGroupConstant.ACTION_ID_PREFIX + "DATA.TRANSFER.REQ";
-
-	@Override
-	public String getActionId() {
-		return ACTION;
-	}
 
 	// 传递的会话id
 	private String tranferSessionId;

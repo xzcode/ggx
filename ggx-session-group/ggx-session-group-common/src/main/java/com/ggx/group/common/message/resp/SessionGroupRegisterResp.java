@@ -1,7 +1,6 @@
 package com.ggx.group.common.message.resp;
 
-import com.ggx.core.common.message.model.Message;
-import com.ggx.group.common.constant.GGSesssionGroupConstant;
+import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
  * 会话组注册响应
@@ -9,14 +8,7 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
  * @author zai
  * 2020-04-07 16:51:05
  */
-public class SessionGroupRegisterResp implements Message{
-	
-	public static final String ACTION_ID = GGSesssionGroupConstant.ACTION_ID_PREFIX + "REGISTER.RESP";
-	
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
+public class SessionGroupRegisterResp extends AbstractMessage{
 	
 	// 是否成功
 	private boolean success;

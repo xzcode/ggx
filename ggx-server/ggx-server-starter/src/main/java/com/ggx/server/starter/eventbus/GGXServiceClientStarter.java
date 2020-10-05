@@ -10,7 +10,7 @@ import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
 
-public class GGXEventbusClientStarter extends GGXBasicServerStarter {
+public class GGXServiceClientStarter extends GGXBasicServerStarter {
 
 
 	public void init() {

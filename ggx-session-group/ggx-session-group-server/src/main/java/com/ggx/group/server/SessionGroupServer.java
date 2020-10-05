@@ -7,11 +7,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
-import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
-import com.ggx.group.common.message.req.AuthReq;
-import com.ggx.group.common.message.req.DataTransferReq;
-import com.ggx.group.common.message.req.SessionGroupRegisterReq;
 import com.ggx.group.common.session.SessionGroupSessionFactory;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.group.server.events.ConnActiveEventListener;
@@ -59,12 +55,7 @@ public class SessionGroupServer {
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
 		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
 		
-		if (!this.config.isPrintSessionGroupPackLog()) {
-			sessionServerConfig.getPackLogger().addPackLogFilter(pack -> {
-				String actionString = pack.getActionString();
-				return !(actionString.startsWith(GGSesssionGroupConstant.ACTION_ID_PREFIX));
-			});
-		}
+		
 		sessionServerConfig.init();
 		
 		GGSessionGroupManager sessionGroupManager = new GGSessionGroupManager(sessionServerConfig);
@@ -73,9 +64,9 @@ public class SessionGroupServer {
 		GGXCoreServer sessionServer = new GGXDefaultCoreServer(sessionServerConfig);
 		sessionServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
 		sessionServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
-		sessionServer.onMessage(AuthReq.ACTION, new AuthReqHandler(config));
-		sessionServer.onMessage(SessionGroupRegisterReq.ACTION_ID, new SessionGroupRegisterReqHandler(config));
-		sessionServer.onMessage(DataTransferReq.ACTION, new DataTransferReqHandler(config));
+		sessionServer.onMessage(new AuthReqHandler(config));
+		sessionServer.onMessage(new SessionGroupRegisterReqHandler(config));
+		sessionServer.onMessage(new DataTransferReqHandler(config));
 		
 		this.config.setSessionServer(sessionServer);
 		

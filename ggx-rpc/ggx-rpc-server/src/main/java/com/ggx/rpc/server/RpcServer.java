@@ -14,6 +14,7 @@ import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
+import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -63,7 +64,8 @@ public class RpcServer implements GGXCore{
 		this.config.setSessionGroupServer(sessionGroupServer);
 		
 		this.serviceServer = sessionServerConfig.getServiceServer();
-		
+		GGXCoreServerConfig serviceServerConfig = this.serviceServer.getConfig();
+		serviceServerConfig.setGgxComponent(true);
 		this.serviceServer.onMessage(new RpcReqHandler(config));
 	
 		

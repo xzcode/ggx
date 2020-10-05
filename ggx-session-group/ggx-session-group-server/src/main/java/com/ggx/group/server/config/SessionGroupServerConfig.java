@@ -55,8 +55,6 @@ public class SessionGroupServerConfig {
 	protected EventLoopGroup workEventLoopGroup;
 	
 	
-	//是否输出会话组包信息
-	protected boolean printSessionGroupPackLog = false;
 	
 	//如果端口被占用是否更换端口并重新启动
 	protected boolean 	changeAndRebootIfPortInUse = true;
@@ -160,14 +158,6 @@ public class SessionGroupServerConfig {
 	
 	public void setWorkThreadFactory(ThreadFactory workThreadFactory) {
 		this.workThreadFactory = workThreadFactory;
-	}
-
-	public boolean isPrintSessionGroupPackLog() {
-		return printSessionGroupPackLog;
-	}
-
-	public void setPrintSessionGroupPackLog(boolean printSessionGroupPackLog) {
-		this.printSessionGroupPackLog = printSessionGroupPackLog;
 	}
 
 	public EventLoopGroup getWorkEventLoopGroup() {

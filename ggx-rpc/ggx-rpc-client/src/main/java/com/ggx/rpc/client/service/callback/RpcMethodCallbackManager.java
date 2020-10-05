@@ -14,29 +14,33 @@ import com.ggx.util.manager.impl.ListenableMapDataManager;
  */
 public class RpcMethodCallbackManager extends ListenableMapDataManager<String, RpcMethodCallback>{
 	
-	private TaskExecutor executor;
 	
 	protected RpcClientConfig config;
 
 	public RpcMethodCallbackManager(RpcClientConfig config) {
 		this.config = config;
-		this.executor = config.getTaskExecutor();
 	}
 	
 	@Override
-	public RpcMethodCallback put(String key, RpcMethodCallback value) {
-		long timeout = value.getTimeout();
-		GGXFuture timeoutFuture = this.executor.schedule(timeout, () -> {
-			GGXDefaultFuture callbackFuture = value.getCallbackFuture();
-			callbackFuture.setSuccess(false);
-			callbackFuture.setData(null);
-			callbackFuture.setDone(true);
-			if (!value.isAsync()) {
-				value.notify();
-			}
+	public RpcMethodCallback put(String key, RpcMethodCallback callback) {
+		TaskExecutor taskExecutor = config.getTaskExecutor();
+		long timeout = callback.getTimeout();
+		GGXFuture timeoutFuture = taskExecutor.schedule(timeout, () -> {
+				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
+				callbackFuture.setSuccess(false);
+				callbackFuture.setData(null);
+				callbackFuture.setDone(true);
+				if (!callback.isAsync()) {
+					synchronized(callback) {
+						if (callback.isWaiting()) {
+							callback.notify();
+						}
+						callback.setNotified(true);
+					}
+				}
 		});
-		value.setTimeoutFuture(timeoutFuture);
-		return super.put(key, value);
+		callback.setTimeoutFuture(timeoutFuture);
+		return super.put(key, callback);
 	}
 
 }

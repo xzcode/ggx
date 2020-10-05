@@ -32,7 +32,7 @@ public class RegistryServerConfig {
 	private int port = 19394;
 
 	// 服务地址
-	private String host = "127.0.0.1";
+	private String host = "localhost";
 
 	/**
 	 * 服务组id

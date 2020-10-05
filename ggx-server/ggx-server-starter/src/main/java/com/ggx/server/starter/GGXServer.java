@@ -6,7 +6,7 @@ import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
-import com.ggx.server.starter.eventbus.GGXEventbusClientStarter;
+import com.ggx.server.starter.eventbus.GGXServiceClientStarter;
 import com.ggx.server.starter.eventbus.GGXEventbusServerStarter;
 import com.ggx.server.starter.gateway.GGXGatewayStarter;
 import com.ggx.server.starter.loadbalancer.GGXLoadbalancerServerStarter;
@@ -94,8 +94,8 @@ public class GGXServer implements GGXServerStarter{
 			ggxGatewayStarter.init();
 			this.serverStarter = ggxGatewayStarter;
 			break;
-		case GGXServerMode.EVENTBUS_CLIENT:
-			GGXEventbusClientStarter ggxEventbusClientStarter = new GGXEventbusClientStarter();
+		case GGXServerMode.SERVICE_CLIENT:
+			GGXServiceClientStarter ggxEventbusClientStarter = new GGXServiceClientStarter();
 				ggxEventbusClientStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
 					ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());

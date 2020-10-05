@@ -1,12 +1,7 @@
 package com.ggx.rpc.client;
 
-import com.ggx.core.common.executor.DefaultTaskExecutor;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
-
-import io.netty.channel.DefaultEventLoopGroup;
-import io.netty.channel.EventLoopGroup;
 
 public class RpcClient{
 	
@@ -17,20 +12,13 @@ public class RpcClient{
 		this.config = config;
 		this.config.setRpcClient(this);
 		this.proxyManager = this.config.getProxyManager();
-		init();
+		this.config.init();
+	}
+	
+	public void init() {
+		
 	}
 
-	public void init() {
-		EventLoopGroup sharedEventLoopGroup = this.config.getSharedEventLoopGroup();
-		if (sharedEventLoopGroup == null) {
-			this.config.setSharedEventLoopGroup(new DefaultEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("ggx-rpc-cli-", false)));
-		}
-		
-		if (this.config.getTaskExecutor() == null) {
-			this.config.setTaskExecutor(new DefaultTaskExecutor(sharedEventLoopGroup));
-		}
-		
-	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T register(Class<T> serviceInterface, Object fallbackObj) {

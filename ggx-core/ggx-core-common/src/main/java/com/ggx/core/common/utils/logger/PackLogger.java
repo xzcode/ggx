@@ -60,7 +60,7 @@ public class PackLogger {
 	 */
 	public void logPack(Pack pack, int customPackLen, byte[] customDataBytes) {
 		
-		if (!LOGGER.isInfoEnabled()) {
+		if (!LOGGER.isDebugEnabled()) {
 			return;
 		}
 		

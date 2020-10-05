@@ -27,6 +27,10 @@ public class RpcMethodCallback {
 	
 	private Class<?> returnType;
 	
+	private boolean waiting;
+	
+	private boolean notified;
+	
 	public String getRpcId() {
 		return rpcId;
 	}
@@ -75,6 +79,21 @@ public class RpcMethodCallback {
 	public void setReturnType(Class<?> returnType) {
 		this.returnType = returnType;
 	}
+	public boolean isWaiting() {
+		return waiting;
+	}
+	public void setWaiting(boolean waiting) {
+		this.waiting = waiting;
+	}
+
+	public boolean isNotified() {
+		return notified;
+	}
+
+	public void setNotified(boolean notified) {
+		this.notified = notified;
+	}
+	
 	
 
 }

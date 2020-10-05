@@ -91,9 +91,7 @@ public class ProxyInvocationHandler implements InvocationHandler {
 			req.setParamDatas(paramDatas);
 		}
 		
-		//发送数据包
-		group.invoke(req);
-		
+
 		
 		
 		//回调处理
@@ -108,6 +106,26 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		}
 		callback.setCallbackFuture(new GGXDefaultFuture());
 		
+		//发送数据包
+		GGXFuture invokeFuture = group.invoke(req);
+		invokeFuture.addListener(f -> {
+			if (!f.isSuccess()) {
+				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
+				callbackFuture.setSuccess(false);
+				callbackFuture.setDone(true);
+				if (!callback.isAsync()) {
+					synchronized(callback) {
+						if (callback.isWaiting()) {
+							callback.notify();
+						}
+						callback.setNotified(true);
+					}
+				}
+			}
+		});
+		
+		
+		
 		this.rpcMethodCallbackManager.put(callback.getRpcId(), callback);
 		
 		//如果是异步，直接返回future
@@ -115,8 +133,13 @@ public class ProxyInvocationHandler implements InvocationHandler {
 			return callback.getCallbackFuture();
 		}
 		
-		//如果是同步，挂起线程等待
-		callback.wait();
+		synchronized(callback) {
+			if (!callback.isNotified()) {
+				callback.setWaiting(true);
+				//如果是同步，挂起线程等待
+				callback.wait();
+			}
+		}
 		return callback.getCallbackFuture().get();
 		
 	}

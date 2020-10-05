@@ -7,12 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ggx.core.client.GGXCoreClient;
+import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.handler.RpcRespHandler;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
@@ -82,14 +84,21 @@ public class RpcService {
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionGroupClientConfig.setServerHost(this.host);
 		sessionGroupClientConfig.setServerPort(this.port);
+		
 
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 
 		this.sessionGroupClient = sessionGroupClient;
 
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
+		
+		GGXCoreClientConfig serviceClientConfig = this.serviceClient.getConfig();
+		serviceClientConfig.setGgxComponent(true);
+		this.serviceClient.onMessage(new RpcRespHandler(config));
 
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
+		
+		sessionGroupClient.start();
 
 	}
 

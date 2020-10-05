@@ -1,5 +1,6 @@
 package com.ggx.group.common.message.resp;
 
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 
@@ -9,16 +10,8 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
  * @author zai
  * 2020-04-08 10:32:51
  */
-public class DataTransferResp implements Message {
+public class DataTransferResp extends AbstractMessage {
 
-	public static final String ACTION_ID = GGSesssionGroupConstant.ACTION_ID_PREFIX + "DATA.TRANSFER.RESP";
-
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
-
-	
 	// 传递的会话id
 	private String tranferSessionId;
 	

@@ -1,5 +1,6 @@
 package com.ggx.group.common.message.resp;
 
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 
@@ -9,14 +10,8 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
  * @author zai
  * 2020-04-06 19:01:38
  */
-public class AuthResp implements Message{
+public class AuthResp extends AbstractMessage{
 	
-	public static final String ACTION_ID = GGSesssionGroupConstant.ACTION_ID_PREFIX + "AUTH.RESP";
-	
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 	
 	/**
 	 * 是否注册成功

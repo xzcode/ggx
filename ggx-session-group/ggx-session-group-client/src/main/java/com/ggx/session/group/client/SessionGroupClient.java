@@ -16,12 +16,8 @@ import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.AuthReq;
-import com.ggx.group.common.message.resp.AuthResp;
-import com.ggx.group.common.message.resp.DataTransferResp;
-import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
 import com.ggx.group.common.session.SessionGroupSessionFactory;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.session.group.client.handler.AnthRespHandler;
@@ -68,17 +64,12 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		sessionClientConfig.setWorkerGroupThreadFactory(this.config.getWorkThreadFactory());
 		sessionClientConfig.setProtocolType(ProtocolTypeConstants.TCP);
 		sessionClientConfig.setSessionFactory(new SessionGroupSessionFactory(sessionClientConfig));
+		sessionClientConfig.setGgxComponent(true);
 		
 		if (this.config.getWorkEventLoopGroup() != null) {
 			sessionClientConfig.setWorkerGroup(this.config.getWorkEventLoopGroup());
 		}
 		
-		if (!this.config.isPrintSessionGroupPackLog()) {
-			sessionClientConfig.getPackLogger().addPackLogFilter(pack -> {
-				String actionString = pack.getActionString();
-				return !(actionString.startsWith(GGSesssionGroupConstant.ACTION_ID_PREFIX));
-			});
-		}
 
 		sessionClientConfig.init();
 		
@@ -93,9 +84,9 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		this.singleThreadEvecutor = sessionClient.getTaskExecutor().nextEvecutor();
 
 
-		sessionClient.onMessage(AuthResp.ACTION_ID, new AnthRespHandler(this.config));
-		sessionClient.onMessage(SessionGroupRegisterResp.ACTION_ID, new SessionGroupRegisterRespHandler(this.config));
-		sessionClient.onMessage(DataTransferResp.ACTION_ID, new DataTransferRespHandler(this.config));
+		sessionClient.onMessage(new AnthRespHandler(this.config));
+		sessionClient.onMessage(new SessionGroupRegisterRespHandler(this.config));
+		sessionClient.onMessage(new DataTransferRespHandler(this.config));
 
 		//添加断开连接监听器
 		sessionClient.addEventListener(GGXCoreEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {
@@ -125,6 +116,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			if (this.config.isEnableServiceClient()) {
 				
 				GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
+				serviceClientConfig.setGgxComponent(true);
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
 				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);

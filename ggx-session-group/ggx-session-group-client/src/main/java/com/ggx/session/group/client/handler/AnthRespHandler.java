@@ -29,7 +29,7 @@ public class AnthRespHandler implements MessageHandler<AuthResp> {
 		GGXSession session = request.getSession();
 		if (resp.isSuccess()) {
 			// 认证成功后，进行会话组注册请求
-			session.send(SessionGroupRegisterReq.ACTION_ID, new SessionGroupRegisterReq(config.getSessionGroupId()));
+			session.send(new SessionGroupRegisterReq(config.getSessionGroupId()));
 			return;
 		}
 		//认证失败
