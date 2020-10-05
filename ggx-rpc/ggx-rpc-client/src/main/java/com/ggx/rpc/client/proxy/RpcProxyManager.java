@@ -35,5 +35,21 @@ public class RpcProxyManager extends ListenableMapDataManager<Class<?>, RpcProxy
 		return proxyObj;
 	}
 	
+	public Object register(Class<?> serviceInterface, Object proxyObj, Object fallbackObj) {
+		
+		InterfaceInfoParser interfaceInfoParser = this.config.getInterfaceInfoParser();
+		InterfaceInfo interfaceInfo = interfaceInfoParser.parse(serviceInterface);
+		
+		RpcProxyInfo proxyInfo = new RpcProxyInfo();
+		proxyInfo.setName(serviceInterface.getCanonicalName());
+		proxyInfo.setProxyObj(proxyObj);
+		proxyInfo.setInterfaceInfo(interfaceInfo);
+		proxyInfo.setFallbackObj(fallbackObj);
+		
+		this.put(serviceInterface, proxyInfo);
+		
+		return proxyObj;
+	}
+	
 
 }

@@ -4,8 +4,6 @@ import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
-import com.ggx.rpc.common.model.TestFallbackObj;
-import com.ggx.rpc.common.model.TestInter;
 
 import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
@@ -49,13 +47,5 @@ public class RpcClient{
 		}
 	}
 	
-	public static void main(String[] args) {
-		RpcClientConfig config = new RpcClientConfig();
-		RpcClient client = new RpcClient(config);
-		TestInter proxyObj = client.register(TestInter.class, new TestFallbackObj());
-		RpcProxyManager proxyManager = config.getProxyManager();
-		proxyObj.getTestB();
-	}
-
 
 }

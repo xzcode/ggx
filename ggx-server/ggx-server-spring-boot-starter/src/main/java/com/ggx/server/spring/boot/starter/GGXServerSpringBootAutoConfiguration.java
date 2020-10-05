@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
-import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationReadyEventListener;
-import com.ggx.server.spring.boot.starter.support.GGXServerSpringBootAnnotationSupport;
+import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationPrepareEventListener;
+import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationStartedEventListener;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
@@ -28,30 +28,29 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 	}
 	
 	@Bean
-	public GGXServer ggxServer() {
-		GGXServerConfig ggxServerConfig = ggxServerConfig();
+	public GGXServer ggxServer(GGXServerConfig ggxServerConfig) {
 		GGXServer ggxserver = new GGXServer(ggxServerConfig);
 		return ggxserver;
 	}
 	
-	@Bean
-	public GGXServerSpringBootAnnotationSupport ggxServerSpringBootAnnotationSupport() {
-		return new GGXServerSpringBootAnnotationSupport();
-	}
 	
 	@Bean
 	public GGXSpringBeanGenerator ggxSpringBeanGenerator() {
 		return new GGXSpringBeanGenerator();
 	}
 	@Bean
-	public GGXServerSpringBootApplicationReadyEventListener applicationReadyEventListener() {
-		return new GGXServerSpringBootApplicationReadyEventListener();
+	public GGXServerSpringBootApplicationStartedEventListener applicationReadyEventListener() {
+		return new GGXServerSpringBootApplicationStartedEventListener();
 	}
 	
 	@Bean
 	public GGXServerSpringBootApplicationFailedEventListener applicationFailedEventListener() {
 		return new GGXServerSpringBootApplicationFailedEventListener();
-	};
+	}
+	@Bean
+	public GGXServerSpringBootApplicationPrepareEventListener applicationPrepareEventListener() {
+		return new GGXServerSpringBootApplicationPrepareEventListener();
+	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

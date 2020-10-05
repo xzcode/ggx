@@ -7,13 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.ggx.core.common.future.GGXDefaultFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
-import com.ggx.rpc.client.service.RpcServiceManager;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
@@ -63,8 +62,21 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		
 		Class<?>[] paramTypes = proxyInfo.getInterfaceInfo().getMethodParamTypes().get(method);
 		
-		//组装数据包
 		
+		
+		RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
+		
+		Map<Method, Class<?>> methodReturnClasses = interfaceInfo.getMethodReturnClasses();
+		Class<?> returnType = methodReturnClasses.get(method);
+		
+		if (group == null) {
+			if (returnType == GGXFuture.class) {
+				return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+			}
+			return proxyMethod.invoke(this.fallbackObj, args);
+		}
+		
+		//组装数据包
 		RpcReq req = new RpcReq();
 		req.setRpcId(GGXRandomIdUtil.newRandomStringId24());
 		req.setInterfaceName(interfaceInfo.getInterfaceName());
@@ -79,14 +91,10 @@ public class ProxyInvocationHandler implements InvocationHandler {
 			req.setParamDatas(paramDatas);
 		}
 		
-		RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
-		
 		//发送数据包
 		group.invoke(req);
 		
 		
-		Map<Method, Class<?>> methodReturnClasses = interfaceInfo.getMethodReturnClasses();
-		Class<?> returnType = methodReturnClasses.get(method);
 		
 		//回调处理
 		RpcMethodCallback callback = new RpcMethodCallback();
