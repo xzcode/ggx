@@ -9,9 +9,10 @@ import java.util.Map.Entry;
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.rpc.common.cache.InterfaceInfo;
-import com.ggx.rpc.common.cache.InterfaceInfoParser;
+import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.model.InterfaceInfoModel;
+import com.ggx.rpc.common.parser.InterfaceInfo;
+import com.ggx.rpc.common.parser.InterfaceInfoParser;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.rpc.server.config.RpcServerConfig;
@@ -47,7 +48,11 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 	}
 	
 	
-	public GGXFuture invoke(String interfaceName, String methodName, List<byte[]> paramBytes) {
+	public GGXFuture invoke(RpcReq req) {
+		String interfaceName = req.getInterfaceName();
+		String methodName =req.getMethodName();
+		List<byte[]> paramDatas = req.getParamDatas();
+		byte[] paramBytes = req.getParamBytes();
 		try {
 			InvocationInfo invocationInfo = this.get(interfaceName);
 			
@@ -67,16 +72,18 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 			Object obj = invocationInfo.getInstance();
 			Object[] args = null;
 			
-			if (paramBytes != null && paramBytes.size() > 0) {
-				args = new Object[paramBytes.size()];
-				Map<Method, Class<?>[]> methodParamTypes = interfaceInfo.getMethodParamTypes();
-				Class<?>[] paramTypes = methodParamTypes.get(method);
-				for (int i = 0; i < paramTypes.length; i++) {
-					byte[] bytes = paramBytes.get(i);
-					Class<?> pt = paramTypes[i];
-					ParameterSerializer<?> serializer = this.parameterSerializerFactory.getSerializer(pt);
-					args[i] = serializer.deserialize(bytes, pt);
-				}
+			if (paramBytes != null && paramBytes.length> 0) {
+				/*
+				 * args = new Object[paramDatas.size()]; Map<Method, Class<?>[]>
+				 * methodParamTypes = interfaceInfo.getMethodParamTypes(); Class<?>[] paramTypes
+				 * = methodParamTypes.get(method); for (int i = 0; i < paramTypes.length; i++) {
+				 * byte[] bytes = paramDatas.get(i); Class<?> pt = paramTypes[i];
+				 * ParameterSerializer<?> serializer =
+				 * this.parameterSerializerFactory.getSerializer(pt); args[i] =
+				 * serializer.deserialize(bytes, pt); }
+				 */
+				 ParameterSerializer<?> serializer = this.parameterSerializerFactory.getSerializer(String.class);
+				 args = (Object[]) serializer.deserialize(paramBytes, Object[].class);
 			}
 		
 			Object result = null;

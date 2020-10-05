@@ -40,7 +40,9 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		serviceManager.addUnregisterListener(service -> {
 			String serviceGroupId = service.getServiceGroupId();
 			RpcServiceGroup rpcServiceGroup = this.get(serviceGroupId);
-			rpcServiceGroup.remove(service.getServiceId());
+			if (rpcServiceGroup != null) {
+				rpcServiceGroup.remove(service.getServiceId());				
+			}
 		});
 
 		serviceManager.addUpdateListener(service -> {

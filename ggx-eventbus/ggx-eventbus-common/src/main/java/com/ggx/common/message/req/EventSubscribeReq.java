@@ -3,6 +3,7 @@ package com.ggx.common.message.req;
 import java.util.List;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.core.common.message.model.AbstractMessage;
 import com.ggx.core.common.message.model.Message;
 
 /**
@@ -11,14 +12,8 @@ import com.ggx.core.common.message.model.Message;
  * @author zai
  * 2020-04-06 18:50:10
  */
-public class EventSubscribeReq implements Message {
+public class EventSubscribeReq extends AbstractMessage {
 	
-	public static final String ACTION_ID = EventbusConstant.ACTION_ID_PREFIX + "EVENT.SUB.REQ";
-	
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 	
 	//事件id
 	private List<String> eventIds;

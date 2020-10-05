@@ -4,8 +4,8 @@ import java.lang.reflect.Proxy;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.invocation.handler.ProxyInvocationHandler;
-import com.ggx.rpc.common.cache.InterfaceInfo;
-import com.ggx.rpc.common.cache.InterfaceInfoParser;
+import com.ggx.rpc.common.parser.InterfaceInfo;
+import com.ggx.rpc.common.parser.InterfaceInfoParser;
 import com.ggx.util.manager.impl.ListenableMapDataManager;
 
 public class RpcProxyManager extends ListenableMapDataManager<Class<?>, RpcProxyInfo>{

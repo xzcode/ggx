@@ -40,7 +40,7 @@ public class RpcReqHandler implements MessageHandler<RpcReq>{
 	public void handle(MessageData<RpcReq> messageData) {
 		RpcReq req = messageData.getMessage();
 		GGXSession session = messageData.getSession();
-		GGXFuture future = this.invocationManager.invoke(req.getInterfaceName(), req.getMethodName(), req.getParamDatas());
+		GGXFuture future = this.invocationManager.invoke(req);
 		String rpcId = req.getRpcId();
 		future.addListener(f -> {
 			if (f.isSuccess()) {

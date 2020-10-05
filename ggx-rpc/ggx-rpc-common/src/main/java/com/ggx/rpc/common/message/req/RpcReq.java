@@ -23,6 +23,8 @@ public class RpcReq extends AbstractMessage {
 	// 参数名列表
 	private List<byte[]> paramDatas;
 	
+	private byte[] paramBytes;
+	
 	//超时时长 毫秒
 	private long timeout;
 
@@ -69,6 +71,16 @@ public class RpcReq extends AbstractMessage {
 	public void setTimeout(long timeout) {
 		this.timeout = timeout;
 	}
+
+	public byte[] getParamBytes() {
+		return paramBytes;
+	}
+
+	public void setParamBytes(byte[] paramBytes) {
+		this.paramBytes = paramBytes;
+	}
+	
+	
 
 	/*
 	 * public static void main(String[] args) throws Exception {

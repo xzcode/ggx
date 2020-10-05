@@ -1,21 +1,14 @@
 package com.ggx.common.message.req;
 
-import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
  * 事件订发布请求
  *
  * @author zai 2020-04-06 18:50:10
  */
-public class EventPublishReq implements Message {
+public class EventPublishReq extends AbstractMessage {
 
-	public static final String ACTION_ID = EventbusConstant.ACTION_ID_PREFIX + "EVENT.PUB.REQ";
-
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 
 	// 事件id
 	private String eventId;

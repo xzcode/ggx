@@ -1,7 +1,6 @@
 package com.ggx.common.message.resp;
 
-import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
  * 事件消息推送
@@ -9,14 +8,8 @@ import com.ggx.core.common.message.model.Message;
  * @author zai
  * 2020-04-07 11:34:50
  */
-public class EventMessageResp implements Message {
+public class EventMessageResp extends AbstractMessage {
 
-	public static final String ACTION_ID = EventbusConstant.ACTION_ID_PREFIX + "EVENT.MESSAGE.RESP";
-
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 
 	// 事件id
 	private String eventId;

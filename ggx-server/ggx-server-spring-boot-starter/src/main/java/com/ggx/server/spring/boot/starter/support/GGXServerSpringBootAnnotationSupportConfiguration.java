@@ -141,7 +141,7 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 				}
 
 				// 注册RPC服务
-
+				
 				Map<String, Object> rpcServices = this.applicationContext.getBeansWithAnnotation(GGXRpcInterface.class);
 				for (Entry<String, Object> entry : rpcServices.entrySet()) {
 					Object obj = entry.getValue();
@@ -164,6 +164,36 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 							}
 						}
 						break;
+					}
+				}
+				
+				try (ScanResult scanResult = new ClassGraph().enableAllInfo().blacklistClasses(
+						"org.springframework",
+						"io.netty",
+						"io.protostuff",
+						"com.fasterxml",
+						"java",
+						"javax",
+						"com.googel",
+						"net.jpountz",
+						"com.mongodb",
+						"org.apache"
+						).scan()) {
+					try {
+						ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
+						for (ClassInfo info : rpcInterfaceInfoList) {
+							String name = info.getName();
+							Class<?> interfaceClass = Class.forName(name);
+							//GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
+							//Class<?> fallback = annotation.fallback();
+							//Object primaryObj = null;
+							if (!applicationContext.containsBean(interfaceClass.getSimpleName())) {
+								Object proxy = this.ggxServer.registerRpcClient(interfaceClass, null);
+								registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+							}
+						}
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
 					}
 				}
 
@@ -225,24 +255,8 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 
 		
 		
-		/*
-		 * GGXServer ggxServerBean = beanFactory.getBean(GGXServer.class); try
-		 * (ScanResult scanResult = new ClassGraph() .enableAllInfo() // Scan classes,
-		 * methods, fields, annotations .whitelistPackages("com.sgslg") // Scan com.xyz
-		 * and subpackages (omit to scan all packages) .scan()) { try { ClassInfoList
-		 * rpcInterfaceInfoList =
-		 * scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName()); for
-		 * (ClassInfo info : rpcInterfaceInfoList) { String name = info.getName();
-		 * Class<?> interfaceClass = Class.forName(name); GGXRpcInterface annotation =
-		 * interfaceClass.getAnnotation(GGXRpcInterface.class); Class<?> fallback =
-		 * annotation.fallback(); Object primaryObj =
-		 * applicationContext.getBean(interfaceClass); boolean primary = primaryObj ==
-		 * obj; Class<?> fallbackClass = annotation.fallback(); Object proxy =
-		 * ggxServerBean.registerRpcClient(interfaceClass, obj); //
-		 * defaultListableBeanFactory.registerSingleton("userDao",userDao);
-		 * registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy,
-		 * false); } } catch (ClassNotFoundException e) { e.printStackTrace(); } }
-		 */
+		
+		 
 
 
 

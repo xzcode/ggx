@@ -1,7 +1,6 @@
 package com.ggx.common.message.resp;
 
-import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
  * 客户端认证响应
@@ -9,14 +8,8 @@ import com.ggx.core.common.message.model.Message;
  * @author zai
  * 2020-04-06 19:01:38
  */
-public class AuthResp implements Message{
+public class AuthResp extends AbstractMessage{
 	
-	public static final String ACTION = EventbusConstant.ACTION_ID_PREFIX + "AUTH.RESP";
-	
-	@Override
-	public String getActionId() {
-		return ACTION;
-	}
 	
 	/**
 	 * 是否注册成功

@@ -1,10 +1,11 @@
-package com.ggx.rpc.common.cache;
+package com.ggx.rpc.common.parser;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,8 +63,14 @@ public class InterfaceInfoParser {
 			
 			
 			Class<?> returnType = mtd.getReturnType();
+			if (returnType == List.class) {
+				methodReturnClasses.put(mtd, ArrayList.class);
+			}else if (returnType == Map.class) {
+				methodReturnClasses.put(mtd, LinkedHashMap.class);
+			}else {
+				methodReturnClasses.put(mtd, returnType);
+			}
 			
-			methodReturnClasses.put(mtd, returnType);
 			
 			// 获取返回值的泛型参数
 			Type genericReturnType = mtd.getGenericReturnType();

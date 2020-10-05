@@ -1,7 +1,6 @@
 package com.ggx.common.message.req;
 
-import com.ggx.common.constant.EventbusConstant;
-import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
  * 客户端认证请求
@@ -9,14 +8,8 @@ import com.ggx.core.common.message.model.Message;
  * @author zai
  * 2020-04-06 18:53:46
  */
-public class AuthReq implements Message {
+public class AuthReq extends AbstractMessage {
 	
-	public static final String ACTION = EventbusConstant.ACTION_ID_PREFIX + "AUTH.REQ";
-	
-	@Override
-	public String getActionId() {
-		return ACTION;
-	}
 	
 	//认证token
 	private String authToken;

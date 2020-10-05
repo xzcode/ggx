@@ -1,6 +1,6 @@
 package com.ggx.rpc.server.invocation;
 
-import com.ggx.rpc.common.cache.InterfaceInfo;
+import com.ggx.rpc.common.parser.InterfaceInfo;
 
 public class InvocationInfo {
 	

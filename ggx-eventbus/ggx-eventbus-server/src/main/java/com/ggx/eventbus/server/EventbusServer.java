@@ -3,8 +3,6 @@ package com.ggx.eventbus.server;
 import java.nio.charset.Charset;
 
 import com.ggx.common.constant.EventbusConstant;
-import com.ggx.common.message.req.EventPublishReq;
-import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
@@ -39,7 +37,7 @@ public class EventbusServer implements GGXCore{
 		sessionServerConfig.setPort(this.config.getPort());
 		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
-		sessionServerConfig.setWorkThreadFactory(new GGXThreadFactory("gg-evt-serv-", false));
+		sessionServerConfig.setWorkThreadFactory(new GGXThreadFactory("ggx-evt-serv-", false));
 		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
 		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
@@ -58,8 +56,8 @@ public class EventbusServer implements GGXCore{
 		
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		
-		this.serviceServer.onMessage(EventPublishReq.ACTION_ID, new EventPublishReqHandler(config));
-		this.serviceServer.onMessage(EventSubscribeReq.ACTION_ID, new EventSubscribeReqHandler(config));
+		this.serviceServer.onMessage(new EventPublishReqHandler(config));
+		this.serviceServer.onMessage(new EventSubscribeReqHandler(config));
 		
 		
 		GGXFuture startFuture = sessionGroupServer.start();

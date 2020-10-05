@@ -1,7 +1,7 @@
 package com.ggx.rpc.common.serializer.impl;
 
 import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
+import com.ggx.core.common.handler.serializer.impl.KryoSerializer;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**
@@ -12,7 +12,7 @@ import com.ggx.rpc.common.serializer.ParameterSerializer;
  */
 public class ObjectSerializer implements ParameterSerializer<Object>{
 	
-	private Serializer serializer = new ProtoStuffSerializer();
+	private Serializer serializer = new KryoSerializer();
 	
 
 	@Override

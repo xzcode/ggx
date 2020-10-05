@@ -48,11 +48,11 @@ public class DefaultReceiveMessageManager implements ReceiveMessageManager {
 			try {
 				invoker.handle(messageData);
 			} catch (Exception e) {
-				GGXLogUtil.getLogger(this.getClass()).error("Handle request Error!", e);
+				GGXLogUtil.getLogger(this.getClass()).error("Handle Message Error!", e);
 			}
 			return;
 		}
-		GGXLogUtil.getLogger().warn("No such action: {} ", messageData.getAction());
+		GGXLogUtil.getLogger().warn("No such Handler: {} ", messageData.getAction());
 	}
 
 	/**

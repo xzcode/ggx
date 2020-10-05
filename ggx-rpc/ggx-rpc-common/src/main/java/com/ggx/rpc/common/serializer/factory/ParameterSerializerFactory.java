@@ -7,5 +7,7 @@ public interface ParameterSerializerFactory {
 	
 	
 	 ParameterSerializer<?> getSerializer(Class<?> paramType);
+	 
+	 ParameterSerializer<?> getDefaultSerializer();
 
 }

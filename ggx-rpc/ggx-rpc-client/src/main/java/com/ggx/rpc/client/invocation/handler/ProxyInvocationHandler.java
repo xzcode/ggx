@@ -16,9 +16,10 @@ import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
-import com.ggx.rpc.common.cache.InterfaceInfo;
-import com.ggx.rpc.common.cache.InterfaceInfoParser;
 import com.ggx.rpc.common.message.req.RpcReq;
+import com.ggx.rpc.common.parser.InterfaceInfo;
+import com.ggx.rpc.common.parser.InterfaceInfoParser;
+import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.util.id.GGXRandomIdUtil;
 
@@ -57,7 +58,7 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		Method method = methods.get(interfaceInfoParser.makeMethodName(proxyMethod, proxyMethod.getParameterTypes()));
 		
 		if (method == null) {
-			return proxyMethod.invoke(this.fallbackObj, args);
+			return proxyMethod.invoke(this.fallbackObj, args);				
 		}
 		
 		Class<?>[] paramTypes = proxyInfo.getInterfaceInfo().getMethodParamTypes().get(method);
@@ -82,13 +83,17 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		req.setInterfaceName(interfaceInfo.getInterfaceName());
 		req.setMethodName(methodName);
 		if (paramTypes != null && paramTypes.length > 0) {
-			List<byte[]> paramDatas = new ArrayList<byte[]>(paramTypes.length);
+			/*
+			 * List<byte[]> paramDatas = new ArrayList<byte[]>(paramTypes.length);
+			 * 
+			 * for (int i = 0; i < paramTypes.length; i++) { Class<?> pt = paramTypes[i];
+			 * paramDatas.add(serializerFactory.getSerializer(pt).serialize(args[i])); }
+			 * req.setParamDatas(paramDatas);
+			 */
 			
-			for (int i = 0; i < paramTypes.length; i++) {
-				Class<?> pt = paramTypes[i];
-				paramDatas.add(serializerFactory.getSerializer(pt).serialize(args[i]));
-			}
-			req.setParamDatas(paramDatas);
+			ParameterSerializer<?> serializer = serializerFactory.getDefaultSerializer();
+			byte[] paramBytes = serializer.serialize(args);
+			req.setParamBytes(paramBytes);
 		}
 		
 
