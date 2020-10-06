@@ -33,6 +33,8 @@ public class RpcMethodCallback {
 	
 	private String serviceName;
 	
+	private Throwable exception;
+	
 	public String getRpcId() {
 		return rpcId;
 	}
@@ -102,6 +104,14 @@ public class RpcMethodCallback {
 
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
+	}
+
+	public Throwable getException() {
+		return exception;
+	}
+
+	public void setException(Throwable exception) {
+		this.exception = exception;
 	}
 	
 	

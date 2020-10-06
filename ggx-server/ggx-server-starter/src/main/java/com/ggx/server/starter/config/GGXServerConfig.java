@@ -7,6 +7,8 @@ public class GGXServerConfig {
 	
 	protected boolean enabled = true;
 	
+	private String[] scanPackages;
+	
 	protected String mode = GGXServerMode.CORE_SERVER;
 	
 	protected GGXServerRouterConfigModel router;
@@ -18,6 +20,8 @@ public class GGXServerConfig {
 	protected GGXServerRegistryConfigModel registry;
 	
 	protected GGXServerRpcConfigModel rpc;
+	
+	
 	
 
 	public boolean isEnabled() {
@@ -76,5 +80,10 @@ public class GGXServerConfig {
 		this.rpc = rpc;
 	}
 	
-	
+	public String[] getScanPackages() {
+		return scanPackages;
+	}
+	public void setScanPackages(String[] scanPackages) {
+		this.scanPackages = scanPackages;
+	}
 }

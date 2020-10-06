@@ -1,7 +1,5 @@
 package com.ggx.rpc.common.message.req;
 
-import java.util.List;
-
 import com.ggx.core.common.message.model.AbstractMessage;
 
 /**
@@ -20,9 +18,7 @@ public class RpcReq extends AbstractMessage {
 	// 方法名称
 	private String methodName;
 
-	// 参数名列表
-	private List<byte[]> paramDatas;
-	
+	// 参数数据
 	private byte[] paramBytes;
 	
 	//超时时长 毫秒
@@ -56,13 +52,6 @@ public class RpcReq extends AbstractMessage {
 		this.methodName = methodName;
 	}
 
-	public List<byte[]> getParamDatas() {
-		return paramDatas;
-	}
-
-	public void setParamDatas(List<byte[]> paramDatas) {
-		this.paramDatas = paramDatas;
-	}
 	
 	public long getTimeout() {
 		return timeout;

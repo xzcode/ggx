@@ -23,6 +23,7 @@ import com.ggx.rpc.common.parser.InterfaceInfoParser;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.util.id.GGXRandomIdUtil;
+import com.ggx.util.logger.GGXLogUtil;
 
 public class ProxyInvocationHandler implements InvocationHandler {
 	
@@ -84,6 +85,11 @@ public class ProxyInvocationHandler implements InvocationHandler {
 			if (async) {
 				return GGXFutureFactory.fail(notReadyException);
 			}
+			
+			if (GGXLogUtil.isInfoEnabled()) {
+				GGXLogUtil.getLogger(this).info("Service [{}] Not Ready!", serviceName);
+			}
+			
 			if (this.fallbackObj == null) {
 				throw new RpcServiceNoFallbackException(serviceName, methodName);
 			}
@@ -107,31 +113,40 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		callback.setTimeout(this.config.getRpcTimeout());
 		callback.setReturnType(returnType);
 		callback.setAsync(async);
-		callback.setCallbackFuture(new GGXDefaultFuture());
+		callback.setCallbackFuture(GGXFutureFactory.create());
 		callback.setServiceName(serviceName);
+		
+		callback.getCallbackFuture().addListener(f -> {
+			this.rpcMethodCallbackManager.remove(callback.getRpcId());
+		});
+		
+		this.rpcMethodCallbackManager.put(callback.getRpcId(), callback);
 		
 		//发送数据包
 		GGXFuture invokeFuture = group.invoke(req);
 		invokeFuture.addListener(f -> {
 			if (!f.isSuccess()) {
-				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
-				callbackFuture.setSuccess(false);
-				callbackFuture.setDone(true);
-				callbackFuture.setCause(new RpcServiceSendMessageFailedException(callback.getServiceName()));
-				if (!callback.isAsync()) {
-					synchronized(callback) {
-						if (callback.isWaiting()) {
-							callback.notify();
+				GGXFuture timeoutFuture = callback.getTimeoutFuture();
+				if (timeoutFuture.cancel()) {
+					GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
+					callbackFuture.setSuccess(false);
+					callbackFuture.setDone(true);
+					callbackFuture.setCause(new RpcServiceSendMessageFailedException(callback.getServiceName()));
+					if (!callback.isAsync()) {
+						synchronized(callback) {
+							if (callback.isWaiting()) {
+								callback.notify();
+							}
+							callback.setNotified(true);
 						}
-						callback.setNotified(true);
 					}
 				}
+				return;
 			}
+			
+			
+			
 		});
-		
-		
-		
-		this.rpcMethodCallbackManager.put(callback.getRpcId(), callback);
 		
 		//如果是异步，直接返回future
 		if (callback.isAsync()) {
@@ -145,6 +160,11 @@ public class ProxyInvocationHandler implements InvocationHandler {
 				callback.wait();
 			}
 		}
+		if (callback.getException() != null) {
+			throw callback.getException();
+		}
+		
+		
 		return callback.getCallbackFuture().get();
 		
 	}

@@ -51,7 +51,7 @@ public class ConsistentHashingRpcServiceLoadblancer implements RpcServiceLoadbla
 		int sessionHash = HashUtil.getFNV1_32_HASH(rpcId);
 		
 		Integer firstKey = this.virtualRpcServices.ceilingKey(sessionHash);
-		if (firstKey == null) {
+		if (firstKey == null && this.virtualRpcServices.size() > 0) {
 			firstKey = this.virtualRpcServices.firstKey();
 		}
 		VirtualRpcServiceInfo serviceInfo = this.virtualRpcServices.get(firstKey);

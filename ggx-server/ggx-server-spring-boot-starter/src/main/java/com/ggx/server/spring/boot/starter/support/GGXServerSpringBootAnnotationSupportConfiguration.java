@@ -1,25 +1,19 @@
 package com.ggx.server.spring.boot.starter.support;
 
-import java.lang.reflect.AnnotatedType;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.common.event.EventListener;
@@ -37,8 +31,8 @@ import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
+import com.ggx.util.logger.GGXLogUtil;
 
-import io.github.classgraph.AnnotationInfo;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -53,8 +47,9 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 
 	@Autowired
 	private GGXServer ggxServer;
-
-	private String[] basicPackage;
+	
+	@Autowired
+	private GGXServerConfig ggxServerConfig;
 
 	public GGXServerSpringBootAnnotationSupportConfiguration() {
 
@@ -141,7 +136,7 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 				}
 
 				// 注册RPC服务
-				
+				/*
 				Map<String, Object> rpcServices = this.applicationContext.getBeansWithAnnotation(GGXRpcInterface.class);
 				for (Entry<String, Object> entry : rpcServices.entrySet()) {
 					Object obj = entry.getValue();
@@ -166,35 +161,46 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 						break;
 					}
 				}
+				*/
 				
-				try (ScanResult scanResult = new ClassGraph().enableAllInfo().blacklistClasses(
-						"org.springframework",
-						"io.netty",
-						"io.protostuff",
-						"com.fasterxml",
-						"java",
-						"javax",
-						"com.googel",
-						"net.jpountz",
-						"com.mongodb",
-						"org.apache"
-						).scan()) {
-					try {
+				String[] whitelistPackages = ArrayUtils.add(ggxServerConfig.getScanPackages(), getSpringBootEnterPackage());
+				
+				ClassGraph classGraph = new ClassGraph();
+				classGraph.enableAllInfo();
+				if (whitelistPackages.length > 0) {
+					classGraph.whitelistPackages(whitelistPackages);
+				}
+				
+				try (ScanResult scanResult = classGraph.scan()) {
 						ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
 						for (ClassInfo info : rpcInterfaceInfoList) {
 							String name = info.getName();
 							Class<?> interfaceClass = Class.forName(name);
-							//GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
-							//Class<?> fallback = annotation.fallback();
-							//Object primaryObj = null;
-							if (!applicationContext.containsBean(interfaceClass.getSimpleName())) {
+							GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
+							Class<?> fallbackClass = annotation.fallback();
+							//String beanName = interfaceClass.getSimpleName();
+							Object primary = null;
+							try {
+								primary = applicationContext.getBean(interfaceClass);
+							} catch (Exception e) {
+								GGXLogUtil.getLogger(this).warn("Interface [] has added a '@GGXRpcInterface' annotation, but it dose not have any implementation class!", name);
+							}
+							if (
+									primary == null
+									||
+									primary.getClass() == fallbackClass
+								) {
 								Object proxy = this.ggxServer.registerRpcClient(interfaceClass, null);
 								registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+							}else if(
+									primary != null
+									&& 
+									primary.getClass() != fallbackClass) {
+								ggxServer.registerRpcService(interfaceClass, primary);
 							}
 						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
+				}catch (Exception e) {
+					GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);
 				}
 
 	}
@@ -223,9 +229,10 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 	}
 
 	public boolean checkPackage(Class<?> checkClass) {
-		if (this.basicPackage != null && this.basicPackage.length > 0) {
+		String[] scanPackages = ggxServerConfig.getScanPackages();
+		if (scanPackages != null && scanPackages.length > 0) {
 			String className = checkClass.getName();
-			for (String packa : basicPackage) {
+			for (String packa : scanPackages) {
 				if (className.startsWith(packa)) {
 					return true;
 				}
@@ -235,13 +242,6 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 		return true;
 	}
 
-	public void setBasicPackage(String[] basicPackage) {
-		this.basicPackage = basicPackage;
-	}
-
-	public String[] getBasicPackage() {
-		return basicPackage;
-	}
 
 	public ScanResult scanPackages(String...packages) {
 		try (ScanResult scanResult = new ClassGraph()
@@ -254,7 +254,19 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 	}
 
 		
-		
+	public String getSpringBootEnterPackage() {
+		try {
+			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+			String enterClassName = stackTrace[stackTrace.length - 1].getClassName();
+			Class<?> enterClass = Class.forName(enterClassName);
+			if (enterClass != null) {
+				return enterClass.getPackage().getName();
+			}
+		} catch (Exception e) {
+			GGXLogUtil.getLogger(this).error("Get SpringBoot Enter Package Error!", e);
+		}
+		return null;
+	}
 		
 		 
 

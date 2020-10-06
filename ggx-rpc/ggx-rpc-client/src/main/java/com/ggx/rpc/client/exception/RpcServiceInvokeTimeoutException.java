@@ -8,19 +8,19 @@ import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
  * @author zai
  * 2020-10-6 15:12:35
  */
-public class RpcTimeoutFailedException extends GGXNoStackTraceRuntimeException {
+public class RpcServiceInvokeTimeoutException extends GGXNoStackTraceRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String serviceName;
 	
-	public RpcTimeoutFailedException(String serviceName) {
+	public RpcServiceInvokeTimeoutException(String serviceName) {
 		this.serviceName = serviceName;
 	}
 
 	@Override
 	public String getMessage() {
-		return String.format("Sending Message To Service [%s] Failed!", serviceName);
+		return String.format("Invoke Rpc Service [%s] Timeout!", serviceName);
 	}
 	
 
