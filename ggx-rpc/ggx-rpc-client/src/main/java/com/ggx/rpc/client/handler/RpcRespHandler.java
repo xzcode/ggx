@@ -43,7 +43,9 @@ public class RpcRespHandler implements MessageHandler<RpcResp>{
 				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
 				callbackFuture.setSuccess(true);
 				callbackFuture.setDone(true);
-				callbackFuture.setData(this.parameterSerializerFactory.getSerializer(callback.getReturnType()).deserialize(returnData, callback.getReturnType()));
+				if (returnData != null) {
+					callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getReturnType()));
+				}
 				if (!callback.isAsync()) {
 					synchronized(callback) {
 						if (callback.isWaiting()) {

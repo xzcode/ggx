@@ -140,9 +140,11 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 	        InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
 			for (InterfaceInfoModel info : interfaceInfos) {
 				String interfaceName = info.getInterfaceName();
-				
-				//接口服务组缓存
-				interfaceServiceCache.put(classCache.get(interfaceName), serviceGroup);
+				Class<?> interfaceClass = classCache.get(interfaceName);
+				if (interfaceClass != null) {
+					//接口服务组缓存
+					interfaceServiceCache.put(interfaceClass, serviceGroup);
+				}
 			}
 			
 			//当移除组的时候，移除接口服务组缓存
