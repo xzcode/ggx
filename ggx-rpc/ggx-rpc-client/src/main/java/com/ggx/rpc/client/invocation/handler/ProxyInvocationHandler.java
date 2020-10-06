@@ -2,14 +2,15 @@ package com.ggx.rpc.client.invocation.handler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.ggx.core.common.future.GGXDefaultFuture;
-import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.factory.GGXFutureFactory;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.exception.RpcServiceNoFallbackException;
+import com.ggx.rpc.client.exception.RpcServiceNotReadyException;
+import com.ggx.rpc.client.exception.RpcServiceSendMessageFailedException;
 import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
@@ -54,15 +55,19 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		InterfaceInfo interfaceInfo = proxyInfo.getInterfaceInfo();
 		Map<String, Method> methods = interfaceInfo.getMethods();
 		
+
+		String serviceName = serviceInterface.getCanonicalName();
 		String methodName = interfaceInfoParser.makeMethodName(proxyMethod, proxyMethod.getParameterTypes());
 		Method method = methods.get(interfaceInfoParser.makeMethodName(proxyMethod, proxyMethod.getParameterTypes()));
 		
 		if (method == null) {
+			if (this.fallbackObj == null) {
+				throw new RpcServiceNoFallbackException(serviceName, methodName);
+			}
 			return proxyMethod.invoke(this.fallbackObj, args);				
 		}
 		
 		Class<?>[] paramTypes = proxyInfo.getInterfaceInfo().getMethodParamTypes().get(method);
-		
 		
 		
 		RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
@@ -70,9 +75,17 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		Map<Method, Class<?>> methodReturnClasses = interfaceInfo.getMethodReturnClasses();
 		Class<?> returnType = methodReturnClasses.get(method);
 		
+		//判断是否异步回调
+		boolean async = returnType == GGXFuture.class;
+		
+		
 		if (group == null) {
-			if (returnType == GGXFuture.class) {
-				return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+			RpcServiceNotReadyException notReadyException = new RpcServiceNotReadyException(serviceName);
+			if (async) {
+				return GGXFutureFactory.fail(notReadyException);
+			}
+			if (this.fallbackObj == null) {
+				throw new RpcServiceNoFallbackException(serviceName, methodName);
 			}
 			return proxyMethod.invoke(this.fallbackObj, args);
 		}
@@ -83,33 +96,19 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		req.setInterfaceName(interfaceInfo.getInterfaceName());
 		req.setMethodName(methodName);
 		if (paramTypes != null && paramTypes.length > 0) {
-			/*
-			 * List<byte[]> paramDatas = new ArrayList<byte[]>(paramTypes.length);
-			 * 
-			 * for (int i = 0; i < paramTypes.length; i++) { Class<?> pt = paramTypes[i];
-			 * paramDatas.add(serializerFactory.getSerializer(pt).serialize(args[i])); }
-			 * req.setParamDatas(paramDatas);
-			 */
-			
 			ParameterSerializer<?> serializer = serializerFactory.getDefaultSerializer();
 			byte[] paramBytes = serializer.serialize(args);
 			req.setParamBytes(paramBytes);
 		}
-		
-
-		
 		
 		//回调处理
 		RpcMethodCallback callback = new RpcMethodCallback();
 		callback.setRpcId(req.getRpcId());
 		callback.setTimeout(this.config.getRpcTimeout());
 		callback.setReturnType(returnType);
-		
-		//判断是否异步回调
-		if (returnType == GGXFuture.class) {
-			callback.setAsync(true);
-		}
+		callback.setAsync(async);
 		callback.setCallbackFuture(new GGXDefaultFuture());
+		callback.setServiceName(serviceName);
 		
 		//发送数据包
 		GGXFuture invokeFuture = group.invoke(req);
@@ -118,6 +117,7 @@ public class ProxyInvocationHandler implements InvocationHandler {
 				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
 				callbackFuture.setSuccess(false);
 				callbackFuture.setDone(true);
+				callbackFuture.setCause(new RpcServiceSendMessageFailedException(callback.getServiceName()));
 				if (!callback.isAsync()) {
 					synchronized(callback) {
 						if (callback.isWaiting()) {

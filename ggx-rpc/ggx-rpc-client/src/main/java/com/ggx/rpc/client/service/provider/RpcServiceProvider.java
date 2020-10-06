@@ -7,7 +7,6 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.RpcServiceClassCache;
@@ -136,15 +135,11 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
         
         //如果是新创建的组，需要注册接口信息
         if (newGroup) {
+        	
 	        RpcServiceClassCache classCache = this.config.getClassCache();
 	        InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
-	        RpcProxyManager proxyManager = this.config.getProxyManager();
 			for (InterfaceInfoModel info : interfaceInfos) {
 				String interfaceName = info.getInterfaceName();
-				String fallbackClassName = info.getFallbackClassName();
-				
-				//注册并接口动态代理
-				proxyManager.register(classCache.get(interfaceName),this.config.getFallbackInstanceFactory().instant(classCache.get(fallbackClassName)));
 				
 				//接口服务组缓存
 				interfaceServiceCache.put(classCache.get(interfaceName), serviceGroup);

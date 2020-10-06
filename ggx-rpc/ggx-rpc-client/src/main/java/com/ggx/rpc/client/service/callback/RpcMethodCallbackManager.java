@@ -4,6 +4,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.exception.RpcTimeoutFailedException;
 import com.ggx.util.manager.impl.ListenableMapDataManager;
 
 /**
@@ -30,6 +31,7 @@ public class RpcMethodCallbackManager extends ListenableMapDataManager<String, R
 				callbackFuture.setSuccess(false);
 				callbackFuture.setData(null);
 				callbackFuture.setDone(true);
+				callbackFuture.setCause(new RpcTimeoutFailedException(callback.getServiceName()));
 				if (!callback.isAsync()) {
 					synchronized(callback) {
 						if (callback.isWaiting()) {

@@ -16,7 +16,7 @@ import com.ggx.util.logger.GGXLogUtil;
  */
 public class GGXDefaultFuture implements GGXFuture {
 
-	private Set<GGXFutureListener<GGXFuture>> listeners = new ConcurrentSkipListSet<>();
+	private Throwable cause;
 
 	private boolean success;
 
@@ -29,6 +29,7 @@ public class GGXDefaultFuture implements GGXFuture {
 	private GGXSession session;
 	
 	
+	private Set<GGXFutureListener<GGXFuture>> listeners = new ConcurrentSkipListSet<>();
 
 	public GGXDefaultFuture() {
 	}
@@ -41,6 +42,14 @@ public class GGXDefaultFuture implements GGXFuture {
 		this.done = true;
 		this.triggerListeners();
 	}
+	
+	public GGXDefaultFuture(boolean success, Throwable cause) {
+		this.success = success;
+		this.cause = cause;
+		this.done = true;
+		this.triggerListeners();
+	}
+	
 
 
 
@@ -142,6 +151,14 @@ public class GGXDefaultFuture implements GGXFuture {
 		} catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("GGXFuture trigger listener ERROR!", e);
 		}
+	}
+	
+	public Throwable getCause() {
+		return cause;
+	}
+	
+	public void setCause(Throwable cause) {
+		this.cause = cause;
 	}
 
 }

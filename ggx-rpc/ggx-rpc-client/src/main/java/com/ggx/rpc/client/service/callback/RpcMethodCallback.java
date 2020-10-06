@@ -31,6 +31,8 @@ public class RpcMethodCallback {
 	
 	private boolean notified;
 	
+	private String serviceName;
+	
 	public String getRpcId() {
 		return rpcId;
 	}
@@ -92,6 +94,14 @@ public class RpcMethodCallback {
 
 	public void setNotified(boolean notified) {
 		this.notified = notified;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 	
 	

@@ -16,9 +16,9 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2019-12-01 16:28:44
  */
-public class GGXSuccessFuture<V> implements GGXFuture {
+public class GGXSuccessFuture implements GGXFuture {
 	
-	public static final GGXSuccessFuture<?> DEFAULT_SUCCESS_FUTURE = new GGXSuccessFuture<>();
+	public static final GGXSuccessFuture DEFAULT_SUCCESS_FUTURE = new GGXSuccessFuture();
 	
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
@@ -36,12 +36,12 @@ public class GGXSuccessFuture<V> implements GGXFuture {
 	}
 
 	@Override
-	public V get() throws InterruptedException, ExecutionException {
+	public Object get() throws InterruptedException, ExecutionException {
 		return null;
 	}
 
 	@Override
-	public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
 		return null;
 	}
 
