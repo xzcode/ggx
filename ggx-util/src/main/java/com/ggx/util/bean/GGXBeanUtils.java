@@ -3,6 +3,8 @@ package com.ggx.util.bean;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.util.logger.GGXLogUtil;
+
 import net.sf.cglib.beans.BeanCopier;
 
 /**
@@ -13,13 +15,14 @@ import net.sf.cglib.beans.BeanCopier;
  */
 public class GGXBeanUtils {
 	
-	private static final Map<String, BeanCopier> cache = new ConcurrentHashMap<String, BeanCopier>(128);
+	private static final Map<String, BeanCopier> CACHE = new ConcurrentHashMap<>(128);
 	
-	protected static final BeanCopier getCache(Class<?> src, Class<?> target) {
-		BeanCopier beanCopier = cache.get(generateKey(src, target));
+	protected static final BeanCopier getCache(Class<?> srcClass, Class<?> targetClass) {
+		String key = generateKey(srcClass, targetClass);
+		BeanCopier beanCopier = CACHE.get(key);
 		if (beanCopier == null) {
-			beanCopier = BeanCopier.create(src.getClass(), target.getClass(), false);
-			cache.put(generateKey(src, target), beanCopier);
+			beanCopier = BeanCopier.create(srcClass, targetClass, false);
+			CACHE.put(key, beanCopier);
 		}
 		return beanCopier;
 	}
@@ -45,6 +48,26 @@ public class GGXBeanUtils {
 	 */
 	public static void copyProperties(Object src, Object target) {
 		getCache(src.getClass(), target.getClass()).copy(src, target, null);
+	}
+	
+	/**
+	 * 属性复制
+	 * @param <T>
+	 * @param src
+	 * @param targetClass
+	 * @return
+	 * @author zai
+	 * 2020-10-7 12:01:08
+	 */
+	public static <T> T copyProperties(Object src, Class<T> targetClass) {
+		T target = null;
+		try {
+			target = targetClass.newInstance();
+			getCache(src.getClass(), targetClass).copy(src, target, null);
+		} catch (Exception e) {
+			GGXLogUtil.getLogger(GGXBeanUtils.class).error("GGXBeanUtils copy properties Error!", e);
+		}
+		return target;
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.ggx.core.common.future;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -29,7 +29,7 @@ public class GGXDefaultFuture implements GGXFuture {
 	private GGXSession session;
 	
 	
-	private Set<GGXFutureListener<GGXFuture>> listeners = new ConcurrentSkipListSet<>();
+	private List<GGXFutureListener<GGXFuture>> listeners = new CopyOnWriteArrayList<>();
 
 	public GGXDefaultFuture() {
 	}
