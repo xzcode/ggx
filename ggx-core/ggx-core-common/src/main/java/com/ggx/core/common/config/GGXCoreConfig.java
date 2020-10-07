@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
+import com.ggx.core.common.channel.handler.codec.DecodeHandler;
+import com.ggx.core.common.channel.handler.codec.EncodeHandler;
+import com.ggx.core.common.channel.handler.codec.impl.AESSupportDecodeHandler;
+import com.ggx.core.common.channel.handler.codec.impl.AESSupportEncodeHandler;
+import com.ggx.core.common.channel.handler.codec.impl.DefaultDecodeHandler;
+import com.ggx.core.common.channel.handler.codec.impl.DefaultEncodeHandler;
+import com.ggx.core.common.channel.handler.pack.ReceivePackHandler;
+import com.ggx.core.common.channel.handler.pack.impl.DefaultReceivePackHandler;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.encryption.aes.AESCipher;
 import com.ggx.core.common.encryption.aes.impl.DefaultAESCipher;
@@ -17,16 +25,6 @@ import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
 import com.ggx.core.common.filter.model.FilterInfo;
-import com.ggx.core.common.handler.codec.DecodeHandler;
-import com.ggx.core.common.handler.codec.EncodeHandler;
-import com.ggx.core.common.handler.codec.impl.AESSupportDecodeHandler;
-import com.ggx.core.common.handler.codec.impl.AESSupportEncodeHandler;
-import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
-import com.ggx.core.common.handler.codec.impl.DefaultEncodeHandler;
-import com.ggx.core.common.handler.pack.IReceivePackHandler;
-import com.ggx.core.common.handler.pack.impl.DefaultReceivePackHandler;
-import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.handler.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
@@ -34,6 +32,8 @@ import com.ggx.core.common.message.receive.action.AddActionIdPrefixHandler;
 import com.ggx.core.common.message.receive.action.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
 import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
 import com.ggx.core.common.session.id.DefaultSessionIdGenerator;
@@ -120,7 +120,7 @@ public class GGXCoreConfig {
 	protected DecodeHandler decodeHandler;
 	protected EncodeHandler encodeHandler;
 
-	protected IReceivePackHandler receivePackHandler;
+	protected ReceivePackHandler receivePackHandler;
 
 	protected ReceiveMessageManager receiveMessageManager;
 	protected FilterManager filterManager;
@@ -438,11 +438,11 @@ public class GGXCoreConfig {
 		this.workerGroupThreadFactory = workerGroupThreadFactory;
 	}
 
-	public IReceivePackHandler getReceivePackHandler() {
+	public ReceivePackHandler getReceivePackHandler() {
 		return receivePackHandler;
 	}
 
-	public void setReceivePackHandler(IReceivePackHandler receivePackHandler) {
+	public void setReceivePackHandler(ReceivePackHandler receivePackHandler) {
 		this.receivePackHandler = receivePackHandler;
 	}
 

@@ -2,7 +2,6 @@ package com.ggx.core.common.message.receive.handler;
 
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.action.MessageHandler;
 
 /**
  * 请求消息调用模型

@@ -2,10 +2,10 @@ package com.ggx.core.common.message.send.support;
 
 import java.nio.charset.Charset;
 
-import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.util.logger.GGXLogUtil;

@@ -5,7 +5,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 
 public abstract class AbstractMessageHandler<M extends Message> implements MessageHandler<M>{

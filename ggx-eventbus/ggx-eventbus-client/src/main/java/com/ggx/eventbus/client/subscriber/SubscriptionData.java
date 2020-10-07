@@ -1,6 +1,6 @@
 package com.ggx.eventbus.client.subscriber;
 
-import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.serializer.Serializer;
 
 /**
  * 订阅数据

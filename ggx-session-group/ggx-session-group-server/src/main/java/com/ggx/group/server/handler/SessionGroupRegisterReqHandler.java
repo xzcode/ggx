@@ -1,7 +1,7 @@
 package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;

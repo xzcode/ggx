@@ -8,7 +8,7 @@ import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
 import com.ggx.util.logger.GGXLogUtil;

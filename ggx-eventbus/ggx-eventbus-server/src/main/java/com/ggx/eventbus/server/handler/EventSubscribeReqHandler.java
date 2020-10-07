@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.eventbus.server.subscription.SubscriptionManager;

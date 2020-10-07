@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.model.FilterInfo;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.MessageActionIdUtil;
 import com.ggx.eventbus.client.subscriber.Subscriber;

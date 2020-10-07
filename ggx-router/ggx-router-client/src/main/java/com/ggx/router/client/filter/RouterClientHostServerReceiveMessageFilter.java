@@ -2,9 +2,9 @@ package com.ggx.router.client.filter;
 
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
-import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;

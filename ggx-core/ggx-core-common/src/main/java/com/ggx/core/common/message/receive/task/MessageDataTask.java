@@ -2,12 +2,12 @@ package com.ggx.core.common.message.receive.task;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.handler.serializer.factory.SerializerFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
 

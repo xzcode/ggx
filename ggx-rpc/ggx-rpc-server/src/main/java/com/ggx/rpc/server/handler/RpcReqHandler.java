@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.message.resp.RpcResp;

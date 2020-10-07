@@ -3,8 +3,8 @@ package com.ggx.core.common.message.receive.manager;
 import java.util.List;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.core.common.message.receive.handler.DefaultReceiveMessagerHandlerInfo;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
 import com.ggx.core.common.utils.GenericClassUtil;
 import com.ggx.core.common.utils.MessageActionIdUtil;

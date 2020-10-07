@@ -1,7 +1,7 @@
 package com.ggx.registry.server.handler;
 
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;

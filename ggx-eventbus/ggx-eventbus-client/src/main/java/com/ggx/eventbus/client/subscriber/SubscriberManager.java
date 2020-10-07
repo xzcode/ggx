@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.serializer.Serializer;
 
 /**
  * 订阅器管理器

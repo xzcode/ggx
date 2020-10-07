@@ -1,7 +1,7 @@
 package com.ggx.rpc.common.serializer.impl;
 
-import com.ggx.core.common.handler.serializer.Serializer;
-import com.ggx.core.common.handler.serializer.impl.KryoSerializer;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.impl.KryoSerializer;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 
 /**

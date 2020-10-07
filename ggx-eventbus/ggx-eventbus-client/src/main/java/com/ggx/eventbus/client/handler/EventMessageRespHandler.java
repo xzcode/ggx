@@ -1,9 +1,9 @@
 package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberGroup;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;

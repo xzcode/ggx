@@ -3,7 +3,7 @@ package com.ggx.rpc.client.handler;
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.exception.RpcServiceRemoteErrorException;
 import com.ggx.rpc.client.proxy.RpcProxyManager;

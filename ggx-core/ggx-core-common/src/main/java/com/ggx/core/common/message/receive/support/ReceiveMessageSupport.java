@@ -1,6 +1,6 @@
 package com.ggx.core.common.message.receive.support;
 
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 
 /**

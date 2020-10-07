@@ -5,8 +5,8 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.manager.SessionManager;
 
 

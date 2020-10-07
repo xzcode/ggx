@@ -5,9 +5,9 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.handler.serializer.Serializer;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.send.support.MakePackSupport;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 
 

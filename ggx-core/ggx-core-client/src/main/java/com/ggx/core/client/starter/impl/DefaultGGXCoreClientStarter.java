@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGXCoreClientStarter;
+import com.ggx.core.common.channel.handler.MixedSocketChannelInitializer;
+import com.ggx.core.common.channel.handler.TcpChannelInitializer;
+import com.ggx.core.common.channel.handler.WebSocketChannelInitializer;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXNettyFuture;
-import com.ggx.core.common.handler.MixedSocketChannelInitializer;
-import com.ggx.core.common.handler.TcpChannelInitializer;
-import com.ggx.core.common.handler.WebSocketChannelInitializer;
 import com.ggx.core.common.session.GGXSession;
 
 import io.netty.bootstrap.Bootstrap;

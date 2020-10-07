@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.handler.serializer.Serializer;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.GGSessionGroup;
 

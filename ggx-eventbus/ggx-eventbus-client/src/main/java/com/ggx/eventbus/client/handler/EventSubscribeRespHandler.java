@@ -2,7 +2,7 @@ package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.action.MessageHandler;
+import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 
 /**
