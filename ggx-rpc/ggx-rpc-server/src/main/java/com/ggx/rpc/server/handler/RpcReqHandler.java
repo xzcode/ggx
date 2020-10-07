@@ -44,6 +44,7 @@ public class RpcReqHandler implements MessageHandler<RpcReq>{
 		String rpcId = req.getRpcId();
 		future.addListener(f -> {
 			if (f.isSuccess()) {
+				//成功
 				Object result = f.get();
 				byte[] returnData = null;
 				if (result != null) {
@@ -57,6 +58,10 @@ public class RpcReqHandler implements MessageHandler<RpcReq>{
 				}
 				return;
 			}
+			//失败
+			RpcResp rpcResp = new RpcResp(rpcId, false);
+			session.send(rpcResp);
+			
 			LOGGER.warn("RPC Request FAILED!! rpcId: {} , interface: {}, method: {}", req.getRpcId(), req.getInterfaceName(), req.getMethodName());
 			
 		});

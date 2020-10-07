@@ -5,6 +5,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.action.MessageHandler;
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.exception.RpcServiceRemoteErrorException;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
@@ -34,6 +35,7 @@ public class RpcRespHandler implements MessageHandler<RpcResp>{
 			RpcResp resp = messageData.getMessage();
 			String rpcId = resp.getRpcId();
 			byte[] returnData = resp.getReturnData();
+			boolean success = resp.isSuccess();
 			RpcMethodCallback callback = this.rpcMethodCallbackManager.get(rpcId);
 			if (callback == null) {
 				return;
@@ -41,8 +43,11 @@ public class RpcRespHandler implements MessageHandler<RpcResp>{
 			GGXFuture tof = callback.getTimeoutFuture();
 			if (tof != null && tof.cancel()) {
 				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
-				callbackFuture.setSuccess(true);
+				callbackFuture.setSuccess(success);
 				callbackFuture.setDone(true);
+				if (!success) {
+					callback.setException(new RpcServiceRemoteErrorException(callback.getServiceName()));
+				}
 				if (returnData != null) {
 					callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getReturnType()));
 				}
