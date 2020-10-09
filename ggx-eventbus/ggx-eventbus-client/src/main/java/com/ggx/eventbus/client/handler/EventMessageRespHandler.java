@@ -1,8 +1,7 @@
 package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberGroup;
@@ -16,7 +15,7 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2020-04-07 11:37:01
  */
-public class EventMessageRespHandler implements MessageHandler<EventMessageResp>{
+public class EventMessageRespHandler{
 	
 	private EventbusClientConfig config;
 	
@@ -31,10 +30,9 @@ public class EventMessageRespHandler implements MessageHandler<EventMessageResp>
 
 
 
-	@Override
-	public void handle(MessageData<EventMessageResp> messageData) {
+	@GGXAction
+	public void handle(EventMessageResp resp) {
 		try {
-			EventMessageResp resp = messageData.getMessage();
 			String eventId = resp.getEventId();
 			byte[] eventData = resp.getEventData();
 			

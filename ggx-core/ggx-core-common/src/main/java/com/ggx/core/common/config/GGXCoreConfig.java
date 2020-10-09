@@ -31,8 +31,7 @@ import com.ggx.core.common.message.actionid.impl.DefaultAddActionIdPrefixHandler
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
-import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.receive.controller.impl.DefaultMessageControllerManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
@@ -128,7 +127,6 @@ public class GGXCoreConfig {
 
 	protected ReceivePackHandler receivePackHandler;
 
-	protected ReceiveMessageManager receiveMessageManager;
 	
 	protected MessageControllerManager messageControllerManager;
 	
@@ -159,7 +157,7 @@ public class GGXCoreConfig {
 	protected AESCipher aesCipher;
 
 	public void init() {
-		receiveMessageManager = new DefaultReceiveMessageManager(this);
+		messageControllerManager = new DefaultMessageControllerManager();
 		filterManager = new DefaultFilterManager();
 		eventManager = new DefaultEventManager();
 
@@ -362,13 +360,6 @@ public class GGXCoreConfig {
 		this.eventManager = eventManager;
 	}
 
-	public ReceiveMessageManager getReceiveMessageManager() {
-		return receiveMessageManager;
-	}
-
-	public void setReceiveMessageManager(ReceiveMessageManager requestMessageManager) {
-		this.receiveMessageManager = requestMessageManager;
-	}
 
 	public boolean isUseSSL() {
 		return useSSL;
@@ -652,5 +643,13 @@ public class GGXCoreConfig {
 	
 	public String getGgxComponentAtionIdPrefix() {
 		return ggxComponentAtionIdPrefix;
+	}
+	
+	public MessageControllerManager getMessageControllerManager() {
+		return messageControllerManager;
+	}
+	
+	public void setMessageControllerManager(MessageControllerManager messageControllerManager) {
+		this.messageControllerManager = messageControllerManager;
 	}
 }

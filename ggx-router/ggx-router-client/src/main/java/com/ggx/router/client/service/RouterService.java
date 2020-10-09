@@ -16,6 +16,8 @@ import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.receive.controller.MessageController;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGXSession;
@@ -187,7 +189,7 @@ public class RouterService {
 		});
 		
 		//监听session断开回传
-		this.serviceClient.onMessage(new MessageHandler<RouterSessionDisconnectTransferResp>() {
+		this.serviceClient.onMessage(new MessageController {
 
 			@Override
 			public void handle(MessageData<RouterSessionDisconnectTransferResp> messageData) {
@@ -223,14 +225,13 @@ public class RouterService {
 		
 
 		//监听session与路由服务绑定变更
-		this.serviceClient.onMessage(new MessageHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
+		this.serviceClient.register(new MessageController() {
 
-			@Override
-			public void handle(MessageData<RouterRedirectMessageToOtherRouterServicesResp> messageData) {
+			@GGXAction
+			public void handle(RouterRedirectMessageToOtherRouterServicesResp resp, GGXSession session) {
 				
-				GGXSession session = messageData.getSession();
 				String sessionId = session.getSessonId();
-				RouterRedirectMessageToOtherRouterServicesResp message = messageData.getMessage();
+				RouterRedirectMessageToOtherRouterServicesResp message = resp;
 				
 				GGXCoreServer hostServer = config.getHostServer();
 				SessionManager hostSessionManager = hostServer.getSessionManager();

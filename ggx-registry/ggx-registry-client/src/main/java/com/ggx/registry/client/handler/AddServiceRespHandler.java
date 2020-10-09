@@ -1,7 +1,6 @@
 package com.ggx.registry.client.handler;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
 
@@ -11,7 +10,7 @@ import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
  * @author zai
  * 2020-02-10 19:57:04
  */
-public class AddServiceRespHandler implements MessageHandler<RegistryAddServiceResp>{
+public class AddServiceRespHandler{
 	
 	private RegistryClientConfig config;
 	
@@ -22,12 +21,9 @@ public class AddServiceRespHandler implements MessageHandler<RegistryAddServiceR
 	}
 
 
-	@Override
-	public void handle(MessageData<RegistryAddServiceResp> request) {
-		
-		RegistryAddServiceResp resp = request.getMessage();
+	@GGXAction
+	public void handle(RegistryAddServiceResp resp) {
 		config.getServiceManager().registerService(resp.getServiceInfo());
-		
 	}
 
 	

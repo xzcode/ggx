@@ -2,8 +2,7 @@ package com.ggx.registry.client.handler;
 
 import java.util.List;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.resp.RegistryServiceListResp;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -16,7 +15,7 @@ import com.ggx.registry.common.service.ServiceManager;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class ServiceListRespHandler implements MessageHandler<RegistryServiceListResp>{
+public class ServiceListRespHandler{
 	
 	private RegistryClientConfig config;
 	
@@ -27,10 +26,9 @@ public class ServiceListRespHandler implements MessageHandler<RegistryServiceLis
 	}
 
 
-	@Override
-	public void handle(MessageData<RegistryServiceListResp> request) {
+	@GGXAction
+	public void handle(RegistryServiceListResp resp) {
 		
-		RegistryServiceListResp resp = request.getMessage();
 		//检查获取服务集合,内容属性存在null值问题
 		List<ServiceInfo> serviceList = resp.getServiceList();
 		

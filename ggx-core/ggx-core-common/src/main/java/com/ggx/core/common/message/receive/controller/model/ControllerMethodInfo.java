@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.receive.controller;
+package com.ggx.core.common.message.receive.controller.model;
 
 import java.lang.reflect.Method;
 
@@ -12,6 +12,12 @@ public class ControllerMethodInfo {
 	private Method method;
 
 	private Class<?>[] paramClasses;
+	
+	private Class<?> messageClass;
+	
+	private Class<?> returnClass;
+	
+	private boolean returnMessage;
 	
 	private int messageParamIndex = -1;
 	
@@ -71,6 +77,30 @@ public class ControllerMethodInfo {
 
 	public void setSessionParamIndex(int sessionParamIndex) {
 		this.sessionParamIndex = sessionParamIndex;
+	}
+	
+	public Class<?> getMessageClass() {
+		return messageClass;
+	}
+	
+	public void setMessageClass(Class<?> messageClass) {
+		this.messageClass = messageClass;
+	}
+
+	public Class<?> getReturnClass() {
+		return returnClass;
+	}
+
+	public void setReturnClass(Class<?> returnClass) {
+		this.returnClass = returnClass;
+	}
+
+	public boolean isReturnMessage() {
+		return returnMessage;
+	}
+
+	public void setReturnMessage(boolean returnClassMessage) {
+		this.returnMessage = returnClassMessage;
 	}
 	
 	

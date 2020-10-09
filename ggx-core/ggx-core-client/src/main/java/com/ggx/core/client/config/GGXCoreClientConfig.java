@@ -3,8 +3,7 @@ package com.ggx.core.client.config;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.message.pingpong.GGXPingPongClientEventListener;
-import com.ggx.core.common.message.pingpong.GGXPongResponseHandler;
-import com.ggx.core.common.message.pingpong.model.Pong;
+import com.ggx.core.common.message.pingpong.GGXPingPongController;
 
 import io.netty.bootstrap.Bootstrap;
 
@@ -27,7 +26,7 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 		super.init();
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(new GGXPongResponseHandler(this));
+			messageControllerManager.register(new GGXPingPongController(this));
 			eventManager.addEventListener(GGXCoreEvents.Idle.WRITE, new GGXPingPongClientEventListener(this));
 		}
 

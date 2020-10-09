@@ -26,7 +26,7 @@ public class GGXPingPongClientEventListener implements EventListener<Void>, Make
 	@Override
 	public void onEvent(EventData<Void> eventData) {
 		GGXSession session = eventData.getSession();
-		session.send(actionIdCacheManager.get(Ping.class));
+		session.send(Ping.class);
 	}
 
 	@Override

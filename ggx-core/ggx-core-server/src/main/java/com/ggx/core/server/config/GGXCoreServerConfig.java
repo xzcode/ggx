@@ -6,7 +6,7 @@ import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.message.pingpong.GGXPingPongServerEventListener;
-import com.ggx.core.common.message.pingpong.GGXPingRequestHandler;
+import com.ggx.core.common.message.pingpong.GGXPingPongController;
 import com.ggx.core.server.port.PortChangeStrategy;
 
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -60,7 +60,7 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 		
 
 		if (isPingPongEnabled()) {
-			receiveMessageManager.onMessage(new GGXPingRequestHandler(this));			
+			messageControllerManager.register(new GGXPingPongController(this));	
 			eventManager.addEventListener(GGXCoreEvents.Idle.READ, new GGXPingPongServerEventListener(this));
 		}
 		

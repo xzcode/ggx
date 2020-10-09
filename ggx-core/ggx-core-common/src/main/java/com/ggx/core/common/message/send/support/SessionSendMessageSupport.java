@@ -71,6 +71,11 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	GGXSession getSession();
 	
 	
+	default GGXFuture send(Class<? extends Message> actionIdOnlyMessage) {
+		return send(new MessageData<>(getSession(), getActionIdCacheManager().get(actionIdOnlyMessage), null));
+	}
+	
+	
 	/**
 	 * 发送消息
 	 * 

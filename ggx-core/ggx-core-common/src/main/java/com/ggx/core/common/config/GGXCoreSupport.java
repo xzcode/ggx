@@ -5,7 +5,8 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
+import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.manager.SessionManager;
 
@@ -22,11 +23,17 @@ GGXCore
 	default TaskExecutor getTaskExecutor() {
 		return getGGXCore().getTaskExecutor();
 	}
-
+	
 	@Override
-	default ReceiveMessageManager getReceiveMessageManager() {
-		return getGGXCore().getReceiveMessageManager();
+	default ActionIdCacheManager getActionIdCacheManager() {
+		return getGGXCore().getActionIdCacheManager();
 	}
+	
+	@Override
+	default MessageControllerManager getMessageControllerManager() {
+		return getGGXCore().getMessageControllerManager();
+	}	
+
 
 	@Override
 	default SessionManager getSessionManager() {

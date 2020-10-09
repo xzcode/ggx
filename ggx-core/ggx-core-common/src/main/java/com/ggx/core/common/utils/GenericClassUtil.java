@@ -3,8 +3,6 @@ package com.ggx.core.common.utils;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import com.ggx.core.common.message.receive.handler.MessageHandler;
-
 /**
  * 泛型类工具
  *
@@ -29,13 +27,7 @@ public class GenericClassUtil {
 			ParameterizedType superParameterizedType = (ParameterizedType)targetClass.getGenericSuperclass();
 			msgClass = (Class<?>) superParameterizedType.getActualTypeArguments()[0];
 		}else {
-			Type type = genericInterfaces[0];
-			if (type == MessageHandler.class) {
-				msgClass = MessageHandler.class;
-			}else {
-				msgClass = (Class<?>) ((ParameterizedType)genericInterfaces[0]).getActualTypeArguments()[0];
-			}
-			
+			msgClass = (Class<?>) ((ParameterizedType)genericInterfaces[0]).getActualTypeArguments()[0];
 		}
 		return msgClass;
 	}

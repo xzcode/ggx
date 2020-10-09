@@ -1,7 +1,6 @@
 package com.ggx.registry.server.handler;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.message.resp.RegistryAddServiceResp;
@@ -19,7 +18,7 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class RegisterReqHandler implements MessageHandler<RegistryServiceRegisterReq>{
+public class RegisterReqHandler{
 	
 	private RegistryServerConfig config;
 	
@@ -31,10 +30,8 @@ public class RegisterReqHandler implements MessageHandler<RegistryServiceRegiste
 	
 
 
-	@Override
-	public void handle(MessageData<RegistryServiceRegisterReq> request) {
-		GGXSession session = request.getSession();
-		RegistryServiceRegisterReq req = request.getMessage();
+	@GGXAction
+	public void handle(RegistryServiceRegisterReq req, GGXSession session) {
 		String serverAuthToken = config.getAuthToken();
 		//判断认证token是否正确
 		if (serverAuthToken != null && !serverAuthToken.isEmpty()) {

@@ -5,7 +5,8 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.handler.ReceiveMessageHandlerInfo;
+import com.ggx.core.common.message.receive.controller.MessageControllerManager;
+import com.ggx.core.common.message.receive.controller.model.ControllerMethodInfo;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
@@ -58,16 +59,17 @@ public class MessageDataTask implements Runnable{
 			
 			action = new String(pack.getAction(), config.getCharset());
 			
+			MessageControllerManager messageControllerManager = config.getMessageControllerManager();
+			ControllerMethodInfo methodInfo = messageControllerManager.getMethodInfo(action);
 			if (pack.getMessage() != null) {
-				ReceiveMessageHandlerInfo messageHandler = config.getReceiveMessageManager().getMessageHandler(action);
-				if (messageHandler != null) {
+				if (messageControllerManager.getMethodInfo(action) != null) {
 					if (pack.getSerializeType() != null) {
 						Serializer getSerializer = SerializerFactory.getSerializer(pack.getSerializeType());
 						if (getSerializer != null) {
-							message = (Message) getSerializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+							message = (Message) getSerializer.deserialize(pack.getMessage(), methodInfo.getMessageClass());
 						}
 					}else {
-						message = (Message) serializer.deserialize(pack.getMessage(), messageHandler.getMessageClass());
+						message = (Message) serializer.deserialize(pack.getMessage(), methodInfo.getMessageClass());
 					}
 				}
 			}
@@ -81,8 +83,11 @@ public class MessageDataTask implements Runnable{
 			if (!messageFilterManager.doReceiveFilters(messageData)) {
 				return;
 			}
-			
-			config.getReceiveMessageManager().handle(messageData);
+			Object returnObject = messageControllerManager.invoke(messageData);
+			//如果有返回值，当作message发送出去
+			if (returnObject != null && methodInfo.isReturnMessage()) {
+				session.send((Message)returnObject);
+			}
 			
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("Request Message Task ERROR!! -- actionId: {}, error: {}", action, e);

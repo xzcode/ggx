@@ -2,8 +2,7 @@ package com.ggx.registry.client.handler;
 
 import java.util.List;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.listener.ClientRegisterSuccessListener;
@@ -18,7 +17,7 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2019-10-04 14:29:53
  */
-public class RegisterRespHandler implements MessageHandler<RegistryServiceRegisterResp>{
+public class RegisterRespHandler{
 	
 	private RegistryClientConfig config;
 	
@@ -29,9 +28,8 @@ public class RegisterRespHandler implements MessageHandler<RegistryServiceRegist
 
 
 
-	@Override
-	public void handle(MessageData<RegistryServiceRegisterResp> messageData) {
-		RegistryServiceRegisterResp resp = messageData.getMessage();
+	@GGXAction
+	public void handle(RegistryServiceRegisterResp resp) {
 		if (resp.isSuccess()) {
 			
 			RegistryClient registryClient = config.getRegistryClient();

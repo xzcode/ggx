@@ -1,8 +1,7 @@
 package com.ggx.eventbus.client.handler;
 
 import com.ggx.common.message.resp.EventPublishResp;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 
 /**
@@ -11,7 +10,7 @@ import com.ggx.eventbus.client.config.EventbusClientConfig;
  * @author zai
  * 2020-04-10 14:52:35
  */
-public class EventPublishRespHandler implements MessageHandler<EventPublishResp>{
+public class EventPublishRespHandler{
 	
 	protected EventbusClientConfig config;
 	
@@ -23,9 +22,8 @@ public class EventPublishRespHandler implements MessageHandler<EventPublishResp>
 
 
 
-	@Override
-	public void handle(MessageData<EventPublishResp> request) {
-		//EventPublishResp resp = request.getMessage();
+	@GGXAction
+	public void handle(EventPublishResp resp) {
 	}
 
 	

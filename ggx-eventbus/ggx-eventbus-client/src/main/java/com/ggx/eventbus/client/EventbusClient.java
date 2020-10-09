@@ -5,9 +5,6 @@ import java.util.List;
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.req.EventSubscribeReq;
-import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.common.message.resp.EventPublishResp;
-import com.ggx.common.message.resp.EventSubscribeResp;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
@@ -89,9 +86,9 @@ public class EventbusClient{
 		
 		this.config.setSessionGroupClient(sessionGroupClient);
 		
-		this.serviceClient.onMessage(new EventPublishRespHandler(config));
-		this.serviceClient.onMessage(new EventSubscribeRespHandler(config));
-		this.serviceClient.onMessage(new EventMessageRespHandler(config));
+		this.serviceClient.register(new EventPublishRespHandler(config));
+		this.serviceClient.register(new EventSubscribeRespHandler(config));
+		this.serviceClient.register(new EventMessageRespHandler(config));
 		
 		
 		//包日志输出控制
