@@ -7,7 +7,7 @@ package com.ggx.core.common.compression;
  * @author zai
  * 2019-11-10 21:12:43
  */
-public interface ICompressor {
+public interface Compressor {
 	
 	/**
 	 * 对字节数组进行加密并返回加密后的字节数组

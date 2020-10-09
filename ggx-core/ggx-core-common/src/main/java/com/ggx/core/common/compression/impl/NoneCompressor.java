@@ -1,6 +1,6 @@
 package com.ggx.core.common.compression.impl;
 
-import com.ggx.core.common.compression.ICompressor;
+import com.ggx.core.common.compression.Compressor;
 
 /**
  * 
@@ -9,7 +9,7 @@ import com.ggx.core.common.compression.ICompressor;
  * @author zai
  * 2019-11-10 21:58:29
  */
-public class NoneCompressor implements ICompressor{
+public class NoneCompressor implements Compressor{
 	
 	@Override
 	public byte[] compress(byte[] data) {

@@ -28,8 +28,12 @@ import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
+import com.ggx.core.common.message.receive.action.ActionIdGenerator;
 import com.ggx.core.common.message.receive.action.AddActionIdPrefixHandler;
+import com.ggx.core.common.message.receive.action.MessageActionIdCacheManager;
+import com.ggx.core.common.message.receive.action.impl.DefaultActionIdGrnarator;
 import com.ggx.core.common.message.receive.action.impl.DefaultAddActionIdPrefixHandler;
+import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.serializer.Serializer;
@@ -46,7 +50,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 
 /**
- * GGServer配置类
+ * GGXCore配置类
  * 
  * @author zai 2019-10-02 22:10:07
  */
@@ -60,6 +64,9 @@ public class GGXCoreConfig {
 	//是否ggx组件
 	protected boolean ggxComponent = false;
 	
+	//扫描包目录
+	protected String[] scanPackages;
+	
 	//指令前缀
 	protected String actionIdPrefix;
 	
@@ -69,6 +76,8 @@ public class GGXCoreConfig {
 	
 	//GGX组件指令前缀
 	protected String ggxComponentAtionIdPrefix = "GGX.";
+	
+	protected String ggxBasePackage = "com.ggx";
 	
 	protected AddActionIdPrefixHandler addActionIdPrefixHandler = new DefaultAddActionIdPrefixHandler(this);
 
@@ -123,6 +132,12 @@ public class GGXCoreConfig {
 	protected ReceivePackHandler receivePackHandler;
 
 	protected ReceiveMessageManager receiveMessageManager;
+	
+	protected MessageControllerManager messageControllerManager;
+	
+	protected MessageActionIdCacheManager messageActionIdCacheManager;
+	
+	protected ActionIdGenerator actionIdGenerator = new DefaultActionIdGrnarator(this);
 	protected FilterManager filterManager;
 	protected EventManager eventManager;
 	protected SessionManager sessionManager;
@@ -599,13 +614,6 @@ public class GGXCoreConfig {
 		this.actionIdPrefix = actionIdProfix;
 	}
 
-	public String getGgxComponentAtionIdPrefix() {
-		return ggxComponentAtionIdPrefix;
-	}
-
-	public void setGgxComponentAtionIdPrefix(String ggxComponentAtionIdProfix) {
-		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdProfix;
-	}
 	
 	public void setIgnoreActionIdPrefixes(List<String> ignoreActionIdPrefixes) {
 		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
@@ -620,5 +628,40 @@ public class GGXCoreConfig {
 	}
 	public void setAddActionIdPrefixHandler(AddActionIdPrefixHandler addActionIdPrefixHandler) {
 		this.addActionIdPrefixHandler = addActionIdPrefixHandler;
+	}
+	
+	public void setScanPackages(String[] scanPackages) {
+		this.scanPackages = scanPackages;
+	}
+	public String[] getScanPackages() {
+		return scanPackages;
+	}
+	
+	public MessageActionIdCacheManager getMessageActionIdCacheManager() {
+		return messageActionIdCacheManager;
+	}
+	
+	public void setMessageActionIdCacheManager(MessageActionIdCacheManager messageActionIdCacheManager) {
+		this.messageActionIdCacheManager = messageActionIdCacheManager;
+	}
+	
+	public void setActionIdGenerator(ActionIdGenerator actionIdGenerator) {
+		this.actionIdGenerator = actionIdGenerator;
+	}
+	
+	public ActionIdGenerator getActionIdGenerator() {
+		return actionIdGenerator;
+	}
+	
+	public String getGGXBasePackage() {
+		return this.ggxBasePackage;
+	}
+	
+	public void setGgxComponentAtionIdPrefix(String ggxComponentAtionIdPrefix) {
+		this.ggxComponentAtionIdPrefix = ggxComponentAtionIdPrefix;
+	}
+	
+	public String getGgxComponentAtionIdPrefix() {
+		return ggxComponentAtionIdPrefix;
 	}
 }

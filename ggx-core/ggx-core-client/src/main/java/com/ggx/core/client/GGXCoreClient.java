@@ -4,7 +4,7 @@ import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGXCoreClientStarter;
 import com.ggx.core.client.starter.impl.DefaultGGXCoreClientStarter;
 import com.ggx.core.common.config.GGXCoreConfigSupport;
-import com.ggx.core.common.control.GGXSessionContolSupport;
+import com.ggx.core.common.control.GGXSessionDisconnectSupport;
 import com.ggx.core.common.future.GGXFuture;
 
 /**
@@ -16,7 +16,7 @@ import com.ggx.core.common.future.GGXFuture;
 public class GGXCoreClient 
 implements 
 	GGXCoreConfigSupport<GGXCoreClientConfig>,
-	GGXSessionContolSupport
+	GGXSessionDisconnectSupport
 {
 	
 	private GGXCoreClientConfig config;

@@ -11,7 +11,7 @@ import com.ggx.core.common.message.model.Message;
  * @author zai
  * 2020-10-7 21:41:19
  */
-public interface ReturnableMessageHandler<T extends Message, R extends Message> {
+public interface ReturnableMessageHandler<T extends Message, R> {
 
 	/**
 	 * 处理消息

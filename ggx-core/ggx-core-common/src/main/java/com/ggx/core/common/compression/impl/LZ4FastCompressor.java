@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.compression.ICompressor;
+import com.ggx.core.common.compression.Compressor;
 
 import net.jpountz.lz4.LZ4Compressor;
 import net.jpountz.lz4.LZ4Factory;
@@ -18,7 +18,7 @@ import net.jpountz.lz4.LZ4SafeDecompressor;
  * @author zai
  * 2019-11-10 21:58:29
  */
-public class LZ4FastCompressor implements ICompressor{
+public class LZ4FastCompressor implements Compressor{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LZ4FastCompressor.class);
 	private static final LZ4Factory factory = LZ4Factory.fastestInstance();
@@ -57,7 +57,7 @@ public class LZ4FastCompressor implements ICompressor{
 	
 	
 	public static void main(String[] args) {
-		ICompressor  compressor = new LZ4FastCompressor();
+		Compressor  compressor = new LZ4FastCompressor();
 		String str = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ0ZUE4ZlcJsJZlSJ5F541F8o2qS13EqsYJim95xl5FUQrkPLPHgzLgtibAuIggh/8MTH3PRTKgVdDzCByfVuc5/Ub9pP6c6EHoOMQoGtjeTQ99mc4xLiEDwL6rq48Lo2+N1TNA6wH0SZfGr2rl40BLrJy8GjUMeArCoZCiTY5DTAgMBAAECgYAVAXx+ZOdkbsd8P8Lwrcaab7r+FhJenGHN2FeVH8Uvdn/RdNkCopddDSG7AAAm7DzhnZ34A4VneC7prNv+FJLadroeqztwsVICNWlRlDdoWEEE7gA5OWge07BsLTUtvxiWpZ2KDPdnq/pCIYN7LH4oW6PHUZFS0QOYalZG5qfY+QJBAN6EfRKgSoZcYphFF2WZWsGEzZOPLbpK+4+gcvm3Ihz5CtMvWCUl1OtvgqagDvMoBGfjnjCtQncJiCrNiElrlY0CQQC0vNvRK8P6wpDyxArGApVBa3vXAbj+on1ir0yT6ee/osI/5KD/gVbPWkh3ByvhnJR+LT9oGajEd5Uq7CgxdzffAkEA0iidnB7p5BaTRC9VFq8NKWLNaoU68gzppNAsZy8Qt/56u9SmUod1nls2MTtQg1UTPC+dc2ngMV8+TPbLtlQ27QJAEPA6MapGXbPqXbYdxFztnAn0uzvAGK0lzx/ar2oWfBFG3zIQHKIEfr5ZWD5l0GkaSZD4BkuRU4hZhIJJaglgRQJBAIbnjBHd4SUGaqGROx5XXc4Z5luNLVDWr0cvd+eHkeDBxQUn7OqZboJGS3PafsJLO48EuGo6UsGiHCFtVt2xO1s=";
 		byte[] data = str.getBytes();
 		

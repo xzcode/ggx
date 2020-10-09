@@ -8,7 +8,7 @@ import java.util.zip.GZIPOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.compression.ICompressor;
+import com.ggx.core.common.compression.Compressor;
 
 /**
  * 
@@ -17,7 +17,7 @@ import com.ggx.core.common.compression.ICompressor;
  * @author zai
  * 2019-11-10 21:58:29
  */
-public class GZIPCompressor implements ICompressor{
+public class GZIPCompressor implements Compressor{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GZIPCompressor.class);
 

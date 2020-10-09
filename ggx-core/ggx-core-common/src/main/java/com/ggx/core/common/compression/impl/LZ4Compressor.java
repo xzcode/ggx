@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.compression.ICompressor;
+import com.ggx.core.common.compression.Compressor;
 
 import net.jpountz.lz4.LZ4BlockInputStream;
 import net.jpountz.lz4.LZ4BlockOutputStream;
@@ -19,7 +19,7 @@ import net.jpountz.lz4.LZ4BlockOutputStream;
  * @author zai
  * 2019-11-10 21:58:29
  */
-public class LZ4Compressor implements ICompressor{
+public class LZ4Compressor implements Compressor{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LZ4Compressor.class);
 
@@ -62,7 +62,7 @@ public class LZ4Compressor implements ICompressor{
 	
 	
 	public static void main(String[] args) {
-		ICompressor  compressor = new LZ4Compressor();
+		Compressor  compressor = new LZ4Compressor();
 		String str = "LZ4Factory factory = LZ4Factory.fastestInstance();\n" +
 				"byte[] data = \"12345345234572\".getBytes(\"UTF-8\");\n" +
 				"final int decompressedLength = data.length;\n" +
