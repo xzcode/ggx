@@ -1,8 +1,7 @@
 package com.ggx.group.server.handler;
 
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
@@ -20,7 +19,7 @@ import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
  *
  * @author zai 2020-04-07 10:57:11
  */
-public class DataTransferReqHandler implements MessageHandler<DataTransferReq> {
+public class DataTransferReqHandler  {
 
 	private SessionGroupServerConfig config;
 
@@ -29,11 +28,8 @@ public class DataTransferReqHandler implements MessageHandler<DataTransferReq> {
 		this.config = config;
 	}
 
-	@Override
-	public void handle(MessageData<DataTransferReq> messageData) {
-		DataTransferReq req = messageData.getMessage();
-		
-		GGXSession groupSession = messageData.getSession();
+	@GGXAction
+	public void handle(DataTransferReq req, GGXSession groupSession) {
 		String groupSessionId = groupSession.getSessonId();
 		
 		GGXCoreServer serviceServer = config.getServiceServer();
@@ -42,7 +38,7 @@ public class DataTransferReqHandler implements MessageHandler<DataTransferReq> {
 		//判断是否开启自定义传输数据处理器
 		if (this.config.isEnableCustomDataTransferHandler() && this.config.getCustomDataTransferHandler() != null) {
 			CustomDataTransferHandler customDataTransferHandler = this.config.getCustomDataTransferHandler();
-			customDataTransferHandler.handle(messageData);
+			customDataTransferHandler.handle(req, groupSession);
 			return;//开启自定义处理后，不再进行后续处理
 		}
 		
@@ -65,7 +61,7 @@ public class DataTransferReqHandler implements MessageHandler<DataTransferReq> {
 					serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
 				}else {
 					if (req.getTranferSessionId() == null) {
-						messageData.getSession().addDisconnectListener(se -> {
+						groupSession.addDisconnectListener(se -> {
 							sessionManager.remove(groupSessionId);
 						});
 					}

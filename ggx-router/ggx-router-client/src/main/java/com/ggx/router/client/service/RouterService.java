@@ -17,9 +17,8 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageController;
+import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
@@ -137,7 +136,7 @@ public class RouterService {
 		
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
-		ReceiveMessageManager receiveMessageManager = serviceClient.getReceiveMessageManager();
+		MessageControllerManager controllerManager = serviceClient.getMessageControllerManager();
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		
@@ -162,7 +161,7 @@ public class RouterService {
 				String action = data.getAction();
 				
 				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					serviceClient.getReceiveMessageManager().handle(data);
+					serviceClient.getMessageControllerManager().invoke(data);
 					return false;
 				}
 				return true;
@@ -174,7 +173,7 @@ public class RouterService {
 			@Override
 			public boolean doFilter(Pack pack) {
 				String actionString = pack.getActionString();
-				if (receiveMessageManager.getMessageHandler(actionString) != null) {
+				if (controllerManager.getMethodInfo(actionString) != null) {
 					return true;
 				}
 				
@@ -189,12 +188,11 @@ public class RouterService {
 		});
 		
 		//监听session断开回传
-		this.serviceClient.onMessage(new MessageController {
+		this.serviceClient.register(new MessageController() {
 
-			@Override
-			public void handle(MessageData<RouterSessionDisconnectTransferResp> messageData) {
+			@GGXAction
+			public void handle(RouterSessionDisconnectTransferResp resp) {
 				
-					RouterSessionDisconnectTransferResp resp = messageData.getMessage();
 					String tranferSessionId = resp.getTranferSessionId();
 					SessionManager sessionManager = serviceClient.getSessionManager();
 					GGXSession session = sessionManager.getSession(tranferSessionId);
@@ -246,9 +244,6 @@ public class RouterService {
 				RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(serviceGroupId);
 				RouterServiceLoadblancer routerServiceLoadblancer = serviceGroup.getRouterServiceLoadblancer();
 				
-				
-				
-				
 				routerServiceLoadblancer.changeSessionBinding(message.getSessionId(), changeRouterService);
 				
 				Pack pack = new Pack();
@@ -260,14 +255,7 @@ public class RouterService {
 				
 				
 				serviceGroup.dispatch(pack);
-				
-				
-			
 			}
-				
-					
-				
-			
 		});
 		
 		sessionGroupClient.start();

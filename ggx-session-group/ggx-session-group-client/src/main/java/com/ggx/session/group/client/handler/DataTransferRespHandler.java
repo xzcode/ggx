@@ -2,9 +2,8 @@ package com.ggx.session.group.client.handler;
 
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -21,7 +20,7 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
  * @author zai
  * 2020-04-09 15:03:50
  */
-public class DataTransferRespHandler implements MessageHandler<DataTransferResp> {
+public class DataTransferRespHandler  {
 
 	private SessionGroupClientConfig config;
 
@@ -30,10 +29,9 @@ public class DataTransferRespHandler implements MessageHandler<DataTransferResp>
 		this.config = config;
 	}
 
-	@Override
-	public void handle(MessageData<DataTransferResp> messageData) {
+	@GGXAction
+	public void handle(DataTransferResp resp) {
 		
-		DataTransferResp resp = messageData.getMessage();
 		
 		String tranferSessionId = resp.getTranferSessionId();
 		

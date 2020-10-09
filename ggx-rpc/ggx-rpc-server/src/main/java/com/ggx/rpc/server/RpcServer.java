@@ -1,19 +1,10 @@
 package com.ggx.rpc.server;
 
-import java.nio.charset.Charset;
-import java.util.Set;
-
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.event.EventManager;
-import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.message.actionid.ActionIdCacheManager;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.serializer.Serializer;
-import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.server.SessionGroupServer;
@@ -26,7 +17,7 @@ import com.ggx.rpc.server.invocation.InvocationManager;
 import com.ggx.util.json.GGXJsonUtil;
 import com.ggx.util.logger.GGXLogUtil;
 
-public class RpcServer implements GGXCore{
+public class RpcServer implements GGXCoreSupport{
 	
 	private RpcServerConfig config;
 	private GGXCoreServer serviceServer;
@@ -67,7 +58,7 @@ public class RpcServer implements GGXCore{
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		GGXCoreServerConfig serviceServerConfig = this.serviceServer.getConfig();
 		serviceServerConfig.setGgxComponent(true);
-		this.serviceServer.onMessage(new RpcReqHandler(config));
+		this.serviceServer.register(new RpcReqHandler(config));
 	
 		
 		
@@ -109,43 +100,8 @@ public class RpcServer implements GGXCore{
 	}
 
 	@Override
-	public SessionManager getSessionManager() {
-		return null;
-	}
-
-	@Override
-	public FilterManager getFilterManager() {
-		return this.serviceServer ;
-	}
-
-	@Override
-	public Charset getCharset() {
-		return this.serviceServer.getCharset();
-	}
-
-	@Override
-	public Serializer getSerializer() {
-		return this.serviceServer.getSerializer();
-	}
-
-	@Override
-	public ReceiveMessageManager getReceiveMessageManager() {
-		return this.serviceServer.getReceiveMessageManager();
-	}
-
-	@Override
-	public TaskExecutor getTaskExecutor() {
-		return this.serviceServer.getTaskExecutor();
-	}
-
-	@Override
-	public EventManager getEventManager() {
-		return this.serviceServer.getEventManager();
-	}
-
-	@Override
-	public ActionIdCacheManager getActionIdCacheManager() {
-		return this.serviceServer.getActionIdCacheManager();
+	public GGXCore getGGXCore() {
+		return this.serviceServer;
 	}
 	
 }

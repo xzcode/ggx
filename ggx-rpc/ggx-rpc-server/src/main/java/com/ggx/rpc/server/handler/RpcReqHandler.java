@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.message.resp.RpcResp;
@@ -16,7 +15,7 @@ import com.ggx.rpc.server.invocation.InvocationManager;
 import com.google.gson.Gson;
 
 
-public class RpcReqHandler implements MessageHandler<RpcReq>{
+public class RpcReqHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(RpcReqHandler.class);
 	
@@ -36,10 +35,8 @@ public class RpcReqHandler implements MessageHandler<RpcReq>{
 
 
 
-	@Override
-	public void handle(MessageData<RpcReq> messageData) {
-		RpcReq req = messageData.getMessage();
-		GGXSession session = messageData.getSession();
+	@GGXAction
+	public void handle(RpcReq req, GGXSession session) {
 		GGXFuture future = this.invocationManager.invoke(req);
 		String rpcId = req.getRpcId();
 		future.addListener(f -> {

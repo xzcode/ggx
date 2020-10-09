@@ -2,11 +2,10 @@ package com.ggx.rpc.client.handler;
 
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.exception.RpcServiceRemoteErrorException;
-import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.common.message.resp.RpcResp;
@@ -14,7 +13,7 @@ import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.util.logger.GGXLogUtil;
 
 
-public class RpcRespHandler implements MessageHandler<RpcResp>{
+public class RpcRespHandler {
 	
 	protected RpcClientConfig config;
 	protected RpcMethodCallbackManager rpcMethodCallbackManager;
@@ -29,10 +28,9 @@ public class RpcRespHandler implements MessageHandler<RpcResp>{
 
 
 
-	@Override
-	public void handle(MessageData<RpcResp> messageData) {
+	@GGXAction
+	public void handle(RpcResp resp, GGXSession session) {
 		try {
-			RpcResp resp = messageData.getMessage();
 			String rpcId = resp.getRpcId();
 			byte[] returnData = resp.getReturnData();
 			boolean success = resp.isSuccess();

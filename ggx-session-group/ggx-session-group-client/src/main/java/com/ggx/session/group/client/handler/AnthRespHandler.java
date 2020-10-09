@@ -1,7 +1,6 @@
 package com.ggx.session.group.client.handler;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.message.req.AuthReq;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
@@ -14,7 +13,7 @@ import com.ggx.util.logger.GGXLogUtil;
  *
  * @author zai 2020-04-07 10:57:11
  */
-public class AnthRespHandler implements MessageHandler<AuthResp> {
+public class AnthRespHandler {
 
 	private SessionGroupClientConfig config;
 
@@ -23,10 +22,8 @@ public class AnthRespHandler implements MessageHandler<AuthResp> {
 		this.config = config;
 	}
 
-	@Override
-	public void handle(MessageData<AuthResp> request) {
-		AuthResp resp = request.getMessage();
-		GGXSession session = request.getSession();
+	@GGXAction
+	public void handle(AuthResp resp, GGXSession session) {
 		if (resp.isSuccess()) {
 			// 认证成功后，进行会话组注册请求
 			session.send(new SessionGroupRegisterReq(config.getSessionGroupId()));

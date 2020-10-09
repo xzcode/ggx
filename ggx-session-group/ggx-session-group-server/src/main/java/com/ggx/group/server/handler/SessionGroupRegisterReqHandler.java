@@ -1,7 +1,6 @@
 package com.ggx.group.server.handler;
 
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
@@ -15,7 +14,7 @@ import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class SessionGroupRegisterReqHandler implements MessageHandler<SessionGroupRegisterReq> {
+public class SessionGroupRegisterReqHandler {
 	
 	protected SessionGroupServerConfig config;
 	
@@ -23,10 +22,8 @@ public class SessionGroupRegisterReqHandler implements MessageHandler<SessionGro
 		this.config = config;
 	}
 
-	@Override
-	public void handle(MessageData<SessionGroupRegisterReq> request) {
-		GGXSession session = request.getSession();
-		SessionGroupRegisterReq req = request.getMessage();
+	@GGXAction
+	public void handle(SessionGroupRegisterReq req, GGXSession session) {
 		String groupId = req.getGroupId();
 		GGSessionGroupManager sessionGroupManager = config.getSessionGroupManager();
 		

@@ -1,29 +1,22 @@
 package com.ggx.router.server;
 
-import java.nio.charset.Charset;
-
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.message.receive.controller.MessageController;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
-import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.group.server.config.SessionGroupServerConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -42,7 +35,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
  * 
  * @author zai 2019-12-05 10:34:03
  */
-public class RouterServer implements GGXCore {
+public class RouterServer implements GGXCoreSupport {
 
 	private RouterServerConfig config;
 	
@@ -109,7 +102,7 @@ public class RouterServer implements GGXCore {
 			public boolean doFilter(MessageData<?> data) {
 				String action = data.getAction();
 				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					serviceServer.getReceiveMessageManager().handle(data);
+					serviceServer.getMessageControllerManager().invoke(data);
 					return false;
 				}
 				return true;
@@ -134,11 +127,10 @@ public class RouterServer implements GGXCore {
 		} );
 		
 		//监听session断开传递
-		this.serviceServer.onMessage(new MessageHandler<RouterSessionDisconnectTransferReq>() {
+		this.serviceServer.register(new MessageController(){
 
-			@Override
-			public void handle(MessageData<RouterSessionDisconnectTransferReq> messageData) {
-				RouterSessionDisconnectTransferReq req = messageData.getMessage();
+			@GGXAction
+			public void handle(RouterSessionDisconnectTransferReq req) {
 				String tranferSessionId = req.getTranferSessionId();
 				SessionManager sessionManager = serviceServer.getSessionManager();
 				GGXSession session = sessionManager.getSession(tranferSessionId);
@@ -216,48 +208,11 @@ public class RouterServer implements GGXCore {
 		return this.config.getSessionGroupServer().shutdown();
 	}
 
-	@Override
-	public Charset getCharset() {
-		return this.serviceServer.getCharset();
-	}
-
-	private GGXCoreServerConfig getServiceServerConfig() {
-		return this.serviceServer.getConfig();
-	}
 
 	@Override
-	public Serializer getSerializer() {
-		return this.getServiceServerConfig().getSerializer();
+	public GGXCore getGGXCore() {
+		return this.getServiceServer();
 	}
 
-	@Override
-	public EventManager getEventManager() {
-		return this.getServiceServerConfig().getEventManager();
-	}
-
-	@Override
-	public TaskExecutor getTaskExecutor() {
-		return this.getServiceServerConfig().getTaskExecutor();
-	}
-
-	@Override
-	public ReceiveMessageManager getReceiveMessageManager() {
-		return this.getServiceServerConfig().getReceiveMessageManager();
-	}
-
-	@Override
-	public SessionManager getSessionManager() {
-		return this.getServiceServerConfig().getSessionManager();
-	}
-
-	@Override
-	public FilterManager getFilterManager() {
-		return this.getServiceServerConfig().getFilterManager();
-	}
-	
-	@Override
-	public ActionIdCacheManager getActionIdCacheManager() {
-		return this.serviceServer.getActionIdCacheManager();
-	}
 
 }

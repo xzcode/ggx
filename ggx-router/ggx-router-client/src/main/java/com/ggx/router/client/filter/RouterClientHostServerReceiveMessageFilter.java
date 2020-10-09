@@ -3,7 +3,7 @@ package com.ggx.router.client.filter;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.message.Pack;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -15,12 +15,12 @@ public class RouterClientHostServerReceiveMessageFilter implements BeforeDeseria
 	private RouterClientConfig config;
 	
 	private GGXCoreServer hostServer;
-	private ReceiveMessageManager requestMessageManager;
+	private MessageControllerManager messageControllerManager;
 	
 	public RouterClientHostServerReceiveMessageFilter(RouterClientConfig config) {
 		this.config = config;
 		this.hostServer = config.getHostServer();
-		this.requestMessageManager = this.hostServer.getReceiveMessageManager();
+		this.messageControllerManager = this.hostServer.getMessageControllerManager();
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class RouterClientHostServerReceiveMessageFilter implements BeforeDeseria
 
 		String actionId = pack.getActionString(hostServer.getCharset());
 		//routingServer已定义的actionid,不参与路由
-		if (requestMessageManager.getMessageHandler(actionId) != null) {
+		if (messageControllerManager.getMethodInfo(actionId) != null) {
 			return true;
 		}
 		if (pack.getSerializeType() == null) {

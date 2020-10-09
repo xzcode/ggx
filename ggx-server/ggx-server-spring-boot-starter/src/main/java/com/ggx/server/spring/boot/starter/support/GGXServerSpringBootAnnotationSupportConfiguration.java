@@ -19,14 +19,11 @@ import org.springframework.context.annotation.Configuration;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.model.FilterInfo;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
-import com.ggx.core.common.utils.GenericClassUtil;
-import com.ggx.core.common.utils.MessageActionIdUtil;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
+import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
-import com.ggx.server.spring.boot.starter.annotation.GGXMessageHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.server.starter.GGXServer;
@@ -60,28 +57,15 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 		this.applicationContext = applicationContext;
 
 		// 注册消息处理器
-				Map<String, Object> messageHandlers = this.applicationContext.getBeansWithAnnotation(GGXMessageHandler.class);
+				Map<String, Object> messageHandlers = this.applicationContext.getBeansWithAnnotation(GGXController.class);
 				for (Entry<String, Object> entry : messageHandlers.entrySet()) {
-					if (!(entry.getValue() instanceof MessageHandler)) {
-						continue;
-					}
-					MessageHandler<?> obj = (MessageHandler<?>) entry.getValue();
+					Object obj = entry.getValue();
 
 					// 检查包路径
 					if (!checkPackage(obj.getClass())) {
 						continue;
 					}
-					GGXMessageHandler annotation = obj.getClass().getAnnotation(GGXMessageHandler.class);
-					if (annotation != null) {
-						String actionId = annotation.value();
-						if (!actionId.isEmpty()) {
-							ggxServer.onMessage(actionId, obj);
-						} else {
-							Class<?> genericClass = GenericClassUtil.getInterfaceGenericClass(obj.getClass());
-							actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(genericClass);
-							ggxServer.onMessage(actionId, obj);
-						}
-					}
+					ggxServer.register(obj);
 				}
 
 				// 注册事件处理器

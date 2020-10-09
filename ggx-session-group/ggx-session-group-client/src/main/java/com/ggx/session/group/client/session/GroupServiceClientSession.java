@@ -54,11 +54,9 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 	@Override
 	public GGXFuture send(Pack pack) {
 		
-		String actionId = pack.getActionString(config.getCharset());
-		actionId = config.getAddActionIdPrefixHandler().handle(actionId);
 		
 		DataTransferReq resp = new DataTransferReq();
-		resp.setAction(actionId.getBytes(config.getCharset()));
+		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(this.getSessonId());
 		resp.setSerializeType(pack.getSerializeType());

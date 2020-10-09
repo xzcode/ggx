@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.receive.handler.MessageHandler;
+import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
@@ -17,7 +16,7 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
  * @author zai
  * 2020-01-16 17:04:11
  */
-public class SessionGroupRegisterRespHandler implements MessageHandler<SessionGroupRegisterResp>{
+public class SessionGroupRegisterRespHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionGroupRegisterRespHandler.class);
 	
@@ -27,10 +26,8 @@ public class SessionGroupRegisterRespHandler implements MessageHandler<SessionGr
 		this.config = config;
 	}
 
-	@Override
-	public void handle(MessageData<SessionGroupRegisterResp> request) {
-		GGXSession session = request.getSession();
-		SessionGroupRegisterResp resp = request.getMessage();
+	@GGXAction
+	public void handle(SessionGroupRegisterResp resp, GGXSession session) {
 		//会话组注册成功
 		if (resp.isSuccess()) {
 			//添加会话到管理器

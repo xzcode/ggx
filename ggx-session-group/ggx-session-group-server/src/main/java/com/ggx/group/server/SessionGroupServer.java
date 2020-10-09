@@ -64,9 +64,9 @@ public class SessionGroupServer {
 		GGXCoreServer sessionServer = new GGXDefaultCoreServer(sessionServerConfig);
 		sessionServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
 		sessionServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
-		sessionServer.onMessage(new AuthReqHandler(config));
-		sessionServer.onMessage(new SessionGroupRegisterReqHandler(config));
-		sessionServer.onMessage(new DataTransferReqHandler(config));
+		sessionServer.register(new AuthReqHandler(config));
+		sessionServer.register(new SessionGroupRegisterReqHandler(config));
+		sessionServer.register(new DataTransferReqHandler(config));
 		
 		this.config.setSessionServer(sessionServer);
 		

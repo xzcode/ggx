@@ -1,18 +1,9 @@
 package com.ggx.server.starter.basic;
 
-import java.nio.charset.Charset;
-
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.event.EventManager;
-import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
-import com.ggx.core.common.message.actionid.ActionIdCacheManager;
-import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
-import com.ggx.core.common.serializer.Serializer;
-import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.eventbus.client.subscriber.Subscriber;
@@ -108,7 +99,6 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		
 	}
 	
-	public abstract GGXCore getGGXCore();
 	
 	
 	
@@ -143,46 +133,6 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 			return this.rpcClient.register(serviceInterface, fallbackObj);			
 		}
 		return null;
-	}
-
-	@Override
-	public SessionManager getSessionManager() {
-		return getGGXCore().getSessionManager();
-	}
-
-	@Override
-	public FilterManager getFilterManager() {
-		return getGGXCore().getFilterManager();
-	}
-
-	@Override
-	public Charset getCharset() {
-		return getGGXCore().getCharset();
-	}
-
-	@Override
-	public Serializer getSerializer() {
-		return getGGXCore().getSerializer();
-	}
-
-	@Override
-	public ReceiveMessageManager getReceiveMessageManager() {
-		return getGGXCore().getReceiveMessageManager();
-	}
-
-	@Override
-	public TaskExecutor getTaskExecutor() {
-		return getGGXCore().getTaskExecutor();
-	}
-
-	@Override
-	public EventManager getEventManager() {
-		return getGGXCore().getEventManager();
-	}
-	
-	@Override
-	public ActionIdCacheManager getActionIdCacheManager() {
-		return this.getGGXCore().getActionIdCacheManager();
 	}
 
 	public RegistryServer getRegistryServer() {
