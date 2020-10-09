@@ -19,8 +19,6 @@ public class RouterSessionDisconnectTransferReq implements Message {
 
 	}
 	
-	
-	
 	public RouterSessionDisconnectTransferReq(String tranferSessionId) {
 		super();
 		this.tranferSessionId = tranferSessionId;

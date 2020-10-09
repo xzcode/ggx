@@ -39,12 +39,12 @@ public class GGXLoadbalancerServerStarter extends GGXBasicServerStarter {
 		this.routerServer = new RouterServer(routerServerConfig);
 
 		if (this.routerClientConfig == null) {
-			this.routerClientConfig = new RouterClientConfig(routerServer.getServiceServer());
+			this.routerClientConfig = new RouterClientConfig(routerServer.getSessionServiceServer());
 		}
 		if (this.routerClientConfig.getServiceProvider() == null) {
 			this.routerClientConfig.setServiceProvider(new RegistrySingleServicePorvider(this.routerClientConfig));
 		}
-		this.routerClientConfig.setHostServer(this.routerServer.getServiceServer());
+		this.routerClientConfig.setHostServer(this.routerServer.getSessionServiceServer());
 		this.routerClient = new RouterClient(routerClientConfig);
 		
 		if (this.rpcClientConfig == null) {

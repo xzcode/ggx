@@ -23,6 +23,7 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
+import com.ggx.router.common.message.req.RouteMessageReq;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
@@ -40,7 +41,7 @@ public class RouterServer implements GGXCoreSupport {
 	private RouterServerConfig config;
 	
 	
-	protected GGXCoreServer serviceServer;
+	protected GGXCoreServer sessionServiceServer;
 
 
 	public RouterServer(RouterServerConfig config) {
@@ -77,40 +78,26 @@ public class RouterServer implements GGXCoreSupport {
 		this.config.setSessionGroupServer(sessionServer);
 		
 		
-		this.serviceServer = sessionServerConfig.getServiceServer();
-		this.serviceServer.getConfig().setIgnoreActionIdPrefixes(config.getIgnoreActionIdPrefixes());
+		this.sessionServiceServer = sessionServerConfig.getServiceServer();
+		this.sessionServiceServer.getConfig().setIgnoreActionIdPrefixes(config.getIgnoreActionIdPrefixes());
 		
-		//添加发送过滤器
-		this.serviceServer.addFilter(new SendMessageFilter() {
-			
-			@Override
-			public boolean doFilter(MessageData<?> data) {
-				GGXSession session = data.getSession();
-				String action = data.getAction();
-				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					session.send(session.makePack(data));
-					return false;
-				}
-				return true;
-			}
-		});
-		
-		//添加接收消息过滤器
-		this.serviceServer.addFilter(new ReceiveMessageFilter() {
-			
-			@Override
-			public boolean doFilter(MessageData<?> data) {
-				String action = data.getAction();
-				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					serviceServer.getMessageControllerManager().invoke(data);
-					return false;
-				}
-				return true;
-			}
-		});
-		
+		/*
+		 * //添加发送过滤器 this.serviceServer.addFilter(new SendMessageFilter() {
+		 * 
+		 * @Override public boolean doFilter(MessageData<?> data) { GGXSession session =
+		 * data.getSession(); String action = data.getAction(); if
+		 * (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+		 * session.send(session.makePack(data)); return false; } return true; } });
+		 * 
+		 * //添加接收消息过滤器 this.serviceServer.addFilter(new ReceiveMessageFilter() {
+		 * 
+		 * @Override public boolean doFilter(MessageData<?> data) { String action =
+		 * data.getAction(); if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+		 * serviceServer.getMessageControllerManager().invoke(data); return false; }
+		 * return true; } });
+		 */
 		//添加连接断开监听
-		this.serviceServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new EventListener<Void>() {
+		this.sessionServiceServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new EventListener<Void>() {
 			@Override
 			public void onEvent(EventData<Void> eventData) {
 				GGXSession session = eventData.getSession();
@@ -127,12 +114,22 @@ public class RouterServer implements GGXCoreSupport {
 		} );
 		
 		//监听session断开传递
-		this.serviceServer.register(new MessageController(){
+		this.sessionServiceServer.register(new MessageController(){
 
 			@GGXAction
-			public void handle(RouterSessionDisconnectTransferReq req) {
+			public void disconnectTransferReq(RouterSessionDisconnectTransferReq req) {
 				String tranferSessionId = req.getTranferSessionId();
-				SessionManager sessionManager = serviceServer.getSessionManager();
+				SessionManager sessionManager = sessionServiceServer.getSessionManager();
+				GGXSession session = sessionManager.getSession(tranferSessionId);
+				if (session != null) {
+					session.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.REQ);
+					session.disconnect();
+				}
+			}
+			@GGXAction
+			public void routeMessageReq(RouteMessageReq req) {
+				String tranferSessionId = req.getTranferSessionId();
+				SessionManager sessionManager = sessionServiceServer.getSessionManager();
 				GGXSession session = sessionManager.getSession(tranferSessionId);
 				if (session != null) {
 					session.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.REQ);
@@ -141,11 +138,13 @@ public class RouterServer implements GGXCoreSupport {
 			}
 			
 		});
+		
+		
 
 	}
 
-	public GGXCoreServer getServiceServer() {
-		return this.serviceServer;
+	public GGXCoreServer getSessionServiceServer() {
+		return this.sessionServiceServer;
 	}
 
 	public RouterServerConfig getConfig() {
@@ -211,7 +210,7 @@ public class RouterServer implements GGXCoreSupport {
 
 	@Override
 	public GGXCore getGGXCore() {
-		return this.getServiceServer();
+		return this.getSessionServiceServer();
 	}
 
 

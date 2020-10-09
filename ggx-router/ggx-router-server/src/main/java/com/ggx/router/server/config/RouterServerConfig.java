@@ -3,6 +3,7 @@ package com.ggx.router.server.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
@@ -21,9 +22,11 @@ public class RouterServerConfig {
 	// routerServer对象
 	protected RouterServer routerServer;
 	
-	
 	// sessionGroupServer对象
 	protected SessionGroupServer sessionGroupServer;
+	
+	//自定义业务服务端
+	protected GGXCoreServer customServiceServer;
 
 	// 是否输出底层ping pong信息
 	protected boolean printPingPongInfo = false;

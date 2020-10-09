@@ -139,35 +139,23 @@ public class RouterService {
 		MessageControllerManager controllerManager = serviceClient.getMessageControllerManager();
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
-		
-		this.serviceClient.addFilter(new SendMessageFilter() {
-			
-			@Override
-			public boolean doFilter(MessageData<?> data) {
-				GGXSession session = data.getSession();
-				String action = data.getAction();
-				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					session.send(session.makePack(data));
-					return false;
-				}
-				return true;
-			}
-		});
-		
-		this.serviceClient.addFilter(new ReceiveMessageFilter() {
-			
-			@Override
-			public boolean doFilter(MessageData<?> data) {
-				String action = data.getAction();
-				
-				if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
-					serviceClient.getMessageControllerManager().invoke(data);
-					return false;
-				}
-				return true;
-			}
-		});
-		
+		/*
+		 * this.serviceClient.addFilter(new SendMessageFilter() {
+		 * 
+		 * @Override public boolean doFilter(MessageData<?> data) { GGXSession session =
+		 * data.getSession(); String action = data.getAction(); if
+		 * (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+		 * session.send(session.makePack(data)); return false; } return true; } });
+		 * 
+		 * this.serviceClient.addFilter(new ReceiveMessageFilter() {
+		 * 
+		 * @Override public boolean doFilter(MessageData<?> data) { String action =
+		 * data.getAction();
+		 * 
+		 * if (action.startsWith(RouterConstant.ACTION_ID_PREFIX)) {
+		 * serviceClient.getMessageControllerManager().invoke(data); return false; }
+		 * return true; } });
+		 */
 		this.serviceClient.addFilter(new BeforeDeserializeFilter() {
 			
 			@Override
