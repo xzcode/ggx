@@ -183,7 +183,7 @@ public class GGXServerSpringBootAnnotationSupportConfiguration
 							try {
 								primary = applicationContext.getBean(interfaceClass);
 							} catch (Exception e) {
-								GGXLogUtil.getLogger(this).warn("Interface [] has added a '@GGXRpcInterface' annotation, but it dose not have any implementation class!", name);
+								GGXLogUtil.getLogger(this).info("Interface [{}] has added a '@"+(GGXRpcInterface.class.getSimpleName())+"' annotation, but it dose not have any implementation class!", name);
 							}
 							if (
 									primary == null
