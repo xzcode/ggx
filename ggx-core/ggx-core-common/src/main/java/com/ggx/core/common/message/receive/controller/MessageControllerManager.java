@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.MessageData;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.message.receive.action.MessageActionIdCacheManager;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
@@ -19,7 +19,7 @@ public class MessageControllerManager extends ListenableMapDataManager<String, C
 	
 	public void register(Object controller) {
 		
-		MessageActionIdCacheManager actionIdCacheManager = config.getMessageActionIdCacheManager();
+		ActionIdCacheManager actionIdCacheManager = config.getActionIdCacheManager();
 		Class<? extends Object> controllerClass = controller.getClass();
 		List<Method> methods = GGXReflectUtil.getAllDeclaredMethods(controllerClass);
 		for (Method method : methods) {

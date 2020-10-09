@@ -1,7 +1,7 @@
-package com.ggx.core.common.message.receive.action.impl;
+package com.ggx.core.common.message.actionid.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.message.receive.action.ActionIdGenerator;
+import com.ggx.core.common.message.actionid.ActionIdGenerator;
 import com.ggx.core.common.utils.MessageActionIdUtil;
 
 public class DefaultActionIdGrnarator implements ActionIdGenerator{

@@ -4,6 +4,7 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -35,6 +36,14 @@ public interface SendMessageSupport extends MakePackSupport {
 	 */
 	FilterManager getFilterManager();
 
+	/**
+	 * 获取actionId缓存管理器
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-10-09 18:08:52
+	 */
+	ActionIdCacheManager getActionIdCacheManager();
 
 	/**
 	 * 发送给所有会话
@@ -105,7 +114,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * 2019-11-29 15:23:47
 	 */
 	default GGXFuture send(GGXSession session, Message message) {
-		return send(new MessageData<>(session, message.getActionId(), message));
+		return send(new MessageData<>(session, getActionIdCacheManager().get(message.getClass()), message));
 	}
 
 	/**

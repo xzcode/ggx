@@ -9,6 +9,7 @@ import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -177,6 +178,11 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	@Override
 	public EventManager getEventManager() {
 		return getGGXCore().getEventManager();
+	}
+	
+	@Override
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return this.getGGXCore().getActionIdCacheManager();
 	}
 
 	public RegistryServer getRegistryServer() {

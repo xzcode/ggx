@@ -1,9 +1,7 @@
 package com.ggx.core.common.message.pingpong.model;
 
-import com.ggx.core.common.message.model.AbstractMessage;
+import com.ggx.core.common.message.model.Message;
 
-public class Ping extends AbstractMessage{
-	
-	public static final Ping DEFAULT_INSTANT = new Ping();
+public class Ping implements Message{
 	
 }

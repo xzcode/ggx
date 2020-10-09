@@ -1,8 +1,7 @@
 package com.ggx.core.common.message.pingpong.model;
 
-import com.ggx.core.common.message.model.AbstractMessage;
+import com.ggx.core.common.message.model.Message;
 
-public class Pong extends AbstractMessage{
+public class Pong implements Message{
 	
-	public static final Pong DEFAULT_INSTANT = new Pong();
 }

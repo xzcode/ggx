@@ -187,7 +187,7 @@ public class RouterService {
 		});
 		
 		//监听session断开回传
-		this.serviceClient.onMessage(RouterSessionDisconnectTransferResp.ACTION_ID, new MessageHandler<RouterSessionDisconnectTransferResp>() {
+		this.serviceClient.onMessage(new MessageHandler<RouterSessionDisconnectTransferResp>() {
 
 			@Override
 			public void handle(MessageData<RouterSessionDisconnectTransferResp> messageData) {
@@ -223,7 +223,7 @@ public class RouterService {
 		
 
 		//监听session与路由服务绑定变更
-		this.serviceClient.onMessage(RouterRedirectMessageToOtherRouterServicesResp.ACTION_ID, new MessageHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
+		this.serviceClient.onMessage(new MessageHandler<RouterRedirectMessageToOtherRouterServicesResp>() {
 
 			@Override
 			public void handle(MessageData<RouterRedirectMessageToOtherRouterServicesResp> messageData) {

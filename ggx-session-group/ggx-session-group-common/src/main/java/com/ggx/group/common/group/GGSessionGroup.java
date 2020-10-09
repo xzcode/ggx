@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
@@ -21,6 +22,10 @@ import com.ggx.core.common.session.GGXSession;
  * @author zai 2020-04-07 14:11:55
  */
 public interface GGSessionGroup extends MakePackSupport {
+	
+	GGXCoreConfig getCoreConfig();
+	
+	
 
 	/**
 	 * 获取会话集合
@@ -124,7 +129,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * 2020-04-07 15:38:44
 	 */
 	default GGXFuture sendToRandomOne(Message message) {
-		return sendToRandomOne(makePack(new MessageData<>(null, message.getActionId(), message)));
+		return sendToRandomOne(makePack(new MessageData<>(null, getCoreConfig().getActionIdCacheManager().get(message.getClass()), message)));
 	}
 
 	/**

@@ -21,18 +21,15 @@ import com.ggx.core.common.event.impl.DefaultEventManager;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
-import com.ggx.core.common.filter.model.FilterInfo;
-import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
+import com.ggx.core.common.message.actionid.ActionIdGenerator;
+import com.ggx.core.common.message.actionid.AddActionIdPrefixHandler;
+import com.ggx.core.common.message.actionid.impl.DefaultActionIdGrnarator;
+import com.ggx.core.common.message.actionid.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
-import com.ggx.core.common.message.receive.action.ActionIdGenerator;
-import com.ggx.core.common.message.receive.action.AddActionIdPrefixHandler;
-import com.ggx.core.common.message.receive.action.MessageActionIdCacheManager;
-import com.ggx.core.common.message.receive.action.impl.DefaultActionIdGrnarator;
-import com.ggx.core.common.message.receive.action.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.manager.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
@@ -135,7 +132,7 @@ public class GGXCoreConfig {
 	
 	protected MessageControllerManager messageControllerManager;
 	
-	protected MessageActionIdCacheManager messageActionIdCacheManager;
+	protected ActionIdCacheManager actionIdCacheManager;
 	
 	protected ActionIdGenerator actionIdGenerator = new DefaultActionIdGrnarator(this);
 	protected FilterManager filterManager;
@@ -225,23 +222,15 @@ public class GGXCoreConfig {
 		
 		if (isPingPongEnabled()) {
 			if (!isPrintPingPongInfo()) {
+				String ping = this.actionIdCacheManager.get(Ping.class);
+				String pong = this.actionIdCacheManager.get(Pong.class);
 				this.packLogger.addPackLogFilter(pack -> {
 					String actionString = pack.getActionString();
-					return !(actionString.equals(Ping.DEFAULT_INSTANT.getActionId()) || actionString.equals(Pong.DEFAULT_INSTANT.getActionId()));
+					return !(actionString.equals(ping) || actionString.equals(pong));
 				});
 			}
 		}
 		
-		this.filterManager.addFilter(new FilterInfo<>(new AfterSerializeFilter() {
-			
-			@Override
-			public boolean doFilter(Pack data) {
-				String actionId = data.getActionString(charset);
-				actionId = addActionIdPrefixHandler.handle(actionId);
-				data.setAction(actionId.getBytes(charset));
-				return true;
-			}
-		}, 0));
 
 		this.inited = true;
 	}
@@ -637,12 +626,12 @@ public class GGXCoreConfig {
 		return scanPackages;
 	}
 	
-	public MessageActionIdCacheManager getMessageActionIdCacheManager() {
-		return messageActionIdCacheManager;
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return actionIdCacheManager;
 	}
 	
-	public void setMessageActionIdCacheManager(MessageActionIdCacheManager messageActionIdCacheManager) {
-		this.messageActionIdCacheManager = messageActionIdCacheManager;
+	public void setActionIdCacheManager(ActionIdCacheManager actionIdCacheManager) {
+		this.actionIdCacheManager = actionIdCacheManager;
 	}
 	
 	public void setActionIdGenerator(ActionIdGenerator actionIdGenerator) {

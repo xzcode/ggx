@@ -15,6 +15,7 @@ import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.handler.MessageHandler;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
@@ -133,7 +134,7 @@ public class RouterServer implements GGXCore {
 		} );
 		
 		//监听session断开传递
-		this.serviceServer.onMessage(RouterSessionDisconnectTransferReq.ACTION_ID, new MessageHandler<RouterSessionDisconnectTransferReq>() {
+		this.serviceServer.onMessage(new MessageHandler<RouterSessionDisconnectTransferReq>() {
 
 			@Override
 			public void handle(MessageData<RouterSessionDisconnectTransferReq> messageData) {
@@ -194,7 +195,7 @@ public class RouterServer implements GGXCore {
 		
 		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
 		
-		Pack pack = makePack(new MessageData<>(redirectingMessage.getActionId(), redirectingMessage));
+		Pack pack = makePack(new MessageData<>(redirectingSession.getActionIdCacheManager().get(redirectingMessage.getClass()), redirectingMessage));
 		// 序列化后发送过滤器
 		if (!redirectingSession.getFilterManager().doAfterSerializeFilters(pack)) {
 			return;
@@ -252,6 +253,11 @@ public class RouterServer implements GGXCore {
 	@Override
 	public FilterManager getFilterManager() {
 		return this.getServiceServerConfig().getFilterManager();
+	}
+	
+	@Override
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return this.serviceServer.getActionIdCacheManager();
 	}
 
 }

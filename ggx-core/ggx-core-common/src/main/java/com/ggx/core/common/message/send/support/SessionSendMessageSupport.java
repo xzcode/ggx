@@ -11,6 +11,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
@@ -50,6 +51,15 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	default Serializer getSerializer() {
 		return getSession().getSerializer();
 	}
+	
+	/**
+	 * 获取actionId缓存管理器
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-10-09 18:08:52
+	 */
+	ActionIdCacheManager getActionIdCacheManager();
 
 	/**
 	 * 获取会话
@@ -95,7 +105,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-25 11:57:05
 	 */
 	default GGXFuture send(Message message) {
-		return send(new MessageData<>(getSession(), message.getActionId(), message));
+		return send(new MessageData<>(getSession(), getActionIdCacheManager().get(message.getClass()), message));
 	}
 	
 	
@@ -123,7 +133,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-25 11:57:44
 	 */
 	default GGXFuture send(GGXSession session, Message message) {
-		return send(new MessageData<>(session, message.getActionId(), message));
+		return send(new MessageData<>(session, getActionIdCacheManager().get(message.getClass()), message));
 	}
 	
 	

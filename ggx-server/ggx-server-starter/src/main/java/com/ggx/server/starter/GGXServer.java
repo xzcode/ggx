@@ -2,6 +2,7 @@ package com.ggx.server.starter;
 
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
@@ -171,8 +172,14 @@ public class GGXServer implements GGXServerStarter{
 	public GGXCore getGGXCore() {
 		return this.serverStarter;
 	}
+	
 
 	
+	@Override
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return serverStarter.getActionIdCacheManager();
+	}
+
 	public GGXServerConfig getConfig() {
 		return config;
 	}

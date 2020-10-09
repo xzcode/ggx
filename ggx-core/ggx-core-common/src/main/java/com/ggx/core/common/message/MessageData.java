@@ -36,22 +36,12 @@ public class MessageData<T extends Message> {
 		this.action = action;
 		this.message = message;
 	}
-	public MessageData(GGXSession session, T message) {
-		this.session = session;
-		this.action = message.getActionId();
-		this.message = message;
-	}
 	
 	public MessageData(String action, T message) {
 		this.action = action;
 		this.message = message;
 	}
 	
-	public MessageData(T message) {
-		this.action = message.getActionId();
-		this.message = message;
-	}
-
 	public String getAction() {
 		return action;
 	}

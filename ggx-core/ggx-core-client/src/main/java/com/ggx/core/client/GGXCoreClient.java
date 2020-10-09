@@ -6,6 +6,7 @@ import com.ggx.core.client.starter.impl.DefaultGGXCoreClientStarter;
 import com.ggx.core.common.config.GGXCoreConfigSupport;
 import com.ggx.core.common.control.GGXSessionDisconnectSupport;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 
 /**
  * 客户端
@@ -43,6 +44,12 @@ implements
 	
 	public GGXFuture shutdown() {
 		return clientStarter.shutdown();
+	}
+
+
+	@Override
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return getActionIdCacheManager();
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.receive.action;
+package com.ggx.core.common.message.actionid;
 
 /**
  * actionId前缀处理器接口

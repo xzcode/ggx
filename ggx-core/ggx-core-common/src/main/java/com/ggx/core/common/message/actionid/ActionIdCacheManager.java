@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.receive.action;
+package com.ggx.core.common.message.actionid;
 
 import java.lang.reflect.Modifier;
 
@@ -14,12 +14,13 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 
-public class MessageActionIdCacheManager extends ListenableMapDataManager<Class<?>, String>{
+public class ActionIdCacheManager extends ListenableMapDataManager<Class<?>, String>{
 	
 	private GGXCoreConfig config;
 	
-	public MessageActionIdCacheManager(GGXCoreConfig config) {
+	public ActionIdCacheManager(GGXCoreConfig config) {
 		this.config = config;
+		init();
 	}
 
 	private void init() {

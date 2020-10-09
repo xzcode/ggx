@@ -76,4 +76,9 @@ public class DefaultSessionGroup implements GGSessionGroup {
 		return this.groupId;
 	}
 
+	@Override
+	public GGXCoreConfig getCoreConfig() {
+		return config;
+	}
+
 }

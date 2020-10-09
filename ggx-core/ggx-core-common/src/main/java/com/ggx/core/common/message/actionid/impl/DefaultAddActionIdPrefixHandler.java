@@ -1,9 +1,9 @@
-package com.ggx.core.common.message.receive.action.impl;
+package com.ggx.core.common.message.actionid.impl;
 
 import java.util.List;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.message.receive.action.AddActionIdPrefixHandler;
+import com.ggx.core.common.message.actionid.AddActionIdPrefixHandler;
 
 public class DefaultAddActionIdPrefixHandler implements AddActionIdPrefixHandler{
 	

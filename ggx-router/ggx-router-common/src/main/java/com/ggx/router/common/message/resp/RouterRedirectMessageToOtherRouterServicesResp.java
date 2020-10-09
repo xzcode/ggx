@@ -1,7 +1,6 @@
 package com.ggx.router.common.message.resp;
 
 import com.ggx.core.common.message.model.Message;
-import com.ggx.router.common.constant.RouterConstant;
 
 /**
  * 路由会话断开连接传递请求
@@ -10,13 +9,6 @@ import com.ggx.router.common.constant.RouterConstant;
  * 2020-05-20 11:50:25
  */
 public class RouterRedirectMessageToOtherRouterServicesResp implements Message {
-
-	public static final String ACTION_ID = RouterConstant.ACTION_ID_PREFIX + ".REDIRECT.MESSAGE.TO.OTHER.ROUTER.SERVICE.RESP";
-
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 
 	// 会话id
 	private String sessionId;

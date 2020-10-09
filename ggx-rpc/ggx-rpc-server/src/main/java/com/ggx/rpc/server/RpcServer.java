@@ -10,6 +10,7 @@ import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -140,6 +141,11 @@ public class RpcServer implements GGXCore{
 	@Override
 	public EventManager getEventManager() {
 		return this.serviceServer.getEventManager();
+	}
+
+	@Override
+	public ActionIdCacheManager getActionIdCacheManager() {
+		return this.serviceServer.getActionIdCacheManager();
 	}
 	
 }

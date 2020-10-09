@@ -1,7 +1,6 @@
 package com.ggx.router.common.message.resp;
 
 import com.ggx.core.common.message.model.Message;
-import com.ggx.router.common.constant.RouterConstant;
 
 /**
  * 路由会话断开连接传递请求
@@ -11,12 +10,6 @@ import com.ggx.router.common.constant.RouterConstant;
  */
 public class RouterSessionDisconnectTransferResp implements Message {
 
-	public static final String ACTION_ID = RouterConstant.ACTION_ID_PREFIX + ".SESSION.DISCONNECT.TRANSFER.RESP";
-
-	@Override
-	public String getActionId() {
-		return ACTION_ID;
-	}
 
 	// 传递的会话id
 	private String tranferSessionId;
