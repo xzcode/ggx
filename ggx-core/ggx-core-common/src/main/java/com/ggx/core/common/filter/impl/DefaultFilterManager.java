@@ -6,12 +6,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ggx.core.common.filter.AfterSerializeFilter;
 import com.ggx.core.common.filter.BeforeDeserializeFilter;
 import com.ggx.core.common.filter.Filter;
+import com.ggx.core.common.filter.FilterChain;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
 
 /**
  * 默认过滤器管理器
@@ -19,7 +21,7 @@ import com.ggx.core.common.message.Pack;
  * @author zai
  * 2019-12-25 15:08:41
  */
-public class DefaultFilterManager implements FilterManager {
+public class DefaultFilterManager implements FilterManager, FilterChain {
 
 	private List<FilterInfo<?>> beforeDeserializeFilters = new CopyOnWriteArrayList<>();
 	private List<FilterInfo<?>> receiveMessageFilters = new CopyOnWriteArrayList<>();
@@ -97,6 +99,11 @@ public class DefaultFilterManager implements FilterManager {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public void doFilter(MessageData<? extends Message> data) {
+		
 	}
 
 	
