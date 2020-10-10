@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
+import com.ggx.router.client.service.loadblancer.factory.RouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**

@@ -1,9 +1,9 @@
-package com.ggx.router.client.service.loadblance.impl;
+package com.ggx.router.client.service.loadblancer.impl;
 
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
@@ -12,7 +12,7 @@ import com.ggx.router.client.service.manager.group.RouterServiceGroup;
  * @author zai
  * 2020-05-19 11:59:20
  */
-public class RandomRouterServiceLoadblancer implements RouterServiceLoadblancer {
+public class RandomRouterServiceLoadbalancer implements RouterServiceLoadbalancer {
 	
 	protected RouterServiceGroup routerServiceGroup;
 	

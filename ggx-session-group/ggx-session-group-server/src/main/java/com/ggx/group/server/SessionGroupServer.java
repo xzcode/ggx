@@ -44,7 +44,6 @@ public class SessionGroupServer {
 		GGXCoreServerConfig sessionServerConfig = new GGXCoreServerConfig();
 		sessionServerConfig.setGgxComponent(true);
 		sessionServerConfig.setPingPongEnabled(true);
-		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionServerConfig.setProtocolType(ProtocolTypeConstants.TCP);
 		sessionServerConfig.setPort(this.config.getPort());
 		sessionServerConfig.setSessionFactory(new SessionGroupSessionFactory(sessionServerConfig));

@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
-import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadblancer;
+import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.client.service.loadbalancer.model.VirtualRpcServiceInfo;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.util.hash.HashUtil;
@@ -15,7 +15,7 @@ import com.ggx.util.hash.HashUtil;
  *
  * @author zai 2020-05-22 15:10:41
  */
-public class ConsistentHashingRpcServiceLoadblancer implements RpcServiceLoadblancer {
+public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadbalancer {
 	
 	
 	/**
@@ -31,7 +31,7 @@ public class ConsistentHashingRpcServiceLoadblancer implements RpcServiceLoadbla
 	
 	protected RpcServiceGroup serviceGroup;
 	
-	public ConsistentHashingRpcServiceLoadblancer(RpcServiceGroup serviceGroup) {
+	public ConsistentHashingRpcServiceLoadbalancer(RpcServiceGroup serviceGroup) {
 		this.serviceGroup = serviceGroup;
 		
 		this.serviceGroup.onPut(rpcService -> {

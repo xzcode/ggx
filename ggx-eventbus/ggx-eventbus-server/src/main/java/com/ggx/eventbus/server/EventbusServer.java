@@ -26,10 +26,8 @@ public class EventbusServer implements GGXCoreSupport{
 	public GGXFuture start() {
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
-		sessionServerConfig.setEnableServiceServer(true);
 		sessionServerConfig.setPort(this.config.getPort());
 		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());
-		sessionServerConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionServerConfig.setWorkThreadFactory(new GGXThreadFactory("ggx-evt-serv-", false));
 		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());

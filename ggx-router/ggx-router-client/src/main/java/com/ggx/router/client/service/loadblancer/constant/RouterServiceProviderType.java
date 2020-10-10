@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance.constant;
+package com.ggx.router.client.service.loadblancer.constant;
 
 /**
  * 路由服务提供者类型

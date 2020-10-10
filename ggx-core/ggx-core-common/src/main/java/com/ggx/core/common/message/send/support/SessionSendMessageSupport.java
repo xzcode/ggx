@@ -59,7 +59,9 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2020-10-09 18:08:52
 	 */
-	ActionIdCacheManager getActionIdCacheManager();
+	default ActionIdCacheManager getActionIdCacheManager() {
+		return getSession().getActionIdCacheManager();
+	}
 
 	/**
 	 * 获取会话

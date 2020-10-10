@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance.impl;
+package com.ggx.router.client.service.loadblancer.impl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,8 +9,8 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
-import com.ggx.router.client.service.loadblance.impl.model.VirtualRouterServiceInfo;
+import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
+import com.ggx.router.client.service.loadblancer.impl.model.VirtualRouterServiceInfo;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.util.hash.HashUtil;
 
@@ -19,7 +19,7 @@ import com.ggx.util.hash.HashUtil;
  *
  * @author zai 2020-05-22 15:10:41
  */
-public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceLoadblancer {
+public class ConsistentHashingRouterServiceLoadbalancer implements RouterServiceLoadbalancer {
 	
 	/**
 	 * 任务执行器
@@ -47,7 +47,7 @@ public class ConsistentHashingRouterServiceLoadblancer implements RouterServiceL
 	protected final Map<String, RouterService> sessionBindServiceCache = new ConcurrentHashMap<>();
 	
 	
-	public ConsistentHashingRouterServiceLoadblancer(TaskExecutor taskExecutor) {
+	public ConsistentHashingRouterServiceLoadbalancer(TaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
 	}
 

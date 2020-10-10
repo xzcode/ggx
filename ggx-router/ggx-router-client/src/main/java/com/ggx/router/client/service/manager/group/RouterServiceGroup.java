@@ -14,7 +14,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
 import com.ggx.router.client.service.listener.AddRouterServiceListener;
 import com.ggx.router.client.service.listener.RemoveRouterServiceListener;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
+import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -58,16 +58,16 @@ public class RouterServiceGroup {
 	/**
 	 * 路由服务负载均衡器
 	 */
-	protected RouterServiceLoadblancer routerServiceLoadblancer; 
+	protected RouterServiceLoadbalancer routerServiceLoadbalancer; 
 	
 	
 	
 
-	public RouterServiceGroup(String serviceGroupId, RouterServiceLoadblancer routerServiceLoadblancer) {
+	public RouterServiceGroup(String serviceGroupId, RouterServiceLoadbalancer routerServiceLoadbalancer) {
 		super();
 		this.serviceGroupId = serviceGroupId;
-		this.routerServiceLoadblancer = routerServiceLoadblancer;
-		this.routerServiceLoadblancer.setRouterServiceGroup(this);
+		this.routerServiceLoadbalancer = routerServiceLoadbalancer;
+		this.routerServiceLoadbalancer.setRouterServiceGroup(this);
 	}
 	
 	
@@ -150,7 +150,7 @@ public class RouterServiceGroup {
 	 * 2020-05-23 11:34:02
 	 */
 	public GGXFuture dispatch(Pack pack) {
-		return this.routerServiceLoadblancer.dispatch(pack);
+		return this.routerServiceLoadbalancer.dispatch(pack);
 	}
 	
 	/**
@@ -218,8 +218,8 @@ public class RouterServiceGroup {
 		this.actionIdPrefix = actionIdPrefix;
 	}
 
-	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
-		return routerServiceLoadblancer;
+	public RouterServiceLoadbalancer getRouterServiceLoadblancer() {
+		return routerServiceLoadbalancer;
 	}
 
 

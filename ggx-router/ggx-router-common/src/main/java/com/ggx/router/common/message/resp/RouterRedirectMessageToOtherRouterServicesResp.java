@@ -11,7 +11,7 @@ import com.ggx.core.common.message.model.Message;
 public class RouterRedirectMessageToOtherRouterServicesResp implements Message {
 
 	// 会话id
-	private String sessionId;
+	private String tranferSessionId;
 	
 	//服务id
 	private String serviceId;
@@ -33,13 +33,13 @@ public class RouterRedirectMessageToOtherRouterServicesResp implements Message {
 	}
 
 
-	public String getSessionId() {
-		return sessionId;
+	public String getTranferSessionId() {
+		return tranferSessionId;
 	}
 
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setTranferSessionId(String sessionId) {
+		this.tranferSessionId = sessionId;
 	}
 
 

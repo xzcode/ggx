@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance.model;
+package com.ggx.router.client.service.loadblancer.model;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

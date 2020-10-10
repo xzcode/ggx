@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance.impl.model;
+package com.ggx.router.client.service.loadblancer.impl.model;
 
 import com.ggx.router.client.service.RouterService;
 

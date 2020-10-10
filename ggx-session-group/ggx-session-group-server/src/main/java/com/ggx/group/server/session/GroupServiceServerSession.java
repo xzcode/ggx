@@ -22,8 +22,6 @@ import io.netty.channel.Channel;
  */
 public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreConfig>{
 	
-	
-	
 	//会话组管理器
 	protected GGSessionGroupManager sessionGroupManager;
 	
@@ -54,10 +52,6 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
-		resp.setTranferSessionId(this.getSessonId());
-		resp.setSerializeType(pack.getSerializeType());
-		
-		
 		
 		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);

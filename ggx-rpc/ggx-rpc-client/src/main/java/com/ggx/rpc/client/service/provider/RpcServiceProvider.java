@@ -11,7 +11,7 @@ import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.RpcServiceClassCache;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
-import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadblancer;
+import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadbalancer;
 import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
 import com.ggx.rpc.common.model.InterfaceInfoModel;
 import com.ggx.util.json.GGXJsonUtil;
@@ -107,7 +107,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		}else {
 			newGroup = true;
 			serviceGroup = new RpcServiceGroup(serviceGroupId);
-			serviceGroup.setLoadblancer(new ConsistentHashingRpcServiceLoadblancer(serviceGroup));
+			serviceGroup.setLoadblancer(new ConsistentHashingRpcServiceLoadbalancer(serviceGroup));
 			RpcServiceGroup fServiceGroup = serviceGroup;
 			serviceGroup.onRemove(rpcService -> {
 				rpcService.shutdown();

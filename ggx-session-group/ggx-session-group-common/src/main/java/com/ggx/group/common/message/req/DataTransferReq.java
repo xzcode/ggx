@@ -11,13 +11,7 @@ import com.ggx.group.common.constant.GGSesssionGroupConstant;
 public class DataTransferReq extends AbstractMessage {
 
 	public static final String ACTION = GGSesssionGroupConstant.ACTION_ID_PREFIX + "DATA.TRANSFER.REQ";
-
-	// 传递的会话id
-	private String tranferSessionId;
 	
-	//序列化方式
-	private String serializeType;
-
 	/* 消息标识 */
 	private byte[] action;
 
@@ -43,22 +37,5 @@ public class DataTransferReq extends AbstractMessage {
 	public void setMessage(byte[] message) {
 		this.message = message;
 	}
-	
-	public String getTranferSessionId() {
-		return tranferSessionId;
-	}
-	
-	public void setTranferSessionId(String tranferSessionId) {
-		this.tranferSessionId = tranferSessionId;
-	}
-
-	public String getSerializeType() {
-		return serializeType;
-	}
-
-	public void setSerializeType(String serializeType) {
-		this.serializeType = serializeType;
-	}
-
 	
 }

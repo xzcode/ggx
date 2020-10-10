@@ -1,10 +1,7 @@
 package com.ggx.group.server.handler;
 
-import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.MessageDataTask;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -41,38 +38,23 @@ public class DataTransferReqHandler  {
 			customDataTransferHandler.handle(req, groupSession);
 			return;//开启自定义处理后，不再进行后续处理
 		}
-		
-		//判断是否开启业务服务端
-		if (this.config.isEnableServiceServer()) {
-			//获取传递的sessionid
-			String tranferSessionId = req.getTranferSessionId();
 			
-			SessionManager sessionManager = serviceServerConfig.getSessionManager();
-			//创建业务服务端session
-			GroupServiceServerSession serviceSession = (GroupServiceServerSession) sessionManager.getSession(tranferSessionId);
-			if (serviceSession == null) {
-				String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
-				serviceSession = new GroupServiceServerSession(tranferSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
-				if (req.getSerializeType() != null) {
-					serviceSession.addAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, req.getSerializeType());
-				}
-				GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceSession);
-				if (addSessionIfAbsent != null) {
-					serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
-				}else {
-					if (req.getTranferSessionId() == null) {
-						groupSession.addDisconnectListener(se -> {
-							sessionManager.remove(groupSessionId);
-						});
-					}
-				}
+		SessionManager serviceSessionManager = serviceServerConfig.getSessionManager();
+		//创建业务服务端session
+		GroupServiceServerSession serviceSession = (GroupServiceServerSession) serviceSessionManager.getSession(groupSessionId);
+		if (serviceSession == null) {
+			String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
+			serviceSession = new GroupServiceServerSession(groupSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
+			GGXSession addSessionIfAbsent = serviceSessionManager.addSessionIfAbsent(serviceSession);
+			if (addSessionIfAbsent != null) {
+				serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
+			}else {
+					groupSession.addDisconnectListener(se -> {
+						serviceSessionManager.remove(groupSessionId);
+					});
 			}
-			
-			//提交任务到业务服务端
-			Pack pack = new Pack(serviceSession, req.getAction(), req.getMessage());
-			pack.setSerializeType(req.getSerializeType());
-			new MessageDataTask(pack , serviceServerConfig).run();
 		}
+			
 	}
 
 }

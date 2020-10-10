@@ -14,11 +14,11 @@ import com.ggx.router.client.service.impl.DefaultRegistryServicePorvider;
 import com.ggx.router.client.service.impl.DefaultServicePorvider;
 import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
 import com.ggx.router.client.service.impl.RouterServiceActionPrefixMatcher;
-import com.ggx.router.client.service.loadblance.RouterServiceLoadblancer;
-import com.ggx.router.client.service.loadblance.constant.RouterServiceLoadblanceType;
-import com.ggx.router.client.service.loadblance.constant.RouterServiceProviderType;
-import com.ggx.router.client.service.loadblance.factory.DefaultRouterServiceLoadblancerFactory;
-import com.ggx.router.client.service.loadblance.factory.RouterServiceLoadblancerFactory;
+import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
+import com.ggx.router.client.service.loadblancer.constant.RouterServiceLoadblanceType;
+import com.ggx.router.client.service.loadblancer.constant.RouterServiceProviderType;
+import com.ggx.router.client.service.loadblancer.factory.DefaultRouterServiceLoadblancerFactory;
+import com.ggx.router.client.service.loadblancer.factory.RouterServiceLoadblancerFactory;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
@@ -155,7 +155,7 @@ public class RouterClientConfig {
 
 	}
 
-	public RouterServiceLoadblancer getRouterServiceLoadblancer() {
+	public RouterServiceLoadbalancer getRouterServiceLoadblancer() {
 		return this.getRouterServiceLoadblancerFactory().getLoadblancer(this.getRouterServiceLoadblanceType());
 	}
 

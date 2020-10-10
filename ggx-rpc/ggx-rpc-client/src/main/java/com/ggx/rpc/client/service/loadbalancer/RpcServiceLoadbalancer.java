@@ -9,7 +9,7 @@ import com.ggx.rpc.common.message.req.RpcReq;
  * @author zai
  * 2020-10-3 13:32:33
  */
-public interface RpcServiceLoadblancer {
+public interface RpcServiceLoadbalancer {
 
 	
 	/**

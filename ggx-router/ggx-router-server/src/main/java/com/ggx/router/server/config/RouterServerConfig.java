@@ -26,7 +26,7 @@ public class RouterServerConfig {
 	protected SessionGroupServer sessionGroupServer;
 	
 	//自定义业务服务端
-	protected GGXCoreServer customServiceServer;
+	protected GGXCoreServer hostServer;
 
 	// 是否输出底层ping pong信息
 	protected boolean printPingPongInfo = false;
@@ -206,7 +206,13 @@ public class RouterServerConfig {
 		this.ignoreActionIdPrefixes = ignoreActionIdPrefixes;
 	}
 	
+	public GGXCoreServer getHostServer() {
+		return hostServer;
+	}
 	
+	public void setHostServer(GGXCoreServer hostServer) {
+		this.hostServer = hostServer;
+	}
 	
 	
 }

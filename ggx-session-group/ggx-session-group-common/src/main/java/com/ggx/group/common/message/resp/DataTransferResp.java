@@ -10,12 +10,6 @@ import com.ggx.core.common.message.model.AbstractMessage;
  */
 public class DataTransferResp extends AbstractMessage {
 
-	// 传递的会话id
-	private String tranferSessionId;
-	
-	//序列化方式
-	private String serializeType;
-
 	/* 消息标识 */
 	private byte[] action;
 
@@ -24,14 +18,6 @@ public class DataTransferResp extends AbstractMessage {
 
 	public DataTransferResp() {
 
-	}
-
-	public String getTranferSessionId() {
-		return tranferSessionId;
-	}
-
-	public void setTranferSessionId(String tranferSessionId) {
-		this.tranferSessionId = tranferSessionId;
 	}
 
 	public byte[] getAction() {
@@ -50,13 +36,6 @@ public class DataTransferResp extends AbstractMessage {
 		this.message = message;
 	}
 
-	public String getSerializeType() {
-		return serializeType;
-	}
-
-	public void setSerializeType(String serializeType) {
-		this.serializeType = serializeType;
-	}
 
 	
 

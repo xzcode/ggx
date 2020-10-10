@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance.constant;
+package com.ggx.router.client.service.loadblancer.constant;
 
 /**
  * 路由服务负载均衡器类型

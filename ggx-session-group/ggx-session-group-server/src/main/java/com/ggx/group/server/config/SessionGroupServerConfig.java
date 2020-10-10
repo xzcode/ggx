@@ -24,12 +24,6 @@ public class SessionGroupServerConfig {
 	//业务服务端对象
 	private GGXCoreServer serviceServer;
 	
-	//是否开启业务服务端
-	private boolean enableServiceServer = false;
-	
-	//是否打印pingpong包信息
-	protected boolean printPingPongInfo = false;
-	
 	//会话组管理器
 	private GGSessionGroupManager sessionGroupManager;
 	
@@ -119,14 +113,6 @@ public class SessionGroupServerConfig {
 		this.sessionGroupManager = sessionGroupManager;
 	}
 
-	public boolean isPrintPingPongInfo() {
-		return printPingPongInfo;
-	}
-	
-	public void setPrintPingPongInfo(boolean printPingPongInfo) {
-		this.printPingPongInfo = printPingPongInfo;
-	}
-	
 	
 	public GGXCoreServer getServiceServer() {
 		return serviceServer;
@@ -136,13 +122,6 @@ public class SessionGroupServerConfig {
 		this.serviceServer = serviceServer;
 	}
 
-	public boolean isEnableServiceServer() {
-		return enableServiceServer;
-	}
-
-	public void setEnableServiceServer(boolean enableServiceService) {
-		this.enableServiceServer = enableServiceService;
-	}
 
 	public int getWorkThreadSize() {
 		return workThreadSize;

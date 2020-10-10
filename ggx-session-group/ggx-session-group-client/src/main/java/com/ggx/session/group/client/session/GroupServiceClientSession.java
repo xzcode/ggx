@@ -29,8 +29,6 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 	protected GGSessionGroupManager sessionGroupManager;
 
 	protected GGXSession groupSession;
-	
-	
 
 	public GroupServiceClientSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
 		super(sessionId, config);
@@ -58,8 +56,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		DataTransferReq resp = new DataTransferReq();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
-		resp.setTranferSessionId(this.getSessonId());
-		resp.setSerializeType(pack.getSerializeType());
+		
 		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		}

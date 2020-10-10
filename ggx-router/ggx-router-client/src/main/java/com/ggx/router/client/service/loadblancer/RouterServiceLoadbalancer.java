@@ -1,4 +1,4 @@
-package com.ggx.router.client.service.loadblance;
+package com.ggx.router.client.service.loadblancer;
 
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
@@ -11,7 +11,7 @@ import com.ggx.router.client.service.manager.group.RouterServiceGroup;
  * @author zai
  * 2020-05-03 04:01:45
  */
-public interface RouterServiceLoadblancer {
+public interface RouterServiceLoadbalancer {
 
 	
 	/**
