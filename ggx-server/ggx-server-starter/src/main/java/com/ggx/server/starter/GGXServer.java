@@ -2,13 +2,14 @@ package com.ggx.server.starter;
 
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.message.actionid.ActionIdCacheManager;
+import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
-import com.ggx.server.starter.eventbus.GGXServiceClientStarter;
 import com.ggx.server.starter.eventbus.GGXEventbusServerStarter;
+import com.ggx.server.starter.eventbus.GGXServiceClientStarter;
 import com.ggx.server.starter.gateway.GGXGatewayStarter;
 import com.ggx.server.starter.loadbalancer.GGXLoadbalancerServerStarter;
 import com.ggx.server.starter.registry.GGXRegistryServerStarter;
@@ -135,6 +136,11 @@ public class GGXServer implements GGXServerStarter{
 		}
 	}
 	
+	
+	public void routeMessage(String groupId, Message message, GGXSession session) {
+		this.serverStarter.routeMessage(groupId, message, session);
+	}
+	
 	public void subscribe(String eventId, Subscriber subscriber) {
 		this.serverStarter.subscribe(eventId, subscriber);
 	}
@@ -175,10 +181,6 @@ public class GGXServer implements GGXServerStarter{
 	
 
 	
-	@Override
-	public ActionIdCacheManager getActionIdCacheManager() {
-		return serverStarter.getActionIdCacheManager();
-	}
 
 	public GGXServerConfig getConfig() {
 		return config;

@@ -48,13 +48,14 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 			if (onMessageClass == null) {
 				int i = 0;
 				for (Class<?> paramType : parameterTypes) {
-					if (paramType.isAssignableFrom(Message.class)) {
+					if (Message.class.isAssignableFrom(paramType)) {
 						onMessageClass = paramType;
 						methodInfo.setMessageParamIndex(i);
 					}
-					if (paramType.isAssignableFrom(GGXSession.class)) {
+					if (GGXSession.class.isAssignableFrom(paramType)) {
 						methodInfo.setSessionParamIndex(i);
 					}
+					i++;
 				}
 			}
 			
@@ -109,7 +110,7 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 				returnObj = method.invoke(methodInfo.getControllerObj());
 			} 
 		} catch (Exception e) {
-			GGXLogUtil.getLogger(this).error("Handling action '{}' ERRER!", action);
+			GGXLogUtil.getLogger(this).error("Handling action '{}' ERRER!", action, e);
 		}
 		return returnObj;
 	}

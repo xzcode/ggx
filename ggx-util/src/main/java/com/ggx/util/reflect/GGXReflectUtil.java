@@ -29,7 +29,7 @@ public class GGXReflectUtil {
 		Class<?> superclass = null;
 		do {
 			superclass = clazz.getSuperclass();
-			if (superclass != null) {
+			if (superclass != null && superclass != Object.class) {
 				list.add(superclass);
 			}
 		} while (superclass != null && superclass != Object.class);

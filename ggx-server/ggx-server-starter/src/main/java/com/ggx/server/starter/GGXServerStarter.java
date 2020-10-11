@@ -2,6 +2,8 @@ package com.ggx.server.starter;
 
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 
 public interface GGXServerStarter extends GGXCoreSupport{
@@ -57,6 +59,13 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 */
 	Object registerRpcClient(Class<?> serviceInterface, Object fallbackObj);
 	
-	
+	/**
+	 * 路由消息
+	 * @param message
+	 * @param session
+	 * @author zai
+	 * 2020-10-11 22:55:58
+	 */
+	void routeMessage(String groupId, Message message, GGXSession session);
 
 }

@@ -15,7 +15,7 @@ import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.events.ConnActiveEventListener;
 import com.ggx.registry.server.events.ConnCloseEventListener;
-import com.ggx.registry.server.events.ConnHeartbeatLostEventListener;
+import com.ggx.registry.server.events.HeartbeatLostEventListener;
 import com.ggx.registry.server.handler.RegisterReqHandler;
 import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
@@ -66,7 +66,7 @@ public class RegistryServer {
 		
 		ggServer.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnActiveEventListener(config));
 		ggServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
-		ggServer.addEventListener(GGXCoreEvents.HeartBeat.LOST, new ConnHeartbeatLostEventListener(config));
+		ggServer.addEventListener(GGXCoreEvents.HeartBeat.LOST, new HeartbeatLostEventListener(config));
 		
 		ggServer.register(new RegisterReqHandler(config));
 		ggServer.register(new ServiceListReqHandler(config));

@@ -4,6 +4,9 @@ import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
+import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.eventbus.client.subscriber.Subscriber;
@@ -17,6 +20,8 @@ import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.rpc.client.RpcClient;
@@ -133,6 +138,14 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 			return this.rpcClient.register(serviceInterface, fallbackObj);			
 		}
 		return null;
+	}
+	
+	public void routeMessage(String groupId, Message message, GGXSession session) {
+        RouterServiceManager routerServiceManager = this.routerClientConfig.getRouterServiceManager();
+        RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(groupId);
+        Pack pack = new Pack();
+        //TODO 路由消息实现
+		serviceGroup.dispatch(pack );
 	}
 
 	public RegistryServer getRegistryServer() {
