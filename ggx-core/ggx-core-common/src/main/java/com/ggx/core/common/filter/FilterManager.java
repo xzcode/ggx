@@ -13,14 +13,11 @@ import com.ggx.core.common.message.Pack;
 public interface FilterManager {
 	
 
-	boolean doBeforeDeserializeFilters(Pack pack);
+	boolean doReceivePackFilters(Pack pack);
+	boolean doSendPackFilters(Pack pack);
 
-	boolean doReceiveFilters(MessageData<?> request);
-
-	boolean doSendFilters(MessageData<?> response);
-
-	boolean doAfterSerializeFilters(Pack pack);
-	
+	boolean doReceiveFilters(MessageData request);
+	boolean doSendFilters(MessageData response);
 	
 
 	void addFilter(FilterInfo<?> filterInfo);

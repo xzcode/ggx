@@ -41,9 +41,7 @@ public class MessageDataTask implements Runnable{
 		this.pack = pack;
 		this.config = config;
 	}
-
-
-
+	
 	@Override
 	public void run() {
 		Serializer serializer = config.getSerializer();
@@ -53,7 +51,7 @@ public class MessageDataTask implements Runnable{
 		GGXSession session = pack.getSession();
 		try {
 			//反序列化前过滤器
-			if (!messageFilterManager.doBeforeDeserializeFilters(pack)) {
+			if (!messageFilterManager.doReceivePackFilters(pack)) {
 				return;
 			}
 			
@@ -74,10 +72,7 @@ public class MessageDataTask implements Runnable{
 				}
 			}
 			
-			Channel channel = pack.getChannel();
-			
-			MessageData<?> messageData = new MessageData<>(session, action, message);
-			messageData.setChannel(channel);
+			MessageData messageData = new MessageData(session, action, message);
 			
 			//反序列化后的消息过滤器
 			if (!messageFilterManager.doReceiveFilters(messageData)) {

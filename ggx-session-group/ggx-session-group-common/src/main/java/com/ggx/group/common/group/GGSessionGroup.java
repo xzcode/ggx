@@ -129,7 +129,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * 2020-04-07 15:38:44
 	 */
 	default GGXFuture sendToRandomOne(Message message) {
-		return sendToRandomOne(makePack(new MessageData<>(null, getCoreConfig().getActionIdCacheManager().get(message.getClass()), message)));
+		return sendToRandomOne(makePack(new MessageData(null, getCoreConfig().getActionIdCacheManager().get(message.getClass()), message)));
 	}
 
 	/**

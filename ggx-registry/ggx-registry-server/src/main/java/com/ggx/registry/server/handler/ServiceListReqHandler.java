@@ -26,11 +26,10 @@ public class ServiceListReqHandler {
 	}
 
 	@GGXAction
-	public void handle(MessageData<RegistryServiceListReq> request) {
-		GGXSession session = request.getSession();
+	public RegistryServiceListResp handle(RegistryServiceListReq req, GGXSession session) {
 		List<ServiceInfo> serviceList = config.getServiceManager().getServiceList();
 		RegistryServiceListResp resp = new RegistryServiceListResp(serviceList);
-		session.send(resp);
+		return resp;
 	}
 
 

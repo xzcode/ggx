@@ -198,9 +198,9 @@ public class RouterServer implements GGXCoreSupport {
 		
 		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
 		
-		Pack pack = makePack(new MessageData<>(redirectingSession.getActionIdCacheManager().get(redirectingMessage.getClass()), redirectingMessage));
+		Pack pack = makePack(new MessageData(redirectingSession.getActionIdCacheManager().get(redirectingMessage.getClass()), redirectingMessage));
 		// 序列化后发送过滤器
-		if (!redirectingSession.getFilterManager().doAfterSerializeFilters(pack)) {
+		if (!redirectingSession.getFilterManager().doSendPackFilters(pack)) {
 			return;
 		}
 		resp.setServiceId(redirectServiceId);

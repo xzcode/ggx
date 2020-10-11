@@ -127,7 +127,7 @@ public class DefaultSessionManager implements SessionManager {
 		
 		// 序列化后发送过滤器
 		eachSession(session -> {
-			Pack pa = session.makePack(new MessageData<>(session, config.getActionIdCacheManager().get(message.getClass()),message));
+			Pack pa = session.makePack(new MessageData(session, config.getActionIdCacheManager().get(message.getClass()),message));
 			session.send(pa);
 			return true;
 		});

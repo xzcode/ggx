@@ -1,9 +1,6 @@
 package com.ggx.core.common.message;
 
-import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
-
-import io.netty.channel.Channel;
 
 /**
  * 消息模型
@@ -12,7 +9,7 @@ import io.netty.channel.Channel;
  * @author zai
  * 2019-12-01 17:15:54
  */
-public class MessageData<T extends Message> {
+public class MessageData {
 	
 	//会话对象
 	private GGXSession session;
@@ -21,23 +18,20 @@ public class MessageData<T extends Message> {
 	private String action;
 	
 	//消息体
-	private T message;
-	
-	//通道
-	private Channel channel;
+	private Object message;
 	
 	//是否穿越过滤器
 	private boolean crossFilters;
 	
 	
 	
-	public MessageData(GGXSession session, String action, T message) {
+	public MessageData(GGXSession session, String action, Object message) {
 		this.session = session;
 		this.action = action;
 		this.message = message;
 	}
 	
-	public MessageData(String action, T message) {
+	public MessageData(String action, Object message) {
 		this.action = action;
 		this.message = message;
 	}
@@ -46,7 +40,7 @@ public class MessageData<T extends Message> {
 		return action;
 	}
 
-	public T getMessage() {
+	public Object getMessage() {
 		return message;
 	}
 
@@ -58,19 +52,12 @@ public class MessageData<T extends Message> {
 		this.session = session;
 	}
 	
-	public Channel getChannel() {
-		return channel;
-	}
-	
-	public void setChannel(Channel channel) {
-		this.channel = channel;
-	}
 
 	public void setAction(String action) {
 		this.action = action;
 	}
 
-	public void setMessage(T message) {
+	public void setMessage(Object message) {
 		this.message = message;
 	}
 	

@@ -70,9 +70,9 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 	}
 	
 	@Override
-	public Object invoke(MessageData<?> messageData) {
+	public Object invoke(MessageData messageData) {
 		GGXSession session = messageData.getSession();
-		Message message = messageData.getMessage();
+		Message message = (Message) messageData.getMessage();
 		String action = messageData.getAction();
 		ControllerMethodInfo methodInfo = this.get(action);
 		if (methodInfo == null) {

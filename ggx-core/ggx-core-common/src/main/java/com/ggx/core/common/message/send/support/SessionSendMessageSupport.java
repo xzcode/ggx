@@ -74,7 +74,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	
 	
 	default GGXFuture send(Class<? extends Message> actionIdOnlyMessage) {
-		return send(new MessageData<>(getSession(), getActionIdCacheManager().get(actionIdOnlyMessage), null));
+		return send(new MessageData(getSession(), getActionIdCacheManager().get(actionIdOnlyMessage), null));
 	}
 	
 	
@@ -87,7 +87,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-17 18:44:14
 	 */
 	default GGXFuture send(String action) {
-		return send(new MessageData<>(getSession(), action, null));
+		return send(new MessageData(getSession(), action, null));
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-17 18:44:20
 	 */
 	default GGXFuture send(String action, Message message) {
-		return send(new MessageData<>(getSession(), action, message));
+		return send(new MessageData(getSession(), action, message));
 	}
 	
 	/**
@@ -112,7 +112,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-25 11:57:05
 	 */
 	default GGXFuture send(Message message) {
-		return send(new MessageData<>(getSession(), getActionIdCacheManager().get(message.getClass()), message));
+		return send(new MessageData(getSession(), getActionIdCacheManager().get(message.getClass()), message));
 	}
 	
 	
@@ -127,7 +127,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-11-29 15:26:11
 	 */
 	default GGXFuture send(GGXSession session, String action, Message message) {
-		return send(new MessageData<>(session,  action, message));
+		return send(new MessageData(session,  action, message));
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 2019-12-25 11:57:44
 	 */
 	default GGXFuture send(GGXSession session, Message message) {
-		return send(new MessageData<>(session, getActionIdCacheManager().get(message.getClass()), message));
+		return send(new MessageData(session, getActionIdCacheManager().get(message.getClass()), message));
 	}
 	
 	
@@ -154,7 +154,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * 
 	 * @author zai 2019-11-24 17:29:24
 	 */
-	default GGXFuture send(MessageData<?> messageData) {
+	default GGXFuture send(MessageData messageData) {
 		// 发送过滤器
 		if (!getFilterManager().doSendFilters(messageData)) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
@@ -193,7 +193,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		}
 		
 		// 序列化后发送过滤器
-		if (!getFilterManager().doAfterSerializeFilters(pack)) {
+		if (!getFilterManager().doSendPackFilters(pack)) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		

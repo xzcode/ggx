@@ -1,7 +1,7 @@
 package com.ggx.router.client.filter;
 
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.filter.BeforeDeserializeFilter;
+import com.ggx.core.common.filter.PackFilter;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
@@ -10,7 +10,7 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
 
 
-public class RouterClientHostServerReceiveMessageFilter implements BeforeDeserializeFilter{
+public class RouterClientHostServerReceiveMessageFilter implements PackFilter{
 	
 	private RouterClientConfig config;
 	
@@ -24,7 +24,7 @@ public class RouterClientHostServerReceiveMessageFilter implements BeforeDeseria
 	}
 
 	@Override
-	public boolean doFilter(Pack pack) {
+	public boolean doReceiveFilter(Pack pack) {
 
 		String actionId = pack.getActionString(hostServer.getCharset());
 		//routingServer已定义的actionid,不参与路由
@@ -46,6 +46,11 @@ public class RouterClientHostServerReceiveMessageFilter implements BeforeDeseria
 		});
 		;
 		return false;
+	}
+
+	@Override
+	public boolean doSendFilter(Pack sendData) {
+		return true;
 	}
 
 }

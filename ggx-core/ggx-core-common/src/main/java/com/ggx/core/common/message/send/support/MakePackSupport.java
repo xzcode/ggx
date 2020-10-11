@@ -45,7 +45,7 @@ public interface MakePackSupport{
 	 * 
 	 * @author zai 2019-11-24 17:28:57
 	 */
-	default Pack makePack(MessageData<?> messageData) {
+	default Pack makePack(MessageData messageData) {
 		try {
 			GGXSession session = messageData.getSession();
 			String serType = null;

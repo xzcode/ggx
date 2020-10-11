@@ -10,7 +10,7 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.filter.BeforeDeserializeFilter;
+import com.ggx.core.common.filter.PackFilter;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
@@ -20,7 +20,6 @@ import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
-import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
 import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
@@ -35,7 +34,6 @@ import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServ
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.session.group.client.session.GroupServiceClientSession;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -150,10 +148,10 @@ public class RouterService {
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		
-		this.serviceClient.addFilter(new BeforeDeserializeFilter() {
+		this.serviceClient.addFilter(new PackFilter(){
 			
 			@Override
-			public boolean doFilter(Pack pack) {
+			public boolean doReceiveFilter(Pack pack) {
 				String actionString = pack.getActionString();
 				if (controllerManager.getMethodInfo(actionString) != null) {
 					return true;
@@ -166,6 +164,11 @@ public class RouterService {
 					session.send(pack);
 				}
 				return false;
+			}
+			
+			@Override
+			public boolean doSendFilter(Pack sendData) {
+				return true;
 			}
 		});
 		

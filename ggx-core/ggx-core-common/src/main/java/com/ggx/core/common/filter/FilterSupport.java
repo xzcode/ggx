@@ -23,23 +23,23 @@ public interface FilterSupport extends FilterManager{
 	FilterManager getFilterManager();
 	
 	@Override
-	default boolean doBeforeDeserializeFilters(Pack pack) {
-		return getFilterManager().doBeforeDeserializeFilters(pack);
+	default boolean doReceivePackFilters(Pack pack) {
+		return getFilterManager().doReceivePackFilters(pack);
 	}
 
 	@Override
-	default boolean doReceiveFilters(MessageData<?> request) {
+	default boolean doReceiveFilters(MessageData request) {
 		return getFilterManager().doReceiveFilters(request);
 	}
 
 	@Override
-	default boolean doSendFilters(MessageData<?> messageData) {
+	default boolean doSendFilters(MessageData messageData) {
 		return getFilterManager().doSendFilters(messageData);
 	}
 
 	@Override
-	default boolean doAfterSerializeFilters(Pack pack) {
-		return getFilterManager().doAfterSerializeFilters(pack);
+	default boolean doSendPackFilters(Pack pack) {
+		return getFilterManager().doSendPackFilters(pack);
 	}
 	
 	default void addFilter(Filter<?> filter) {

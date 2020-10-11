@@ -52,7 +52,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 22:09:14
 	 */
-	default void sendToAll(MessageData<?> response) {
+	default void sendToAll(MessageData response) {
 		try {
 			// 发送过滤器
 			if (!getFilterManager().doSendFilters(response)) {
@@ -98,7 +98,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * 2019-11-29 15:24:23
 	 */
 	default GGXFuture send(GGXSession session, String action, Message message) {
-		return send(new MessageData<>(session, action, message));
+		return send(new MessageData(session, action, message));
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * 2019-11-29 15:23:47
 	 */
 	default GGXFuture send(GGXSession session, Message message) {
-		return send(new MessageData<>(session, getActionIdCacheManager().get(message.getClass()), message));
+		return send(new MessageData(session, getActionIdCacheManager().get(message.getClass()), message));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 21:53:08
 	 */
-	default GGXFuture send(MessageData<?> messageData) {
+	default GGXFuture send(MessageData messageData) {
 		GGXSession session = messageData.getSession();
 		if (session != null) {
 			try {
