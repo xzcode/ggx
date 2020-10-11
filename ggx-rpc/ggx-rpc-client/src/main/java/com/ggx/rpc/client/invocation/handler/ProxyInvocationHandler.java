@@ -28,8 +28,6 @@ import com.ggx.util.logger.GGXLogUtil;
 public class ProxyInvocationHandler implements InvocationHandler {
 	
 	private RpcClientConfig config;
-	private Class<?> serviceInterface;
-	private Object fallbackObj;
 	private InterfaceServiceGroupCache interfaceServiceGroupCache;
 	private RpcProxyManager proxyManager;
 	private InterfaceInfoParser interfaceInfoParser;
@@ -37,10 +35,8 @@ public class ProxyInvocationHandler implements InvocationHandler {
 	private RpcMethodCallbackManager rpcMethodCallbackManager;
 	
 
-	public ProxyInvocationHandler(RpcClientConfig config, Class<?> serviceInterface, Object fallbackObj) {
+	public ProxyInvocationHandler(RpcClientConfig config) {
 		this.config = config;
-		this.serviceInterface = serviceInterface;
-		this.fallbackObj = fallbackObj;
 		this.interfaceServiceGroupCache = this.config.getInterfaceServiceGroupCache();
 		this.proxyManager = this.config.getProxyManager();
 		this.interfaceInfoParser = this.config.getInterfaceInfoParser();
@@ -50,6 +46,8 @@ public class ProxyInvocationHandler implements InvocationHandler {
 
 	@Override
 	public Object invoke(Object proxy, Method proxyMethod, Object[] args) throws Throwable {
+		
+		Class<?> serviceInterface = proxyMethod.getDeclaringClass();
 		
 		//确认需要调用的服务
 		RpcProxyInfo proxyInfo = proxyManager.get(serviceInterface);
@@ -61,11 +59,13 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		String methodName = interfaceInfoParser.makeMethodName(proxyMethod, proxyMethod.getParameterTypes());
 		Method method = methods.get(interfaceInfoParser.makeMethodName(proxyMethod, proxyMethod.getParameterTypes()));
 		
+		Object fallbackObj = proxyInfo.getFallbackObj();
+		
 		if (method == null) {
-			if (this.fallbackObj == null) {
+			if (fallbackObj == null) {
 				throw new RpcServiceNoFallbackException(serviceName, methodName);
 			}
-			return proxyMethod.invoke(this.fallbackObj, args);				
+			return proxyMethod.invoke(fallbackObj, args);				
 		}
 		
 		Class<?>[] paramTypes = proxyInfo.getInterfaceInfo().getMethodParamTypes().get(method);
@@ -90,10 +90,10 @@ public class ProxyInvocationHandler implements InvocationHandler {
 				GGXLogUtil.getLogger(this).info("Service [{}] Not Ready!", serviceName);
 			}
 			
-			if (this.fallbackObj == null) {
+			if (fallbackObj == null) {
 				throw new RpcServiceNoFallbackException(serviceName, methodName);
 			}
-			return proxyMethod.invoke(this.fallbackObj, args);
+			return proxyMethod.invoke(fallbackObj, args);
 		}
 		
 		//组装数据包

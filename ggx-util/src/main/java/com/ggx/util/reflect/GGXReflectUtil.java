@@ -32,7 +32,7 @@ public class GGXReflectUtil {
 			if (superclass != null) {
 				list.add(superclass);
 			}
-		} while (superclass != null);
+		} while (superclass != null && superclass != Object.class);
 		Collections.reverse(list);
 		return list;
 	}

@@ -35,7 +35,7 @@ public class GGXPingPongController implements MakePackSupport{
 		
 		GGXPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (pingPongInfo == null) {
-			pingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			pingPongInfo = new GGXPingPongInfo(0, config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, pingPongInfo);
 		}
 		pingPongInfo.heartBeatLostTimesReset();
@@ -45,7 +45,7 @@ public class GGXPingPongController implements MakePackSupport{
 	public void pong(Pong pong, GGXSession session) {
 		GGXPingPongInfo ggPingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (ggPingPongInfo == null) {
-			ggPingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			ggPingPongInfo = new GGXPingPongInfo(0, config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, ggPingPongInfo);
 		}
 		ggPingPongInfo.heartBeatLostTimesReset();

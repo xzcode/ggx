@@ -9,6 +9,8 @@ public class GGXServerConfig {
 	
 	private String[] scanPackages;
 	
+	private String[] scanPackageBlacklist ={"java", "org.springframework", "org.apache", "net.sf", "io.netty", "io.protostuff", "com.google", "org.slf4j", "io.github", "nonapi"};;
+	
 	protected String mode = GGXServerMode.CORE_SERVER;
 	
 	protected GGXServerRouterConfigModel router;
@@ -23,6 +25,14 @@ public class GGXServerConfig {
 	
 	
 	
+
+	public String[] getScanPackageBlacklist() {
+		return scanPackageBlacklist;
+	}
+
+	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
+		this.scanPackageBlacklist = scanPackageBlacklist;
+	}
 
 	public boolean isEnabled() {
 		return enabled;
@@ -86,4 +96,6 @@ public class GGXServerConfig {
 	public void setScanPackages(String[] scanPackages) {
 		this.scanPackages = scanPackages;
 	}
+	
+	
 }

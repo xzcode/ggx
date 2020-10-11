@@ -22,7 +22,7 @@ public class RpcProxyManager extends ListenableMapDataManager<Class<?>, RpcProxy
 		InterfaceInfoParser interfaceInfoParser = this.config.getInterfaceInfoParser();
 		InterfaceInfo interfaceInfo = interfaceInfoParser.parse(serviceInterface);
 		
-		Object proxyObj = Proxy.newProxyInstance(serviceInterface.getClassLoader(), new Class<?>[] {serviceInterface}, new ProxyInvocationHandler(config, serviceInterface, fallbackObj));
+		Object proxyObj = Proxy.newProxyInstance(serviceInterface.getClassLoader(), new Class<?>[] {serviceInterface}, config.getProxyInvocationHandler());
 		
 		RpcProxyInfo proxyInfo = new RpcProxyInfo();
 		proxyInfo.setName(serviceInterface.getCanonicalName());

@@ -19,6 +19,11 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 	
 	private GGXCoreConfig config;
 	
+	
+	public DefaultMessageControllerManager(GGXCoreConfig config) {
+		this.config = config;
+	}
+
 	@Override
 	public void register(Object controller) {
 		
@@ -63,9 +68,10 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 				methodInfo.setControllerObj(controller);
 				methodInfo.setActionId(actionIdCacheManager.get(onMessageClass));
 				methodInfo.setParamClasses(parameterTypes);
+				
+				this.put(methodInfo.getActionId(), methodInfo);
 			}
 			
-			this.put(methodInfo.getActionId(), methodInfo);
 		}
 	}
 	

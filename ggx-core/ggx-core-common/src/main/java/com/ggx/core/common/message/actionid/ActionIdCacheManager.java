@@ -2,8 +2,6 @@ package com.ggx.core.common.message.actionid;
 
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.util.logger.GGXLogUtil;
@@ -25,9 +23,7 @@ public class ActionIdCacheManager extends ListenableMapDataManager<Class<?>, Str
 
 	private void init() {
 		ClassGraph classGraph = new ClassGraph();
-		String[] scanPackages = this.config.getScanPackages();
-		try (ScanResult scanResult = classGraph.whitelistPackages(scanPackages).scan()){
-			scanPackages = ArrayUtils.addAll(scanPackages, config.getGGXBasePackage());
+		try (ScanResult scanResult = classGraph.blacklistPackages(config.getScanPackageBlacklist()).scan()){
 			ActionIdGenerator actionIdGenerator = config.getActionIdGenerator();
 				ClassInfoList list = scanResult.getClassesImplementing(Message.class.getCanonicalName());
 				for (ClassInfo info : list) {

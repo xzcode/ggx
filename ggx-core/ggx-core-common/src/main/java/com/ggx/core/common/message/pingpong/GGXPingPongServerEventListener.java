@@ -28,7 +28,7 @@ public class GGXPingPongServerEventListener implements EventListener<Void>{
 		GGXSession session = eventData.getSession();
 		GGXPingPongInfo pingPongInfo = session.getAttribute(DefaultChannelAttributeKeys.PING_INFO, GGXPingPongInfo.class);
 		if (pingPongInfo == null) {
-			pingPongInfo = new GGXPingPongInfo(config.getPingPongLostTimes(), config.getPingPongMaxLoseTimes());
+			pingPongInfo = new GGXPingPongInfo(0, config.getPingPongMaxLoseTimes());
 			session.addAttribute(DefaultChannelAttributeKeys.PING_INFO, pingPongInfo);
 		}
 		pingPongInfo.heartBeatLostTimesIncrease();

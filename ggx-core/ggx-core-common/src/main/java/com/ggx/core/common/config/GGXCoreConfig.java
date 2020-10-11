@@ -61,7 +61,10 @@ public class GGXCoreConfig {
 	protected boolean ggxComponent = false;
 	
 	//扫描包目录
-	protected String[] scanPackages;
+	protected String[] scanPackages = {};
+	
+	//扫描包黑名单
+	protected String[] scanPackageBlacklist = {"java", "org.springframework", "org.apache", "net.sf", "io.netty", "io.protostuff", "com.google", "org.slf4j", "io.github", "nonapi"};
 	
 	//指令前缀
 	protected String actionIdPrefix;
@@ -113,7 +116,6 @@ public class GGXCoreConfig {
 
 	protected boolean printPingPongInfo = false;
 
-	private int pingPongLostTimes = 0; // 心跳失败次数
 
 	private int pingPongMaxLoseTimes = 3;// 最大心跳失败允许次数
 
@@ -130,9 +132,10 @@ public class GGXCoreConfig {
 	
 	protected MessageControllerManager messageControllerManager;
 	
+	protected ActionIdGenerator actionIdGenerator;
+	
 	protected ActionIdCacheManager actionIdCacheManager;
 	
-	protected ActionIdGenerator actionIdGenerator = new DefaultActionIdGrnarator(this);
 	protected FilterManager filterManager;
 	protected EventManager eventManager;
 	protected SessionManager sessionManager;
@@ -157,10 +160,19 @@ public class GGXCoreConfig {
 	protected AESCipher aesCipher;
 
 	public void init() {
-		messageControllerManager = new DefaultMessageControllerManager();
 		filterManager = new DefaultFilterManager();
 		eventManager = new DefaultEventManager();
-
+		
+		if (this.actionIdGenerator == null) {
+			this.actionIdGenerator =  new DefaultActionIdGrnarator(this);
+		}
+		if (this.actionIdCacheManager == null) {
+			this.actionIdCacheManager =  new ActionIdCacheManager(this);
+		}
+		if (this.messageControllerManager == null) {
+			this.messageControllerManager = new DefaultMessageControllerManager(this);
+		}
+		
 		if (workerGroupThreadFactory == null) {
 			workerGroupThreadFactory = new GGXThreadFactory("gg-worker-", false);
 		}
@@ -506,13 +518,6 @@ public class GGXCoreConfig {
 		this.pingPongEnabled = enablePingPong;
 	}
 
-	public int getPingPongLostTimes() {
-		return pingPongLostTimes;
-	}
-
-	public void setPingPongLostTimes(int lostTimes) {
-		this.pingPongLostTimes = lostTimes;
-	}
 
 	public int getPingPongMaxLoseTimes() {
 		return pingPongMaxLoseTimes;
@@ -651,5 +656,12 @@ public class GGXCoreConfig {
 	
 	public void setMessageControllerManager(MessageControllerManager messageControllerManager) {
 		this.messageControllerManager = messageControllerManager;
+	}
+	
+	public String[] getScanPackageBlacklist() {
+		return scanPackageBlacklist;
+	}
+	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
+		this.scanPackageBlacklist = scanPackageBlacklist;
 	}
 }
