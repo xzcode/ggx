@@ -13,6 +13,5 @@ public class GGXServerSpringBootApplicationPrepareEventListener implements  Appl
 	
     @Override
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
-    	//ggxServer.start();
     }
 }
