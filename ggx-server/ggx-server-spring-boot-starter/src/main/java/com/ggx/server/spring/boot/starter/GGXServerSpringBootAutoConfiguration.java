@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
@@ -111,15 +112,6 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 			}
 		}
 		
-		
-		return ggxserver;
-	}
-	
-	
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-
 		// 注册RPC服务
 		String[] whitelistPackages = {getSpringBootEnterPackage()};
 		ClassGraph classGraph = new ClassGraph();
@@ -160,6 +152,16 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		}catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);
 		}
+		
+		return ggxserver;
+	}
+	
+	
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+
+		
 	}
 
 	
