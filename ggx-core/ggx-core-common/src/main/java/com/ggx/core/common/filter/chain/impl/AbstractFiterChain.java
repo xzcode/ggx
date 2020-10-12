@@ -3,14 +3,14 @@ package com.ggx.core.common.filter.chain.impl;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.ggx.core.common.filter.chain.ChainFilter;
+import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.chain.FilterChain;
 
 public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 	
 	private static final ThreadLocal<Integer> COUNTER_LOCAL = new ThreadLocal<Integer>();
 	
-	private List<ChainFilter<T>> filters = new CopyOnWriteArrayList<>();
+	private List<Filter<T>> filters = new CopyOnWriteArrayList<>();
 
 	@Override
 	public void doFilter(T data) {
@@ -31,12 +31,12 @@ public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 	}
 
 	@Override
-	public void addFilter(ChainFilter<T> filter) {
+	public void addFilter(Filter<T> filter) {
 		this.filters.add(filter);
 	}
 
 	@Override
-	public void removeFilter(ChainFilter<T> filter) {
+	public void removeFilter(Filter<T> filter) {
 		this.filters.remove(filter);
 		
 	}

@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
-import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
@@ -65,7 +64,7 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		Map<String, Object> messageControllers = this.applicationContext.getBeansWithAnnotation(GGXController.class);
 		for (Entry<String, Object> entry : messageControllers.entrySet()) {
 			Object obj = entry.getValue();
-			ggxserver.register(obj);
+			ggxserver.registerController(obj);
 		}
 
 		// 注册事件处理器
@@ -90,7 +89,7 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 			Filter<?> obj = (Filter<?>) entry.getValue();
 			GGXMessageFilter annotation = obj.getClass().getAnnotation(GGXMessageFilter.class);
 			if (annotation != null) {
-				ggxserver.addFilter(new FilterInfo<>(obj, annotation.value()));
+				ggxserver.addFilter(obj);
 			}
 		}
 

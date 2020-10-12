@@ -10,7 +10,8 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.filter.PackFilter;
+import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.filter.chain.ReceivePackChainFilter;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
@@ -148,13 +149,14 @@ public class RouterService {
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		
-		this.serviceClient.addFilter(new PackFilter(){
+		this.serviceClient.addFilter(new ReceivePackChainFilter() {
 			
 			@Override
-			public boolean doReceiveFilter(Pack pack) {
+			public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
 				String actionString = pack.getActionString();
 				if (controllerManager.getMethodInfo(actionString) != null) {
-					return true;
+					filterChain.doFilter(pack);
+					return;
 				}
 				
 				SessionManager sessionManager = config.getHostServer().getSessionManager();
@@ -163,18 +165,13 @@ public class RouterService {
 					pack.setSession(session);
 					session.send(pack);
 				}
-				return false;
-			}
-			
-			@Override
-			public boolean doSendFilter(Pack sendData) {
-				return true;
+				
 			}
 		});
 		
 		
 
-		this.serviceClient.register(new MessageController() {
+		this.serviceClient.registerController(new MessageController() {
 
 			@GGXAction
 			public void handle(RouterRedirectMessageToOtherRouterServicesResp resp, GGXSession session) {

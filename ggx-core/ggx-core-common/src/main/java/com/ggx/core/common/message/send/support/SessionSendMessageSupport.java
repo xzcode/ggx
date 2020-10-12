@@ -155,11 +155,11 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai 2019-11-24 17:29:24
 	 */
 	default GGXFuture send(MessageData messageData) {
-		// 发送过滤器
-		if (!getFilterManager().doSendFilters(messageData)) {
-			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		if (messageData.getSession() == null) {
+			messageData.setSession(getSession());			
 		}
-		return getSession().send(makePack(messageData));
+		// 发送过滤器
+		return getFilterManager().doSendMessageFilters(messageData);
 	}
 	
 	/**
@@ -193,9 +193,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 		}
 		
 		// 序列化后发送过滤器
-		if (!getFilterManager().doSendPackFilters(pack)) {
-			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
-		}
+		getFilterManager().doSendPackFilters(pack);
 		
 		if (channel.isActive()) {
 			GGXNettyFuture future = new GGXNettyFuture();

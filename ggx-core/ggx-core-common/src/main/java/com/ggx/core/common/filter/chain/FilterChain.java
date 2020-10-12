@@ -1,5 +1,7 @@
 package com.ggx.core.common.filter.chain;
 
+import com.ggx.core.common.filter.Filter;
+
 public interface FilterChain<T> {
 	
 	/**
@@ -19,7 +21,7 @@ public interface FilterChain<T> {
 	 * @author zai
 	 * 2020-10-12 11:15:03
 	 */
-	void addFilter(ChainFilter<T> filter);
+	void addFilter(Filter<T> filter);
 	
 	/**
 	 * 移除过滤器
@@ -28,7 +30,7 @@ public interface FilterChain<T> {
 	 * @author zai
 	 * 2020-10-12 11:15:10
 	 */
-	void removeFilter(ChainFilter<T> filter);
+	void removeFilter(Filter<T> filter);
 	
 
 }

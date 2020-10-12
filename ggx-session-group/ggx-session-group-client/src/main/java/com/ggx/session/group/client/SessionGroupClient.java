@@ -84,9 +84,9 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		this.singleThreadEvecutor = sessionClient.getTaskExecutor().nextEvecutor();
 
 
-		sessionClient.register(new AnthRespHandler(this.config));
-		sessionClient.register(new SessionGroupRegisterRespHandler(this.config));
-		sessionClient.register(new DataTransferRespHandler(this.config));
+		sessionClient.registerController(new AnthRespHandler(this.config));
+		sessionClient.registerController(new SessionGroupRegisterRespHandler(this.config));
+		sessionClient.registerController(new DataTransferRespHandler(this.config));
 
 		//添加断开连接监听器
 		sessionClient.addEventListener(GGXCoreEvents.Connection.CLOSED, ((EventData<Void> eventData) -> {

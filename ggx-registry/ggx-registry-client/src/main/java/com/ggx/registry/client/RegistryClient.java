@@ -59,11 +59,11 @@ public class RegistryClient {
 		GGXCoreClient ggClient = new GGXCoreClient(ggconfig);
 		config.setGGclient(ggClient);
 		
-		ggClient.register(new RegisterRespHandler(config));
-		ggClient.register(new ServiceListRespHandler(config));
-		ggClient.register(new ServiceUpdateRespHandler(config));
-		ggClient.register(new ServiceUnregisterRespHandler(config));
-		ggClient.register(new AddServiceRespHandler(config));
+		ggClient.registerController(new RegisterRespHandler(config));
+		ggClient.registerController(new ServiceListRespHandler(config));
+		ggClient.registerController(new ServiceUpdateRespHandler(config));
+		ggClient.registerController(new ServiceUnregisterRespHandler(config));
+		ggClient.registerController(new AddServiceRespHandler(config));
 		
 		ggClient.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		ggClient.addEventListener(GGXCoreEvents.Connection.OPENED, new ConnOpenEventListener(config));

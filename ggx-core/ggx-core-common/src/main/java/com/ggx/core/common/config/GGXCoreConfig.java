@@ -22,7 +22,7 @@ import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.filter.impl.DefaultFilterManager;
+import com.ggx.core.common.filter.chain.impl.DefaultChainFilterManager;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.actionid.ActionIdGenerator;
 import com.ggx.core.common.message.actionid.AddActionIdPrefixHandler;
@@ -160,7 +160,7 @@ public class GGXCoreConfig {
 	protected AESCipher aesCipher;
 
 	public void init() {
-		filterManager = new DefaultFilterManager();
+		filterManager = new DefaultChainFilterManager();
 		eventManager = new DefaultEventManager();
 		
 		if (this.actionIdGenerator == null) {

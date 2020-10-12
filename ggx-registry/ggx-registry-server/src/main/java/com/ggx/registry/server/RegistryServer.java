@@ -68,9 +68,9 @@ public class RegistryServer {
 		ggServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new ConnCloseEventListener(config));
 		ggServer.addEventListener(GGXCoreEvents.HeartBeat.LOST, new HeartbeatLostEventListener(config));
 		
-		ggServer.register(new RegisterReqHandler(config));
-		ggServer.register(new ServiceListReqHandler(config));
-		ggServer.register(new ServiceUpdateReqHandler(config));
+		ggServer.registerController(new RegisterReqHandler(config));
+		ggServer.registerController(new ServiceListReqHandler(config));
+		ggServer.registerController(new ServiceUpdateReqHandler(config));
 		
 		config.setServer(ggServer);
 		

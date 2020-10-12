@@ -51,9 +51,7 @@ public class MessageDataTask implements Runnable{
 		GGXSession session = pack.getSession();
 		try {
 			//反序列化前过滤器
-			if (!messageFilterManager.doReceivePackFilters(pack)) {
-				return;
-			}
+			messageFilterManager.doReceivePackFilters(pack);
 			
 			action = new String(pack.getAction(), config.getCharset());
 			
@@ -75,9 +73,9 @@ public class MessageDataTask implements Runnable{
 			MessageData messageData = new MessageData(session, action, message);
 			
 			//反序列化后的消息过滤器
-			if (!messageFilterManager.doReceiveFilters(messageData)) {
-				return;
-			}
+			
+			messageFilterManager.doReceiveMessageFilters(messageData);
+			
 			Object returnObject = messageControllerManager.invoke(messageData);
 			//如果有返回值，当作message发送出去
 			if (returnObject != null && methodInfo.isReturnMessage()) {

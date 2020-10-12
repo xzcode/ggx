@@ -94,7 +94,7 @@ public class RpcService {
 		
 		GGXCoreClientConfig serviceClientConfig = this.serviceClient.getConfig();
 		serviceClientConfig.setGgxComponent(true);
-		this.serviceClient.register(new RpcRespHandler(config));
+		this.serviceClient.registerController(new RpcRespHandler(config));
 
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		

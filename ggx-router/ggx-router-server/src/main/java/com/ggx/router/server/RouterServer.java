@@ -93,7 +93,7 @@ public class RouterServer implements GGXCoreSupport {
 		
 		
 		//监听session断开传递
-		this.sessionServiceServer.register(new MessageController(){
+		this.sessionServiceServer.registerController(new MessageController(){
 
 			@GGXAction
 			public void disconnectTransferReq(RouterSessionDisconnectTransferReq req) {
@@ -199,10 +199,6 @@ public class RouterServer implements GGXCoreSupport {
 		RouterRedirectMessageToOtherRouterServicesResp resp = new RouterRedirectMessageToOtherRouterServicesResp();
 		
 		Pack pack = makePack(new MessageData(redirectingSession.getActionIdCacheManager().get(redirectingMessage.getClass()), redirectingMessage));
-		// 序列化后发送过滤器
-		if (!redirectingSession.getFilterManager().doSendPackFilters(pack)) {
-			return;
-		}
 		resp.setServiceId(redirectServiceId);
 		resp.setTranferSessionId(redirectingSession.getSessonId());
 		resp.setAction(pack.getAction());

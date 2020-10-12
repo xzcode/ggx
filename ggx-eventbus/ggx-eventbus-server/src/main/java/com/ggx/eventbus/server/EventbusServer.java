@@ -47,8 +47,8 @@ public class EventbusServer implements GGXCoreSupport{
 		
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		
-		this.serviceServer.register(new EventPublishReqHandler(config));
-		this.serviceServer.register(new EventSubscribeReqHandler(config));
+		this.serviceServer.registerController(new EventPublishReqHandler(config));
+		this.serviceServer.registerController(new EventSubscribeReqHandler(config));
 		
 		
 		GGXFuture startFuture = sessionGroupServer.start();

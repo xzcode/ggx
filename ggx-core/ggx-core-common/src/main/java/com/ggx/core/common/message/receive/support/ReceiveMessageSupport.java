@@ -22,7 +22,7 @@ public interface ReceiveMessageSupport {
 	
 	
 
-	default void register(Object controller) {
+	default void registerController(Object controller) {
 		getMessageControllerManager().register(controller);
 	}
 

@@ -86,9 +86,9 @@ public class EventbusClient{
 		
 		this.config.setSessionGroupClient(sessionGroupClient);
 		
-		this.serviceClient.register(new EventPublishRespHandler(config));
-		this.serviceClient.register(new EventSubscribeRespHandler(config));
-		this.serviceClient.register(new EventMessageRespHandler(config));
+		this.serviceClient.registerController(new EventPublishRespHandler(config));
+		this.serviceClient.registerController(new EventSubscribeRespHandler(config));
+		this.serviceClient.registerController(new EventMessageRespHandler(config));
 		
 		
 		//包日志输出控制

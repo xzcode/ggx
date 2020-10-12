@@ -54,11 +54,6 @@ public interface SendMessageSupport extends MakePackSupport {
 	 */
 	default void sendToAll(MessageData response) {
 		try {
-			// 发送过滤器
-			if (!getFilterManager().doSendFilters(response)) {
-				return;
-			}
-
 			Pack pack = makePack(response);
 			SessionManager sessionManager = getSessionManager();
 			sessionManager.eachSession(session -> {
@@ -132,10 +127,6 @@ public interface SendMessageSupport extends MakePackSupport {
 		GGXSession session = messageData.getSession();
 		if (session != null) {
 			try {
-			// 发送过滤器
-			if (!getFilterManager().doSendFilters(messageData)) {
-				return null;
-			}
 				session.send(makePack(messageData));
 			} catch (Exception e) {
 				GGXLogUtil.getLogger().error("Send message Error!", e);

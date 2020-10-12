@@ -1,6 +1,6 @@
 package com.ggx.core.common.filter;
 
-import com.ggx.core.common.filter.model.FilterInfo;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 
@@ -21,47 +21,43 @@ public interface FilterSupport extends FilterManager{
 	 * 2019-12-01 16:56:15
 	 */
 	FilterManager getFilterManager();
-	
+
 	@Override
-	default boolean doReceivePackFilters(Pack pack) {
+	default GGXFuture doReceiveMessageFilters(MessageData data) {
+		return getFilterManager().doReceiveMessageFilters(data);
+		
+	}
+
+	@Override
+	default GGXFuture doSendMessageFilters(MessageData data) {
+		return getFilterManager().doSendMessageFilters(data);
+		
+	}
+
+	@Override
+	default GGXFuture doReceivePackFilters(Pack pack) {
 		return getFilterManager().doReceivePackFilters(pack);
+		
 	}
 
 	@Override
-	default boolean doReceiveFilters(MessageData request) {
-		return getFilterManager().doReceiveFilters(request);
-	}
-
-	@Override
-	default boolean doSendFilters(MessageData messageData) {
-		return getFilterManager().doSendFilters(messageData);
-	}
-
-	@Override
-	default boolean doSendPackFilters(Pack pack) {
+	default GGXFuture doSendPackFilters(Pack pack) {
 		return getFilterManager().doSendPackFilters(pack);
+		
 	}
-	
+
+	@Override
 	default void addFilter(Filter<?> filter) {
-		getFilterManager().addFilter(new FilterInfo<>(filter));
-	}
-	
-	default void addFilter(Filter<?> filter, int order) {
-		getFilterManager().addFilter(new FilterInfo<>(filter, order));
-	}
-	
-
-	@Override
-	default void addFilter(FilterInfo<?> filterInfo) {
-		getFilterManager().addFilter(filterInfo);
+		getFilterManager().addFilter(filter);
+		
 	}
 
 	@Override
-	default void removeFilter(FilterInfo<?> filterInfo) {
-		getFilterManager().removeFilter(filterInfo);
+	default void removeFilter(Filter<?> filter) {
+		getFilterManager().removeFilter(filter);
+		
 	}
 	
 	
-
 	
 }
