@@ -1,8 +1,8 @@
 package com.ggx.core.common.filter.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.ReceivePackChainFilter;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -12,7 +12,7 @@ import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.util.logger.GGXLogUtil;
 
-public class FinalReceivePackChainFilter implements ReceivePackChainFilter{
+public class FinalReceivePackChainFilter implements ReceivePackFilter{
 	
 	
 	

@@ -1,8 +1,8 @@
 package com.ggx.router.client.filter;
 
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.ReceivePackChainFilter;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
@@ -12,7 +12,7 @@ import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.client.event.RouterClientEvents;
 
 
-public class RouterClientHostServerReceiveMessageFilter implements ReceivePackChainFilter{
+public class RouterClientHostServerReceiveMessageFilter implements ReceivePackFilter{
 	
 	private RouterClientConfig config;
 	

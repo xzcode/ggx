@@ -3,8 +3,8 @@ package com.ggx.core.common.filter.impl;
 import java.nio.charset.Charset;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.SendMessageChainFilter;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.send.support.MakePackSupport;
@@ -12,7 +12,7 @@ import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
 
-public class FinalSendMessageChainFilter implements SendMessageChainFilter, MakePackSupport{
+public class FinalSendMessageChainFilter implements SendMessageFilter, MakePackSupport{
 
 	private GGXCoreConfig config;
 

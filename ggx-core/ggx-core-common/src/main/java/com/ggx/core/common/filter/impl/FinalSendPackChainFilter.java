@@ -1,8 +1,8 @@
 package com.ggx.core.common.filter.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.filter.SendPackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.SendPackChainFilter;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.utils.json.GGXServerJsonUtil;
@@ -11,10 +11,10 @@ import com.ggx.util.logger.GGXLogUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
-public class FinalSendPackChainFilter implements SendPackChainFilter{
+public class FinalSendPackChainFilter implements SendPackFilter{
 	
 	
-	private GGXCoreConfig config;
+	protected GGXCoreConfig config;
 
 	public FinalSendPackChainFilter(GGXCoreConfig config) {
 		this.config = config;

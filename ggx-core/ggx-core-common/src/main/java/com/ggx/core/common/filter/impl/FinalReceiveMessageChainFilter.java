@@ -1,12 +1,12 @@
 package com.ggx.core.common.filter.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.ReceiveMessageChainFilter;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.model.Message;
 
-public class FinalReceiveMessageChainFilter implements ReceiveMessageChainFilter{
+public class FinalReceiveMessageChainFilter implements ReceiveMessageFilter{
 
 	
 	private GGXCoreConfig config;

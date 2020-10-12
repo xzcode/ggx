@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.filter.chain.ReceiveMessageChainFilter;
-import com.ggx.core.common.filter.chain.ReceivePackChainFilter;
-import com.ggx.core.common.filter.chain.SendMessageChainFilter;
-import com.ggx.core.common.filter.chain.SendPackChainFilter;
+import com.ggx.core.common.filter.ReceiveMessageFilter;
+import com.ggx.core.common.filter.ReceivePackFilter;
+import com.ggx.core.common.filter.SendMessageFilter;
+import com.ggx.core.common.filter.SendPackFilter;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
@@ -26,22 +26,22 @@ public class DefaultChainFilterManager implements FilterManager {
 	private MessageFilterChain sendMessageFilterChain = new MessageFilterChain();
 
 
-	private ReceivePackChainFilter finalReceivePackFilter;
+	private ReceivePackFilter finalReceivePackFilter;
 
-	private ReceiveMessageChainFilter finalReceiveMessageFilter;
+	private ReceiveMessageFilter finalReceiveMessageFilter;
 
-	private SendMessageChainFilter finalSendMessageChainFilter;
+	private SendMessageFilter finalSendMessageChainFilter;
 
-	private SendPackChainFilter finalSendPackChainFilter;
+	private SendPackFilter finalSendPackChainFilter;
 
 	private List<FilterInfo<?>> receivePackFilterInfos = new ArrayList<>();
 	private List<FilterInfo<?>> receiveMessageFilterInfos = new ArrayList<>();
 	private List<FilterInfo<?>> sendMessageFilterInfos = new ArrayList<>();
 	private List<FilterInfo<?>> sendPackFilterInfos = new ArrayList<>();
 
-	public DefaultChainFilterManager(ReceivePackChainFilter finalReceivePackFilter,
-			ReceiveMessageChainFilter finalReceiveMessageFilter, SendMessageChainFilter finalSendMessageChainFilter,
-			SendPackChainFilter finalSendPackChainFilter) {
+	public DefaultChainFilterManager(ReceivePackFilter finalReceivePackFilter,
+			ReceiveMessageFilter finalReceiveMessageFilter, SendMessageFilter finalSendMessageChainFilter,
+			SendPackFilter finalSendPackChainFilter) {
 		this.finalReceivePackFilter = finalReceivePackFilter;
 		this.finalReceiveMessageFilter = finalReceiveMessageFilter;
 		this.finalSendMessageChainFilter = finalSendMessageChainFilter;
@@ -99,26 +99,26 @@ public class DefaultChainFilterManager implements FilterManager {
 
 		Filter<?> filter = filterInfo.getFilter();
 
-		if (filter instanceof ReceivePackChainFilter) {
+		if (filter instanceof ReceivePackFilter) {
 			this.receivePackFilterInfos.add((FilterInfo<Pack>) filterInfo);
 			List list = sortFiltersAndGetFilterList(this.receivePackFilterInfos);
 			list.add(finalReceivePackFilter);
 			receivePackFilterChain.setFilters(list);
 			
 		}else
-		if (filter instanceof ReceiveMessageChainFilter) {
+		if (filter instanceof ReceiveMessageFilter) {
 			this.receiveMessageFilterInfos.add(filterInfo);
 			List list = sortFiltersAndGetFilterList(this.receiveMessageFilterInfos);
 			list.add(finalReceiveMessageFilter);
 			receiveMessageFilterChain.setFilters(list);
 		}else
-		if (filter instanceof SendMessageChainFilter) {
+		if (filter instanceof SendMessageFilter) {
 			this.sendMessageFilterInfos.add((FilterInfo<MessageData>) filterInfo);
 			List list = sortFiltersAndGetFilterList(this.sendMessageFilterInfos);
 			list.add(finalSendMessageChainFilter);
 			sendMessageFilterChain.setFilters(list);
 		}else
-		if (filter instanceof SendPackChainFilter) {
+		if (filter instanceof SendPackFilter) {
 			this.sendPackFilterInfos.add(filterInfo);
 			List list = sortFiltersAndGetFilterList(this.sendPackFilterInfos);
 			list.add(finalSendPackChainFilter);
@@ -145,19 +145,19 @@ public class DefaultChainFilterManager implements FilterManager {
 	public void removeFilter(FilterInfo<?> filterInfo) {
 		Filter<?> filter = filterInfo.getFilter();
 
-		if (filter instanceof ReceivePackChainFilter) {
+		if (filter instanceof ReceivePackFilter) {
 			this.receivePackFilterInfos.remove(filterInfo);
 			return;
 		}
-		if (filter instanceof ReceiveMessageChainFilter) {
+		if (filter instanceof ReceiveMessageFilter) {
 			this.receiveMessageFilterInfos.remove(filterInfo);
 			return;
 		}
-		if (filter instanceof SendMessageChainFilter) {
+		if (filter instanceof SendMessageFilter) {
 			this.sendMessageFilterInfos.remove(filterInfo);
 			return;
 		}
-		if (filter instanceof SendPackChainFilter) {
+		if (filter instanceof SendPackFilter) {
 			this.sendPackFilterInfos.remove(filterInfo);
 			return;
 		}

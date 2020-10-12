@@ -10,8 +10,8 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
-import com.ggx.core.common.filter.chain.ReceivePackChainFilter;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
@@ -149,7 +149,7 @@ public class RouterService {
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		
-		this.serviceClient.addFilter(new ReceivePackChainFilter() {
+		this.serviceClient.addFilter(new ReceivePackFilter() {
 			
 			@Override
 			public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
