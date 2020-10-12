@@ -17,11 +17,16 @@ public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 		Integer counter = COUNTER_LOCAL.get();
 		if (counter == null) {
 			counter = 0;
-			COUNTER_LOCAL.set(counter);
 		}else {
-			COUNTER_LOCAL.set(++counter);
+			counter++;
 		}
-		filters.get(counter).doFilter(data, this);
+		COUNTER_LOCAL.set(counter);
+		
+		if (filters.size() < counter) {
+			Filter<T> filter = filters.get(counter);
+			filter.doFilter(data, this);
+		}
+		
 		counter = COUNTER_LOCAL.get();
 		if (counter > 0) {
 			COUNTER_LOCAL.set(--counter);
@@ -41,6 +46,10 @@ public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 		
 	}
 	
+	@Override
+	public void setFilters(List<Filter<T>> filters) {
+		this.filters = filters;
+	}
 	
 
 }

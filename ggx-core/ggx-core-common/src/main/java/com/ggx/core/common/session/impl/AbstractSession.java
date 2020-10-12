@@ -7,8 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
+import com.ggx.core.common.message.send.SendMessageManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
@@ -82,9 +82,11 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 		return this.config;
 	}
 
+	
+
 	@Override
-	public FilterManager getFilterManager() {
-		return getConfig().getFilterManager();
+	public SendMessageManager getSendMessageManager() {
+		return getConfig().getSendMessageManager();
 	}
 
 	@Override

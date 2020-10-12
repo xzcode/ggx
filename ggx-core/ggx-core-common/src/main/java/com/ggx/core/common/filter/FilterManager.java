@@ -1,5 +1,6 @@
 package com.ggx.core.common.filter;
 
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -16,7 +17,11 @@ public interface FilterManager {
 
 	GGXFuture doSendPackFilters(Pack pack);
 
-	void addFilter(Filter<?> filter);
-	void removeFilter(Filter<?> filter);
+	FilterInfo<?> addFilter(FilterInfo<?> filter);
 
+	FilterInfo<?> addFilter(Filter<?> filter, int order);
+
+	FilterInfo<?> addFilter(Filter<?> filter);
+
+	void removeFilter(FilterInfo<?> filter);
 }

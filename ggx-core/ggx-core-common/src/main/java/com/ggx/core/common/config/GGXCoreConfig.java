@@ -23,6 +23,10 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.chain.impl.DefaultChainFilterManager;
+import com.ggx.core.common.filter.impl.FinalReceiveMessageChainFilter;
+import com.ggx.core.common.filter.impl.FinalReceivePackChainFilter;
+import com.ggx.core.common.filter.impl.FinalSendMessageChainFilter;
+import com.ggx.core.common.filter.impl.FinalSendPackChainFilter;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.actionid.ActionIdGenerator;
 import com.ggx.core.common.message.actionid.AddActionIdPrefixHandler;
@@ -30,8 +34,12 @@ import com.ggx.core.common.message.actionid.impl.DefaultActionIdGrnarator;
 import com.ggx.core.common.message.actionid.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
+import com.ggx.core.common.message.receive.ReceiveMessageManager;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.controller.impl.DefaultMessageControllerManager;
+import com.ggx.core.common.message.receive.impl.DefaultReceiveMessageManager;
+import com.ggx.core.common.message.send.SendMessageManager;
+import com.ggx.core.common.message.send.impl.DefaultSendMessageManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
@@ -128,6 +136,10 @@ public class GGXCoreConfig {
 	protected EncodeHandler encodeHandler;
 
 	protected ReceivePackHandler receivePackHandler;
+	
+	protected ReceiveMessageManager receiveMessageManager;
+	
+	protected SendMessageManager sendMessageManager;
 
 	
 	protected MessageControllerManager messageControllerManager;
@@ -160,8 +172,15 @@ public class GGXCoreConfig {
 	protected AESCipher aesCipher;
 
 	public void init() {
-		filterManager = new DefaultChainFilterManager();
 		eventManager = new DefaultEventManager();
+		
+		filterManager = new DefaultChainFilterManager(
+				new FinalReceivePackChainFilter(this),
+				new FinalReceiveMessageChainFilter(this),
+				new FinalSendMessageChainFilter(this),
+				new FinalSendPackChainFilter(this)
+				
+				);
 		
 		if (this.actionIdGenerator == null) {
 			this.actionIdGenerator =  new DefaultActionIdGrnarator(this);
@@ -205,6 +224,14 @@ public class GGXCoreConfig {
 		if (receivePackHandler == null) {
 			receivePackHandler = new DefaultReceivePackHandler(this);
 		}
+		
+		if (this.receiveMessageManager == null) {
+			this.receiveMessageManager = new DefaultReceiveMessageManager(this);
+		}
+		if (this.sendMessageManager == null) {
+			this.sendMessageManager = new DefaultSendMessageManager(this);
+		}
+		
 		if (serializer == null) {
 			this.serializer = new ProtoStuffSerializer();
 		}
@@ -664,4 +691,30 @@ public class GGXCoreConfig {
 	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
 		this.scanPackageBlacklist = scanPackageBlacklist;
 	}
+
+	public String getGgxBasePackage() {
+		return ggxBasePackage;
+	}
+
+	public void setGgxBasePackage(String ggxBasePackage) {
+		this.ggxBasePackage = ggxBasePackage;
+	}
+
+	public ReceiveMessageManager getReceiveMessageManager() {
+		return receiveMessageManager;
+	}
+
+	public void setReceiveMessageManager(ReceiveMessageManager receiveMessageManager) {
+		this.receiveMessageManager = receiveMessageManager;
+	}
+
+	public SendMessageManager getSendMessageManager() {
+		return sendMessageManager;
+	}
+
+	public void setSendMessageManager(SendMessageManager sendMessageManager) {
+		this.sendMessageManager = sendMessageManager;
+	}
+	
+	
 }

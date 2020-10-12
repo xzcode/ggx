@@ -1,5 +1,7 @@
 package com.ggx.core.common.filter.chain;
 
+import java.util.List;
+
 import com.ggx.core.common.filter.Filter;
 
 public interface FilterChain<T> {
@@ -31,6 +33,19 @@ public interface FilterChain<T> {
 	 * 2020-10-12 11:15:10
 	 */
 	void removeFilter(Filter<T> filter);
+
+	
+	/**
+	 * 设置过滤器集合
+	 *
+	 * @param filters
+	 * @author zai
+	 * 2020-10-12 16:53:35
+	 */
+	void setFilters(List<Filter<T>> filters);
+	
+	
+	
 	
 
 }

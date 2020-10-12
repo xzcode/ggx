@@ -19,7 +19,7 @@ public class FilterInfo<T> {
 	/**
 	 * 序号
 	 */
-	private int order;
+	private int order = 1;
 	
 	
 

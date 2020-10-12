@@ -1,25 +1,16 @@
 package com.ggx.core.common.message.send.support;
 
 import java.nio.charset.Charset;
-import java.util.concurrent.Future;
-
-import org.slf4j.Logger;
 
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.message.send.SendMessageManager;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.utils.json.GGXServerJsonUtil;
-import com.ggx.util.logger.GGXLogUtil;
-
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 
 /**
  * 消息发送接口
@@ -36,8 +27,8 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-11 16:35:06
 	 */
-	default FilterManager getFilterManager() {
-		return getSession().getFilterManager();
+	default SendMessageManager getSendMessageManager() {
+		return getSession().getSendMessageManager();
 	}
 
 	
@@ -159,7 +150,7 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 			messageData.setSession(getSession());			
 		}
 		// 发送过滤器
-		return getFilterManager().doSendMessageFilters(messageData);
+		return getSendMessageManager().send(messageData);
 	}
 	
 	/**
@@ -173,40 +164,8 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai 2019-11-24 23:08:36
 	 */
 	default GGXFuture send(Pack pack) {
-		
-		GGXSession session = pack.getSession();
-		
-		if (session == null) {
-			session = getSession();
-		}
-		
-		Channel channel = null;
-		if (session != null) {
-			channel = session.getChannel();
-		}
-		if (channel == null) {
-			channel = pack.getChannel();
-		}
-		
-		if (channel == null || !channel.isActive()) {
-			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
-		}
-		
 		// 序列化后发送过滤器
-		getFilterManager().doSendPackFilters(pack);
-		
-		if (channel.isActive()) {
-			GGXNettyFuture future = new GGXNettyFuture();
-			ChannelFuture channelFuture = channel.writeAndFlush(pack);
-			future.setFuture((Future<?>) channelFuture);
-
-			return future;
-		}
-		Logger logger = GGXLogUtil.getLogger();
-		if (logger.isDebugEnabled()) {
-			logger.debug("Channel is inactived! Message will not be send, Pack:{}", GGXServerJsonUtil.toJson(pack));
-		}
-		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		return getSendMessageManager().send(pack);
 	}
 
 
