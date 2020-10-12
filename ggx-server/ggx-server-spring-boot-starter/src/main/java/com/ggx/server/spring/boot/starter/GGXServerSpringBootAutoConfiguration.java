@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -20,8 +19,6 @@ import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.eventbus.client.subscriber.Subscriber;
-import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
@@ -117,29 +114,6 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		if (whitelistPackages.length > 0) {
 			classGraph.whitelistPackages(whitelistPackages);
 		}
-		/*
-		 * try (ScanResult scanResult = classGraph.scan()) { ClassInfoList
-		 * rpcInterfaceInfoList =
-		 * scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName()); for
-		 * (ClassInfo info : rpcInterfaceInfoList) { String name = info.getName();
-		 * Class<?> interfaceClass = Class.forName(name); GGXRpcInterface annotation =
-		 * interfaceClass.getAnnotation(GGXRpcInterface.class); Class<?> fallbackClass =
-		 * annotation.fallback(); //String beanName = interfaceClass.getSimpleName();
-		 * Object primary = null; try { primary =
-		 * applicationContext.getBean(interfaceClass); } catch (Exception e) {
-		 * GGXLogUtil.getLogger(this).debug("Interface [{}] has added a '@"+(
-		 * GGXRpcInterface.class.getSimpleName())
-		 * +"' annotation, but it dose not have any implementation class!", name); } if
-		 * ( primary == null || primary.getClass() == fallbackClass ) { Object proxy =
-		 * Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[]
-		 * {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
-		 * rpcClientConfig.getProxyManager().register(interfaceClass, primary);
-		 * registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy,
-		 * true); }else if( primary != null && primary.getClass() != fallbackClass) {
-		 * rpcServerConfig.getInvocationManager().register(interfaceClass, primary); } }
-		 * }catch (Exception e) {
-		 * GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e); }
-		 */
 		return ggxserver;
 	}
 	
