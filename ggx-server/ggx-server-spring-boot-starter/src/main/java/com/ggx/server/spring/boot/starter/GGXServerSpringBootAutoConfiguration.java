@@ -1,5 +1,6 @@
 package com.ggx.server.spring.boot.starter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,101 +19,61 @@ import org.springframework.context.annotation.Configuration;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.eventbus.client.subscriber.Subscriber;
-import com.ggx.server.spring.boot.starter.annotation.GGXController;
-import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
-import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
-import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationPrepareEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationStartedEventListener;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
-import com.ggx.server.spring.boot.starter.support.RpcBeanDefinitionRegistryPostProcessor;
+import com.ggx.server.spring.boot.starter.support.GGXBeanDefinitionRegistryPostProcessor;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.config.GGXServerRpcConfigModel;
 import com.ggx.util.logger.GGXLogUtil;
-
-import io.github.classgraph.ClassGraph;
 
 @Configuration
 @ConditionalOnProperty(prefix = "ggx", name = "enabled", havingValue = "true")
 public class GGXServerSpringBootAutoConfiguration implements ApplicationContextAware {
 
 	protected ApplicationContext applicationContext;
+	
 	@Bean
-	public static RpcBeanDefinitionRegistryPostProcessor rpcBeanDefinitionRegistryPostProcessor() {
-		return new RpcBeanDefinitionRegistryPostProcessor();
+	public static GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor() {
+		return new GGXBeanDefinitionRegistryPostProcessor();
 	}
 	
 	@ConfigurationProperties(prefix = "ggx")
 	@Bean
 	public GGXServerConfig ggxserverConfig() {
-		RpcBeanDefinitionRegistryPostProcessor rpcBeanDefinitionRegistryPostProcessor = rpcBeanDefinitionRegistryPostProcessor();
+		
+		GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor = applicationContext.getBean(GGXBeanDefinitionRegistryPostProcessor.class);
 		GGXServerConfig config = new GGXServerConfig();
 		config.setRpc(new GGXServerRpcConfigModel());
-		config.getRpc().setClient(rpcBeanDefinitionRegistryPostProcessor.getRpcClientConfig());
-		config.getRpc().setServer(rpcBeanDefinitionRegistryPostProcessor.getRpcServerConfig());
+		config.getRpc().setClient(ggxBeanDefinitionRegistryPostProcessor.getRpcClientConfig());
+		config.getRpc().setServer(ggxBeanDefinitionRegistryPostProcessor.getRpcServerConfig());
 		return config;
 	}
 	
 	@Bean
 	public GGXServer ggxserver() {
 		GGXServer ggxserver = new GGXServer(ggxserverConfig());
-
-		// 注册消息处理器
-		Map<String, Object> messageControllers = this.applicationContext.getBeansWithAnnotation(GGXController.class);
-		for (Entry<String, Object> entry : messageControllers.entrySet()) {
-			Object obj = entry.getValue();
-			ggxserver.registerController(obj);
+		GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor = applicationContext.getBean(GGXBeanDefinitionRegistryPostProcessor.class);
+		List<Object> controllers = ggxBeanDefinitionRegistryPostProcessor.getControllers();
+		for (Object object : controllers) {
+			ggxserver.registerController(object);
 		}
-
-		// 注册事件处理器
-		Map<String, Object> eventHandlers = this.applicationContext.getBeansWithAnnotation(GGXEventHandler.class);
-		for (Entry<String, Object> entry : eventHandlers.entrySet()) {
-			if (!(entry.getValue() instanceof EventListener)) {
-				continue;
-			}
-			EventListener<?> obj = (EventListener<?>) entry.getValue();
-			GGXEventHandler annotation = obj.getClass().getAnnotation(GGXEventHandler.class);
-			if (annotation != null) {
-				ggxserver.addEventListener(annotation.value(), obj);
-			}
+		Map<String, EventListener<?>> eventhandlers = ggxBeanDefinitionRegistryPostProcessor.getEventhandlers();
+		for (Entry<String, EventListener<?>> entry : eventhandlers.entrySet()) {
+			ggxserver.addEventListener(entry.getKey(), entry.getValue());
 		}
-
-		// 注册过滤器
-		Map<String, Object> filters = this.applicationContext.getBeansWithAnnotation(GGXMessageFilter.class);
-		for (Entry<String, Object> entry : filters.entrySet()) {
-			if (!(entry.getValue() instanceof Filter)) {
-				continue;
-			}
-			Filter<?> obj = (Filter<?>) entry.getValue();
-			GGXMessageFilter annotation = obj.getClass().getAnnotation(GGXMessageFilter.class);
-			if (annotation != null) {
-				ggxserver.addFilter(obj);
-			}
+		Map<Object, Integer> messagefilters = ggxBeanDefinitionRegistryPostProcessor.getMessagefilters();
+		for (Entry<Object, Integer> entry : messagefilters.entrySet()) {
+			ggxserver.addFilter((Filter<?>) entry.getKey(), entry.getValue());
 		}
-
-		// 注册eventbus事件订阅处理器
-		Map<String, Object> subscribers = this.applicationContext.getBeansWithAnnotation(GGXSubscriber.class);
-		for (Entry<String, Object> entry : subscribers.entrySet()) {
-			if (!(entry.getValue() instanceof Subscriber)) {
-				continue;
-			}
-			Subscriber obj = (Subscriber) entry.getValue();
-			GGXSubscriber annotation = obj.getClass().getAnnotation(GGXSubscriber.class);
-			if (annotation != null) {
-				ggxserver.subscribe(annotation.value(), obj);
-			}
+		Map<String, Subscriber> eventsubscribers = ggxBeanDefinitionRegistryPostProcessor.getEventsubscribers();
+		for (Entry<String, Subscriber> entry : eventsubscribers.entrySet()) {
+			ggxserver.subscribe(entry.getKey(), entry.getValue());
 		}
 		
-		// 注册RPC服务
-		String[] whitelistPackages = {getSpringBootEnterPackage()};
-		ClassGraph classGraph = new ClassGraph();
-		classGraph.enableAllInfo();
-		if (whitelistPackages.length > 0) {
-			classGraph.whitelistPackages(whitelistPackages);
-		}
 		return ggxserver;
 	}
 	
