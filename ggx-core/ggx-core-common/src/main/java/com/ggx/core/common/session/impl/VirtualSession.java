@@ -16,6 +16,7 @@ public class VirtualSession extends AbstractAttrMapSession<GGXCoreConfig>{
 
 	public VirtualSession(GGXSession realSession, GGXCoreConfig config) {
 		super(realSession.getSessionId(), config);
+		this.realSession = realSession;
 		setReady(true);
 	}
 

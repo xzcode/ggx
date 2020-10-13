@@ -218,8 +218,11 @@ public class RouterServer implements GGXCoreSupport {
 
 	@Override
 	public GGXCore getGGXCore() {
-		return this.getSessionServiceServer();
+		return this.getHostServer();
 	}
-
+	
+	public GGXCoreServer getHostServer() {
+		return hostServer;
+	}
 
 }
