@@ -111,7 +111,7 @@ public class DefaultSessionManager implements SessionManager {
 
 
 	@Override
-	public GGXSession randomGetSession() {
+	public GGXSession getRandomSession() {
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		if (entrySet.size() == 0) {
 			return null;

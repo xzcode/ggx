@@ -70,7 +70,7 @@ public interface SessionManager{
 	 * @author zai
 	 * 2020-04-13 15:42:46
 	 */
-	GGXSession randomGetSession();
+	GGXSession getRandomSession();
 	
 	/**
 	 * 发送给所有会话

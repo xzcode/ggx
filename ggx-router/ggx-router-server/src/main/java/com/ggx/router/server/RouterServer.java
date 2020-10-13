@@ -12,9 +12,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.controller.MessageController;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.session.impl.VirtualSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
@@ -30,6 +28,7 @@ import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.router.server.config.RouterServerConfig;
+import com.ggx.router.server.session.RouterServerSession;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -117,7 +116,7 @@ public class RouterServer implements GGXCoreSupport {
 				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
 				GGXCoreServerConfig hostServerConfig = hostServer.getConfig();
 				if (hostSession == null) {
-					hostSession = new VirtualSession(session, hostServerConfig);
+					hostSession = new RouterServerSession(tranferSessionId, session, sessionServiceServer.getSessionManager(), hostServerConfig);
 					GGXSession addSessionIfAbsent = hostSessionManager.addSessionIfAbsent(hostSession);
 					if (addSessionIfAbsent != null) {
 						hostSession = addSessionIfAbsent;
@@ -127,7 +126,7 @@ public class RouterServer implements GGXCoreSupport {
 				Pack pack = new Pack(hostSession, action, message);
 				pack.setSerializeType(serializeType);
 				
-				new ReceiveMessageTask(pack , hostServerConfig).run();
+				hostServerConfig.getReceiveMessageManager().receive(pack);
 			}
 			
 		});
@@ -146,7 +145,7 @@ public class RouterServer implements GGXCoreSupport {
 						return;
 					}
 					if (config.isSessionDisconnectTransferResponseEnabled()) {
-						sessionServiceServer.getSessionManager().randomGetSession().send(new RouterSessionDisconnectTransferResp(hostSession.getSessionId()));
+						sessionServiceServer.getSessionManager().getRandomSession().send(new RouterSessionDisconnectTransferResp(hostSession.getSessionId()));
 					}
 				}
 			}

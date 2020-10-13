@@ -7,16 +7,20 @@ import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.manager.SessionManager;
 
 import io.netty.channel.Channel;
 
 public class VirtualSession extends AbstractAttrMapSession<GGXCoreConfig>{
 	
+	protected SessionManager realSessionManager;
+	
 	protected GGXSession realSession;
 
-	public VirtualSession(GGXSession realSession, GGXCoreConfig config) {
-		super(realSession.getSessionId(), config);
+	public VirtualSession(String sessionId, GGXSession realSession, SessionManager realSessionManager, GGXCoreConfig config) {
+		super(sessionId, config);
 		this.realSession = realSession;
+		this.realSessionManager = realSessionManager;
 		setReady(true);
 	}
 

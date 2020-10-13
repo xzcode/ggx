@@ -10,13 +10,10 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.filter.ReceivePackFilter;
-import com.ggx.core.common.filter.chain.FilterChain;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageController;
-import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -31,6 +28,7 @@ import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
 import com.ggx.router.common.message.req.RouteMessageReq;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
+import com.ggx.router.common.message.resp.RouteMessageResp;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.session.group.client.SessionGroupClient;
@@ -145,43 +143,42 @@ public class RouterService {
 		
 		this.serviceClient = sessionGroupClientConfig.getServiceClient();
 		
-		MessageControllerManager controllerManager = serviceClient.getMessageControllerManager();
+		//MessageControllerManager controllerManager = serviceClient.getMessageControllerManager();
 		
 		this.executor = this.serviceClient.getTaskExecutor().nextEvecutor();
 		
-		this.serviceClient.addFilter(new ReceivePackFilter() {
-			
-			@Override
-			public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
-				String actionString = pack.getActionString();
-				if (controllerManager.getMethodInfo(actionString) != null) {
-					filterChain.doFilter(pack);
-					return;
-				}
-				
-				SessionManager sessionManager = config.getHostServer().getSessionManager();
-				GGXSession session = sessionManager.getSession(pack.getSession().getSessionId());
-				if (session != null) {
-					pack.setSession(session);
-					session.send(pack);
-				}
-				
-			}
-		});
 		
 		
 
 		this.serviceClient.registerController(new MessageController() {
+			
+			@GGXAction
+			public void handle(RouteMessageResp resp, GGXSession session) {
+				
+				String tranferSessionId = resp.getTranferSessionId();
+				
+				GGXCoreServer hostServer = config.getHostServer();
+				SessionManager hostSessionManager = hostServer.getSessionManager();
+				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
+				
+				if (hostSession != null) {
+					Pack pack = new Pack();
+					pack.setAction(resp.getAction());
+					pack.setMessage(resp.getMessage());
+					pack.setSerializeType(resp.getSerializeType());
+					pack.setSession(hostSession);
+					hostSession.send(pack);
+				}
+			}
 
 			@GGXAction
 			public void handle(RouterRedirectMessageToOtherRouterServicesResp resp, GGXSession session) {
 				//监听session与路由服务绑定变更
 				
-				String sessionId = session.getSessionId();
 				
 				GGXCoreServer hostServer = config.getHostServer();
 				SessionManager hostSessionManager = hostServer.getSessionManager();
-				GGXSession hostSession = hostSessionManager.getSession(sessionId);
+				GGXSession hostSession = hostSessionManager.getSession(resp.getTranferSessionId());
 				
 				RouterServiceManager routerServiceManager = RouterService.this.config.getRouterServiceManager();
 				RouterService changeRouterService = routerServiceManager.getService(serviceGroupId, resp.getServiceId());
@@ -251,7 +248,7 @@ public class RouterService {
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
 		
 		
-		GGXSession serviceClientSession = serviceClientSessionManager.randomGetSession();
+		GGXSession serviceClientSession = serviceClientSessionManager.getRandomSession();
 		RouteMessageReq req = new RouteMessageReq();
 		req.setAction(pack.getAction());
 		req.setMessage(pack.getMessage());

@@ -116,7 +116,7 @@ public class RpcService {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
-		GGXSession serviceClientSession = serviceClientSessionManager.randomGetSession();
+		GGXSession serviceClientSession = serviceClientSessionManager.getRandomSession();
 		
 		return serviceClientSession.send(req);
 

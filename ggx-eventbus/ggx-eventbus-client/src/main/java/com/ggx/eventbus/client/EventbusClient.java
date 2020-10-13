@@ -124,7 +124,7 @@ public class EventbusClient{
 			}
 			
 			SessionManager sessionManager = this.serviceClient.getSessionManager();
-			GGXSession session = sessionManager.randomGetSession();
+			GGXSession session = sessionManager.getRandomSession();
 			if (session != null) {
 				session.send(publishReq);
 			}
