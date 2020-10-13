@@ -60,6 +60,11 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
+	@Override
+	public RouterServiceGroup getDefaultRouterServiceGroup() {
+		return null;
+	}
+
 
 	
 }

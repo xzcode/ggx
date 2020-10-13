@@ -5,10 +5,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.util.logger.GGXLogUtil;
 
 public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 	
-	private static final ThreadLocal<Integer> COUNTER_LOCAL = new ThreadLocal<Integer>();
+	private ThreadLocal<Integer> COUNTER_LOCAL = new ThreadLocal<Integer>();
 	
 	private List<Filter<T>> filters = new CopyOnWriteArrayList<>();
 
@@ -22,16 +23,20 @@ public abstract class AbstractFiterChain<T> implements FilterChain<T>{
 		}
 		COUNTER_LOCAL.set(counter);
 		
-		if (filters.size() < counter) {
-			Filter<T> filter = filters.get(counter);
-			filter.doFilter(data, this);
+		if (filters.size() > counter) {
+			try {
+				filters.get(counter).doFilter(data, this);
+			} catch (Exception e) {
+				GGXLogUtil.getLogger(this).error("Do filter ERROR!", e);
+			}
 		}
 		
 		counter = COUNTER_LOCAL.get();
-		if (counter > 0) {
-			COUNTER_LOCAL.set(--counter);
-		}else {
+		counter--;
+		if (counter < 0) {
 			COUNTER_LOCAL.remove();
+		}else {
+			COUNTER_LOCAL.set(counter);
 		}
 	}
 

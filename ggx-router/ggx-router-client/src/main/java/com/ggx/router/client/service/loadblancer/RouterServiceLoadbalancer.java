@@ -23,6 +23,9 @@ public interface RouterServiceLoadbalancer {
 	 */
 	GGXFuture dispatch(Pack pack);
 
+	
+	GGXFuture dispatch(Pack pack, String serviceId);
+	
 	/**
 	 * 设置路由服务组
 	 *

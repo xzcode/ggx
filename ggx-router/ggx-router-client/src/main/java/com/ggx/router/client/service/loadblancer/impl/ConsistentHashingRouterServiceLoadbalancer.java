@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import com.ggx.core.common.executor.TaskExecutor;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
@@ -52,10 +53,10 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack, String serviceId) {
 		
 		GGXSession session = pack.getSession();
-		String sessonId = session.getSessonId();
+		String sessonId = session.getSessionId();
 		
 		RouterService routerService = this.sessionBindServiceCache.get(sessonId);
 		if (routerService != null) {
@@ -63,14 +64,23 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 				return routerService.dispatch(pack);
 			}
 		}
-		int sessionHash = HashUtil.getFNV1_32_HASH(pack.getSession().getSessonId());
 		
-		Integer firstKey = this.virtualRouterServices.ceilingKey(sessionHash);
-		if (firstKey == null) {
-			firstKey = this.virtualRouterServices.firstKey();
+		if (serviceId == null) {
+			int sessionHash = HashUtil.getFNV1_32_HASH(pack.getSession().getSessionId());
+			
+			Integer firstKey = this.virtualRouterServices.ceilingKey(sessionHash);
+			if (firstKey == null) {
+				firstKey = this.virtualRouterServices.firstKey();
+			}
+			VirtualRouterServiceInfo serviceInfo = this.virtualRouterServices.get(firstKey);
+			routerService = serviceInfo.getRouterService();
+		}else {
+			routerService = routerServiceGroup.getService(serviceId);
 		}
-		VirtualRouterServiceInfo serviceInfo = this.virtualRouterServices.get(firstKey);
-		routerService = serviceInfo.getRouterService();
+		
+		if (routerService == null) {
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		}
 		
 		RouterService putIfAbsent = this.sessionBindServiceCache.putIfAbsent(sessonId, routerService);
 		if (putIfAbsent == null) {
@@ -82,6 +92,10 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 		return routerService.dispatch(pack);
 	}
 	
+	@Override
+	public GGXFuture dispatch(Pack pack) {
+		return this.dispatch(pack, null);
+	}
 	
 
 	@Override

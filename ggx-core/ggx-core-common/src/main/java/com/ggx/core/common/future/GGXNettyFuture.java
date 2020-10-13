@@ -42,7 +42,7 @@ public class GGXNettyFuture implements GGXFuture {
 			return;
 		}
 		synchronized (this) {
-			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;			
+			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;		
 		}
 		if (listeners != null && listeners.size() > 0) {
 			for (GGXFutureListener<GGXFuture> listener : listeners) {
@@ -130,6 +130,11 @@ public class GGXNettyFuture implements GGXFuture {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Throwable cause() {
+		return this.nettyFuture.cause();
 	}
 
 

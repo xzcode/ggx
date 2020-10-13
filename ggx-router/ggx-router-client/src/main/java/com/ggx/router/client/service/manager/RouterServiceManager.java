@@ -67,6 +67,18 @@ public class RouterServiceManager {
 	}
 	
 	/**
+	 * 移除服务组
+	 *
+	 * @param serviceGroupId
+	 * @return
+	 * @author zai
+	 * 2020-10-13 14:10:53
+	 */
+	public RouterServiceGroup removeServiceGroup(String serviceGroupId) {
+		return this.serviceGroups.remove(serviceGroupId);
+	}
+	
+	/**
 	 * 移除服务
 	 *
 	 * @param serviceGroupId

@@ -57,12 +57,12 @@ public class DefaultSessionManager implements SessionManager {
 	
 	@Override
 	public GGXSession addSessionIfAbsent(GGXSession session) {
-		GGXSession putIfAbsent = sessionMap.putIfAbsent(session.getSessonId(), session);
+		GGXSession putIfAbsent = sessionMap.putIfAbsent(session.getSessionId(), session);
 		if (putIfAbsent == null) {
 			//添加断开监听
 			session.addDisconnectListener( s -> {
 				//断开连接从管理器中移除session
-				remove(s.getSessonId());
+				remove(s.getSessionId());
 				
 			});
 		}

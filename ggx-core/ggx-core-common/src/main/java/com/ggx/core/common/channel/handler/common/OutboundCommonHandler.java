@@ -12,7 +12,7 @@ public class OutboundCommonHandler extends ChannelOutboundHandlerAdapter{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(OutboundCommonHandler.class);
 	
-	private GGXCoreConfig config;
+	protected GGXCoreConfig config;
 	
 	public OutboundCommonHandler(GGXCoreConfig config) {
 		this.config = config;

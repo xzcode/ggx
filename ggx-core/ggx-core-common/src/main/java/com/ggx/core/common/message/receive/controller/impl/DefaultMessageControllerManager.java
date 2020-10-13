@@ -28,9 +28,10 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 	public void register(Object controller) {
 		
 		ActionIdCacheManager actionIdCacheManager = config.getActionIdCacheManager();
-		Class<? extends Object> controllerClass = controller.getClass();
+		Class<?> controllerClass = controller.getClass();
 		List<Method> methods = GGXReflectUtil.getAllDeclaredMethods(controllerClass);
 		for (Method method : methods) {
+			method.setAccessible(true);
 			ControllerMethodInfo methodInfo = new ControllerMethodInfo();
 			GGXAction annotation = method.getAnnotation(GGXAction.class);
 			if (annotation == null) {

@@ -9,6 +9,7 @@ import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.registry.server.constant.RegistryServerSessionKeys;
+import com.ggx.util.json.GGXJsonUtil;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -53,7 +54,9 @@ public class RegisterReqHandler{
 		session.addAttribute(RegistryServerSessionKeys.SERVICE_INFO, infoModel);
 		ServiceInfo oldServiceInfo = serviceManager.registerService(infoModel);
 		
-		GGXLogUtil.getLogger(this).warn("Register service! serviceName: {}, serviceId: {}", infoModel.getServiceName(), infoModel.getServiceId());
+		if (GGXLogUtil.isInfoEnabled()) {
+			GGXLogUtil.getLogger(this).info("Register service! service: {}", GGXJsonUtil.toJson(infoModel));
+		}
 		
 		if (oldServiceInfo != null) {
 			oldServiceInfo.getSession().disconnect();

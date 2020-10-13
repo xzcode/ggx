@@ -4,7 +4,7 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.MessageDataTask;
+import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.resp.DataTransferResp;
@@ -34,11 +34,11 @@ public class DataTransferRespHandler  {
 		GGXCoreClient serviceClient = this.config.getServiceClient();
 		GGXCoreClientConfig serviceClientConfig = serviceClient.getConfig();
 		SessionManager seviceClientSessionManager = serviceClient.getSessionManager();
-		GGXSession seviceClientSession = seviceClientSessionManager.getSession(session.getSessonId());
+		GGXSession seviceClientSession = seviceClientSessionManager.getSession(session.getSessionId());
 		if (seviceClientSession != null) {
 			//提交任务到业务客户端
 			Pack pack = new Pack(seviceClientSession, resp.getAction(), resp.getMessage());
-			new MessageDataTask(pack , serviceClientConfig).run();
+			new ReceiveMessageTask(pack , serviceClientConfig).run();
 		}
 			
 		/*

@@ -1,9 +1,9 @@
 package com.ggx.server.starter.basic;
 
-import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
+import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
@@ -20,6 +20,10 @@ import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.RouterService;
+import com.ggx.router.client.service.RouterServiceProvider;
+import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
+import com.ggx.router.client.service.loadblancer.constant.RouterServiceProviderType;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.server.RouterServer;
@@ -101,11 +105,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		}
 		
 		return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
-		
 	}
-	
-	
-	
 	
 	@Override
 	public void subscribe(String eventId, Subscriber subscriber) {
@@ -120,10 +120,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		if (this.eventbusGroupClient != null) {
 			this.eventbusGroupClient.publishEvent(eventId, data);
 		}
-		
 	}
-	
-	
 
 	@Override
 	public void registerRpcService(Class<?> serviceInterface, Object serviceObj) {
@@ -140,12 +137,15 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		return null;
 	}
 	
-	public void routeMessage(String groupId, Message message, GGXSession session) {
-        RouterServiceManager routerServiceManager = this.routerClientConfig.getRouterServiceManager();
-        RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(groupId);
-        Pack pack = new Pack();
-        //TODO 路由消息实现
-		serviceGroup.dispatch(pack );
+	@Override
+	public GGXFuture routeMessage(String serviceId, Message message, GGXSession session) {
+		return routeMessage(null, serviceId, message, session);
+	}
+	
+	@Override
+	public GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
+		return this.routerClient.route(groupId, serviceId, message, session);
+		
 	}
 
 	public RegistryServer getRegistryServer() {

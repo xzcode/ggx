@@ -19,7 +19,7 @@ public class ConnCloseEventListener implements EventListener<Void>{
 	public void onEvent(EventData<Void> eventData) {
 		
 		SessionManager sessionManager = this.config.getServiceClient().getSessionManager();
-		sessionManager.remove(eventData.getSession().getSessonId());
+		sessionManager.remove(eventData.getSession().getSessionId());
 		
 		//断开连接后，创建新连接
 		this.config.getSessionGroupClient().connectOne(config.getServerHost(), config.getServerPort());

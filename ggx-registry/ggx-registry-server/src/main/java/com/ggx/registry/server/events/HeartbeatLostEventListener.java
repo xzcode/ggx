@@ -26,8 +26,11 @@ public class HeartbeatLostEventListener implements EventListener<Void>{
 		//连接关闭.立即移除服务信息
 		GGXSession session = eventData.getSession();
 		ServiceInfo serviceInfo = session.getAttribute(RegistryServerSessionKeys.SERVICE_INFO, ServiceInfo.class);
-		
-		GGXLogUtil.getLogger(this).warn("Service heart beat lost! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
+		if (serviceInfo != null) {
+			GGXLogUtil.getLogger(this).warn("Service heart beat lost! serviceName: {}, serviceId: {}", serviceInfo.getServiceName(), serviceInfo.getServiceId());
+		}else {
+			GGXLogUtil.getLogger(this).warn("Connection heart beat lost!");
+		}
 		
 	}
 

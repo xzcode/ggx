@@ -9,7 +9,6 @@ import com.ggx.core.common.utils.json.GGXServerJsonUtil;
 import com.ggx.util.logger.GGXLogUtil;
 
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 
 public class FinalSendPackChainFilter implements SendPackFilter{
 	
@@ -40,9 +39,9 @@ public class FinalSendPackChainFilter implements SendPackFilter{
 		}
 		
 		if (channel.isActive()) {
-			ChannelFuture channelFuture = channel.writeAndFlush(pack);
-			channelFuture.addListener(f -> {
-				if (!f.isSuccess() && f.cause() != null) {
+			channel.writeAndFlush(pack)
+			.addListener(f -> {
+				if (f.isDone() && !f.isSuccess() && f.cause() != null) {
 					GGXLogUtil.getLogger(this).warn("Send Message Failed!!", f.cause());
 				}
 			});

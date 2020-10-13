@@ -2,9 +2,6 @@ package com.ggx.core.common.channel.handler;
 
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.channel.handler.common.InboundCommonHandler;
 import com.ggx.core.common.channel.handler.common.OutboundCommonHandler;
@@ -27,8 +24,6 @@ import io.netty.util.AttributeKey;
  * 2017-08-02
  */
 public class TcpChannelInitializer extends ChannelInitializer<Channel> {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(TcpChannelInitializer.class);
 	
 	protected static final AttributeKey<String> PROTOCOL_TYPE_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PROTOCOL_TYPE);
 

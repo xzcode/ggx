@@ -1,5 +1,6 @@
 package com.ggx.router.client.service.loadblancer.impl;
 
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.router.client.service.RouterService;
@@ -16,7 +17,19 @@ public class RandomRouterServiceLoadbalancer implements RouterServiceLoadbalance
 	
 	protected RouterServiceGroup routerServiceGroup;
 	
-	
+
+
+	@Override
+	public GGXFuture dispatch(Pack pack, String serviceId) {
+		if (serviceId == null) {
+			return routerServiceGroup.dispatchRandom(pack);
+		}
+		RouterService service = routerServiceGroup.getService(serviceId);
+		if (service == null) {
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		}
+		return service.dispatch(pack);
+	}
 
 	@Override
 	public GGXFuture dispatch(Pack pack) {

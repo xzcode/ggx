@@ -143,7 +143,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	}
 
 	@Override
-	public String getSessonId() {
+	public String getSessionId() {
 		return this.sessionId;
 	}
 
@@ -172,9 +172,6 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 		this.expired = expired;
 	}
 
-	public String getSessionId() {
-		return sessionId;
-	}
 
 	@Override
 	public void updateExpire() {

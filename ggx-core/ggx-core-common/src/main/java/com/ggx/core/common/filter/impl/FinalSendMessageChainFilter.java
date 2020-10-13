@@ -25,8 +25,8 @@ public class FinalSendMessageChainFilter implements SendMessageFilter, MakePackS
 		GGXSession session = messageData.getSession();
 		if (session != null) {
 			try {
-				Pack pack = makePack(messageData);
-				config.getFilterManager().doSendPackFilters(pack);
+				Pack pack = session.makePack(messageData);
+				session.send(pack);
 			} catch (Exception e) {
 				GGXLogUtil.getLogger().error("FinalSendMessageChainFilter Error!", e);
 			}

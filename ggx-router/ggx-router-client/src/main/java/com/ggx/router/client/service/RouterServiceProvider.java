@@ -2,6 +2,7 @@ package com.ggx.router.client.service;
 
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 路由解析器提供者
@@ -52,5 +53,14 @@ public interface RouterServiceProvider {
 	 * 2019-10-22 18:21:53
 	 */
 	void addService(RouterService service);
+	
+	/**
+	 * 获取默认路由组
+	 *
+	 * @return
+	 * @author zai
+	 * 2020-10-13 14:35:56
+	 */
+	RouterServiceGroup getDefaultRouterServiceGroup();
 	
 }

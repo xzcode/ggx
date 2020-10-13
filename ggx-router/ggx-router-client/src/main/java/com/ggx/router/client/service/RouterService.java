@@ -160,7 +160,7 @@ public class RouterService {
 				}
 				
 				SessionManager sessionManager = config.getHostServer().getSessionManager();
-				GGXSession session = sessionManager.getSession(pack.getSession().getSessonId());
+				GGXSession session = sessionManager.getSession(pack.getSession().getSessionId());
 				if (session != null) {
 					pack.setSession(session);
 					session.send(pack);
@@ -177,7 +177,7 @@ public class RouterService {
 			public void handle(RouterRedirectMessageToOtherRouterServicesResp resp, GGXSession session) {
 				//监听session与路由服务绑定变更
 				
-				String sessionId = session.getSessonId();
+				String sessionId = session.getSessionId();
 				
 				GGXCoreServer hostServer = config.getHostServer();
 				SessionManager hostSessionManager = hostServer.getSessionManager();
@@ -245,7 +245,7 @@ public class RouterService {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
 		GGXSession routingSession = pack.getSession();
-		String routingSessonId = pack.getSession().getSessonId();
+		String routingSessonId = pack.getSession().getSessionId();
 		
 		
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
@@ -267,7 +267,7 @@ public class RouterService {
 			//判断是否开启会话断开传递请求
 			if (this.config.isSessionDisconnectTransferRequestEnabled()) {
 				//传递会话断开请求
-				serviceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessonId()));
+				serviceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessionId()));
 			}
 		});
 		

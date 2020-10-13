@@ -30,12 +30,12 @@ public class BindSessionRouterServiceLoadbalancer implements RouterServiceLoadba
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture dispatch(Pack pack, String serviceId) {
 		RouterService routerService = null;
 		
 		
 		GGXSession session = pack.getSession();
-		String sessonId = session.getSessonId();
+		String sessonId = session.getSessionId();
 		
 		routerService = sessionBindServiceCache.get(sessonId);
 		if (routerService != null) {
@@ -45,8 +45,11 @@ public class BindSessionRouterServiceLoadbalancer implements RouterServiceLoadba
 				return routerService.dispatch(pack);
 			}
 		}
-	
-		routerService = routerServiceGroup.getRandomRouterService();
+		if (serviceId == null) {
+			routerService = routerServiceGroup.getRandomRouterService();
+		}else {
+			routerService = routerServiceGroup.getService(serviceId);
+		}
 		
 		if (routerService == null) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
@@ -67,6 +70,13 @@ public class BindSessionRouterServiceLoadbalancer implements RouterServiceLoadba
 		
 		return routerService.dispatch(pack);
 		
+	}
+	
+	
+
+	@Override
+	public GGXFuture dispatch(Pack pack) {
+		return this.dispatch(pack, null);
 	}
 
 	@Override

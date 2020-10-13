@@ -30,6 +30,11 @@ public class MessageData {
 		this.action = action;
 		this.message = message;
 	}
+	public MessageData(GGXSession session, Object message) {
+		this.session = session;
+		this.action = session.getActionIdCacheManager().get(message.getClass());
+		this.message = message;
+	}
 	
 	public MessageData(String action, Object message) {
 		this.action = action;

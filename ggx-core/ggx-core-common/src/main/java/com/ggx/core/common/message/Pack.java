@@ -1,5 +1,6 @@
 package com.ggx.core.common.message;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 
 import com.ggx.core.common.session.GGXSession;
@@ -12,8 +13,10 @@ import io.netty.channel.Channel;
  * @author zai
  * 2019-03-12 19:20:01
  */
-public class Pack {
+public class Pack implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	/* 会话 */
 	private GGXSession session;
 	
@@ -45,7 +48,6 @@ public class Pack {
 	
 
 	public Pack() {
-		super();
 	}
 
 

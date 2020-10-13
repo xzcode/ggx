@@ -39,7 +39,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 			GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessionId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 			if (addSessionIfAbsent != null) {
 				serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;

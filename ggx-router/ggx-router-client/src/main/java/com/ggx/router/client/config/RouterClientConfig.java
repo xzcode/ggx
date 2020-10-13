@@ -2,7 +2,6 @@ package com.ggx.router.client.config;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
@@ -134,7 +133,6 @@ public class RouterClientConfig {
 
 		if (this.registryClient != null) {
 			this.registryClient.addCustomData(RouterServiceCustomDataKeys.FORWARD_ROUTER_GROUP_ID, getRouterGroupId());
-			setServiceProvider(new DefaultRegistryServicePorvider(this));
 		}
 
 		if (this.routerServiceMatcher != null) {
@@ -143,10 +141,9 @@ public class RouterClientConfig {
 
 		if (this.serviceProvider == null) {
 			if (this.registryClient != null) {
-				if (this.routerServiceLoadblanceType.contentEquals(RouterServiceProviderType.REGISTRY_MULTI_SERVICES)) {
+				if (this.serviceProviderType.contentEquals(RouterServiceProviderType.REGISTRY_MULTI_SERVICES)) {
 					this.serviceProvider = new DefaultRegistryServicePorvider(this);
-				} else if (this.routerServiceLoadblanceType
-						.contentEquals(RouterServiceProviderType.REGISTRY_SINGLE_SERVICE)) {
+				} else if (this.serviceProviderType.contentEquals(RouterServiceProviderType.REGISTRY_SINGLE_SERVICE)) {
 					this.serviceProvider = new RegistrySingleServicePorvider(this);
 				}
 			} else {
@@ -332,4 +329,10 @@ public class RouterClientConfig {
 		this.routerServiceLoadblancerFactory = routerServiceLoadblancerFactory;
 	}
 
+	public String getServiceProviderType() {
+		return serviceProviderType;
+	}
+	public void setServiceProviderType(String serviceProviderType) {
+		this.serviceProviderType = serviceProviderType;
+	}
 }

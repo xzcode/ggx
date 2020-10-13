@@ -47,7 +47,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 		if (session == null) {
 			return;
 		}
-		this.sessionMap.put(session.getSessonId(), session);
+		this.sessionMap.put(session.getSessionId(), session);
 		session.addDisconnectListener(se -> {
 			se.setExpired();
 			removeSession(se);
@@ -58,7 +58,7 @@ public class DefaultSessionGroup implements GGSessionGroup {
 		if (session == null) {
 			return;
 		}
-		this.sessionMap.remove(session.getSessonId());
+		this.sessionMap.remove(session.getSessionId());
 	}
 
 	@Override

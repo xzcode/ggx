@@ -1,4 +1,4 @@
-package com.ggx.core.common.filter.chain.impl;
+package com.ggx.core.common.filter.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,8 @@ import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.SendMessageFilter;
 import com.ggx.core.common.filter.SendPackFilter;
+import com.ggx.core.common.filter.chain.impl.MessageFilterChain;
+import com.ggx.core.common.filter.chain.impl.PackFilterChain;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
@@ -18,7 +20,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.util.logger.GGXLogUtil;
 
-public class DefaultChainFilterManager implements FilterManager {
+public class DefaultFilterManager implements FilterManager {
 
 	private PackFilterChain receivePackFilterChain = new PackFilterChain();
 	private MessageFilterChain receiveMessageFilterChain = new MessageFilterChain();
@@ -39,13 +41,21 @@ public class DefaultChainFilterManager implements FilterManager {
 	private List<FilterInfo<?>> sendMessageFilterInfos = new ArrayList<>();
 	private List<FilterInfo<?>> sendPackFilterInfos = new ArrayList<>();
 
-	public DefaultChainFilterManager(ReceivePackFilter finalReceivePackFilter,
+	public DefaultFilterManager(ReceivePackFilter finalReceivePackFilter,
 			ReceiveMessageFilter finalReceiveMessageFilter, SendMessageFilter finalSendMessageChainFilter,
 			SendPackFilter finalSendPackChainFilter) {
+		
 		this.finalReceivePackFilter = finalReceivePackFilter;
+		receivePackFilterChain.addFilter(finalReceivePackFilter);
+		
 		this.finalReceiveMessageFilter = finalReceiveMessageFilter;
+		receiveMessageFilterChain.addFilter(finalReceiveMessageFilter);
+		
 		this.finalSendMessageChainFilter = finalSendMessageChainFilter;
+		sendMessageFilterChain.addFilter(finalSendMessageChainFilter);
+		
 		this.finalSendPackChainFilter = finalSendPackChainFilter;
+		sendPackFilterChain.addFilter(finalSendPackChainFilter);
 	}
 
 	@Override

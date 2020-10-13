@@ -1,6 +1,8 @@
 package com.ggx.group.server.handler;
 
+import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
+import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
@@ -27,7 +29,7 @@ public class DataTransferReqHandler  {
 
 	@GGXAction
 	public void handle(DataTransferReq req, GGXSession groupSession) {
-		String groupSessionId = groupSession.getSessonId();
+		String groupSessionId = groupSession.getSessionId();
 		
 		GGXCoreServer serviceServer = config.getServiceServer();
 		GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
@@ -49,11 +51,15 @@ public class DataTransferReqHandler  {
 			if (addSessionIfAbsent != null) {
 				serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
 			}else {
-					groupSession.addDisconnectListener(se -> {
-						serviceSessionManager.remove(groupSessionId);
-					});
+				String sessionId = serviceSession.getSessionId();
+				serviceSession.addDisconnectListener(se -> {
+					serviceSessionManager.remove(sessionId);
+				});
 			}
 		}
+		
+		new ReceiveMessageTask(new Pack(serviceSession, req.getAction(), req.getMessage()), serviceServerConfig).run();
+		
 			
 	}
 

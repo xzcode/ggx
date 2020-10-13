@@ -41,14 +41,15 @@ public class ConnOpenEventListener implements EventListener<Void>{
 		
 		req.setServiceInfo(serviceInfo);
 		
-		GGXFuture future = session.send(req);
-		future.addListener(f -> {
+		session.send(req);
+		/*
+				.addListener(f -> {
 			if (f.isSuccess()) {
 				GGXLogUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Success!");
 			}else {
 				GGXLogUtil.getLogger(this).warn("Send 'RegistryServiceRegisterReq' Failed!");
 			}
-		});
+		})*/
 		
 	}
 

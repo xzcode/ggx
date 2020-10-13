@@ -99,7 +99,7 @@ public class RegistrySingleServicePorvider implements RouterServiceProvider{
 		}
 		String actionIdPrefix = customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_ACTION_ID_PREFIX);
 		String servicePortString = customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_PORT);
-		if (actionIdPrefix == null || servicePortString == null) {
+		if (servicePortString == null) {
 			return;
 		}
 		Integer servicePort = Integer.valueOf(servicePortString);
@@ -166,6 +166,12 @@ public class RegistrySingleServicePorvider implements RouterServiceProvider{
 	@Override
 	public GGXFuture dispatch(Pack pack) {
 		return routerServiceGroup.dispatch(pack);
+	}
+
+
+	@Override
+	public RouterServiceGroup getDefaultRouterServiceGroup() {
+		return this.routerServiceGroup;
 	}
 
 }

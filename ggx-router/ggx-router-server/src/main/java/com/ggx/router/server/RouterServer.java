@@ -12,7 +12,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.controller.MessageController;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.MessageDataTask;
+import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.VirtualSession;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -127,7 +127,7 @@ public class RouterServer implements GGXCoreSupport {
 				Pack pack = new Pack(hostSession, action, message);
 				pack.setSerializeType(serializeType);
 				
-				new MessageDataTask(pack , hostServerConfig).run();
+				new ReceiveMessageTask(pack , hostServerConfig).run();
 			}
 			
 		});
@@ -146,7 +146,7 @@ public class RouterServer implements GGXCoreSupport {
 						return;
 					}
 					if (config.isSessionDisconnectTransferResponseEnabled()) {
-						sessionServiceServer.getSessionManager().randomGetSession().send(new RouterSessionDisconnectTransferResp(hostSession.getSessonId()));
+						sessionServiceServer.getSessionManager().randomGetSession().send(new RouterSessionDisconnectTransferResp(hostSession.getSessionId()));
 					}
 				}
 			}
@@ -200,7 +200,7 @@ public class RouterServer implements GGXCoreSupport {
 		
 		Pack pack = makePack(new MessageData(redirectingSession.getActionIdCacheManager().get(redirectingMessage.getClass()), redirectingMessage));
 		resp.setServiceId(redirectServiceId);
-		resp.setTranferSessionId(redirectingSession.getSessonId());
+		resp.setTranferSessionId(redirectingSession.getSessionId());
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
 		resp.setSerializeType(pack.getSerializeType());

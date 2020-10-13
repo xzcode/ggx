@@ -110,7 +110,7 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	 * @author zai
 	 * 2020-04-08 11:29:10
 	 */
-	String getSessonId();
+	String getSessionId();
 
 	/**
 	 * 获取通道对象

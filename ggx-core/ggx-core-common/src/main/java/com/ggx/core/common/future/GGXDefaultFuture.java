@@ -153,7 +153,7 @@ public class GGXDefaultFuture implements GGXFuture {
 		}
 	}
 	
-	public Throwable getCause() {
+	public Throwable cause() {
 		return cause;
 	}
 	

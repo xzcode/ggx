@@ -23,5 +23,7 @@ public interface GGXFuture extends Future<Object>{
 	boolean isSuccess();
 	
 	GGXSession getSession();
+	
+	Throwable cause();
 
 }

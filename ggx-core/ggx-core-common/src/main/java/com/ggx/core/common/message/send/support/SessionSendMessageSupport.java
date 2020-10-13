@@ -2,7 +2,6 @@ package com.ggx.core.common.message.send.support;
 
 import java.nio.charset.Charset;
 
-import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -164,6 +163,9 @@ public interface SessionSendMessageSupport extends MakePackSupport {
 	 * @author zai 2019-11-24 23:08:36
 	 */
 	default GGXFuture send(Pack pack) {
+		if (pack.getSession() == null) {
+			pack.setSession(getSession());			
+		}
 		// 序列化后发送过滤器
 		return getSendMessageManager().send(pack);
 	}

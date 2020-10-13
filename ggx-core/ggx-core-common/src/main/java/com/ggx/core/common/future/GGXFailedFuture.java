@@ -82,5 +82,10 @@ public class GGXFailedFuture implements GGXFuture {
 		return null;
 	}
 
+	@Override
+	public Throwable cause() {
+		return null;
+	}
+
 
 }

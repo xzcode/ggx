@@ -152,6 +152,9 @@ public class RouterServiceGroup {
 	public GGXFuture dispatch(Pack pack) {
 		return this.routerServiceLoadbalancer.dispatch(pack);
 	}
+	public GGXFuture dispatch(Pack pack, String serviceId) {
+		return this.routerServiceLoadbalancer.dispatch(pack, serviceId);
+	}
 	
 	/**
 	 * 随机获取服务

@@ -5,8 +5,15 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.session.GGXSession;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.RouterServiceProvider;
+import com.ggx.router.client.service.loadblancer.constant.RouterServiceProviderType;
+import com.ggx.router.client.service.manager.RouterServiceManager;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 /**
  * 路由客户端
@@ -34,6 +41,28 @@ public class RouterClient{
 			LOGGER.error("Route Message Error!", e);
 		}
 		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+	}
+	
+	public GGXFuture route(String groupId, String serviceId, Message message, GGXSession session) {
+		String serviceProviderType = this.config.getServiceProviderType();
+        RouterServiceGroup serviceGroup = null;
+        RouterServiceProvider serviceProvider = this.config.getServiceProvider();
+        if (serviceProviderType.contentEquals(RouterServiceProviderType.REGISTRY_SINGLE_SERVICE)) {
+        	serviceGroup = serviceProvider.getDefaultRouterServiceGroup();
+		}else {
+			if (groupId == null) {
+				return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+			}
+			RouterServiceManager routerServiceManager = this.config.getRouterServiceManager();
+			serviceGroup = routerServiceManager.getServiceGroup(groupId);
+			
+		}
+        if (serviceGroup == null) {
+			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+		}
+		Pack pack =  session.makePack(new MessageData(session, message));
+		return serviceGroup.dispatch(pack, serviceId);
+		
 	}
 
 	public RouterClientConfig getConfig() {

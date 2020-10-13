@@ -78,7 +78,15 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		
 		//添加注册中心服务管器的服务取消注册监听器
 		serviceManager.addUnregisterListener(service -> {
-			removeService(service.getServiceGroupId(), service.getServiceId());
+			RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(service.getServiceGroupId());
+			if (serviceGroup != null) {
+				serviceGroup.removeService(service.getServiceId());
+			}
+			if (serviceGroup.size() == 0) {
+				routerServiceManager.removeServiceGroup(service.getServiceGroupId());
+				removeActionServiceCache(serviceGroup);
+			}
+			
 		});
 		
 		//添加注册中心服务管器的服务更新监听器
@@ -215,6 +223,12 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		}
 		
 		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+	}
+
+
+	@Override
+	public RouterServiceGroup getDefaultRouterServiceGroup() {
+		return null;
 	}
 
 }

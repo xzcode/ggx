@@ -10,7 +10,7 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2020-04-09 16:02:12
  */
-public class MessageDataTask implements Runnable{
+public class ReceiveMessageTask implements Runnable{
 	
 	/**
 	 * 配置
@@ -23,11 +23,11 @@ public class MessageDataTask implements Runnable{
 	private Pack pack;
 	
 	
-	public MessageDataTask() {
+	public ReceiveMessageTask() {
 		
 	}
 
-	public MessageDataTask(Pack pack, GGXCoreConfig config) {
+	public ReceiveMessageTask(Pack pack, GGXCoreConfig config) {
 		this.pack = pack;
 		this.config = config;
 		

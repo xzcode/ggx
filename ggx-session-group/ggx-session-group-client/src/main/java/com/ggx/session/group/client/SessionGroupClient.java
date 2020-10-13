@@ -93,7 +93,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			avaliableConnections.decrementAndGet();
 			
 			SessionManager sessionManager = this.config.getServiceClient().getSessionManager();
-			sessionManager.remove(eventData.getSession().getSessonId());
+			sessionManager.remove(eventData.getSession().getSessionId());
 			
 			//断开连接后，创建新连接
 			this.config.getSessionGroupClient().connectOne(config.getServerHost(), config.getServerPort());
@@ -119,7 +119,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 				serviceClientConfig.setGgxComponent(true);
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
-				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessonId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+				GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessionId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 				GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 				if (addSessionIfAbsent != null) {
 					serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;

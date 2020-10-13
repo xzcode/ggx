@@ -22,7 +22,7 @@ import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
-import com.ggx.core.common.filter.chain.impl.DefaultChainFilterManager;
+import com.ggx.core.common.filter.impl.DefaultFilterManager;
 import com.ggx.core.common.filter.impl.FinalReceiveMessageChainFilter;
 import com.ggx.core.common.filter.impl.FinalReceivePackChainFilter;
 import com.ggx.core.common.filter.impl.FinalSendMessageChainFilter;
@@ -174,7 +174,7 @@ public class GGXCoreConfig {
 	public void init() {
 		eventManager = new DefaultEventManager();
 		
-		filterManager = new DefaultChainFilterManager(
+		filterManager = new DefaultFilterManager(
 				new FinalReceivePackChainFilter(this),
 				new FinalReceiveMessageChainFilter(this),
 				new FinalSendMessageChainFilter(this),

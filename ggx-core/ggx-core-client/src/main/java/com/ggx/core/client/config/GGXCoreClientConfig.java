@@ -1,6 +1,7 @@
 package com.ggx.core.client.config;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.message.pingpong.GGXPingPongClientEventListener;
 import com.ggx.core.common.message.pingpong.GGXPingPongController;
@@ -22,7 +23,7 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 
 	@Override
 	public void init() {
-
+		setProtocolType(ProtocolTypeConstants.TCP);
 		super.init();
 
 		if (isPingPongEnabled()) {

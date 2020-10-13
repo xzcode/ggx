@@ -13,7 +13,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.boot.version>2.3.3.RELEASE</spring.boot.version>
+		<spring.boot.version>2.3.4.RELEASE</spring.boot.version>
 		<netty.version>4.1.49.Final</netty.version>
 		<common.host>common.host</common.host>
 	</properties>

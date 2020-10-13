@@ -66,6 +66,19 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @author zai
 	 * 2020-10-11 22:55:58
 	 */
-	void routeMessage(String groupId, Message message, GGXSession session);
+	GGXFuture routeMessage(String groupId, Message message, GGXSession session);
+
+	/**
+	 * 路由消息
+	 *
+	 * @param groupId
+	 * @param serviceId
+	 * @param message
+	 * @param session
+	 * @return
+	 * @author zai
+	 * 2020-10-13 14:50:15
+	 */
+	GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session);
 
 }
