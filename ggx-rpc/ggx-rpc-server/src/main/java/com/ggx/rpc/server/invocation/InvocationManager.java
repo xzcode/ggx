@@ -1,5 +1,6 @@
 package com.ggx.rpc.server.invocation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +93,11 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 			
 			return new GGXDefaultFuture(true, result);
 			
-		} catch (Exception e) {
-			GGXLogUtil.getLogger(this).error("RPC invoke ERROR !! method '{}' ,interface class '{}'", methodName, interfaceName);
+		} catch (Throwable e) {
+			if (e instanceof InvocationTargetException) {
+				e = ((InvocationTargetException)e).getTargetException();
+			}
+			GGXLogUtil.getLogger(this).error("RPC invoke ERROR !! method '{}' ,interface class '{}'", methodName, interfaceName,e);
 			return GGXFutureFactory.fail(e);
 		}
 	}
