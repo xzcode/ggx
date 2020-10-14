@@ -13,9 +13,11 @@ import org.springframework.context.ApplicationContextAware;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
+import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
 import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.starter.GGXServer;
 
@@ -74,6 +76,22 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 				ggxserver.subscribe(annotation.value(), obj);
 			}
 		}
+		
+		// 注册RpcService
+		Map<String, Object> rpcServiceImpls = applicationContext.getBeansWithAnnotation(GGXRpcInterface.class);
+		for (Entry<String, Object> entry : subscribers.entrySet()) {
+			if (!(entry.getValue() instanceof Subscriber)) {
+				continue;
+			}
+			Subscriber obj = (Subscriber) entry.getValue();
+			GGXSubscriber annotation = obj.getClass().getAnnotation(GGXSubscriber.class);
+			if (annotation != null) {
+				ggxserver.subscribe(annotation.value(), obj);
+			}
+		}
+		
+		//ggxserver.registerRpcClient(serviceInterface, fallbackObj)
+		//ggxserver.registerRpcService(serviceInterface, serviceObj);
 	}
 
 	@Override

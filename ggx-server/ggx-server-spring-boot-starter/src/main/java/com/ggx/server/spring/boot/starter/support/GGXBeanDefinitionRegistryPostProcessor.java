@@ -27,8 +27,8 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 
 	private ApplicationContext applicationContext;
 	
-	protected RpcClientConfig rpcClientConfig = new RpcClientConfig();
-	protected RpcServerConfig rpcServerConfig = new RpcServerConfig();
+	private RpcClientConfig rpcClientConfig = new RpcClientConfig();
+	private RpcServerConfig rpcServerConfig = new RpcServerConfig();
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -47,29 +47,8 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				for (ClassInfo info : rpcInterfaceInfoList) {
 					String name = info.getName();
 					Class<?> interfaceClass = Class.forName(name);
-					GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
-					Class<?> fallbackClass = annotation.fallback();
-					//String beanName = interfaceClass.getSimpleName();
-					Object primary = null;
-					try {
-						primary = applicationContext.getBean(interfaceClass);
-					} catch (Exception e) {
-						GGXLogUtil.getLogger(this).debug("Interface [{}] has added a '@"+(GGXRpcInterface.class.getSimpleName())+"' annotation, but it dose not have any implementation class!", name);
-					}
-					if (
-							primary == null
-							||
-							primary.getClass() == fallbackClass
-						) {
-						Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
-						rpcClientConfig.getProxyManager().register(interfaceClass, primary);
-						registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
-					}else if(
-							primary != null
-							&& 
-							primary.getClass() != fallbackClass) {
-						rpcServerConfig.getInvocationManager().register(interfaceClass, primary);
-					}
+					Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
+					registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
 				}
 				}catch (Exception e) {
 					GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);

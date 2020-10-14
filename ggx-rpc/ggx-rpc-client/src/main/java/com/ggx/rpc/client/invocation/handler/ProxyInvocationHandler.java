@@ -51,6 +51,11 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		
 		//确认需要调用的服务
 		RpcProxyInfo proxyInfo = proxyManager.get(serviceInterface);
+		
+		if (proxyInfo.getTarget() != null) {
+			return proxyMethod.invoke(proxyInfo.getTarget(), args);		
+		}
+		
 		InterfaceInfo interfaceInfo = proxyInfo.getInterfaceInfo();
 		Map<String, Method> methods = interfaceInfo.getMethods();
 		

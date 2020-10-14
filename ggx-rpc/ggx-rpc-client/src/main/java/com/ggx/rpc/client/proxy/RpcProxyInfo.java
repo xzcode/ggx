@@ -8,6 +8,8 @@ public class RpcProxyInfo {
 	
 	protected InterfaceInfo interfaceInfo;
 	
+	protected Object target;
+	
 	protected Object proxyObj;
 	
 	protected Object fallbackObj;
@@ -37,6 +39,14 @@ public class RpcProxyInfo {
 	}
 	public InterfaceInfo getInterfaceInfo() {
 		return interfaceInfo;
+	}
+	
+	public Object getTarget() {
+		return target;
+	}
+	
+	public void setTarget(Object target) {
+		this.target = target;
 	}
 	
 
