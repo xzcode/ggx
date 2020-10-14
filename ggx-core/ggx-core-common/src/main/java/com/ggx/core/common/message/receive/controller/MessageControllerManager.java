@@ -22,7 +22,7 @@ public interface MessageControllerManager {
 	 * @author zai
 	 * 2020-10-09 18:36:00
 	 */
-	Object invoke(MessageData messageData);
+	Object invoke(MessageData messageData) throws Throwable;
 	
 	/**
 	 * 获取调用的方法信息

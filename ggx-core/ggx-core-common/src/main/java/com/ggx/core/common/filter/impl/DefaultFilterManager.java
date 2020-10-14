@@ -63,7 +63,7 @@ public class DefaultFilterManager implements FilterManager {
 		try {
 			this.receiveMessageFilterChain.doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Receive Message Filters Error!", e);
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
@@ -74,7 +74,7 @@ public class DefaultFilterManager implements FilterManager {
 		try {
 			this.sendMessageFilterChain.doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Send Message Filters Error!", e);
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
@@ -86,7 +86,7 @@ public class DefaultFilterManager implements FilterManager {
 		try {
 			this.receivePackFilterChain.doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Receive Pack Filters Error!", e);
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
@@ -97,7 +97,7 @@ public class DefaultFilterManager implements FilterManager {
 		try {
 			this.sendPackFilterChain.doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Send Pack Filters Error!", e);
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}

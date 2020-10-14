@@ -1,11 +1,6 @@
 package com.ggx.server.spring.boot.starter.support;
 
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,16 +12,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.filter.Filter;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.rpc.server.config.RpcServerConfig;
-import com.ggx.server.spring.boot.starter.annotation.GGXController;
-import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
-import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
-import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.util.logger.GGXLogUtil;
 
@@ -41,62 +29,10 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 	
 	protected RpcClientConfig rpcClientConfig = new RpcClientConfig();
 	protected RpcServerConfig rpcServerConfig = new RpcServerConfig();
-	
-	protected List<Object> controllers = new ArrayList<>();
-	protected Map<String, EventListener<?>> eventhandlers = new HashMap<>();
-	protected Map<Object, Integer> messagefilters = new HashMap<>();
-	protected Map<String, Subscriber> eventsubscribers = new HashMap<>();
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		
-		// 注册消息处理器
-		Map<String, Object> messageControllers = beanFactory.getBeansWithAnnotation(GGXController.class);
-		for (Entry<String, Object> entry : messageControllers.entrySet()) {
-			Object obj = entry.getValue();
-			controllers.add(obj);
-		}
-
-		// 注册事件处理器
-		Map<String, Object> eventHandlers = beanFactory.getBeansWithAnnotation(GGXEventHandler.class);
-		for (Entry<String, Object> entry : eventHandlers.entrySet()) {
-			if (!(entry.getValue() instanceof EventListener)) {
-				continue;
-			}
-			EventListener<?> obj = (EventListener<?>) entry.getValue();
-			GGXEventHandler annotation = obj.getClass().getAnnotation(GGXEventHandler.class);
-			if (annotation != null) {
-				eventhandlers.put(annotation.value(), obj);
-			}
-		}
-
-		// 注册过滤器
-		Map<String, Object> filters = beanFactory.getBeansWithAnnotation(GGXMessageFilter.class);
-		for (Entry<String, Object> entry : filters.entrySet()) {
-			if (!(entry.getValue() instanceof Filter)) {
-				continue;
-			}
-			Filter<?> obj = (Filter<?>) entry.getValue();
-			GGXMessageFilter annotation = obj.getClass().getAnnotation(GGXMessageFilter.class);
-			if (annotation != null) {
-				int order = annotation.value();
-				messagefilters.put(obj, order);
-			}
-		}
-
-		// 注册eventbus事件订阅处理器
-		Map<String, Object> subscribers = beanFactory.getBeansWithAnnotation(GGXSubscriber.class);
-		for (Entry<String, Object> entry : subscribers.entrySet()) {
-			if (!(entry.getValue() instanceof Subscriber)) {
-				continue;
-			}
-			Subscriber obj = (Subscriber) entry.getValue();
-			GGXSubscriber annotation = obj.getClass().getAnnotation(GGXSubscriber.class);
-			if (annotation != null) {
-				eventsubscribers.put(annotation.value(), obj);
-			}
-		}
-				
+			
 		
 		// 注册RPC服务
 		String[] whitelistPackages = {getSpringBootEnterPackage()};
@@ -196,16 +132,4 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 		return rpcServerConfig;
 	}
 	
-	public List<Object> getControllers() {
-		return controllers;
-	}
-	public Map<String, EventListener<?>> getEventhandlers() {
-		return eventhandlers;
-	}
-	public Map<String, Subscriber> getEventsubscribers() {
-		return eventsubscribers;
-	}
-	public Map<Object, Integer> getMessagefilters() {
-		return messagefilters;
-	}
 }

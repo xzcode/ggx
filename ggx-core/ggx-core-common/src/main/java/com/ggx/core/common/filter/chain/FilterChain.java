@@ -14,7 +14,7 @@ public interface FilterChain<T> {
 	 * @author zai
 	 * 2020-10-12 09:49:03
 	 */
-	void doFilter(T data);
+	void doFilter(T data) throws Throwable;
 	
 	/**
 	 * 添加过滤器

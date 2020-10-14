@@ -18,7 +18,8 @@ public interface Filter<T> {
 	 * @param filterChain
 	 * @author zai
 	 * 2020-10-12 09:49:03
+	 * @throws Exception 
 	 */
-	void doFilter(T data, FilterChain<T> filterChain);
+	void doFilter(T data, FilterChain<T> filterChain) throws Throwable;
 
 }

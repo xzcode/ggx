@@ -24,6 +24,7 @@ import com.ggx.router.client.service.listener.RouterServiceShutdownListener;
 import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
+import com.ggx.router.client.session.RouterClientSession;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
 import com.ggx.router.common.message.req.RouteMessageReq;
@@ -247,28 +248,37 @@ public class RouterService {
 		
 		SessionManager serviceClientSessionManager = this.serviceClient.getSessionManager();
 		
+		SessionManager customServiceClientSessionManager = this.customServiceClient.getSessionManager();
+		GGXSession customClientSession = customServiceClientSessionManager.getSession(routingSessonId);
 		
 		GGXSession serviceClientSession = serviceClientSessionManager.getRandomSession();
-		RouteMessageReq req = new RouteMessageReq();
-		req.setAction(pack.getAction());
-		req.setMessage(pack.getMessage());
-		req.setTranferSessionId(routingSessonId);
-		req.setSerializeType(pack.getSerializeType());
 		
-		routingSession.addDisconnectListener(sesssion -> {
-			Integer tranType = sesssion.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
-			if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
-				serviceClientSession.disconnect();
-				return;
+		if (customClientSession == null) {
+			customClientSession = new RouterClientSession(routingSessonId, serviceClientSession, serviceClientSessionManager, this.customServiceClient.getConfig());
+			GGXSession addSessionIfAbsent = customServiceClientSessionManager.addSessionIfAbsent(customClientSession);
+			
+			if (addSessionIfAbsent != null) {
+				customClientSession = addSessionIfAbsent;
+			}else {
+				
+				routingSession.addDisconnectListener(sesssion -> {
+					Integer tranType = sesssion.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
+					if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
+						serviceClientSession.disconnect();
+						return;
+					}
+					//判断是否开启会话断开传递请求
+					if (this.config.isSessionDisconnectTransferRequestEnabled()) {
+						//传递会话断开请求
+						serviceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessionId()));
+					}
+				});
+				
 			}
-			//判断是否开启会话断开传递请求
-			if (this.config.isSessionDisconnectTransferRequestEnabled()) {
-				//传递会话断开请求
-				serviceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessionId()));
-			}
-		});
+		}
 		
-		return serviceClientSession.send(req);
+		
+		return customClientSession.send(pack);
 		
 	}
 	

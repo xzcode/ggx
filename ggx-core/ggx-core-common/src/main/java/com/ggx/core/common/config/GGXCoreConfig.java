@@ -221,15 +221,17 @@ public class GGXCoreConfig {
 			
 		}
 
-		if (receivePackHandler == null) {
-			receivePackHandler = new DefaultReceivePackHandler(this);
-		}
 		
 		if (this.receiveMessageManager == null) {
 			this.receiveMessageManager = new DefaultReceiveMessageManager(this);
 		}
 		if (this.sendMessageManager == null) {
 			this.sendMessageManager = new DefaultSendMessageManager(this);
+		}
+		
+
+		if (receivePackHandler == null) {
+			receivePackHandler = new DefaultReceivePackHandler(this);
 		}
 		
 		if (serializer == null) {

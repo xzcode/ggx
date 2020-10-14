@@ -29,7 +29,7 @@ public class RouterClientHostServerReceiveMessageFilter implements ReceivePackFi
 	}
 
 	@Override
-	public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
+	public void doFilter(Pack pack, FilterChain<Pack> filterChain) throws Throwable{
 
 		String actionId = pack.getActionString(hostServer.getCharset());
 		//routingServer已定义的actionid,不参与路由

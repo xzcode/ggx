@@ -16,7 +16,7 @@ public class FinalReceiveMessageChainFilter implements ReceiveMessageFilter{
 	}
 	
 	@Override
-	public void doFilter(MessageData data, FilterChain<MessageData> filterChain) {
+	public void doFilter(MessageData data, FilterChain<MessageData> filterChain) throws Throwable {
 		Object returnObject = config.getMessageControllerManager().invoke(data);
 		if (returnObject != null && returnObject instanceof Message) {
 			data.getSession().send((Message)returnObject);

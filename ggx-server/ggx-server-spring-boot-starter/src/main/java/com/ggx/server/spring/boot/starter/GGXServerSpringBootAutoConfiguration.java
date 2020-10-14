@@ -1,9 +1,5 @@
 package com.ggx.server.spring.boot.starter;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -16,15 +12,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.filter.Filter;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationPrepareEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationStartedEventListener;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
-import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
+import com.ggx.server.spring.boot.starter.support.GGXAnnotationComponentScanner;
 import com.ggx.server.spring.boot.starter.support.GGXBeanDefinitionRegistryPostProcessor;
+import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.config.GGXServerRpcConfigModel;
@@ -36,6 +30,10 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 
 	protected ApplicationContext applicationContext;
 	
+	@Bean
+	public static GGXAnnotationComponentScanner ggxAnnotationComponentScanner() {
+		return new GGXAnnotationComponentScanner();
+	}
 	@Bean
 	public static GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor() {
 		return new GGXBeanDefinitionRegistryPostProcessor();
@@ -56,24 +54,6 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 	@Bean
 	public GGXServer ggxserver() {
 		GGXServer ggxserver = new GGXServer(ggxserverConfig());
-		GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor = applicationContext.getBean(GGXBeanDefinitionRegistryPostProcessor.class);
-		List<Object> controllers = ggxBeanDefinitionRegistryPostProcessor.getControllers();
-		for (Object object : controllers) {
-			ggxserver.registerController(object);
-		}
-		Map<String, EventListener<?>> eventhandlers = ggxBeanDefinitionRegistryPostProcessor.getEventhandlers();
-		for (Entry<String, EventListener<?>> entry : eventhandlers.entrySet()) {
-			ggxserver.addEventListener(entry.getKey(), entry.getValue());
-		}
-		Map<Object, Integer> messagefilters = ggxBeanDefinitionRegistryPostProcessor.getMessagefilters();
-		for (Entry<Object, Integer> entry : messagefilters.entrySet()) {
-			ggxserver.addFilter((Filter<?>) entry.getKey(), entry.getValue());
-		}
-		Map<String, Subscriber> eventsubscribers = ggxBeanDefinitionRegistryPostProcessor.getEventsubscribers();
-		for (Entry<String, Subscriber> entry : eventsubscribers.entrySet()) {
-			ggxserver.subscribe(entry.getKey(), entry.getValue());
-		}
-		
 		return ggxserver;
 	}
 	

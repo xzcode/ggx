@@ -1,5 +1,6 @@
 package com.ggx.core.common.message.receive.controller.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 	}
 	
 	@Override
-	public Object invoke(MessageData messageData) {
+	public Object invoke(MessageData messageData) throws Throwable {
 		GGXSession session = messageData.getSession();
 		Message message = (Message) messageData.getMessage();
 		String action = messageData.getAction();
@@ -97,22 +98,22 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 		Class<?>[] parameterTypes = method.getParameterTypes();
 		
 		Object returnObj = null;
-		try {
-			if (parameterTypes != null && parameterTypes.length > 0) {
-				Object[] params = new Object[parameterTypes.length];
-				if (methodInfo.getMessageParamIndex() != -1) {
-					params[methodInfo.getMessageParamIndex()] = message;
-				}
-				if (methodInfo.getSessionParamIndex() != -1) {
-					params[methodInfo.getSessionParamIndex()] = session;
-				}
-				returnObj = method.invoke(methodInfo.getControllerObj(),params);
-			} else {
-				returnObj = method.invoke(methodInfo.getControllerObj());
-			} 
-		} catch (Exception e) {
-			GGXLogUtil.getLogger(this).error("Handling action '{}' ERRER!", action, e);
-		}
+			try {
+				if (parameterTypes != null && parameterTypes.length > 0) {
+					Object[] params = new Object[parameterTypes.length];
+					if (methodInfo.getMessageParamIndex() != -1) {
+						params[methodInfo.getMessageParamIndex()] = message;
+					}
+					if (methodInfo.getSessionParamIndex() != -1) {
+						params[methodInfo.getSessionParamIndex()] = session;
+					}
+					returnObj = method.invoke(methodInfo.getControllerObj(), params);
+				} else {
+					returnObj = method.invoke(methodInfo.getControllerObj());
+				} 
+			} catch (InvocationTargetException e) {
+				throw e.getTargetException();
+			}
 		return returnObj;
 	}
 
