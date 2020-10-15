@@ -20,7 +20,7 @@ import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
-import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
+import com.ggx.server.spring.boot.starter.annotation.GGXFilter;
 import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
 import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
 import com.ggx.server.spring.boot.starter.support.model.RpcServiceScanInfo;
@@ -58,13 +58,13 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 		}
 
 		// 注册过滤器
-		Map<String, Object> filters = applicationContext.getBeansWithAnnotation(GGXMessageFilter.class);
+		Map<String, Object> filters = applicationContext.getBeansWithAnnotation(GGXFilter.class);
 		for (Entry<String, Object> entry : filters.entrySet()) {
 			if (!(entry.getValue() instanceof Filter)) {
 				continue;
 			}
 			Filter<?> obj = (Filter<?>) entry.getValue();
-			GGXMessageFilter annotation = obj.getClass().getAnnotation(GGXMessageFilter.class);
+			GGXFilter annotation = obj.getClass().getAnnotation(GGXFilter.class);
 			if (annotation != null) {
 				int order = annotation.value();
 				ggxserver.addFilter(obj, order);

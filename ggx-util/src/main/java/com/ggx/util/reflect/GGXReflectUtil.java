@@ -1,5 +1,6 @@
 package com.ggx.util.reflect;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,11 +48,31 @@ public class GGXReflectUtil {
 	 */
 	public static List<Method> getAllDeclaredMethods(Class<?> clazz) {
 		List<Class<?>> classes = getAllSuperClasses(clazz, true);
-		List<Method> list = new ArrayList<Method>();
+		List<Method> list = new ArrayList<>();
 		for (Class<?> cla : classes) {
 			Method[] methods = cla.getDeclaredMethods();
 			for (Method method : methods) {
 				list.add(method);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 获取所有声明的属性
+	 *
+	 * @param clazz
+	 * @return
+	 * @author zai
+	 * 2020-10-04 00:39:08
+	 */
+	public static List<Field> getAllDeclaredFields(Class<?> clazz) {
+		List<Class<?>> classes = getAllSuperClasses(clazz, true);
+		List<Field> list = new ArrayList<>();
+		for (Class<?> cla : classes) {
+			Field[] fields = cla.getDeclaredFields();
+			for (Field field : fields) {
+				list.add(field);
 			}
 		}
 		return list;

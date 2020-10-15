@@ -45,7 +45,7 @@ import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
 import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
 import com.ggx.core.common.session.id.DefaultSessionIdGenerator;
-import com.ggx.core.common.session.id.ISessionIdGenerator;
+import com.ggx.core.common.session.id.SessionIdGenerator;
 import com.ggx.core.common.session.manager.DefaultSessionManager;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.PackLogger;
@@ -128,7 +128,7 @@ public class GGXCoreConfig {
 	private int pingPongMaxLoseTimes = 3;// 最大心跳失败允许次数
 
 	protected ChannelSessionFactory sessionFactory;
-	protected ISessionIdGenerator sessionIdGenerator;
+	protected SessionIdGenerator sessionIdGenerator;
 
 	protected Serializer serializer;
 
@@ -530,11 +530,11 @@ public class GGXCoreConfig {
 		this.soReuseaddr = soReuseaddr;
 	}
 
-	public ISessionIdGenerator getSessionIdGenerator() {
+	public SessionIdGenerator getSessionIdGenerator() {
 		return sessionIdGenerator;
 	}
 
-	public void setSessionIdGenerator(ISessionIdGenerator sessionIdGenerator) {
+	public void setSessionIdGenerator(SessionIdGenerator sessionIdGenerator) {
 		this.sessionIdGenerator = sessionIdGenerator;
 	}
 

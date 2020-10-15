@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.id.SessionIdGenerator;
 import com.ggx.core.common.session.impl.DefaultChannelSession;
 import com.ggx.core.common.utils.GGXIdUtil;
 
@@ -23,10 +24,13 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	protected GGXCoreConfig config; 
 	
 	protected AttributeKey<GGXSession> sessAttributeKey = AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION);
+
+	private SessionIdGenerator sessionIdGenerator;
 	
 	public DefaultChannelSessionFactory(GGXCoreConfig config) {
 		super();
 		this.config = config;
+		this.sessionIdGenerator = this.config.getSessionIdGenerator();
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	@Override
 	public void channelActive(Channel channel) {
 		//初始化session
-		DefaultChannelSession session = new DefaultChannelSession(channel, GGXIdUtil.newRandomStringId24(), config);
+		DefaultChannelSession session = new DefaultChannelSession(channel, this.sessionIdGenerator.generateSessionId(), config);
 		InetSocketAddress remoteAddress = (InetSocketAddress)channel.remoteAddress();
 		session.setHost(remoteAddress.getHostString());
 		session.setPort(remoteAddress.getPort());

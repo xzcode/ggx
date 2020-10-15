@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ggx.core.common.message.actionid.impl.DefaultActionIdGrnarator;
+import com.ggx.core.common.utils.MessageActionIdUtil;
 import com.ggx.docs.core.annotation.DocsModel;
 import com.ggx.docs.core.annotation.DocsModelProperty;
 import com.ggx.docs.core.annotation.DocsNamespace;
@@ -78,7 +80,6 @@ public class GGXDocs {
 			LOGGER.warn("Cannot find class files annotated by DocsModel!");
 			return null;
 		}
-		
 		Model annoModel = null;
 		ModelProperty annoProperty = null;
 		for (ClassInfo classInfo : classInfoList) {
@@ -89,25 +90,9 @@ public class GGXDocs {
 			DocsModel docsModel = loadClass.getAnnotation(DocsModel.class);
 			String actionId = docsModel.actionId();
 			if (actionId == null || actionId.isEmpty()) {
-				try {
-					Method getActionIdMethod = null;
-					boolean hasNext = true;
-					Class<?> sc = loadClass;
-					while (hasNext) {
-						try {
-							getActionIdMethod = sc.getDeclaredMethod("getActionId");								
-						} catch (Exception e) {
-							System.out.println("Can not find method 'getActionId' in '"+loadClass.getName()+", try superclass!");
-							sc = sc.getSuperclass();
-						}
-						hasNext = getActionIdMethod == null;
-					}
-					
-					if (getActionIdMethod != null) {
-						actionId = (String) getActionIdMethod.invoke(loadClass.getDeclaredConstructor().newInstance());
-					}
-				} catch (Exception e) {
-					System.out.println("Can not find method 'getActionId' in '"+loadClass.getName());
+				actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(loadClass);
+				if (doc.getActionIdPrefix() != null) {
+					actionId = doc.getActionIdPrefix() + actionId;
 				}
 			}
 			String desc = docsModel.desc();

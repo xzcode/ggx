@@ -8,7 +8,7 @@ import io.netty.channel.Channel;
  * @author zai
  * 2019-12-20 13:31:05
  */
-public interface ISessionIdGenerator {
+public interface SessionIdGenerator {
 	
 	/**
 	 * 生成sessionid
@@ -17,6 +17,6 @@ public interface ISessionIdGenerator {
 	 * @author zai
 	 * 2019-12-20 13:31:16
 	 */
-	String generateSessionId(Channel channel);
+	String generateSessionId();
 	
 }

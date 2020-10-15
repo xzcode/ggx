@@ -1,14 +1,12 @@
 package com.ggx.core.common.session.id;
 
-import java.util.UUID;
+import com.ggx.util.id.GGXRandomIdUtil;
 
-import io.netty.channel.Channel;
-
-public class DefaultSessionIdGenerator implements ISessionIdGenerator {
+public class DefaultSessionIdGenerator implements SessionIdGenerator {
 
 	@Override
-	public String generateSessionId(Channel channel) {
-		return UUID.randomUUID().toString().replaceAll("-", "");
+	public String generateSessionId() {
+		return GGXRandomIdUtil.newRandomStringId24();
 	}
 
 }

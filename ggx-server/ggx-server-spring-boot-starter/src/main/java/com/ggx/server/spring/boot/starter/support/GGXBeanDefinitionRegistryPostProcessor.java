@@ -54,8 +54,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 			
 			ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
 			for (ClassInfo info : rpcInterfaceInfoList) {
-				String name = info.getName();
-				Class<?> interfaceClass = Class.forName(name);
+				Class<?> interfaceClass = info.loadClass();
 				GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
 				Class<?> fallbackClass = annotation.fallback();
 				if (fallbackClass == Void.class) {
@@ -68,7 +67,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				
 				Class<?> implClass = null;
 				for (ClassInfo ci : implClasses) {
-					Class<?> cii = Class.forName(ci.getName());
+					Class<?> cii = ci.loadClass();
 					if (cii != fallbackClass && cii.getAnnotation(GGXRpcService.class) != null) {
 						implClass = cii;
 						break;
