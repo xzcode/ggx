@@ -93,7 +93,6 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 		beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(1, proxy);
 		beanDefinition.setBeanClass(RpcProxyFactoryBean.class);
 
-		// 这里采用的是byType方式注入，类似的还有byName等
 		beanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_TYPE);
 		beanDefinition.setPrimary(primary);
 		beanDefinition.setAutowireCandidate(true);

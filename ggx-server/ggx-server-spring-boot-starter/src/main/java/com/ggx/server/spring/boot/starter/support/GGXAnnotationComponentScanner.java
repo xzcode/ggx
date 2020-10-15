@@ -1,5 +1,6 @@
 package com.ggx.server.spring.boot.starter.support;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -13,12 +14,16 @@ import org.springframework.context.ApplicationContextAware;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.proxy.RpcProxyInfo;
+import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.server.spring.boot.starter.annotation.GGXController;
 import com.ggx.server.spring.boot.starter.annotation.GGXEventHandler;
 import com.ggx.server.spring.boot.starter.annotation.GGXMessageFilter;
 import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
 import com.ggx.server.spring.boot.starter.annotation.GGXSubscriber;
+import com.ggx.server.spring.boot.starter.support.model.RpcServiceScanInfo;
 import com.ggx.server.starter.GGXServer;
 
 public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
@@ -27,6 +32,8 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 	
 	@Autowired
 	private GGXServer ggxserver;
+	@Autowired
+	private GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor;
 	
 	@PostConstruct
 	public void init() {
@@ -77,21 +84,40 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 			}
 		}
 		
-		// 注册RpcService
-		Map<String, Object> rpcServiceImpls = applicationContext.getBeansWithAnnotation(GGXRpcInterface.class);
-		for (Entry<String, Object> entry : subscribers.entrySet()) {
-			if (!(entry.getValue() instanceof Subscriber)) {
-				continue;
+		//注册rpcservice相关
+		List<RpcServiceScanInfo> rpcServiceScanInfos = ggxBeanDefinitionRegistryPostProcessor.getRpcServiceScanInfos();
+		
+		for (RpcServiceScanInfo rpcServiceScanInfo : rpcServiceScanInfos) {
+			Class<?> implClass = rpcServiceScanInfo.getImplClass();
+			Class<?> interfaceClass = rpcServiceScanInfo.getInterfaceClass();
+			Class<?> fallbackClass = rpcServiceScanInfo.getFallbackClass();
+			Object proxyObj = rpcServiceScanInfo.getProxyObj();
+			Object impl = null;
+			Object fallback = null;
+			if (implClass != null) {
+				try {
+					impl = applicationContext.getBean(implClass);
+					ggxserver.registerRpcService(interfaceClass, impl);
+				} catch (Exception e) {
+					
+				}
 			}
-			Subscriber obj = (Subscriber) entry.getValue();
-			GGXSubscriber annotation = obj.getClass().getAnnotation(GGXSubscriber.class);
-			if (annotation != null) {
-				ggxserver.subscribe(annotation.value(), obj);
+			if (fallbackClass != null) {
+				try {
+					fallback = applicationContext.getBean(fallbackClass);
+					
+				} catch (Exception e) {
+					
+				}
 			}
+			RpcClientConfig rpcClientConfig = ggxserver.getConfig().getRpc().getClient();
+			RpcProxyManager proxyManager = rpcClientConfig.getProxyManager();
+			proxyManager.register(interfaceClass, proxyObj, fallback);
+			RpcProxyInfo rpcProxyInfo = proxyManager.get(interfaceClass);
+			rpcProxyInfo.setTarget(impl);
 		}
 		
-		//ggxserver.registerRpcClient(serviceInterface, fallbackObj)
-		//ggxserver.registerRpcService(serviceInterface, serviceObj);
+		
 	}
 
 	@Override

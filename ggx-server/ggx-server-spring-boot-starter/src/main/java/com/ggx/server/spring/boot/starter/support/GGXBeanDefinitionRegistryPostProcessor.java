@@ -1,6 +1,10 @@
 package com.ggx.server.spring.boot.starter.support;
 
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -13,9 +17,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.rpc.server.config.RpcServerConfig;
+import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
+import com.ggx.server.spring.boot.starter.support.model.RpcServiceScanInfo;
 import com.ggx.util.logger.GGXLogUtil;
 
 import io.github.classgraph.ClassGraph;
@@ -29,6 +36,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 	
 	private RpcClientConfig rpcClientConfig = new RpcClientConfig();
 	private RpcServerConfig rpcServerConfig = new RpcServerConfig();
+	private List<RpcServiceScanInfo> rpcServiceScanInfos = new ArrayList<>();
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -43,16 +51,35 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 		}
 		
 		try (ScanResult scanResult = classGraph.scan()) {
-				ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
-				for (ClassInfo info : rpcInterfaceInfoList) {
-					String name = info.getName();
-					Class<?> interfaceClass = Class.forName(name);
-					Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
-					registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+			
+			ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
+			for (ClassInfo info : rpcInterfaceInfoList) {
+				String name = info.getName();
+				Class<?> interfaceClass = Class.forName(name);
+				GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
+				Class<?> fallbackClass = annotation.fallback();
+				if (fallbackClass == Void.class) {
+					fallbackClass = null;
 				}
-				}catch (Exception e) {
-					GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);
+				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
+				registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+				
+				ClassInfoList implClasses = scanResult.getClassesImplementing(interfaceClass.getName());
+				
+				Class<?> implClass = null;
+				for (ClassInfo ci : implClasses) {
+					Class<?> cii = Class.forName(ci.getName());
+					if (cii != fallbackClass && cii.getAnnotation(GGXRpcService.class) != null) {
+						implClass = cii;
+						break;
+					}
 				}
+				rpcServiceScanInfos.add(new RpcServiceScanInfo(interfaceClass, implClass, fallbackClass, proxy));
+			}
+			
+		}catch (Exception e) {
+			GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);
+		}
 		
 	}
 
@@ -109,6 +136,10 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 	}
 	public RpcServerConfig getRpcServerConfig() {
 		return rpcServerConfig;
+	}
+	
+	public List<RpcServiceScanInfo> getRpcServiceScanInfos() {
+		return rpcServiceScanInfos;
 	}
 	
 }

@@ -11,7 +11,6 @@ import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.factory.GGXFutureFactory;
-import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.model.InterfaceInfoModel;
 import com.ggx.rpc.common.parser.InterfaceInfo;
