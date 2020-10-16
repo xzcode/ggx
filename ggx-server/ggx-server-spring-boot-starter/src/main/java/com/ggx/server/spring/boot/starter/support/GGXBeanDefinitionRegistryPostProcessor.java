@@ -2,9 +2,7 @@ package com.ggx.server.spring.boot.starter.support;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,7 +15,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
@@ -40,8 +37,6 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-			
-		
 		// 注册RPC服务
 		String[] whitelistPackages = {getSpringBootEnterPackage()};
 		ClassGraph classGraph = new ClassGraph();
@@ -107,10 +102,10 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 		beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(1, proxy);
 		beanDefinition.setBeanClass(RpcProxyFactoryBean.class);
 
-		// 这里采用的是byType方式注入，类似的还有byName等
 		beanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_TYPE);
 		beanDefinition.setPrimary(primary);
 		beanDefinition.setAutowireCandidate(true);
+		
 		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) applicationContext.getBeanFactory();
 		registry.registerBeanDefinition(name, beanDefinition);
 

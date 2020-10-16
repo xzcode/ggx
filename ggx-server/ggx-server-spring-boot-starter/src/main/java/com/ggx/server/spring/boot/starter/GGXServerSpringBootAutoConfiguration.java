@@ -18,7 +18,7 @@ import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationSt
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.server.spring.boot.starter.support.GGXAnnotationComponentScanner;
 import com.ggx.server.spring.boot.starter.support.GGXBeanDefinitionRegistryPostProcessor;
-import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
+import com.ggx.server.spring.boot.starter.support.GGXSpringPrototypeBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.config.GGXServerRpcConfigModel;
@@ -116,8 +116,8 @@ public class GGXServerSpringBootAutoConfiguration implements ApplicationContextA
 	}
 	
 	@Bean
-	public GGXSpringBeanGenerator ggxSpringBeanGenerator() {
-		return new GGXSpringBeanGenerator();
+	public GGXSpringPrototypeBeanGenerator ggxSpringBeanGenerator() {
+		return new GGXSpringPrototypeBeanGenerator();
 	}
 	@Bean
 	public GGXServerSpringBootApplicationStartedEventListener applicationReadyEventListener() {
