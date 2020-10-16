@@ -1,7 +1,5 @@
 package com.ggx.core.common.session.id;
 
-import io.netty.channel.Channel;
-
 /**
  * 会话id生成器
  * 

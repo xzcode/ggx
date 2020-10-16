@@ -128,7 +128,7 @@ public class GGXCoreConfig {
 	private int pingPongMaxLoseTimes = 3;// 最大心跳失败允许次数
 
 	protected ChannelSessionFactory sessionFactory;
-	protected SessionIdGenerator sessionIdGenerator;
+	protected SessionIdGenerator sessionIdGenerator = new DefaultSessionIdGenerator();
 
 	protected Serializer serializer;
 
@@ -244,9 +244,6 @@ public class GGXCoreConfig {
 
 		if (sessionFactory == null) {
 			sessionFactory = new DefaultChannelSessionFactory(this);
-		}
-		if (sessionIdGenerator == null) {
-			sessionIdGenerator = new DefaultSessionIdGenerator();
 		}
 		
 		if (this.enableAesEncryption) {
