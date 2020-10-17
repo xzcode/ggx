@@ -48,9 +48,6 @@ public class EventbusClientConfig {
 	protected String authToken = EventbusConstant.DEFAULT_AUTH_TOKEN;
 	
 	
-	//是否输出包信息
-	protected boolean printEventbusPackLog = false;
-	
 	//共享线程组
 	protected EventLoopGroup sharedEventLoopGroup;
 
@@ -126,15 +123,6 @@ public class EventbusClientConfig {
 	public void setServerPort(int port) {
 		this.serverPort = port;
 	}
-
-	public boolean isPrintEventbusPackLog() {
-		return printEventbusPackLog;
-	}
-
-	public void setPrintEventbusPackLog(boolean printEventbusPackLog) {
-		this.printEventbusPackLog = printEventbusPackLog;
-	}
-	
 	public void setDefaultClientSession(GGXSession defaultClientSession) {
 		this.defaultClientSession = defaultClientSession;
 	}

@@ -40,18 +40,6 @@ public class DataTransferRespHandler  {
 			Pack pack = new Pack(seviceClientSession, resp.getAction(), resp.getMessage());
 			new ReceiveMessageTask(pack , serviceClientConfig).run();
 		}
-			
-		/*
-		 * //判断是否开启业务服务端 if (this.config.isEnableServiceServer() &&
-		 * this.config.getServiceServer() != null) { GGXCoreServer serviceServer =
-		 * this.config.getServiceServer(); GGXCoreServerConfig serviceServerConfig =
-		 * serviceServer.getConfig(); SessionManager serviceServerSessionManager =
-		 * serviceServerConfig.getSessionManager(); GGXSession serviceServerSession =
-		 * serviceServerSessionManager.getSession(session.getSessonId()); if
-		 * (serviceServerSession != null) { //提交任务到业务客户端 Pack pack = new
-		 * Pack(serviceServerSession, resp.getAction(), resp.getMessage()); new
-		 * MessageDataTask(pack , serviceServerConfig).run();; } }
-		 */
 	}
 
 }

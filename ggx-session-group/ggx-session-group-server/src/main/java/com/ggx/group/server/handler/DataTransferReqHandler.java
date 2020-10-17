@@ -34,18 +34,14 @@ public class DataTransferReqHandler  {
 		GGXCoreServer serviceServer = config.getServiceServer();
 		GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
 		
-		//判断是否开启自定义传输数据处理器
-		if (this.config.isEnableCustomDataTransferHandler() && this.config.getCustomDataTransferHandler() != null) {
-			CustomDataTransferHandler customDataTransferHandler = this.config.getCustomDataTransferHandler();
-			customDataTransferHandler.handle(req, groupSession);
-			return;//开启自定义处理后，不再进行后续处理
-		}
-			
 		SessionManager serviceSessionManager = serviceServerConfig.getSessionManager();
 		//创建业务服务端session
 		GroupServiceServerSession serviceSession = (GroupServiceServerSession) serviceSessionManager.getSession(groupSessionId);
 		if (serviceSession == null) {
 			String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
+			if (groupId == null) {
+				System.out.println(new String(req.getAction()));
+			}
 			serviceSession = new GroupServiceServerSession(groupSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
 			GGXSession addSessionIfAbsent = serviceSessionManager.addSessionIfAbsent(serviceSession);
 			if (addSessionIfAbsent != null) {

@@ -117,7 +117,17 @@ public interface GGSessionGroup extends MakePackSupport {
 			return null;
 		}
 		//获取随机会话
-		return (GGXSession) ((Entry<String, GGXSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
+		GGXSession session = ((Entry<String, GGXSession>)entrySet.toArray()[ThreadLocalRandom.current().nextInt(size)]).getValue();
+		if(!session.isReady()) {
+			//如果随机会话未就绪，遍历并获取就绪会话进行发送
+			for (Entry<String, GGXSession> entry : entrySet) {
+				session = entry.getValue();
+				if (session.isReady()) {
+					break;
+				}
+			}
+		}
+		return session;
 	}
 	
 	/**

@@ -2,7 +2,6 @@ package com.ggx.eventbus.client;
 
 import java.util.List;
 
-import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.req.EventPublishReq;
 import com.ggx.common.message.req.EventSubscribeReq;
 import com.ggx.core.client.GGXCoreClient;
@@ -57,6 +56,7 @@ public class EventbusClient{
 		
 		//添加会话注册成功监听
 		sessionGroupClient.addEventListener(GGSessionGroupEventConstant.SESSION_REGISTER_SUCCESS, e -> {
+			GGXSession groupSession = e.getSession();
 			SubscriberManager subscribeManager = this.config.getSubscribeManager();
 			//获取待注册的事件id集合
 			List<String> eventIds = subscribeManager.getEventIdList();
@@ -67,7 +67,7 @@ public class EventbusClient{
 			GGXCoreClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(GGXIdUtil.newRandomStringId24(), sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
+			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession, sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
 			
 			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
@@ -83,17 +83,6 @@ public class EventbusClient{
 		this.config.setSessionGroupClient(sessionGroupClient);
 		
 		this.serviceClient.registerMessageController(new EventbusClientController(config));
-		
-		
-		//包日志输出控制
-		if (!this.config.isPrintEventbusPackLog()) {
-			this.serviceClient.getConfig().getPackLogger().addPackLogFilter(pack -> {
-				String actionString = pack.getActionString();
-				return !(actionString.startsWith(EventbusConstant.ACTION_ID_PREFIX));
-			});
-		}
-		
-		
 		
 	}
 	

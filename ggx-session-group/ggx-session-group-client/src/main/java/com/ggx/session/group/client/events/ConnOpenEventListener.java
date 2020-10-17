@@ -28,7 +28,6 @@ public class ConnOpenEventListener implements EventListener<Void>{
 	public void onEvent(EventData<Void> e) {
 		//打开连接，发送认证
 		GGXSession groupSession = e.getSession();
-		groupSession.send(new AuthReq(config.getAuthToken()));
 		
 		GGSessionGroupManager sessionGroupManager = this.config.getSessionGroupManager();
 		sessionGroupManager.addSession(this.config.getSessionGroupId(), groupSession);
@@ -39,7 +38,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 			GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessionId(), this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
+			GroupServiceClientSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession,this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
 			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceServerSession);
 			if (addSessionIfAbsent != null) {
 				serviceServerSession = (GroupServiceClientSession) addSessionIfAbsent;
@@ -47,6 +46,7 @@ public class ConnOpenEventListener implements EventListener<Void>{
 			sessionManager.addSessionIfAbsent(serviceServerSession);
 		}
 		
+		groupSession.send(new AuthReq(config.getAuthToken()));
 	}
 
 }

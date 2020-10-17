@@ -3,8 +3,8 @@ package com.ggx.eventbus.client.subscriber.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.ggx.eventbus.client.subscriber.ControllerSubscriberMethodInfo;
 import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.eventbus.client.subscriber.model.ControllerSubscriberMethodInfo;
 import com.ggx.eventbus.client.subscriber.model.SubscriptionData;
 
 public class ControllerMethodSubscriber implements Subscriber {

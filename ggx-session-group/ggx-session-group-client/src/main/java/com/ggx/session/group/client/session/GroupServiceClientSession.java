@@ -30,11 +30,11 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 
 	protected GGXSession groupSession;
 
-	public GroupServiceClientSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
+	public GroupServiceClientSession(String sessionId, GGXSession groupSession,String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
 		super(sessionId, config);
 		this.sessionGroupManager = sessionGroupManager;
 		this.groupId = groupId;
-		this.groupSession = sessionGroupManager.getRandomOne(groupId);
+		this.groupSession = groupSession;
 		setReady(true);
 	}
 

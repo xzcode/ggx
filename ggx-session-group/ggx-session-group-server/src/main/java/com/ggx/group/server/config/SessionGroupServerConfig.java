@@ -6,7 +6,6 @@ import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.common.constant.GGSesssionGroupConstant;
 import com.ggx.group.common.group.manager.GGSessionGroupManager;
-import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -27,8 +26,6 @@ public class SessionGroupServerConfig {
 	//会话组管理器
 	private GGSessionGroupManager sessionGroupManager;
 	
-	//自定义数据传输处理器
-	private CustomDataTransferHandler customDataTransferHandler;
 	
 	//是否开启自定义数据传输处理器
 	private boolean enableCustomDataTransferHandler = false;
@@ -145,14 +142,6 @@ public class SessionGroupServerConfig {
 
 	public void setWorkEventLoopGroup(EventLoopGroup workEventLoopGroup) {
 		this.workEventLoopGroup = workEventLoopGroup;
-	}
-
-	public CustomDataTransferHandler getCustomDataTransferHandler() {
-		return customDataTransferHandler;
-	}
-
-	public void setCustomDataTransferHandler(CustomDataTransferHandler customDataTransferHandler) {
-		this.customDataTransferHandler = customDataTransferHandler;
 	}
 
 	public boolean isEnableCustomDataTransferHandler() {
