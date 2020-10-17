@@ -119,6 +119,8 @@ public class GGXCoreConfig {
 	protected boolean soReuseaddr = true;
 
 	protected long sessionExpireMs = 24L * 3600L * 1000L;
+	
+	protected long sessionExpireCheckPeriodMs = 3600L * 1000L;
 
 	protected boolean pingPongEnabled = false;
 
@@ -715,5 +717,10 @@ public class GGXCoreConfig {
 		this.sendMessageManager = sendMessageManager;
 	}
 	
-	
+	public long getSessionExpireCheckPeriodMs() {
+		return sessionExpireCheckPeriodMs;
+	}
+	public void setSessionExpireCheckPeriodMs(long sessionExpireCheckPeriodMs) {
+		this.sessionExpireCheckPeriodMs = sessionExpireCheckPeriodMs;
+	}
 }

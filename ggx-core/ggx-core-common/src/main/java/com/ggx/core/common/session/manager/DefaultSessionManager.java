@@ -30,7 +30,6 @@ public class DefaultSessionManager implements SessionManager {
 	
 	public DefaultSessionManager(GGXCoreConfig config) {
 		this.config = config;
-		
 		this.startSessionExpireCheckTask();
 	}
 	
@@ -43,7 +42,7 @@ public class DefaultSessionManager implements SessionManager {
 	 */
 	protected void startSessionExpireCheckTask() {
 		TaskExecutor taskExecutor = this.config.getTaskExecutor();
-		taskExecutor.scheduleWithFixedDelay(10L * 1000L, this.config.getSessionExpireMs(), TimeUnit.MILLISECONDS, () -> {
+		taskExecutor.scheduleWithFixedDelay(10L * 1000L, this.config.getSessionExpireCheckPeriodMs(), TimeUnit.MILLISECONDS, () -> {
 			for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
 				GGXSession session = entry.getValue();
 				session.checkExpire();
@@ -60,7 +59,7 @@ public class DefaultSessionManager implements SessionManager {
 		//添加断开监听
 		session.addDisconnectListener( s -> {
 			//断开连接从管理器中移除session
-			remove(s.getSessionId());
+			remove(s.getSessionId(), session);
 			
 		});
 		GGXSession putIfAbsent = sessionMap.putIfAbsent(session.getSessionId(), session);
@@ -88,6 +87,13 @@ public class DefaultSessionManager implements SessionManager {
 			return sessionMap.remove(sessionId);
 		}
 		return null;
+	}
+	@Override
+	public boolean remove(String sessionId, GGXSession session) {
+		if (sessionId != null) {
+			return sessionMap.remove(sessionId, session);
+		}
+		return false;
 	}
 
 	@Override

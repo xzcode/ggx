@@ -23,7 +23,6 @@ public class DataTransferReqHandler  {
 	private SessionGroupServerConfig config;
 
 	public DataTransferReqHandler(SessionGroupServerConfig config) {
-		super();
 		this.config = config;
 	}
 
@@ -35,26 +34,9 @@ public class DataTransferReqHandler  {
 		GGXCoreServerConfig serviceServerConfig = serviceServer.getConfig();
 		
 		SessionManager serviceSessionManager = serviceServerConfig.getSessionManager();
-		//创建业务服务端session
-		GroupServiceServerSession serviceSession = (GroupServiceServerSession) serviceSessionManager.getSession(groupSessionId);
-		if (serviceSession == null) {
-			String groupId = groupSession.getAttribute(SessionGroupServerSessionKeys.GROUP_SESSION_GROUP_ID, String.class);
-			if (groupId == null) {
-				System.out.println(new String(req.getAction()));
-			}
-			serviceSession = new GroupServiceServerSession(groupSessionId, groupId, config.getSessionGroupManager(), serviceServerConfig);
-			GGXSession addSessionIfAbsent = serviceSessionManager.addSessionIfAbsent(serviceSession);
-			if (addSessionIfAbsent != null) {
-				serviceSession = (GroupServiceServerSession) addSessionIfAbsent;
-			}else {
-				String sessionId = serviceSession.getSessionId();
-				serviceSession.addDisconnectListener(se -> {
-					serviceSessionManager.remove(sessionId);
-				});
-			}
-		}
+		GGXSession serviceSession = serviceSessionManager.getSession(groupSessionId);
 		
-		new ReceiveMessageTask(new Pack(serviceSession, req.getAction(), req.getMessage()), serviceServerConfig).run();
+		serviceServerConfig.getReceiveMessageManager().receive(new Pack(serviceSession, req.getAction(), req.getMessage()));
 		
 			
 	}

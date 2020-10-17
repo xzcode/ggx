@@ -43,6 +43,16 @@ public interface SessionManager{
 	GGXSession remove(String sessionId);
 	
 	/**
+	 * 删除会话
+	 * @param sessionId
+	 * @param session
+	 * @return
+	 * @author zai
+	 * 2020-10-18 0:43:34
+	 */
+	boolean remove(String sessionId, GGXSession session);
+	
+	/**
 	 * 清除所有session
 	 * @return
 	 * 
@@ -79,5 +89,7 @@ public interface SessionManager{
 	 * 2020-9-13 12:11:12
 	 */
 	void sendToAllSession(Message message);
+
+	
 
 }

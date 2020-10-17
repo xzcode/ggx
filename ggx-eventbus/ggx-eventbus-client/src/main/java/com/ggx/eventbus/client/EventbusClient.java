@@ -67,11 +67,11 @@ public class EventbusClient{
 			GGXCoreClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
 			
-			GroupServiceClientSession serviceClientSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession, sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
+			GGXSession serviceClientSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession, sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
 			
 			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
 			if (addSessionIfAbsent != null) {
-				serviceClientSession = (GroupServiceClientSession) addSessionIfAbsent;
+				serviceClientSession = addSessionIfAbsent;
 			}
 			
 			serviceClientSession.send(req);
