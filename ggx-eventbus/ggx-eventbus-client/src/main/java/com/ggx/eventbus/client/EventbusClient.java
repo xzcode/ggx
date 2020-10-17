@@ -12,11 +12,9 @@ import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
-import com.ggx.eventbus.client.handler.EventMessageRespHandler;
-import com.ggx.eventbus.client.handler.EventPublishRespHandler;
-import com.ggx.eventbus.client.handler.EventSubscribeRespHandler;
-import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.eventbus.client.controller.EventbusClientController;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
+import com.ggx.eventbus.client.subscriber.impl.DefaultSubscriberManager;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
@@ -39,10 +37,8 @@ public class EventbusClient{
 	public void init() {
 		
 		if (this.config.getSubscribeManager() == null) {
-			this.config.setSubscribeManager(new SubscriberManager());
+			this.config.setSubscribeManager(new DefaultSubscriberManager());
 		}
-		
-		
 		
 		SessionGroupClientConfig sessionGroupClientConfig = new SessionGroupClientConfig();
 		sessionGroupClientConfig.setEnableServiceClient(true);
@@ -86,9 +82,7 @@ public class EventbusClient{
 		
 		this.config.setSessionGroupClient(sessionGroupClient);
 		
-		this.serviceClient.registerController(new EventPublishRespHandler(config));
-		this.serviceClient.registerController(new EventSubscribeRespHandler(config));
-		this.serviceClient.registerController(new EventMessageRespHandler(config));
+		this.serviceClient.registerMessageController(new EventbusClientController(config));
 		
 		
 		//包日志输出控制
@@ -135,16 +129,14 @@ public class EventbusClient{
 	}
 
 	/**
-	 * 注册事件订阅
+	 * 注册事件订阅控制器
 	 *
-	 * @param <T>
-	 * @param eventId
-	 * @param subscriber
+	 * @param controllerObj
 	 * @author zai
-	 * 2020-04-11 22:54:45
+	 * 2020-10-17 16:10:11
 	 */
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.config.getSubscribeManager().subscribe(eventId, subscriber);
+	public void registerSubscriberController(Object controllerObj) {
+		this.config.getSubscribeManager().registerSubscriberController(controllerObj);
 	}
 
 	public void shutdown() {

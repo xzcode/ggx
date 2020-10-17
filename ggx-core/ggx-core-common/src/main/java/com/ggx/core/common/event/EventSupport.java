@@ -55,4 +55,11 @@ public interface EventSupport extends EventManager {
 		return getEventManager().createEventListenerGroup();
 	}
 
+	@Override
+	default void registerEventController(Object controller) {
+		getEventManager().registerEventController(controller);
+	}
+	
+	
+
 }

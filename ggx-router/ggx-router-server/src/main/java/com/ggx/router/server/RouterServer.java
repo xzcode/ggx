@@ -92,7 +92,7 @@ public class RouterServer implements GGXCoreSupport {
 		
 		
 		//监听session断开传递
-		this.sessionServiceServer.registerController(new MessageController(){
+		this.sessionServiceServer.registerMessageController(new MessageController(){
 
 			@GGXAction
 			public void disconnectTransferReq(RouterSessionDisconnectTransferReq req) {

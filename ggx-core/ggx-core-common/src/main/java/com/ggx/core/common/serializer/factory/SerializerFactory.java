@@ -2,6 +2,7 @@ package com.ggx.core.common.serializer.factory;
 
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.impl.JsonSerializer;
+import com.ggx.core.common.serializer.impl.KryoSerializer;
 import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 
 /**
@@ -12,9 +13,11 @@ import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
  */
 public class SerializerFactory {
 	
-	private static final Serializer JSON_SERIALIZER = new JsonSerializer();
+	public static final Serializer JSON_SERIALIZER = new JsonSerializer();
 	
-	private static final Serializer PROTO_STUFF_SERIALIZER = new ProtoStuffSerializer();
+	public static final Serializer PROTO_STUFF_SERIALIZER = new ProtoStuffSerializer();
+	
+	public static final Serializer KRYO_SERIALIZER = new KryoSerializer();
 	
 	/**
 	 * 序列化器类型定义
@@ -27,6 +30,8 @@ public class SerializerFactory {
 		String JSON = "json";
 		
 		String PROTO_STUFF = "protostuff";
+		
+		String KRYO = "kryo";
 		
 	}
 	
@@ -45,6 +50,9 @@ public class SerializerFactory {
 			
 		case SerializerType.PROTO_STUFF:
 			return PROTO_STUFF_SERIALIZER;
+			
+		case SerializerType.KRYO:
+			return KRYO_SERIALIZER;
 			
 		default:
 			return null;
@@ -68,6 +76,10 @@ public class SerializerFactory {
 		
 		if (serializer == JSON_SERIALIZER || serializer.getClass() == JSON_SERIALIZER.getClass()) {
 			return SerializerType.JSON;
+		}
+		
+		if (serializer == KRYO_SERIALIZER || serializer.getClass() == KRYO_SERIALIZER.getClass()) {
+			return SerializerType.KRYO;
 		}
 		return null;
 		

@@ -2,6 +2,7 @@ package com.ggx.eventbus.group.client.config;
 
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
+import com.ggx.eventbus.client.subscriber.impl.DefaultSubscriberManager;
 import com.ggx.registry.client.RegistryClient;
 
 import io.netty.channel.EventLoopGroup;
@@ -21,7 +22,7 @@ public class EventbusGroupClientConfig {
 	protected EventLoopGroup sharedEventLoopGroup;
 	
 	// 订阅者管理器
-	protected SubscriberManager subscribeManager = new SubscriberManager();
+	protected SubscriberManager subscribeManager = new DefaultSubscriberManager();
 	
 	
 	//事件组id

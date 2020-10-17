@@ -43,10 +43,6 @@ public class GGXRpcServiceStarter extends GGXBasicServerStarter {
 
 	}
 	
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.eventbusGroupClient.subscribe(eventId, subscriber);
-	}
 
 	@Override
 	public void start() {

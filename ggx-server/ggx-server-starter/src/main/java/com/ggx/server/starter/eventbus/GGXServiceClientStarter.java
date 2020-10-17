@@ -1,7 +1,7 @@
 package com.ggx.server.starter.eventbus;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
@@ -34,11 +34,7 @@ public class GGXServiceClientStarter extends GGXBasicServerStarter {
 
 	}
 	
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.eventbusGroupClient.subscribe(eventId, subscriber);
-	}
-
+	
 	@Override
 	public void start() {
 		this.registryClient.start();

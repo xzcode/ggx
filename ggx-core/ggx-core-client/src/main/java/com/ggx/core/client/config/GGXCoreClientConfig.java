@@ -27,7 +27,7 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 		super.init();
 
 		if (isPingPongEnabled()) {
-			messageControllerManager.register(new GGXPingPongController(this));
+			messageControllerManager.registerMessageController(new GGXPingPongController(this));
 			eventManager.addEventListener(GGXCoreEvents.Idle.WRITE, new GGXPingPongClientEventListener(this));
 		}
 

@@ -98,5 +98,15 @@ public interface EventManager {
 	 * 2019-12-05 10:51:45
 	 */
 	<T> EventListenerGroup<T> createEventListenerGroup();
+	
+	
+	/**
+	 * 注册事件控制器
+	 * 
+	 * @param controller
+	 * @author zai
+	 * 2019-12-05 10:50:46
+	 */
+	void registerEventController(Object controller);
 
 }

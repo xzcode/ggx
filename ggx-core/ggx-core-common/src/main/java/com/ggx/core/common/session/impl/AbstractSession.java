@@ -77,6 +77,8 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 			}
 		}
 	}
+	
+	
 
 	public C getConfig() {
 		return this.config;

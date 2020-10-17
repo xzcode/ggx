@@ -30,7 +30,7 @@ import com.ggx.core.common.filter.impl.FinalSendPackChainFilter;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.actionid.ActionIdGenerator;
 import com.ggx.core.common.message.actionid.AddActionIdPrefixHandler;
-import com.ggx.core.common.message.actionid.impl.DefaultActionIdGrnarator;
+import com.ggx.core.common.message.actionid.impl.DefaultActionIdGenerator;
 import com.ggx.core.common.message.actionid.impl.DefaultAddActionIdPrefixHandler;
 import com.ggx.core.common.message.pingpong.model.Ping;
 import com.ggx.core.common.message.pingpong.model.Pong;
@@ -183,7 +183,7 @@ public class GGXCoreConfig {
 				);
 		
 		if (this.actionIdGenerator == null) {
-			this.actionIdGenerator =  new DefaultActionIdGrnarator(this);
+			this.actionIdGenerator =  new DefaultActionIdGenerator(this);
 		}
 		if (this.actionIdCacheManager == null) {
 			this.actionIdCacheManager =  new ActionIdCacheManager(this);

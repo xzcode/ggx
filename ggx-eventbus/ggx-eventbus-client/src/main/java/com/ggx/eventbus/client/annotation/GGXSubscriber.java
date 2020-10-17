@@ -1,4 +1,4 @@
-package com.ggx.core.common.message.receive.controller.annotation;
+package com.ggx.eventbus.client.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface GGXAction {
+public @interface GGXSubscriber {
 	
 	String value() default "";
 	

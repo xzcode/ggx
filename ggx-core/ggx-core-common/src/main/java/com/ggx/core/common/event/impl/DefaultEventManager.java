@@ -1,13 +1,18 @@
 package com.ggx.core.common.event.impl;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.EventListenerGroup;
 import com.ggx.core.common.event.EventManager;
+import com.ggx.core.common.event.annotation.GGXEventListener;
+import com.ggx.core.common.event.controller.EventControllerMethodInfo;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.reflect.GGXReflectUtil;
 
 /**
  * 默认事件管理器
@@ -42,13 +47,11 @@ public class DefaultEventManager implements EventManager {
 		EventListenerGroup<T> group = null;
 		group = (EventListenerGroup<T>) eventMap.get(event);
 		if (group == null) {
-			synchronized (this) {
-				group = (EventListenerGroup<T>) eventMap.get(event);
-				if (group == null) {
-					group = createEventListenerGroup();
-					eventMap.put(event, group);
+				group = createEventListenerGroup();
+				EventListenerGroup<T> old = (EventListenerGroup<T>) eventMap.put(event, group);
+				if (old != null) {
+					group = old;
 				}
-			}
 		}
 		group.addListener((EventListener<T>) listener);
 	}
@@ -99,6 +102,44 @@ public class DefaultEventManager implements EventManager {
 	@Override
 	public <T> EventListenerGroup<T> createEventListenerGroup() {
 		return new DefaultEventListenerGroup<>();
+	}
+
+	@Override
+	public void registerEventController(Object controller) {
+		
+		Class<?> controllerClass = controller.getClass();
+		List<Method> methods = GGXReflectUtil.getAllDeclaredMethods(controllerClass);
+		for (Method method : methods) {
+			method.setAccessible(true);
+			EventControllerMethodInfo methodInfo = new EventControllerMethodInfo();
+			GGXEventListener annotation = method.getAnnotation(GGXEventListener.class);
+			if (annotation == null) {
+				continue;
+			}
+			String eventId = annotation.value();
+			Class<?> eventDataClass = EventData.class;
+			Class<?>[] parameterTypes = method.getParameterTypes();
+			int i = 0;
+			for (Class<?> paramType : parameterTypes) {
+				if (paramType == EventData.class) {
+					eventDataClass = paramType;
+					methodInfo.setMessageParamIndex(i);
+				}
+				i++;
+			}
+			
+			methodInfo.setMessageClass(eventDataClass);
+			methodInfo.setMethod(method);
+			methodInfo.setControllerClass(controllerClass);
+			methodInfo.setControllerObj(controller);
+			methodInfo.setEventId(eventId);
+			methodInfo.setParamClasses(parameterTypes);
+				
+			addEventListener(eventId, new ControllerMethodEventListener<>(methodInfo));
+			
+		}
+		
+		
 	}
 
 

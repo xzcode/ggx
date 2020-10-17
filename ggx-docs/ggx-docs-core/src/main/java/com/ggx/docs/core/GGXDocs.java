@@ -19,8 +19,8 @@ import javax.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.message.actionid.impl.DefaultActionIdGrnarator;
-import com.ggx.core.common.utils.MessageActionIdUtil;
+import com.ggx.core.common.message.actionid.impl.DefaultActionIdGenerator;
+import com.ggx.core.common.utils.ClassNameGenerateIdUtil;
 import com.ggx.docs.core.annotation.DocsModel;
 import com.ggx.docs.core.annotation.DocsModelProperty;
 import com.ggx.docs.core.annotation.DocsNamespace;
@@ -90,7 +90,7 @@ public class GGXDocs {
 			DocsModel docsModel = loadClass.getAnnotation(DocsModel.class);
 			String actionId = docsModel.actionId();
 			if (actionId == null || actionId.isEmpty()) {
-				actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(loadClass);
+				actionId = ClassNameGenerateIdUtil.generateClassNameDotId(loadClass);
 				if (doc.getActionIdPrefix() != null) {
 					actionId = doc.getActionIdPrefix() + actionId;
 				}

@@ -27,9 +27,4 @@ public class GGXRegistryServerStarter extends GGXBasicServerStarter {
 		return this.registryServer.getConfig().getServer();
 	}
 
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		GGXLogUtil.getLogger(this).error("Registry Server can not subscribe events!");
-	}
-
 }

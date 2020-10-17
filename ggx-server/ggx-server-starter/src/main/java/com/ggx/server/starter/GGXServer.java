@@ -4,7 +4,6 @@ import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
@@ -146,19 +145,16 @@ public class GGXServer implements GGXServerStarter{
 	public GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
 		return this.serverStarter.routeMessage(groupId, serviceId, message, session);
 	}
-	
-	
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.serverStarter.subscribe(eventId, subscriber);
-	}
-	
 
 	@Override
 	public void publish(String eventId, Object data) {
 		this.serverStarter.publish(eventId, data);
 	}
 	
-	
+	@Override
+	public void registerSubscriberController(Object controller) {
+		this.serverStarter.registerSubscriberController(controller);
+	}
 
 	@Override
 	public void registerRpcService(Class<?> serviceInterface, Object serviceObj) {

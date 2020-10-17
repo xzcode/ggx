@@ -27,9 +27,9 @@ public class GGXReflectUtil {
 		if (includeSelf) {
 			list.add(clazz);
 		}
-		Class<?> superclass = null;
+		Class<?> superclass = clazz;
 		do {
-			superclass = clazz.getSuperclass();
+			superclass = superclass.getSuperclass();
 			if (superclass != null && superclass != Object.class) {
 				list.add(superclass);
 			}

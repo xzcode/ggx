@@ -1,8 +1,14 @@
 package com.ggx.core.common.utils;
 
-public class MessageActionIdUtil {
+public class ClassNameGenerateIdUtil {
 	
-	public static String generateClassNameDotSplitActionId(Class<?> clazz) {
+	public static String generateClassNameDotId(Class<?> clazz) {
+		return generateClassNameId(clazz, ".");
+	}
+	public static String generateClassNameSublineSplitId(Class<?> clazz) {
+		return generateClassNameId(clazz, "_");
+	}
+	public static String generateClassNameId(Class<?> clazz, String delimiter) {
 		String simpleName = clazz.getSimpleName();
 		int len = simpleName.length();
 		StringBuilder sb = new StringBuilder(32);
@@ -13,7 +19,7 @@ public class MessageActionIdUtil {
 				if (i == 0) {
 					continue;
 				}
-				sb.append(simpleName.substring(readIndex, i).toLowerCase()).append(".");
+				sb.append(simpleName.substring(readIndex, i).toLowerCase()).append(delimiter);
 				readIndex += i - readIndex;
 			}
 		}

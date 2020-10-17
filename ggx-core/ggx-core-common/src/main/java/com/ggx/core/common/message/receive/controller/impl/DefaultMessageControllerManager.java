@@ -26,7 +26,7 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 	}
 
 	@Override
-	public void register(Object controller) {
+	public void registerMessageController(Object controller) {
 		
 		ActionIdCacheManager actionIdCacheManager = config.getActionIdCacheManager();
 		Class<?> controllerClass = controller.getClass();
@@ -38,9 +38,10 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 			if (annotation == null) {
 				continue;
 			}
+			String actionId = annotation.value();
 			Class<?> onMessageClass = annotation.onMessage();
-			if (onMessageClass == Void.class) {
-				onMessageClass = annotation.value();
+			if (actionId.isEmpty()) {
+				actionId = null;
 			}
 			if (onMessageClass == Void.class) {
 				onMessageClass = null;
@@ -61,7 +62,7 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 				}
 			}
 			
-			if (onMessageClass != null) {
+			if (onMessageClass != null || actionId != null) {
 				Class<?> returnType = method.getReturnType();
 				methodInfo.setReturnClass(returnType);
 				methodInfo.setReturnMessage(returnType.isAssignableFrom(Message.class));
@@ -69,7 +70,11 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 				methodInfo.setMethod(method);
 				methodInfo.setControllerClass(controllerClass);
 				methodInfo.setControllerObj(controller);
-				methodInfo.setActionId(actionIdCacheManager.get(onMessageClass));
+				if (actionId != null) {
+					methodInfo.setActionId(actionId);
+				}else {
+					methodInfo.setActionId(actionIdCacheManager.get(onMessageClass));
+				}
 				methodInfo.setParamClasses(parameterTypes);
 				
 				this.put(methodInfo.getActionId(), methodInfo);

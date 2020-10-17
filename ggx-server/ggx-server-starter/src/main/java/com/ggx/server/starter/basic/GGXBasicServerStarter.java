@@ -3,13 +3,10 @@ package com.ggx.server.starter.basic;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
-import com.ggx.core.common.message.MessageData;
-import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.EventbusServer;
@@ -20,12 +17,6 @@ import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
-import com.ggx.router.client.service.RouterService;
-import com.ggx.router.client.service.RouterServiceProvider;
-import com.ggx.router.client.service.impl.RegistrySingleServicePorvider;
-import com.ggx.router.client.service.loadblancer.constant.RouterServiceProviderType;
-import com.ggx.router.client.service.manager.RouterServiceManager;
-import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.rpc.client.RpcClient;
@@ -107,13 +98,18 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
 	}
 	
+	
+
+
 	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
+	public void registerSubscriberController(Object controller) {
 		if (this.eventbusGroupClient != null) {
-			this.eventbusGroupClient.subscribe(eventId, subscriber);
+			this.eventbusGroupClient.registerSubscriberController(controller);
 		}
 		
 	}
+
+
 
 	@Override
 	public void publish(String eventId, Object data) {

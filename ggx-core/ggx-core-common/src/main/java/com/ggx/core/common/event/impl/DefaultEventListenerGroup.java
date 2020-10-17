@@ -48,7 +48,7 @@ public class DefaultEventListenerGroup<T> implements EventListenerGroup<T>{
 		for (EventListener<T> li : listeners) {
 			try {
 				li.onEvent(eventData);				
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				GGXLogUtil.getLogger(this.getClass()).error("Invoke Event Error!", e);
 			}
 		}

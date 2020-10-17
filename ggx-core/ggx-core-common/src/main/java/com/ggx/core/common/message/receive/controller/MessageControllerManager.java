@@ -12,7 +12,7 @@ public interface MessageControllerManager {
 	 * @author zai
 	 * 2020-10-09 18:35:54
 	 */
-	void register(Object controller);
+	void registerMessageController(Object controller);
 
 	/**
 	 * 调用消息处理器

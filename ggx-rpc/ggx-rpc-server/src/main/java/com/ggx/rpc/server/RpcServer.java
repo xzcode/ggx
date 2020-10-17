@@ -56,7 +56,7 @@ public class RpcServer implements GGXCoreSupport{
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		GGXCoreServerConfig serviceServerConfig = this.serviceServer.getConfig();
 		serviceServerConfig.setGgxComponent(true);
-		this.serviceServer.registerController(new RpcReqHandler(config));
+		this.serviceServer.registerMessageController(new RpcReqHandler(config));
 	
 		
 		

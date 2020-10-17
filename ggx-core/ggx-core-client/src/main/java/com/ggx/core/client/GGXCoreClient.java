@@ -4,9 +4,9 @@ import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGXCoreClientStarter;
 import com.ggx.core.client.starter.impl.DefaultGGXCoreClientStarter;
 import com.ggx.core.common.config.GGXCoreConfigSupport;
-import com.ggx.core.common.control.GGXSessionDisconnectSupport;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
+import com.ggx.core.common.session.support.GGXSessionDisconnectSupport;
 
 /**
  * 客户端

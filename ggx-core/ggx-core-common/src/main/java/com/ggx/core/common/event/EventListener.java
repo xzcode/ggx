@@ -8,6 +8,8 @@ public interface EventListener<T> {
 		return null;
 	}
 	
-	void onEvent(EventData<T> eventData);
+	
+	
+	void onEvent(EventData<T> eventData) throws Throwable;
 	
 }

@@ -2,20 +2,20 @@ package com.ggx.core.common.message.actionid.impl;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.actionid.ActionIdGenerator;
-import com.ggx.core.common.utils.MessageActionIdUtil;
+import com.ggx.core.common.utils.ClassNameGenerateIdUtil;
 
-public class DefaultActionIdGrnarator implements ActionIdGenerator{
+public class DefaultActionIdGenerator implements ActionIdGenerator{
 	
 	private GGXCoreConfig config;
 	
-	public DefaultActionIdGrnarator(GGXCoreConfig config) {
+	public DefaultActionIdGenerator(GGXCoreConfig config) {
 		super();
 		this.config = config;
 	}
 
 	@Override
 	public String generate(Class<?> clazz) {
-		String actionId = MessageActionIdUtil.generateClassNameDotSplitActionId(clazz);
+		String actionId = ClassNameGenerateIdUtil.generateClassNameDotId(clazz);
 		boolean startWithGGX = (actionId.startsWith(config.getGgxComponentAtionIdPrefix()) || actionId.startsWith(config.getGgxComponentAtionIdPrefix().toLowerCase()));
 		if (!startWithGGX) {
 			if (config.getActionIdPrefix() != null && !config.getActionIdPrefix().isEmpty()) {

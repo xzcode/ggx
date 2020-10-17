@@ -22,8 +22,8 @@ public interface ReceiveMessageSupport {
 	
 	
 
-	default void registerController(Object controller) {
-		getMessageControllerManager().register(controller);
+	default void registerMessageController(Object controller) {
+		getMessageControllerManager().registerMessageController(controller);
 	}
 
 }

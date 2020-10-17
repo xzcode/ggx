@@ -1,10 +1,10 @@
 package com.ggx.server.starter;
 
 import com.ggx.core.common.config.GGXCoreSupport;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 
 public interface GGXServerStarter extends GGXCoreSupport{
 	
@@ -28,11 +28,10 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	
 	
 	/**
-	 * 订阅eventbus事件
-	 * @param eventId
-	 * @param subscriber
+	 * 注册eventbus事件控制器
+	 * @param controller
 	 */
-	void subscribe(String eventId, Subscriber subscriber);
+	void registerSubscriberController(Object controller);
 	
 	/**
 	 * 发布eventbus事件
@@ -40,6 +39,7 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @param subscriber
 	 */
 	void publish(String eventId, Object data);
+	
 	
 	/**
 	 * 注册RPC服务

@@ -1,6 +1,7 @@
 package com.ggx.server.starter.eventbus;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.server.EventbusServer;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
@@ -36,12 +37,6 @@ public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 				this.shutdown();
 			}
 		});
-		
-	}
-	
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		GGXLogUtil.getLogger(this).error("Eventbus Server can not subscribe events!");
 		
 	}
 	

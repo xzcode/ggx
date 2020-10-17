@@ -60,7 +60,7 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 		
 
 		if (isPingPongEnabled()) {
-			messageControllerManager.register(new GGXPingPongController(this));	
+			messageControllerManager.registerMessageController(new GGXPingPongController(this));	
 			eventManager.addEventListener(GGXCoreEvents.Idle.READ, new GGXPingPongServerEventListener(this));
 		}
 		

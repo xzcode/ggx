@@ -1,7 +1,10 @@
-package com.ggx.eventbus.client.subscriber;
+package com.ggx.eventbus.client.subscriber.group;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.ggx.eventbus.client.subscriber.Subscriber;
+import com.ggx.eventbus.client.subscriber.model.SubscriptionData;
 
 /***
  * 订阅信息
@@ -14,6 +17,9 @@ public class SubscriberGroup {
 	//事件id
 	private String eventId;
 	
+	//数据类型
+	private Class<?> dataType;
+	
 	//订阅的会话集合
 	private List<Subscriber> subscribers = new CopyOnWriteArrayList<>();
 	
@@ -22,7 +28,7 @@ public class SubscriberGroup {
 		this.eventId = eventId;
 	}
 	
-	public void trigger(SubscriptionData subscriptionData) {
+	public void trigger(SubscriptionData subscriptionData) throws Throwable {
 		for (Subscriber subscriber : subscribers) {
 			subscriber.trigger(subscriptionData);
 		}
@@ -38,6 +44,14 @@ public class SubscriberGroup {
 	
 	public String getEventId() {
 		return eventId;
+	}
+	
+	public Class<?> getDataType() {
+		return dataType;
+	}
+	
+	public void setDataType(Class<?> dataType) {
+		this.dataType = dataType;
 	}
 	
 }

@@ -140,16 +140,13 @@ public class EventbusGroupClient{
 	}
 
 	/**
-	 * 注册事件订阅
+	 * 注册事件订阅控制器
 	 *
-	 * @param <T>
-	 * @param eventId
-	 * @param subscriber
+	 * @param controllerObj
 	 * @author zai
-	 * 2020-04-11 22:54:45
+	 * 2020-10-17 16:10:11
 	 */
-	public <T> void subscribe(String eventId, Subscriber subscriber) {
-		this.config.getSubscribeManager().subscribe(eventId, subscriber);
+	public void registerSubscriberController(Object controllerObj) {
+		this.config.getSubscribeManager().registerSubscriberController(controllerObj);
 	}
-
 }

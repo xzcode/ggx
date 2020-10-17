@@ -151,7 +151,7 @@ public class RouterService {
 		
 		
 
-		this.serviceClient.registerController(new MessageController() {
+		this.serviceClient.registerMessageController(new MessageController() {
 			
 			@GGXAction
 			public void handle(RouteMessageResp resp, GGXSession session) {

@@ -1,8 +1,8 @@
 package com.ggx.core.server;
 
 import com.ggx.core.common.config.GGXCoreConfigSupport;
-import com.ggx.core.common.control.GGXSessionDisconnectSupport;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.session.support.GGXSessionDisconnectSupport;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 
 /**

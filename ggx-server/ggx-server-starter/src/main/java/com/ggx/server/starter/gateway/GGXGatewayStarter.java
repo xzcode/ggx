@@ -1,6 +1,7 @@
 package com.ggx.server.starter.gateway;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.eventbus.client.subscriber.Subscriber;
@@ -49,12 +50,7 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 		this.rpcClient = new RpcClient(rpcClientConfig);
 	}
 	
-	@Override
-	public void subscribe(String eventId, Subscriber subscriber) {
-		this.eventbusGroupClient.subscribe(eventId, subscriber);
-	}
-	
-	
+
 	public void start() {
 		
 		this.coreServer.start().addListener(f -> {
