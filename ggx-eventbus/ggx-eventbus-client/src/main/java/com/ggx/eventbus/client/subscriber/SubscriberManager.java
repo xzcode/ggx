@@ -2,6 +2,7 @@ package com.ggx.eventbus.client.subscriber;
 
 import java.util.List;
 
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.eventbus.client.subscriber.group.SubscriberGroup;
 /**
  * 订阅管理器
@@ -39,5 +40,14 @@ public interface SubscriberManager {
 	 * 2020-05-18 18:33:14
 	 */
 	SubscriberGroup getSubscriberGroup(String eventId);
+
+	/**
+	 * 根据事件消息class获取eventid
+	 * @param clazz
+	 * @return
+	 * @author zai
+	 * 2020-10-18 15:55:35
+	 */
+	String getEventId(Class<? extends EventbusMessage> clazz);
 
 }

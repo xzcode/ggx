@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.common.message.resp.EventMessageResp;
+import com.ggx.common.controller.resp.EventMessageResp;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.group.common.group.GGSessionGroup;

@@ -1,10 +1,8 @@
 package com.ggx.server.starter.gateway;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;

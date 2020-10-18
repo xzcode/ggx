@@ -1,5 +1,6 @@
 package com.ggx.server.starter.basic;
 
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
@@ -112,9 +113,9 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 
 
 	@Override
-	public void publish(String eventId, Object data) {
+	public void publishEventbusMessage(EventbusMessage message) {
 		if (this.eventbusGroupClient != null) {
-			this.eventbusGroupClient.publishEvent(eventId, data);
+			this.eventbusGroupClient.publishEventbusMessage(message);
 		}
 	}
 

@@ -1,8 +1,8 @@
 package com.ggx.eventbus.client.controller;
 
-import com.ggx.common.message.resp.EventMessageResp;
-import com.ggx.common.message.resp.EventPublishResp;
-import com.ggx.common.message.resp.EventSubscribeResp;
+import com.ggx.common.controller.resp.EventMessageResp;
+import com.ggx.common.controller.resp.EventPublishResp;
+import com.ggx.common.controller.resp.EventSubscribeResp;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.factory.SerializerFactory;

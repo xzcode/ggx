@@ -1,11 +1,9 @@
 package com.ggx.server.starter.registry;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
-import com.ggx.util.logger.GGXLogUtil;
 
 public class GGXRegistryServerStarter extends GGXBasicServerStarter {
 

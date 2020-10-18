@@ -2,14 +2,14 @@ package com.ggx.eventbus.client;
 
 import java.util.List;
 
-import com.ggx.common.message.req.EventPublishReq;
-import com.ggx.common.message.req.EventSubscribeReq;
+import com.ggx.common.controller.req.EventPublishReq;
+import com.ggx.common.controller.req.EventSubscribeReq;
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
-import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.controller.EventbusClientController;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
@@ -97,7 +97,7 @@ public class EventbusClient{
 	 * @author zai
 	 * 2020-04-11 18:12:48
 	 */
-	public void publishEvent(String eventId, Object data) {
+	public void publishEvent(String eventId, EventbusMessage data) {
 		try {
 			
 			EventPublishReq publishReq = new EventPublishReq();
@@ -115,6 +115,10 @@ public class EventbusClient{
 		} catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("Eventbus publish event ERROR!", e);
 		}
+	}
+	public void publishEvent(EventbusMessage message) {
+		String eventId = config.getSubscribeManager().getEventId(message.getClass());
+		publishEvent(eventId, message);
 	}
 
 	/**

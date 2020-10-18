@@ -1,7 +1,6 @@
 package com.ggx.server.starter.eventbus;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.event.model.EventData;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;

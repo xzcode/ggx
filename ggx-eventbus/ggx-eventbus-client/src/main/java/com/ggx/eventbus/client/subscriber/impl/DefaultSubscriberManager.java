@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.eventbus.client.annotation.GGXSubscriber;
 import com.ggx.eventbus.client.subscriber.Subscriber;
@@ -13,7 +14,6 @@ import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.eventbus.client.subscriber.eventid.EventIdGenerator;
 import com.ggx.eventbus.client.subscriber.eventid.impl.DefaultEventIdGenerator;
 import com.ggx.eventbus.client.subscriber.group.SubscriberGroup;
-import com.ggx.eventbus.client.subscriber.message.SubscriberMessage;
 import com.ggx.eventbus.client.subscriber.model.ControllerSubscriberMethodInfo;
 import com.ggx.eventbus.client.subscriber.model.SubscriptionData;
 import com.ggx.util.reflect.GGXReflectUtil;
@@ -31,6 +31,8 @@ public class DefaultSubscriberManager implements SubscriberManager {
 	private Map<String, SubscriberGroup> groups = new ConcurrentHashMap<String, SubscriberGroup>();
 	
 	private EventIdGenerator eventIdGenerator = new DefaultEventIdGenerator();
+	
+	private Map<Class<?>, String> eventIdCache = new ConcurrentHashMap<>();
 	
 	/**
 	 * 获取事件id集合
@@ -63,6 +65,7 @@ public class DefaultSubscriberManager implements SubscriberManager {
 			}
 		}
 		group.add(subscriber);
+		eventIdCache.put(subscriber.getDataType(), eventId);
 	}
 	
 
@@ -84,7 +87,7 @@ public class DefaultSubscriberManager implements SubscriberManager {
 			Class<?>[] parameterTypes = method.getParameterTypes();
 			int i = 0;
 			for (Class<?> paramType : parameterTypes) {
-				if (SubscriberMessage.class.isAssignableFrom(paramType)) {
+				if (EventbusMessage.class.isAssignableFrom(paramType)) {
 					eventDataClass = paramType;
 					methodInfo.setMessageParamIndex(i);
 				}
@@ -103,9 +106,13 @@ public class DefaultSubscriberManager implements SubscriberManager {
 				
 			subscribe(eventId, new ControllerMethodSubscriber(methodInfo));
 			
+			
 		}
-		
-		
+	}
+	
+	@Override
+	public String getEventId(Class<? extends EventbusMessage> clazz) {
+		return this.eventIdCache.get(clazz);
 	}
 	
 	/**

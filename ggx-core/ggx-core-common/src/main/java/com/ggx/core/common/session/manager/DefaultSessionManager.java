@@ -12,7 +12,6 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
-import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 
 /**

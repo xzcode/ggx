@@ -1,5 +1,6 @@
 package com.ggx.server.starter;
 
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.model.Message;
@@ -147,8 +148,8 @@ public class GGXServer implements GGXServerStarter{
 	}
 
 	@Override
-	public void publish(String eventId, Object data) {
-		this.serverStarter.publish(eventId, data);
+	public void publishEventbusMessage(EventbusMessage message) {
+		this.serverStarter.publishEventbusMessage(message);
 	}
 	
 	@Override

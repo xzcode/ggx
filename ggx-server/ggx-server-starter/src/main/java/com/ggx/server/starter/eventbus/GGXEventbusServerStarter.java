@@ -1,14 +1,11 @@
 package com.ggx.server.starter.eventbus;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.core.common.event.model.EventData;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.server.EventbusServer;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.server.starter.basic.GGXBasicServerStarter;
-import com.ggx.util.logger.GGXLogUtil;
 
 public class GGXEventbusServerStarter extends GGXBasicServerStarter{
 	

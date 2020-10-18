@@ -7,10 +7,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
-import com.ggx.eventbus.client.subscriber.Subscriber;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
@@ -123,7 +123,7 @@ public class EventbusGroupClient{
 	 * @author zai
 	 * 2020-05-12 14:29:38
 	 */
-	public void publishEvent(String eventId, Object data) {
+	public void publishEvent(String eventId, EventbusMessage data) {
 		if (this.eventbusClientList.size() == 0) {
 			return;
 		}
@@ -135,8 +135,26 @@ public class EventbusGroupClient{
 		}
 		
 		eventbusClient.publishEvent(eventId, data);
+	}
+	
+	/**
+	 * 发布事件消息
+	 * @param message
+	 * @author zai
+	 * 2020-10-18 16:04:18
+	 */
+	public void publishEventbusMessage(EventbusMessage message) {
+		if (this.eventbusClientList.size() == 0) {
+			return;
+		}
+		EventbusClient eventbusClient = null;
+		if (this.eventbusClientList.size() == 1) {
+			eventbusClient = this.eventbusClientList.get(0);
+		}else {
+			eventbusClient = this.eventbusClientList.get(ThreadLocalRandom.current().nextInt(this.eventbusClientList.size()));
+		}
 		
-		
+		eventbusClient.publishEvent(message);
 	}
 
 	/**

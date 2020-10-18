@@ -5,9 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.common.message.req.EventPublishReq;
-import com.ggx.common.message.req.EventSubscribeReq;
-import com.ggx.common.message.resp.EventMessageResp;
+import com.ggx.common.controller.req.EventPublishReq;
+import com.ggx.common.controller.req.EventSubscribeReq;
+import com.ggx.common.controller.resp.EventMessageResp;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
