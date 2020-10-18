@@ -14,6 +14,7 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.send.support.MakePackSupport;
+import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 
 /**
@@ -72,6 +73,15 @@ public interface GGSessionGroup extends MakePackSupport {
 			}
 		}
 		return defaultFuture;
+	}
+	
+	default void sendToAll(Message message) {
+		Map<String, GGXSession> sessionMap = getSessionMap();
+		for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
+			GGXSession session = entry.getValue();
+			Pack makePack = session.makePack(new MessageData(session, message));
+			session.send(makePack);
+		}
 	}
 
 	/**

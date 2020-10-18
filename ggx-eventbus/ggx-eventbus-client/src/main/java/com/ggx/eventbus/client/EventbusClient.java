@@ -8,6 +8,8 @@ import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
@@ -25,6 +27,8 @@ public class EventbusClient{
 	private EventbusClientConfig config;
 	
 	private GGXCoreClient serviceClient;
+	
+	private Serializer serializer = SerializerFactory.KRYO_SERIALIZER;
 	
 	
 	public EventbusClient(EventbusClientConfig config) {
@@ -54,6 +58,12 @@ public class EventbusClient{
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 		
+		this.serviceClient = sessionGroupClientConfig.getServiceClient();
+		
+		this.config.setSessionGroupClient(sessionGroupClient);
+		
+		this.serviceClient.registerMessageController(new EventbusClientController(config));
+		
 		//添加会话注册成功监听
 		sessionGroupClient.addEventListener(GGSessionGroupEventConstant.SESSION_REGISTER_SUCCESS, e -> {
 			GGXSession groupSession = e.getSession();
@@ -64,25 +74,13 @@ public class EventbusClient{
 			//发送订阅请求
 			EventSubscribeReq req = new EventSubscribeReq(eventIds);
 			
-			GGXCoreClientConfig serviceClientConfig = this.config.getSessionGroupClient().getConfig().getServiceClient().getConfig();
+			GGXCoreClientConfig serviceClientConfig = this.serviceClient.getConfig();
 			SessionManager sessionManager = serviceClientConfig.getSessionManager();
-			
-			GGXSession serviceClientSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession, sessionGroupClientConfig.getSessionGroupId(), sessionGroupClientConfig.getSessionGroupManager(), serviceClientConfig );
-			
-			GGXSession addSessionIfAbsent = sessionManager.addSessionIfAbsent(serviceClientSession);
-			if (addSessionIfAbsent != null) {
-				serviceClientSession = addSessionIfAbsent;
-			}
+			GGXSession serviceClientSession = sessionManager.getSession(groupSession.getSessionId());
 			
 			serviceClientSession.send(req);
 			
 		});
-		
-		this.serviceClient = sessionGroupClientConfig.getServiceClient();
-		
-		this.config.setSessionGroupClient(sessionGroupClient);
-		
-		this.serviceClient.registerMessageController(new EventbusClientController(config));
 		
 	}
 	
@@ -103,7 +101,7 @@ public class EventbusClient{
 			EventPublishReq publishReq = new EventPublishReq();
 			publishReq.setEventId(eventId);
 			if (data != null) {
-				publishReq.setEventData(this.serviceClient.getConfig().getSerializer().serialize(data));
+				publishReq.setEventData(this.serializer.serialize(data));
 			}
 			
 			SessionManager sessionManager = this.serviceClient.getSessionManager();
@@ -118,6 +116,9 @@ public class EventbusClient{
 	}
 	public void publishEvent(EventbusMessage message) {
 		String eventId = config.getSubscribeManager().getEventId(message.getClass());
+		if (eventId == null) {
+			
+		}
 		publishEvent(eventId, message);
 	}
 

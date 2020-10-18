@@ -6,7 +6,6 @@ import com.ggx.common.controller.resp.EventSubscribeResp;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
-import com.ggx.core.common.serializer.factory.SerializerFactory.SerializerType;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.client.subscriber.SubscriberManager;
 import com.ggx.eventbus.client.subscriber.group.SubscriberGroup;
@@ -29,7 +28,6 @@ public class EventbusClientController{
 	public EventbusClientController(EventbusClientConfig config) {
 		super();
 		this.config = config;
-		this.serializer = this.config.getSessionGroupClient().getConfig().getSessionClient().getSerializer();
 	}
 
 
@@ -46,7 +44,7 @@ public class EventbusClientController{
 			if (subscriberGroup != null) {
 				Object data = null;
 				if (eventData != null && eventData.length > 0) {
-					data = serializer.deserialize(eventData, subscriberGroup.getDataType());
+					data =this.serializer.deserialize(eventData, subscriberGroup.getDataType());
 				}
 				subscriberGroup.trigger(new SubscriptionData(eventId, data));
 			}

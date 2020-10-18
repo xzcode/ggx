@@ -112,7 +112,12 @@ public class DefaultSubscriberManager implements SubscriberManager {
 	
 	@Override
 	public String getEventId(Class<? extends EventbusMessage> clazz) {
-		return this.eventIdCache.get(clazz);
+		String eventId = this.eventIdCache.get(clazz);
+		if (eventId == null) {
+			eventId = eventIdGenerator.generate(clazz);
+			eventIdCache.put(clazz, eventId);
+		}
+		return eventId;
 	}
 	
 	/**

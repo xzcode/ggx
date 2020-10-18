@@ -44,7 +44,7 @@ public class EventbusServerController {
 		byte[] eventData = req.getEventData();
 		
 		EventMessageResp resp = new EventMessageResp(eventId, eventData);
-		this.config.getSubscriptionManager().publish(resp);
+		this.subscriptionManager.publish(resp);
 		
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("\nPublish Event ['{}'] ", GSON.toJson(req));

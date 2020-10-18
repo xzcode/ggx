@@ -55,18 +55,4 @@ public class KryoSerializer implements Serializer {
 		KRYO_POOL.free(kryo);
 		return readObject;
 	}
-	/*
-	 * public static void main(String[] args) throws Exception { KryoSerializer
-	 * serializer = new KryoSerializer(); byte[] bytes1 = serializer.serialize(123);
-	 * System.out.println(Arrays.toString(bytes1)); byte[] bytes2 =
-	 * serializer.serialize(new int[] { 3, 2, 1 });
-	 * System.out.println(Arrays.toString(bytes2)); int[] dbytes2 =
-	 * serializer.deserialize(bytes2, int[].class);
-	 * System.out.println(Arrays.toString(dbytes2)); byte[] bytes3 =
-	 * serializer.serialize(Arrays.asList("1", "2", "3"));
-	 * System.out.println(Arrays.toString(bytes3)); List<String> dbytes3 =
-	 * serializer.deserialize(bytes3, ArrayList.class); System.out.println(dbytes3);
-	 * 
-	 * }
-	 */
 }
