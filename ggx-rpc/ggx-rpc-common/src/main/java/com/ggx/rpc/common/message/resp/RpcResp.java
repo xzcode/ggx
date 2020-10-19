@@ -25,6 +25,7 @@ public class RpcResp extends AbstractMessage {
 		super();
 		this.rpcId = rpcId;
 		this.returnData = returnData;
+		this.returnDataType = returnDataType;
 	}
 	
 	public RpcResp(String rpcId, byte[] returnData) {
