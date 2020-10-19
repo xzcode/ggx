@@ -27,6 +27,9 @@ public class RpcMethodCallback {
 	
 	private Class<?> returnType;
 	
+	//异步获取类型
+	private Class<?> asyncDataType;
+	
 	private boolean waiting;
 	
 	private boolean notified;
@@ -113,7 +116,11 @@ public class RpcMethodCallback {
 	public void setException(Throwable exception) {
 		this.exception = exception;
 	}
-	
-	
+	public void setAsyncDataType(Class<?> asyncGetType) {
+		this.asyncDataType = asyncGetType;
+	}
+	public Class<?> getAsyncDataType() {
+		return asyncDataType;
+	}
 
 }

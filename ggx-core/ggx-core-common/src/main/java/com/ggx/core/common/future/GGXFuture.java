@@ -19,6 +19,8 @@ public interface GGXFuture extends Future<Object>{
 	boolean cancel();
 	
 	<T> T get(Class<T> clazz);
+	
+	<T> T getSync(Class<T> clazz);
 
 	boolean isSuccess();
 	

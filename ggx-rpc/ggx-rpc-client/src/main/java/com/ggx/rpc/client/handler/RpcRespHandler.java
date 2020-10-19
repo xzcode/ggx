@@ -3,6 +3,7 @@ package com.ggx.rpc.client.handler;
 import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
+import com.ggx.core.common.serializer.impl.KryoSerializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.exception.RpcServiceRemoteErrorException;
@@ -34,6 +35,8 @@ public class RpcRespHandler {
 			String rpcId = resp.getRpcId();
 			byte[] returnData = resp.getReturnData();
 			boolean success = resp.isSuccess();
+			String returnDataType = resp.getReturnDataType();
+			
 			RpcMethodCallback callback = this.rpcMethodCallbackManager.get(rpcId);
 			if (callback == null) {
 				return;
@@ -46,10 +49,12 @@ public class RpcRespHandler {
 				if (!success) {
 					callback.setException(new RpcServiceRemoteErrorException(callback.getServiceName()));
 				}
-				if (returnData != null) {
-					callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getReturnType()));
-				}
-				if (!callback.isAsync()) {
+				if (callback.isAsync()) {
+					callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getAsyncDataType()));
+				}else {
+					if (returnData != null) {
+						callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getReturnType()));
+					}
 					synchronized(callback) {
 						if (callback.isWaiting()) {
 							callback.notify();

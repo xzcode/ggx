@@ -24,7 +24,11 @@ public class GGXDefaultFuture implements GGXFuture {
 
 	private boolean cancel;
 	
+	private boolean waiting;
+	
 	private Object data;
+	
+	private Class<?> dataType;
 	
 	private GGXSession session;
 	
@@ -35,6 +39,12 @@ public class GGXDefaultFuture implements GGXFuture {
 	}
 	
 	
+	
+	public GGXDefaultFuture(boolean success) {
+		this.success = success;
+		this.done = true;
+		this.triggerListeners();
+	}
 
 	public GGXDefaultFuture(boolean success, Object data) {
 		this.success = success;
@@ -125,15 +135,21 @@ public class GGXDefaultFuture implements GGXFuture {
 	
 	public void setData(Object data) {
 		this.data = data;
+		if (this.data != null) {
+			this.dataType = data.getClass();
+		}
 	}
 	
 	public void setDone(boolean done) {
 		if (this.done) {
 			return;
 		}
-		this.done = done;
-		if (this.done && this.listeners.size() > 0) {
-			synchronized (this) {
+		synchronized (this) {
+			if (this.waiting) {
+				this.notify();
+			}
+			this.done = done;
+			if (this.done && this.listeners.size() > 0) {
 				triggerListeners();
 			}
 		}
@@ -161,4 +177,28 @@ public class GGXDefaultFuture implements GGXFuture {
 		this.cause = cause;
 	}
 
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getSync(Class<T> clazz) {
+		try {
+			synchronized (this) {
+				if (this.data == null) {
+					this.waiting = true;
+					this.wait();
+				}
+			}
+			if (this.cause() != null) {
+				throw this.cause();
+			}
+		} catch (Throwable e) {
+			GGXLogUtil.getLogger(this).error("GGXFuture.getSync Error!");
+		}
+		return (T) this.data;
+	}
+
+	public Class<?> getDataType() {
+		return dataType;
+	}
 }

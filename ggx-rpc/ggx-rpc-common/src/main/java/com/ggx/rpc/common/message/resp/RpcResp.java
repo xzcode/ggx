@@ -5,6 +5,8 @@ import com.ggx.core.common.message.model.AbstractMessage;
 public class RpcResp extends AbstractMessage {
 
 	private String rpcId;
+	
+	private String returnDataType;
 
 	private byte[] returnData;
 	
@@ -19,6 +21,12 @@ public class RpcResp extends AbstractMessage {
 		this.success = success;
 	}
 
+	public RpcResp(String rpcId, byte[] returnData, String returnDataType) {
+		super();
+		this.rpcId = rpcId;
+		this.returnData = returnData;
+	}
+	
 	public RpcResp(String rpcId, byte[] returnData) {
 		super();
 		this.rpcId = rpcId;
@@ -46,6 +54,13 @@ public class RpcResp extends AbstractMessage {
 	}
 	public boolean isSuccess() {
 		return success;
+	}
+	
+	public String getReturnDataType() {
+		return returnDataType;
+	}
+	public void setReturnDataType(String returnDataType) {
+		this.returnDataType = returnDataType;
 	}
 
 }

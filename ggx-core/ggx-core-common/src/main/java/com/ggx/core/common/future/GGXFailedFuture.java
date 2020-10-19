@@ -87,5 +87,10 @@ public class GGXFailedFuture implements GGXFuture {
 		return null;
 	}
 
+	@Override
+	public <T> T getSync(Class<T> clazz) {
+		return null;
+	}
+
 
 }

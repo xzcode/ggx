@@ -137,6 +137,17 @@ public class GGXNettyFuture implements GGXFuture {
 		return this.nettyFuture.cause();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getSync(Class<T> clazz) {
+		try {
+			return (T) get();
+		} catch (Exception e) {
+			GGXLogUtil.getLogger(this).error("GGXNettyFuture.getSync Error!", e);
+		}
+		return null;
+	}
+
 
 
 

@@ -44,11 +44,13 @@ public class RpcReqHandler {
 				//成功
 				Object result = f.get();
 				byte[] returnData = null;
+				String returnDataType = null;
 				if (result != null) {
 					ParameterSerializer<?> serializer = parameterSerializerFactory.getSerializer(result.getClass());
 					returnData = serializer.serialize(result);
+					returnDataType = result.getClass().getName();
 				}
-				RpcResp rpcResp = new RpcResp(rpcId, returnData);
+				RpcResp rpcResp = new RpcResp(rpcId, returnData, returnDataType);
 				session.send(rpcResp);
 				if (LOGGER.isInfoEnabled()) {
 					LOGGER.info("RPC Response, rpcId: {} , interface: {}, method: {}, return: {}", req.getRpcId(), req.getInterfaceName(), req.getMethodName(), GSON.toJson(result));
