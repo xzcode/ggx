@@ -29,15 +29,15 @@ public class RpcReqHandler {
 
 	public RpcReqHandler(RpcServerConfig config) {
 		this.config = config;
-		this.parameterSerializerFactory = config.getParameterSerializerFactory();
-		this.invocationManager = config.getInvocationManager();
+		this.parameterSerializerFactory = this.config.getParameterSerializerFactory();
+		this.invocationManager = this.config.getInvocationManager();
 	}
 
 
 
 	@GGXAction
 	public void handle(RpcReq req, GGXSession session) {
-		GGXFuture future = this.invocationManager.invoke(req);
+		GGXFuture<?> future = this.invocationManager.invoke(req);
 		String rpcId = req.getRpcId();
 		future.addListener(f -> {
 			if (f.isSuccess()) {

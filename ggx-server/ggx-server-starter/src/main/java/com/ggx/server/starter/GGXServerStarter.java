@@ -24,7 +24,7 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @author zai
 	 * 2020-08-24 14:29:21
 	 */
-	GGXFuture shutdown();
+	GGXFuture<?> shutdown();
 	
 	
 	/**
@@ -66,7 +66,7 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @author zai
 	 * 2020-10-11 22:55:58
 	 */
-	GGXFuture routeMessage(String groupId, Message message, GGXSession session);
+	GGXFuture<?> routeMessage(String groupId, Message message, GGXSession session);
 
 	/**
 	 * 路由消息
@@ -79,6 +79,6 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @author zai
 	 * 2020-10-13 14:50:15
 	 */
-	GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session);
+	GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session);
 
 }

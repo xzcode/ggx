@@ -22,7 +22,7 @@ public class TimeoutTask{
 	/**
 	 * 计时器未来对象
 	 */
-	protected GGXFuture timeoutFuture;
+	protected GGXFuture<?> timeoutFuture;
 	
 	/**
 	 * 超时延迟 ms
@@ -95,7 +95,7 @@ public class TimeoutTask{
 	}
 	
 	
-	public GGXFuture getTimeoutFuture() {
+	public GGXFuture<?> getTimeoutFuture() {
 		return timeoutFuture;
 	}
 	
@@ -110,7 +110,7 @@ public class TimeoutTask{
 		if (this.timeoutFuture == null) {
 			return true;
 		}
-		GGXFuture future = this.timeoutFuture;
+		GGXFuture<?> future = this.timeoutFuture;
 		this.timeoutFuture = null;
 		return future.cancel(false);			
 	}

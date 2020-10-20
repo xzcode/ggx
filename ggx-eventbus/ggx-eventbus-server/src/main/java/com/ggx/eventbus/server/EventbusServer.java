@@ -22,7 +22,7 @@ public class EventbusServer implements GGXCoreSupport{
 		this.config = config;
 	}
 
-	public GGXFuture start() {
+	public GGXFuture<?> start() {
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
 		sessionServerConfig.setPort(this.config.getPort());
@@ -49,7 +49,7 @@ public class EventbusServer implements GGXCoreSupport{
 		this.serviceServer.registerMessageController(new EventbusServerController(config));
 		
 		
-		GGXFuture startFuture = sessionGroupServer.start();
+		GGXFuture<?> startFuture = sessionGroupServer.start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
 				//获取注册中心客户端
@@ -67,7 +67,7 @@ public class EventbusServer implements GGXCoreSupport{
 		return startFuture;
 	}
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		return this.config.getSessionGroupServer().shutdown();
 	}
 	

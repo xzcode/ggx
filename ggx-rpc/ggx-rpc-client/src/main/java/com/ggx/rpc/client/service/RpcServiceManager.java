@@ -19,7 +19,7 @@ public class RpcServiceManager {
 		return this.config.getServiceProvider();
 	}
 	
-	public GGXFuture invoke(String serviceGroupId, RpcReq req) {
+	public GGXFuture<?> invoke(String serviceGroupId, RpcReq req) {
 		RpcServiceGroup rpcServiceGroup = this.getServiceProvider().get(serviceGroupId);
 		return rpcServiceGroup.invoke(req);
 	}

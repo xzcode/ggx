@@ -12,7 +12,7 @@ public interface GGXSessionDisconnectSupport extends  ExecutorSupport{
 	 * 
 	 * @author zai 2017-09-21
 	 */
-	default GGXFuture  disconnect(long delayMs) {
+	default GGXFuture<?>  disconnect(long delayMs) {
 		return disconnect(null, delayMs);
 	}
 
@@ -22,7 +22,7 @@ public interface GGXSessionDisconnectSupport extends  ExecutorSupport{
 	 * @param userId
 	 * @author zai 2017-08-19 01:12:07
 	 */
-	default GGXFuture  disconnect(GGXSession session) {
+	default GGXFuture<?>  disconnect(GGXSession session) {
 		return disconnect(session, 0);
 	}
 	
@@ -34,7 +34,7 @@ public interface GGXSessionDisconnectSupport extends  ExecutorSupport{
 	 * @author zai
 	 * 2019-04-17 11:18:43
 	 */
-	default GGXFuture  disconnect(GGXSession session, long delayMs) {
+	default GGXFuture<?>  disconnect(GGXSession session, long delayMs) {
 		return session.disconnect();
 	}
 	

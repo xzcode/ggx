@@ -57,7 +57,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	protected RpcServerConfig rpcServerConfig;
 	
 	@Override
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		try {
 
 			if (this.registryClient != null) {
@@ -135,12 +135,12 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	}
 	
 	@Override
-	public GGXFuture routeMessage(String serviceId, Message message, GGXSession session) {
+	public GGXFuture<?> routeMessage(String serviceId, Message message, GGXSession session) {
 		return routeMessage(null, serviceId, message, session);
 	}
 	
 	@Override
-	public GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
+	public GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
 		return this.routerClient.route(groupId, serviceId, message, session);
 		
 	}

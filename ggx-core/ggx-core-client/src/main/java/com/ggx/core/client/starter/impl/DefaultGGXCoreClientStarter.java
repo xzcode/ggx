@@ -70,7 +70,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 	}
     
     
-    public GGXFuture connect(String host, int port) {
+    public GGXFuture<?> connect(String host, int port) {
         try {
         	Bootstrap boot = config.getBootstrap();
             // 连接服务器
@@ -84,11 +84,11 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
     
 
 	@Override
-	public GGXFuture disconnect(GGXSession session) {
+	public GGXFuture<?> disconnect(GGXSession session) {
 		return session.disconnect();
 	}
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		GGXNettyFuture ggFuture = new GGXNettyFuture();
 		try {
 			Future<?> future = config.getWorkerGroup().shutdownGracefully();

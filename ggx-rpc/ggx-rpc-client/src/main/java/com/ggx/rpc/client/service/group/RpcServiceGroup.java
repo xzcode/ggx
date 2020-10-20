@@ -33,7 +33,7 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 
 
 
-	public GGXFuture invoke(RpcReq req) {
+	public GGXFuture<?> invoke(RpcReq req) {
 		if (this.loadblancer != null) {
 			return this.loadblancer.invoke(req);
 		}

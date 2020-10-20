@@ -3,10 +3,8 @@ package com.ggx.core.common.future;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.session.GGXSession;
@@ -23,29 +21,30 @@ import io.netty.util.AttributeKey;
  * @author zai
  * 2019-11-24 17:54:50
  */
-public class GGXNettyFuture implements GGXFuture {
+public class GGXNettyFuture<T> implements GGXFuture<T> {
 	
-	private io.netty.util.concurrent.Future<?> nettyFuture;
+	private io.netty.util.concurrent.Future<T> nettyFuture;
 	
-	private Set<GGXFutureListener<GGXFuture>> listeners;
+	private Set<GGXFutureListener<T>> listeners;
 	
 	public GGXNettyFuture() {
 		listeners = new LinkedHashSet<>(2);
 	}
 	
-	public GGXNettyFuture(Future<?> nettyFuture) {
+	public GGXNettyFuture(Future<T> nettyFuture) {
 		this.setFuture(nettyFuture);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setFuture(Future<?> future) {
 		if (this.nettyFuture != null) {
 			return;
 		}
 		synchronized (this) {
-			this.nettyFuture = (io.netty.util.concurrent.Future<?>) future;		
+			this.nettyFuture = (io.netty.util.concurrent.Future<T>) future;		
 		}
 		if (listeners != null && listeners.size() > 0) {
-			for (GGXFutureListener<GGXFuture> listener : listeners) {
+			for (GGXFutureListener<T> listener : listeners) {
 				nettyFuture.addListener((f) -> {
 					listener.operationComplete(this);
 				});
@@ -54,7 +53,7 @@ public class GGXNettyFuture implements GGXFuture {
 	}
 
 	@Override
-	public void addListener(GGXFutureListener<GGXFuture> listener) {
+	public void addListener(GGXFutureListener<T> listener) {
 		try {
 				synchronized (this) {
 					if (nettyFuture == null) {
@@ -102,20 +101,18 @@ public class GGXNettyFuture implements GGXFuture {
 	}
 
 	@Override
-	public Object get() throws InterruptedException, ExecutionException {
-		return this.nettyFuture.get();
-	}
-
-	@Override
-	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-		return this.nettyFuture.get(timeout, unit);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T get(Class<T> clazz) {
+	public T get(){
 		try {
-			return (T) get();
+			return this.nettyFuture.get();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public T get(long timeout, TimeUnit unit){
+		try {
+			return this.nettyFuture.get(timeout, unit);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -136,19 +133,5 @@ public class GGXNettyFuture implements GGXFuture {
 	public Throwable cause() {
 		return this.nettyFuture.cause();
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getSync(Class<T> clazz) {
-		try {
-			return (T) get();
-		} catch (Exception e) {
-			GGXLogUtil.getLogger(this).error("GGXNettyFuture.getSync Error!", e);
-		}
-		return null;
-	}
-
-
-
 
 }

@@ -78,8 +78,8 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		
 		RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
 		
-		Map<Method, Class<?>> methodReturnClasses = interfaceInfo.getMethodReturnClasses();
-		Class<?> returnType = methodReturnClasses.get(method);
+		Class<?> returnType = interfaceInfo.getMethodReturnClasses().get(method);
+		
 		
 		//判断是否异步回调
 		boolean async = returnType == GGXFuture.class;
@@ -120,6 +120,9 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		callback.setAsync(async);
 		callback.setCallbackFuture(GGXFutureFactory.create());
 		callback.setServiceName(serviceName);
+		if (async) {
+			callback.setAsyncDataType(interfaceInfo.getMethodGenericReturnTypes().get(method).get(0));
+		}
 		
 		callback.getCallbackFuture().addListener(f -> {
 			this.rpcMethodCallbackManager.remove(callback.getRpcId());
@@ -128,12 +131,12 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		this.rpcMethodCallbackManager.put(callback.getRpcId(), callback);
 		
 		//发送数据包
-		GGXFuture invokeFuture = group.invoke(req);
+		GGXFuture<?> invokeFuture = group.invoke(req);
 		invokeFuture.addListener(f -> {
 			if (!f.isSuccess()) {
-				GGXFuture timeoutFuture = callback.getTimeoutFuture();
+				GGXFuture<?> timeoutFuture = callback.getTimeoutFuture();
 				if (timeoutFuture.cancel()) {
-					GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
+					GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
 					callbackFuture.setSuccess(false);
 					callbackFuture.setDone(true);
 					callbackFuture.setCause(new RpcServiceSendMessageFailedException(callback.getServiceName()));

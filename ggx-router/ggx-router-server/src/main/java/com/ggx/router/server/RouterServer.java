@@ -162,8 +162,8 @@ public class RouterServer implements GGXCoreSupport {
 		return config;
 	}
 
-	public GGXFuture start() {
-		GGXFuture startFuture = this.config.getSessionGroupServer().start();
+	public GGXFuture<?> start() {
+		GGXFuture<?> startFuture = this.config.getSessionGroupServer().start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
 				this.config.setPort(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort());
@@ -210,7 +210,7 @@ public class RouterServer implements GGXCoreSupport {
 	}
 	
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		return this.config.getSessionGroupServer().shutdown();
 	}
 

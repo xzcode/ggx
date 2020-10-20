@@ -59,7 +59,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public GGXFuture doReceiveMessageFilters(MessageData data) {
+	public GGXFuture<?> doReceiveMessageFilters(MessageData data) {
 		try {
 			this.receiveMessageFilterChain.doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
@@ -70,7 +70,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public GGXFuture doSendMessageFilters(MessageData data) {
+	public GGXFuture<?> doSendMessageFilters(MessageData data) {
 		try {
 			this.sendMessageFilterChain.doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
@@ -82,7 +82,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public GGXFuture doReceivePackFilters(Pack pack) {
+	public GGXFuture<?> doReceivePackFilters(Pack pack) {
 		try {
 			this.receivePackFilterChain.doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
@@ -93,7 +93,7 @@ public class DefaultFilterManager implements FilterManager {
 	}
 
 	@Override
-	public GGXFuture doSendPackFilters(Pack pack) {
+	public GGXFuture<?> doSendPackFilters(Pack pack) {
 		try {
 			this.sendPackFilterChain.doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;

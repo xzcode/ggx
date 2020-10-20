@@ -14,12 +14,12 @@ import com.ggx.router.client.event.RouterClientEvents;
 
 public class RouterClientHostServerReceiveMessageFilter implements ReceivePackFilter{
 	
-	private RouterClientConfig config;
+	protected RouterClientConfig config;
 	
-	private GGXCoreServer hostServer;
-	private MessageControllerManager messageControllerManager;
+	protected GGXCoreServer hostServer;
+	protected MessageControllerManager messageControllerManager;
 
-	private RouterClient routerClient;
+	protected RouterClient routerClient;
 	
 	public RouterClientHostServerReceiveMessageFilter(RouterClientConfig config) {
 		this.config = config;

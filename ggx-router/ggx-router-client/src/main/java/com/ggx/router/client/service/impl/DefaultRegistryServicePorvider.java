@@ -196,7 +196,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?> dispatch(Pack pack) {
 		String actionId = pack.getActionString();
 		
 		//尝试从缓存中获取服务

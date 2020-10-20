@@ -2,9 +2,7 @@ package com.ggx.core.common.future;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
@@ -14,7 +12,7 @@ import com.ggx.util.logger.GGXLogUtil;
  *
  * @author zai 2020-04-07 14:26:57
  */
-public class GGXDefaultFuture implements GGXFuture {
+public class GGXDefaultFuture<T> implements GGXFuture<T> {
 
 	private Throwable cause;
 
@@ -33,7 +31,7 @@ public class GGXDefaultFuture implements GGXFuture {
 	private GGXSession session;
 	
 	
-	private List<GGXFutureListener<GGXFuture>> listeners = new CopyOnWriteArrayList<>();
+	private List<GGXFutureListener<T>> listeners = new CopyOnWriteArrayList<>();
 
 	public GGXDefaultFuture() {
 	}
@@ -46,7 +44,7 @@ public class GGXDefaultFuture implements GGXFuture {
 		this.triggerListeners();
 	}
 
-	public GGXDefaultFuture(boolean success, Object data) {
+	public GGXDefaultFuture(boolean success, T data) {
 		this.success = success;
 		this.data = data;
 		this.done = true;
@@ -64,7 +62,7 @@ public class GGXDefaultFuture implements GGXFuture {
 
 
 	@Override
-	public void addListener(GGXFutureListener<GGXFuture> listener) {
+	public void addListener(GGXFutureListener<T> listener) {
 		synchronized (this) {
 			if (this.done) {
 				triggerListener(listener);
@@ -104,24 +102,29 @@ public class GGXDefaultFuture implements GGXFuture {
 		return this.cancel;
 	}
 
-	@Override
-	public Object get() throws InterruptedException, ExecutionException {
-		return data;
-	}
 
 	@Override
-	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-		return data;
+	public T get(long timeout, TimeUnit unit) {
+		return get();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T get(Class<T> clazz) {
+	public T get() {
 		try {
-			return (T) get();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+			synchronized (this) {
+				if (!this.done) {
+					this.waiting = true;
+					this.wait();
+				}
+			}
+		} catch (Throwable e) {
+			GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", e);
 		}
+		if (this.cause() != null) {
+			throw new RuntimeException(this.cause());
+		}
+		return (T) this.data;
 	}
 
 	@Override
@@ -156,12 +159,12 @@ public class GGXDefaultFuture implements GGXFuture {
 	}
 
 	private void triggerListeners() {
-		for (GGXFutureListener<GGXFuture> listener : listeners) {
+		for (GGXFutureListener<T> listener : listeners) {
 			triggerListener(listener);
 		}
 	}
 
-	private void triggerListener(GGXFutureListener<GGXFuture> listener) {
+	private void triggerListener(GGXFutureListener<T> listener) {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {
@@ -178,25 +181,6 @@ public class GGXDefaultFuture implements GGXFuture {
 	}
 
 
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getSync(Class<T> clazz) {
-		try {
-			synchronized (this) {
-				if (this.data == null) {
-					this.waiting = true;
-					this.wait();
-				}
-			}
-			if (this.cause() != null) {
-				throw this.cause();
-			}
-		} catch (Throwable e) {
-			GGXLogUtil.getLogger(this).error("GGXFuture.getSync Error!");
-		}
-		return (T) this.data;
-	}
 
 	public Class<?> getDataType() {
 		return dataType;

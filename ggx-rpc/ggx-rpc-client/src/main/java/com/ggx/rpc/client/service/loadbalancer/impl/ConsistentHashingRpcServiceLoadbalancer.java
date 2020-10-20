@@ -44,7 +44,7 @@ public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadba
 	}
 
 	@Override
-	public GGXFuture invoke(RpcReq req) {
+	public GGXFuture<?> invoke(RpcReq req) {
 		
 		String rpcId = req.getRpcId();
 		

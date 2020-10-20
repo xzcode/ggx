@@ -34,7 +34,7 @@ public class RouterClient{
 		this.config.init();
 	}
 	
-	public GGXFuture route(Pack pack) {
+	public GGXFuture<?> route(Pack pack) {
 		try {
 				return config.getServiceProvider().dispatch(pack);
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class RouterClient{
 		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 	
-	public GGXFuture route(String groupId, String serviceId, Message message, GGXSession session) {
+	public GGXFuture<?> route(String groupId, String serviceId, Message message, GGXSession session) {
 		String serviceProviderType = this.config.getServiceProviderType();
         RouterServiceGroup serviceGroup = null;
         RouterServiceProvider serviceProvider = this.config.getServiceProvider();

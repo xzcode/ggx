@@ -84,11 +84,11 @@ public class SessionGroupServer {
 		
 	}
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		return this.config.getSessionServer().shutdown();
 	}
 	
-	public GGXFuture start() {
+	public GGXFuture<?> start() {
 		return this.config.getSessionServer().start();
 	}
 	

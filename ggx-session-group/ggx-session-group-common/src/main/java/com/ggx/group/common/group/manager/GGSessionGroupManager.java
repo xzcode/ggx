@@ -86,7 +86,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-08 16:23:40
 	 */
-	public GGXFuture sendToAll(String groupId, Pack pack) {
+	public GGXFuture<?> sendToAll(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToAll(pack);
@@ -102,7 +102,7 @@ public class GGSessionGroupManager {
 	 * @return
 	 * @author zai 2020-04-07 14:49:06
 	 */
-	public GGXFuture sendToRandomOne(String groupId, Pack pack) {
+	public GGXFuture<?> sendToRandomOne(String groupId, Pack pack) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(pack);
@@ -127,7 +127,7 @@ public class GGSessionGroupManager {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	public GGXFuture sendToRandomOne(String groupId, Message message) {
+	public GGXFuture<?> sendToRandomOne(String groupId, Message message) {
 		GGSessionGroup sessionGroup = this.sessionGroupMap.get(groupId);
 		if (sessionGroup != null) {
 			return sessionGroup.sendToRandomOne(message);

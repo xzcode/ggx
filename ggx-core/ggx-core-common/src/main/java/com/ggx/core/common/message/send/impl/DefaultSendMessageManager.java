@@ -18,12 +18,12 @@ public class DefaultSendMessageManager implements SendMessageManager{
 	}
 
 	@Override
-	public GGXFuture send(MessageData data) {
+	public GGXFuture<?> send(MessageData data) {
 		return this.filterManager.doSendMessageFilters(data);
 	}
 
 	@Override
-	public GGXFuture send(Pack pack) {
+	public GGXFuture<?> send(Pack pack) {
 		return this.filterManager.doSendPackFilters(pack);
 	}
 

@@ -17,7 +17,7 @@ public class RouterClientSession extends VirtualSession {
 	}
 
 	@Override
-	public GGXFuture send(Pack pack) {
+	public GGXFuture<?> send(Pack pack) {
 		RouteMessageReq req = new RouteMessageReq();
 		req.setAction(pack.getAction());
 		req.setMessage(pack.getMessage());

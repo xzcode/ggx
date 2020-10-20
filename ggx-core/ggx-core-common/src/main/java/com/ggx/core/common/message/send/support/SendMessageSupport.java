@@ -77,7 +77,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 22:09:31
 	 */
-	default GGXFuture send(GGXSession session, Pack pack) {
+	default GGXFuture<?> send(GGXSession session, Pack pack) {
 		return session.send(pack);
 	}
 	
@@ -92,7 +92,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:24:23
 	 */
-	default GGXFuture send(GGXSession session, String action, Message message) {
+	default GGXFuture<?> send(GGXSession session, String action, Message message) {
 		return send(new MessageData(session, action, message));
 	}
 	
@@ -108,7 +108,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-29 15:23:47
 	 */
-	default GGXFuture send(GGXSession session, Message message) {
+	default GGXFuture<?> send(GGXSession session, Message message) {
 		return send(new MessageData(session, getActionIdCacheManager().get(message.getClass()), message));
 	}
 
@@ -123,7 +123,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-11-27 21:53:08
 	 */
-	default GGXFuture send(MessageData messageData) {
+	default GGXFuture<?> send(MessageData messageData) {
 		GGXSession session = messageData.getSession();
 		if (session != null) {
 			try {
@@ -143,7 +143,7 @@ public interface SendMessageSupport extends MakePackSupport {
 	 * @author zai
 	 * 2019-12-16 10:20:47
 	 */
-	default GGXFuture send(Pack pack) {
+	default GGXFuture<?> send(Pack pack) {
 		return send(null, pack);
 	}
 	

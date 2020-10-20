@@ -46,7 +46,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     	this.config = config;
     }
     
-    public GGXFuture start() {
+    public GGXFuture<?> start() {
     	
         try {
         	
@@ -90,7 +90,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 			}
     
             ChannelFuture future = boot.bind(this.config.getPort());
-            GGXNettyFuture ggFuture = new GGXNettyFuture();
+            GGXNettyFuture<?> ggFuture = new GGXNettyFuture<>();
             
             future.addListener((f) -> {
             	handleStartFutureCallback(boot, ggFuture, f);
@@ -104,7 +104,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
         }
     }
     
-    private void handleStartFutureCallback(ServerBootstrap boot, GGXNettyFuture ggFuture, Future<? super Void> f) {
+    private void handleStartFutureCallback(ServerBootstrap boot, GGXNettyFuture<?> ggFuture, Future<? super Void> f) {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
     		System.out.println(logoString);
@@ -174,8 +174,8 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
      * @author zai
      * 2017-07-27
      */
-    public GGXFuture shutdown() {
-    	GGXNettyFuture future = new GGXNettyFuture();
+    public GGXFuture<?> shutdown() {
+    	GGXNettyFuture<?> future = new GGXNettyFuture<>();
 		Future<?> f1 = config.getBossGroup().shutdownGracefully();	
 		f1.addListener(f2 -> {
 			Future<?> f3 = config.getWorkerGroup().shutdownGracefully();	

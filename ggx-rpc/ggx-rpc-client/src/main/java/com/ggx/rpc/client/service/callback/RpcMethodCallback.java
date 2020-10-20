@@ -18,9 +18,9 @@ public class RpcMethodCallback {
 	private long timeout;
 	
 	//调用future
-	private GGXDefaultFuture callbackFuture;
+	private GGXDefaultFuture<?> callbackFuture;
 	
-	private GGXFuture timeoutFuture;
+	private GGXFuture<?> timeoutFuture;
 	
 	//是否异步
 	private boolean async;
@@ -54,11 +54,11 @@ public class RpcMethodCallback {
 		this.timeout = timeout;
 	}
 
-	public GGXDefaultFuture getCallbackFuture() {
+	public GGXDefaultFuture<?> getCallbackFuture() {
 		return callbackFuture;
 	}
 
-	public void setCallbackFuture(GGXDefaultFuture future) {
+	public void setCallbackFuture(GGXDefaultFuture<?> future) {
 		this.callbackFuture = future;
 	}
 
@@ -71,7 +71,7 @@ public class RpcMethodCallback {
 	}
 	
 	
-	public GGXFuture getTimeoutFuture() {
+	public GGXFuture<?> getTimeoutFuture() {
 		return timeoutFuture;
 	}
 	

@@ -26,8 +26,8 @@ public class RpcMethodCallbackManager extends ListenableMapDataManager<String, R
 	public RpcMethodCallback put(String key, RpcMethodCallback callback) {
 		TaskExecutor taskExecutor = config.getTaskExecutor();
 		long timeout = callback.getTimeout();
-		GGXFuture timeoutFuture = taskExecutor.schedule(timeout, () -> {
-				GGXDefaultFuture callbackFuture = callback.getCallbackFuture();
+		GGXFuture<?> timeoutFuture = taskExecutor.schedule(timeout, () -> {
+				GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
 				RpcServiceInvokeTimeoutException timeoutException = new RpcServiceInvokeTimeoutException(callback.getServiceName());
 				callback.setException(timeoutException);
 				callbackFuture.setSuccess(false);

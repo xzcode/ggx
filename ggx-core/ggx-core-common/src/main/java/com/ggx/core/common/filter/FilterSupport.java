@@ -24,22 +24,22 @@ public interface FilterSupport extends FilterManager{
 	FilterManager getFilterManager();
 
 	@Override
-	default GGXFuture doReceiveMessageFilters(MessageData data) {
+	default GGXFuture<?> doReceiveMessageFilters(MessageData data) {
 		return getFilterManager().doReceiveMessageFilters(data);
 	}
 
 	@Override
-	default GGXFuture doSendMessageFilters(MessageData data) {
+	default GGXFuture<?> doSendMessageFilters(MessageData data) {
 		return getFilterManager().doSendMessageFilters(data);
 	}
 
 	@Override
-	default GGXFuture doReceivePackFilters(Pack pack) {
+	default GGXFuture<?> doReceivePackFilters(Pack pack) {
 		return getFilterManager().doReceivePackFilters(pack);
 	}
 
 	@Override
-	default GGXFuture doSendPackFilters(Pack pack) {
+	default GGXFuture<?> doSendPackFilters(Pack pack) {
 		return getFilterManager().doSendPackFilters(pack);
 	}
 

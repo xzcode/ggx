@@ -149,10 +149,10 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-23 11:34:02
 	 */
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?> dispatch(Pack pack) {
 		return this.routerServiceLoadbalancer.dispatch(pack);
 	}
-	public GGXFuture dispatch(Pack pack, String serviceId) {
+	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
 		return this.routerServiceLoadbalancer.dispatch(pack, serviceId);
 	}
 	
@@ -185,7 +185,7 @@ public class RouterServiceGroup {
 	 * @author zai
 	 * 2020-05-22 18:24:40
 	 */
-	public GGXFuture dispatchRandom(Pack pack) {
+	public GGXFuture<?> dispatchRandom(Pack pack) {
 		RouterService randomRouterService = this.getRandomRouterService();
 		if (randomRouterService != null) {
 			return randomRouterService.dispatch(pack);

@@ -29,14 +29,14 @@ public class GGXDefaultCoreServer implements GGXCoreServer {
 	}
 
 	@Override
-	public GGXFuture start() {
+	public GGXFuture<?> start() {
 		this.shutdown();
 		this.serverStarter = new DefaultGGXCoreServerStarter(config);
 		return this.serverStarter.start();
 	}
 
 	@Override
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		if (this.serverStarter != null) {
 			return this.serverStarter.shutdown();
 		}

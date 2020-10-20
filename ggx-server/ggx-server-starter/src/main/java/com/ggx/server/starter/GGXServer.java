@@ -137,13 +137,13 @@ public class GGXServer implements GGXServerStarter{
 	}
 	
 	
-	public GGXFuture routeMessage(String serviceId, Message message, GGXSession session) {
+	public GGXFuture<?> routeMessage(String serviceId, Message message, GGXSession session) {
 		return this.serverStarter.routeMessage(null, serviceId, message, session);
 	}
 	
 
 	@Override
-	public GGXFuture routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
+	public GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
 		return this.serverStarter.routeMessage(groupId, serviceId, message, session);
 	}
 
@@ -174,7 +174,7 @@ public class GGXServer implements GGXServerStarter{
 	}
 
 	@Override
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		return serverStarter.shutdown();
 	}
 

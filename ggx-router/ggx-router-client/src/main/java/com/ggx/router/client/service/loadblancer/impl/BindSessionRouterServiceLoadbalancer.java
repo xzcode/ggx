@@ -30,7 +30,7 @@ public class BindSessionRouterServiceLoadbalancer implements RouterServiceLoadba
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack, String serviceId) {
+	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
 		RouterService routerService = null;
 		
 		
@@ -75,7 +75,7 @@ public class BindSessionRouterServiceLoadbalancer implements RouterServiceLoadba
 	
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?> dispatch(Pack pack) {
 		return this.dispatch(pack, null);
 	}
 

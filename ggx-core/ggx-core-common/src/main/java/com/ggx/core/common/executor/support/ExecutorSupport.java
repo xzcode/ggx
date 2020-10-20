@@ -29,48 +29,48 @@ public interface ExecutorSupport extends TaskExecutor {
 	TaskExecutor getTaskExecutor();
 
 	@Override
-	default GGXFuture submitTask(Runnable runnable) {
+	default GGXFuture<?> submitTask(Runnable runnable) {
 		return getTaskExecutor().submitTask(runnable);
 	}
 
 	@Override
-	default <V> GGXFuture submitTask(Callable<V> callable) {
+	default <V> GGXFuture<V> submitTask(Callable<V> callable) {
 		return getTaskExecutor().submitTask(callable);
 	}
 
 	@Override
-	default GGXFuture schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture<?> schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
 		return  getTaskExecutor().schedule(delay, timeUnit, runnable);
 	}
 
 	@Override
-	default <V> GGXFuture schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
+	default <V> GGXFuture<V> schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
 		return  getTaskExecutor().schedule(delay, timeUnit, callable);
 	}
 
 	@Override
-	default GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture<?> scheduleAfter(GGXFuture<?> afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, runnable);
 	}
 	
 	@Override
-	default GGXFuture scheduleAfter(GGXFuture afterFuture, long delayMs, Runnable runnable) {
+	default GGXFuture<?> scheduleAfter(GGXFuture<?> afterFuture, long delayMs, Runnable runnable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delayMs, TimeUnit.MILLISECONDS, runnable);
 	}
 
 	@Override
-	default <V> GGXFuture scheduleAfter(GGXFuture afterFuture, long delay, TimeUnit timeUnit,
+	default <V> GGXFuture<V> scheduleAfter(GGXFuture<?> afterFuture, long delay, TimeUnit timeUnit,
 			Callable<V> callable) {
 		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, callable);
 	}
 
 	@Override
-	default GGXFuture scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable) {
+	default GGXFuture<?> scheduleWithFixedDelay(long initialDelay, long delay, TimeUnit timeUnit, Runnable runnable) {
 		return getTaskExecutor().scheduleWithFixedDelay(initialDelay, delay, timeUnit, runnable);
 	}
 
 	@Override
-	default GGXFuture schedule(long delayMs, Runnable runnable) {
+	default GGXFuture<?> schedule(long delayMs, Runnable runnable) {
 		return getTaskExecutor().schedule(delayMs, runnable);
 	}
 
@@ -90,7 +90,7 @@ public interface ExecutorSupport extends TaskExecutor {
 	}
 
 	@Override
-	default GGXFuture shutdown() {
+	default GGXFuture<?> shutdown() {
 		return new GGXNettyFuture(getEventLoopGroup().shutdownGracefully());
 		
 	}

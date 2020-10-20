@@ -52,7 +52,7 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 	}
 	
 	
-	public GGXFuture invoke(RpcReq req) {
+	public GGXFuture<?> invoke(RpcReq req) {
 		String interfaceName = req.getInterfaceName();
 		String methodName =req.getMethodName();
 		byte[] paramBytes = req.getParamBytes();
@@ -87,10 +87,10 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 				result = method.invoke(obj);
 			}
 			if (result instanceof GGXFuture) {
-				return (GGXFuture) result;
+				return (GGXFuture<?>) result;
 			}
 			
-			return new GGXDefaultFuture(true, result);
+			return new GGXDefaultFuture<>(true, result);
 			
 		} catch (Throwable e) {
 			if (e instanceof InvocationTargetException) {

@@ -6,8 +6,6 @@ public class RpcResp extends AbstractMessage {
 
 	private String rpcId;
 	
-	private String returnDataType;
-
 	private byte[] returnData;
 	
 	private boolean success = true;
@@ -25,7 +23,6 @@ public class RpcResp extends AbstractMessage {
 		super();
 		this.rpcId = rpcId;
 		this.returnData = returnData;
-		this.returnDataType = returnDataType;
 	}
 	
 	public RpcResp(String rpcId, byte[] returnData) {
@@ -55,13 +52,6 @@ public class RpcResp extends AbstractMessage {
 	}
 	public boolean isSuccess() {
 		return success;
-	}
-	
-	public String getReturnDataType() {
-		return returnDataType;
-	}
-	public void setReturnDataType(String returnDataType) {
-		this.returnDataType = returnDataType;
 	}
 
 }

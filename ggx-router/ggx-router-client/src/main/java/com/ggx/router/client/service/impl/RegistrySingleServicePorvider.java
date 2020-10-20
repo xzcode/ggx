@@ -164,7 +164,7 @@ public class RegistrySingleServicePorvider implements RouterServiceProvider{
 	
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?>  dispatch(Pack pack) {
 		return routerServiceGroup.dispatch(pack);
 	}
 

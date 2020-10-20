@@ -108,7 +108,7 @@ public class RpcService {
 	 * @param pack
 	 * @author zai 2019-11-07 17:53:00
 	 */
-	public GGXFuture invoke(RpcReq req) {
+	public GGXFuture<?> invoke(RpcReq req) {
 		if (!isAvailable()) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}

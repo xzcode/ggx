@@ -27,7 +27,6 @@ import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.client.session.RouterClientSession;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
-import com.ggx.router.common.message.req.RouteMessageReq;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouteMessageResp;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
@@ -235,7 +234,7 @@ public class RouterService {
 	 * @author zai
 	 * 2019-11-07 17:53:00
 	 */
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?> dispatch(Pack pack) {
 		if (!isAvailable()) {
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}

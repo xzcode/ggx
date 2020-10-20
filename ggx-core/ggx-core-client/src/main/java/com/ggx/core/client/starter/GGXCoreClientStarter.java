@@ -6,11 +6,11 @@ import com.ggx.core.common.session.GGXSession;
 
 public interface GGXCoreClientStarter {
 	
-	GGXFuture connect(String host, int port);
+	GGXFuture<?> connect(String host, int port);
 	
-	GGXFuture disconnect(GGXSession session);
+	GGXFuture<?> disconnect(GGXSession session);
 	
 	void setConfig(GGXCoreClientConfig config);
 	
-	GGXFuture shutdown();
+	GGXFuture<?> shutdown();
 }

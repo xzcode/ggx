@@ -33,7 +33,7 @@ public class RpcServer implements GGXCoreSupport{
 		
 	}
 
-	public GGXFuture start() {
+	public GGXFuture<?> start() {
 		String serviceGroupId = this.config.getServiceGroupId();
 		
 		if (serviceGroupId == null || serviceGroupId.isEmpty()) {
@@ -60,7 +60,7 @@ public class RpcServer implements GGXCoreSupport{
 	
 		
 		
-		GGXFuture startFuture = sessionGroupServer.start();
+		GGXFuture<?> startFuture = sessionGroupServer.start();
 		startFuture.addListener(f -> {
 			if (f.isSuccess()) {
 				//获取注册中心客户端
@@ -82,7 +82,7 @@ public class RpcServer implements GGXCoreSupport{
 		return startFuture;
 	}
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		if (this.config.getSessionGroupServer() != null) {
 			return this.config.getSessionGroupServer().shutdown();			
 		}

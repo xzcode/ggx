@@ -19,7 +19,7 @@ public interface RpcServiceLoadbalancer {
 	 * @author zai
 	 * 2020-10-3 13:32:43
 	 */
-	GGXFuture invoke(RpcReq req);
+	GGXFuture<?> invoke(RpcReq req);
 
 	
 }

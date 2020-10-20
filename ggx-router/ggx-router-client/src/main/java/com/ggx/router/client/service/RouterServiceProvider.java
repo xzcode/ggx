@@ -41,7 +41,7 @@ public interface RouterServiceProvider {
 	 * @author zai
 	 * 2019-11-07 16:41:42
 	 */
-	GGXFuture dispatch(Pack pack);
+	GGXFuture<?> dispatch(Pack pack);
 
 	/**
 	 * 添加路由服务

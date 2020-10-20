@@ -1,9 +1,7 @@
 package com.ggx.core.common.future;
 
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
@@ -16,9 +14,9 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2019-12-01 16:28:44
  */
-public class GGXFailedFuture implements GGXFuture {
+public class GGXFailedFuture<T> implements GGXFuture<T> {
 	
-	public static final GGXFailedFuture DEFAULT_FAILED_FUTURE = new GGXFailedFuture();
+	public static final GGXFuture<?> DEFAULT_FAILED_FUTURE = new GGXFailedFuture<>();
 	
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
@@ -36,19 +34,20 @@ public class GGXFailedFuture implements GGXFuture {
 	}
 
 	@Override
-	public Object get() throws InterruptedException, ExecutionException {
+	public T get()  {
 		return null;
 	}
 
 	@Override
-	public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+	public T get(long timeout, TimeUnit unit) {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addListener(GGXFutureListener<GGXFuture> listener) {
+	public void addListener(GGXFutureListener<T> listener) {
 		try {
-			listener.operationComplete(DEFAULT_FAILED_FUTURE);
+			listener.operationComplete((GGXFuture<T>) DEFAULT_FAILED_FUTURE);
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}
@@ -60,16 +59,6 @@ public class GGXFailedFuture implements GGXFuture {
 	@Override
 	public boolean cancel() {
 		return false;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T get(Class<T> clazz) {
-		try {
-			return (T) get();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@Override
@@ -84,11 +73,6 @@ public class GGXFailedFuture implements GGXFuture {
 
 	@Override
 	public Throwable cause() {
-		return null;
-	}
-
-	@Override
-	public <T> T getSync(Class<T> clazz) {
 		return null;
 	}
 

@@ -14,7 +14,6 @@ import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.send.support.MakePackSupport;
-import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 
 /**
@@ -52,9 +51,9 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @return
 	 * @author zai 2020-04-07 14:45:01
 	 */
-	default GGXFuture sendToAll(Pack pack) {
+	default GGXFuture<?> sendToAll(Pack pack) {
 		Map<String, GGXSession> sessionMap = getSessionMap();
-		GGXDefaultFuture defaultFuture = new GGXDefaultFuture();
+		GGXDefaultFuture<?> defaultFuture = new GGXDefaultFuture<>();
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		AtomicInteger count = new AtomicInteger(0);
@@ -92,7 +91,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @author zai 2020-04-07 14:49:06
 	 */
 	@SuppressWarnings("unchecked")
-	default GGXFuture sendToRandomOne(Pack pack) {
+	default GGXFuture<?> sendToRandomOne(Pack pack) {
 		Map<String, GGXSession> sessionMap = getSessionMap();
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
@@ -148,7 +147,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 * @author zai
 	 * 2020-04-07 15:38:44
 	 */
-	default GGXFuture sendToRandomOne(Message message) {
+	default GGXFuture<?> sendToRandomOne(Message message) {
 		return sendToRandomOne(makePack(new MessageData(null, getCoreConfig().getActionIdCacheManager().get(message.getClass()), message)));
 	}
 

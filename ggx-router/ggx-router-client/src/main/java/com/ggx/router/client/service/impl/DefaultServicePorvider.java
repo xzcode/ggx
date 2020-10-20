@@ -48,7 +48,7 @@ public class DefaultServicePorvider implements RouterServiceProvider{
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?>  dispatch(Pack pack) {
 		for (Entry<String, RouterServiceGroup> entry : this.config.getRouterServiceManager().getServiceGroups().entrySet()) {
 			RouterServiceMatcher routerServiceMatcher = this.config.getRouterServiceMatcher();
 			RouterServiceGroup group = entry.getValue();

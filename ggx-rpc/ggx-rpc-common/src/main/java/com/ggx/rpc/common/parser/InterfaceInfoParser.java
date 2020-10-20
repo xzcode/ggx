@@ -79,7 +79,11 @@ public class InterfaceInfoParser {
 				List<Class<?>> genericReturnTypeList = new ArrayList<>();
 				Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
 				for (Type type : actualTypeArguments) {
-					genericReturnTypeList.add((Class<?>) type);
+					if (type.getTypeName() == "?") {
+						genericReturnTypeList.add(Object.class);
+					}else {
+						genericReturnTypeList.add((Class<?>) type);
+					}
 				}
 				methodGenericReturnTypes.put(mtd, genericReturnTypeList);
 			}

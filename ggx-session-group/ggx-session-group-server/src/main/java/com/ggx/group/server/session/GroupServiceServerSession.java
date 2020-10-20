@@ -47,7 +47,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 
 
 	@Override
-	public GGXFuture send(Pack pack) {
+	public GGXFuture<?> send(Pack pack) {
 		
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
@@ -63,14 +63,14 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 	}
 
 	@Override
-	public GGXFuture disconnect() {
+	public GGXFuture<?> disconnect() {
 		
 		triggerDisconnectListeners();
 		
 		//触发断开连接事件
 		this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
 		
-		GGXDefaultFuture future = new GGXDefaultFuture();
+		GGXDefaultFuture<?> future = new GGXDefaultFuture<>();
 		future.setSession(this);
 		future.setDone(true);
 		future.setSuccess(true);

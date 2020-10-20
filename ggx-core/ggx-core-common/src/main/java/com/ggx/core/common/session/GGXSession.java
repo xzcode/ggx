@@ -65,7 +65,7 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	 * @author zai
 	 * 2020-04-08 11:30:08
 	 */
-	GGXFuture disconnect();
+	GGXFuture<?> disconnect();
 	
 	/**
 	 * 获取会话域名

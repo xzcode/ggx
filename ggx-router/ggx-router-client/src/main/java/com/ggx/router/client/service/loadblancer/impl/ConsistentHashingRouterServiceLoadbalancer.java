@@ -53,7 +53,7 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	}
 
 	@Override
-	public GGXFuture dispatch(Pack pack, String serviceId) {
+	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
 		
 		GGXSession session = pack.getSession();
 		String sessonId = session.getSessionId();
@@ -93,7 +93,7 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	}
 	
 	@Override
-	public GGXFuture dispatch(Pack pack) {
+	public GGXFuture<?> dispatch(Pack pack) {
 		return this.dispatch(pack, null);
 	}
 	

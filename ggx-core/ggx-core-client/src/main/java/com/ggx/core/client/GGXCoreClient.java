@@ -24,7 +24,7 @@ implements
 	
 	private GGXCoreClientStarter clientStarter;
 	
-	public GGXFuture connect(String host, int port) {
+	public GGXFuture<?> connect(String host, int port) {
 		return clientStarter.connect(host, port);
 	}
 	
@@ -42,7 +42,7 @@ implements
 		return config;
 	}
 	
-	public GGXFuture shutdown() {
+	public GGXFuture<?> shutdown() {
 		return clientStarter.shutdown();
 	}
 
