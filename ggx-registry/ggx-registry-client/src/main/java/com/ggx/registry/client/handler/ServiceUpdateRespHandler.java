@@ -22,7 +22,7 @@ public class ServiceUpdateRespHandler {
 	public ServiceUpdateRespHandler(RegistryClientConfig config) {
 		super();
 		this.config = config;
-		this.serviceManager = config.getServiceManager();
+		this.serviceManager = this.config.getServiceManager();
 	}
 
 

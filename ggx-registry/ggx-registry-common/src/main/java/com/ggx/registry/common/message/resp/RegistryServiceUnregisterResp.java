@@ -1,8 +1,6 @@
 package com.ggx.registry.common.message.resp;
 
 import com.ggx.core.common.message.model.AbstractMessage;
-import com.ggx.core.common.message.model.Message;
-import com.ggx.registry.common.constant.RegistryConstant;
 
 /**
  * 服务下线通知

@@ -3,8 +3,6 @@ package com.ggx.registry.common.message.resp;
 import java.util.List;
 
 import com.ggx.core.common.message.model.AbstractMessage;
-import com.ggx.core.common.message.model.Message;
-import com.ggx.registry.common.constant.RegistryConstant;
 import com.ggx.registry.common.service.ServiceInfo;
 
 /**

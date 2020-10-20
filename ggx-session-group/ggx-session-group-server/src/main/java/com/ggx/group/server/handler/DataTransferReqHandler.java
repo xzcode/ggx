@@ -2,16 +2,12 @@ package com.ggx.group.server.handler;
 
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.group.common.message.req.DataTransferReq;
 import com.ggx.group.server.config.SessionGroupServerConfig;
-import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
-import com.ggx.group.server.session.GroupServiceServerSession;
-import com.ggx.group.server.transfer.custom.CustomDataTransferHandler;
 
 /**
  * 客户端认证请求

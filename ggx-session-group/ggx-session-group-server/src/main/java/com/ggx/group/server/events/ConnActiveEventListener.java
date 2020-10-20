@@ -10,7 +10,6 @@ public class ConnActiveEventListener implements EventListener<Void>{
 
 
 	public ConnActiveEventListener(SessionGroupServerConfig config) {
-		super();
 		this.config = config;
 	}
 

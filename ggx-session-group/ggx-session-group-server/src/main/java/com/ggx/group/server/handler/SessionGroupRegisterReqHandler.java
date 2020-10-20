@@ -9,7 +9,6 @@ import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.req.SessionGroupRegisterReq;
 import com.ggx.group.common.message.resp.SessionGroupRegisterResp;
 import com.ggx.group.server.config.SessionGroupServerConfig;
-import com.ggx.group.server.constant.SessionGroupServerSessionKeys;
 import com.ggx.group.server.session.GroupServiceServerSession;
 
 /**

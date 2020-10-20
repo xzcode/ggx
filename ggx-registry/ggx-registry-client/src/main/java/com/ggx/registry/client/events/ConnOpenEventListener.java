@@ -2,12 +2,10 @@ package com.ggx.registry.client.events;
 
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.common.message.req.RegistryServiceRegisterReq;
 import com.ggx.registry.common.service.ServiceInfo;
-import com.ggx.util.logger.GGXLogUtil;
 
 public class ConnOpenEventListener implements EventListener<Void>{
 
