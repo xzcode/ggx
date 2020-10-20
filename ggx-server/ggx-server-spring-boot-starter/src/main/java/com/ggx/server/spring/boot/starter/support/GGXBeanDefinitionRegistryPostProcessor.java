@@ -57,7 +57,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				}
 				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
 				registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
-				
+				rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
 				ClassInfoList implClasses = scanResult.getClassesImplementing(interfaceClass.getName());
 				
 				Class<?> implClass = null;
