@@ -1,8 +1,6 @@
 package com.ggx.server.starter.rpc;
 
 import com.ggx.core.common.config.GGXCore;
-import com.ggx.eventbus.group.client.EventbusGroupClient;
-import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.rpc.client.RpcClient;
@@ -32,13 +30,6 @@ public class GGXRpcServiceStarter extends GGXBasicServerStarter {
 		}
 		this.rpcServerConfig.setRegistryClient(registryClient);
 		this.rpcServer = new RpcServer(rpcServerConfig);
-		
-		if (this.eventbusGroupClientConfig == null) {
-			this.eventbusGroupClientConfig = new EventbusGroupClientConfig();
-		}
-		this.eventbusGroupClientConfig.setRegistryClient(registryClient);
-		this.eventbusGroupClient = new EventbusGroupClient(eventbusGroupClientConfig);
-		this.eventbusGroupClient.start();
 
 	}
 	

@@ -122,9 +122,6 @@ public class GGXServer implements GGXServerStarter{
 			ggxRpcServiceStarter.setRpcServerConfig(config.getRpc().getServer());
 			ggxRpcServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxRpcServiceStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
-			}
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxRpcServiceStarter.setRpcClientConfig(config.getRpc().getClient());
 			}
