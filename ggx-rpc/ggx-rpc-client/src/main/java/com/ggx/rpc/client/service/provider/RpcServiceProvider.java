@@ -87,6 +87,8 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		
 		String serviceId = service.getServiceId();
 		
+		InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
+		RpcServiceClassCache classCache = this.config.getClassCache();
 		RpcServiceGroup serviceGroup = this.get(serviceGroupId);
 		boolean newGroup = false;
 		if (serviceGroup != null) {
@@ -114,6 +116,9 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				//如果组内无服务，则移除组
 				if (fServiceGroup.size() == 0) {
 					this.remove(fServiceGroup.getServiceGroupId());
+					for (InterfaceInfoModel info : interfaceInfos) {
+						interfaceServiceCache.remove(classCache.get(info.getInterfaceName()));
+					}
 				}
 			});
 			this.put(serviceGroupId, serviceGroup);
@@ -136,8 +141,6 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
         //如果是新创建的组，需要注册接口信息
         if (newGroup) {
         	
-	        RpcServiceClassCache classCache = this.config.getClassCache();
-	        InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
 			for (InterfaceInfoModel info : interfaceInfos) {
 				String interfaceName = info.getInterfaceName();
 				Class<?> interfaceClass = classCache.get(interfaceName);
@@ -147,12 +150,6 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				}
 			}
 			
-			//当移除组的时候，移除接口服务组缓存
-			this.onRemove(group -> {
-				for (InterfaceInfoModel info : interfaceInfos) {
-					interfaceServiceCache.remove(classCache.get(info.getInterfaceName()));
-				}
-			});
         }
         
         rpcService.init();
