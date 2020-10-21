@@ -19,7 +19,6 @@ import com.ggx.eventbus.client.subscriber.impl.DefaultSubscriberManager;
 import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
-import com.ggx.session.group.client.session.GroupServiceClientSession;
 import com.ggx.util.logger.GGXLogUtil;
 
 public class EventbusClient{
