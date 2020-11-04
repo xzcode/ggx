@@ -30,24 +30,25 @@ public class RpcRespHandler {
 
 	@GGXAction
 	public void handle(RpcResp resp, GGXSession session) {
+		String rpcId = resp.getRpcId();
+		byte[] returnData = resp.getReturnData();
+		boolean success = resp.isSuccess();
+		RpcMethodCallback callback = this.rpcMethodCallbackManager.get(rpcId);
+		if (callback == null) {
+			return;
+		}
+		GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
 		try {
-			String rpcId = resp.getRpcId();
-			byte[] returnData = resp.getReturnData();
-			boolean success = resp.isSuccess();
-			
-			RpcMethodCallback callback = this.rpcMethodCallbackManager.get(rpcId);
-			if (callback == null) {
-				return;
-			}
 			GGXFuture<?> tof = callback.getTimeoutFuture();
 			if (tof != null && tof.cancel()) {
-				GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
 				if (!success) {
 					callback.setException(new RpcServiceRemoteErrorException(callback.getServiceName()));
 				}
 				if (callback.isAsync()) {
 					if (callback.getAsyncDataType() != null) {
-						callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getAsyncDataType()));
+						if (returnData != null) {
+							callbackFuture.setData(this.parameterSerializerFactory.getDefaultSerializer().deserialize(returnData, callback.getAsyncDataType()));
+						}
 					}
 				}else {
 					if (returnData != null) {
