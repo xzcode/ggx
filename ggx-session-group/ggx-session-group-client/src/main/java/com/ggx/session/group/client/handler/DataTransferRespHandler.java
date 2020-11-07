@@ -38,7 +38,7 @@ public class DataTransferRespHandler  {
 		if (seviceClientSession != null) {
 			//提交任务到业务客户端
 			Pack pack = new Pack(seviceClientSession, resp.getAction(), resp.getMessage());
-			new ReceiveMessageTask(pack , serviceClientConfig).run();
+			serviceClientConfig.getReceiveMessageManager().receive(pack);
 		}
 	}
 

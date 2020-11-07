@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.event.EventTask;
 import com.ggx.core.common.event.GGXCoreEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGXSession;
 
 import io.netty.buffer.ByteBuf;
@@ -82,7 +82,7 @@ public class SocketSelectHandler extends ByteToMessageDecoder {
 			LOGGER.debug("Channel Active:{}", channel);
 		}
 		GGXSession session = (GGXSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
-		config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Connection.OPENED, null, config.getEventManager(), channel));
+		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.OPENED, null));
 	}
 	
 	@Override
@@ -91,7 +91,8 @@ public class SocketSelectHandler extends ByteToMessageDecoder {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("channel Inactive:{}", ctx.channel());
 		}
-		config.getTaskExecutor().submitTask(new EventTask((GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get(), GGXCoreEvents.Connection.CLOSED, null, config.getEventManager()));
+		GGXSession session = (GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
+		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.CLOSED, null));
 	}
 
 }

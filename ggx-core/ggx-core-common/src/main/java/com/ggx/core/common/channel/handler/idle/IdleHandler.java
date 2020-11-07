@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.EventTask;
 import com.ggx.core.common.event.GGXCoreEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.session.GGXSession;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -71,7 +72,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...WRITER_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGXSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.WRITE, null, config.getEventManager(),ctx.channel()));
+							config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Idle.WRITE, null));
 						}
 					break;
 				case READER_IDLE:
@@ -80,7 +81,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...READER_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGXSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.READ, null, config.getEventManager(),ctx.channel()));
+							config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Idle.READ, null));
 						}
 					break;
 				case ALL_IDLE:
@@ -89,7 +90,7 @@ public class IdleHandler extends ChannelInboundHandlerAdapter{
 								LOGGER.debug("...ALL_IDLE...: channel:{}", ctx.channel());								
 							}
 							GGXSession session = config.getSessionFactory().getSession(ctx.channel());
-							config.getTaskExecutor().submitTask(new EventTask(session, GGXCoreEvents.Idle.ALL, null, config.getEventManager(),ctx.channel()));
+							config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Idle.ALL, null));
 						}
 					break;
 				default:

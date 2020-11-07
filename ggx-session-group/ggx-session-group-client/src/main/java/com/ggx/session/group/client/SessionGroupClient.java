@@ -112,11 +112,10 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 			
 			this.config.getSessionGroupManager().addSession(this.config.getSessionGroupId(), groupSession);
 			
-			
 			if (this.config.isEnableServiceClient()) {
 				
 				GGXCoreClientConfig serviceClientConfig = this.config.getServiceClient().getConfig();
-				serviceClientConfig.setGgxComponent(true);
+				
 				SessionManager sessionManager = serviceClientConfig.getSessionManager();
 				
 				GGXSession serviceServerSession = new GroupServiceClientSession(groupSession.getSessionId(), groupSession, this.config.getSessionGroupId(), sessionGroupManager, serviceClientConfig);
@@ -134,6 +133,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 		if (this.config.isEnableServiceClient() && this.config.getServiceClient() == null) {
 			
 			GGXCoreClientConfig serviceClientConfig = new GGXCoreClientConfig();
+			serviceClientConfig.setGgxComponent(true);
 			serviceClientConfig.setWorkerGroup(sessionClientConfig.getWorkerGroup());
 			serviceClientConfig.setActionIdPrefix(config.getServiceActionIdPrefix());
 			serviceClientConfig.init();
