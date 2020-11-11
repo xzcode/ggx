@@ -75,7 +75,7 @@ public class RpcMethodCallback {
 		return timeoutFuture;
 	}
 	
-	public void setTimeoutFuture(GGXFuture timeoutFuture) {
+	public void setTimeoutFuture(GGXFuture<?> timeoutFuture) {
 		this.timeoutFuture = timeoutFuture;
 	}
 	
