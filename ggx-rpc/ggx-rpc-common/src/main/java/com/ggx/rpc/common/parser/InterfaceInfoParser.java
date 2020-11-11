@@ -10,25 +10,24 @@ import java.util.List;
 import java.util.Map;
 
 import com.ggx.rpc.common.annotation.GGXRpcInterface;
+import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
 
 /***
  * 代理接口解析器
  *
- * @author zai
- * 2020-10-03 23:56:22
+ * @author zai 2020-10-03 23:56:22
  */
 public class InterfaceInfoParser {
 
-	
 	public InterfaceInfo parse(Class<?> proxyInterface) {
-		
+
 		InterfaceInfo interfaceInfo = new InterfaceInfo();
-		
+
 		interfaceInfo.setInterfaceClass(proxyInterface);
-		
+
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
-		
+
 		GGXRpcInterface annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcInterface.class);
 		if (annotatedRpcInterface != null) {
 			Class<?> fallback = annotatedRpcInterface.fallback();
@@ -37,68 +36,75 @@ public class InterfaceInfoParser {
 				interfaceInfo.setFallbackClassName(fallback.getCanonicalName());
 			}
 		}
-		
-		
+
 		Map<String, Method> methods = new HashMap<>();
 		// 方法
 		Map<Method, Class<?>[]> methodParamTypes = new HashMap<>();
 
 		// 方法注解类型集合
-		//Map<Method, Class<?>[]> methodAnnotatedTypes = new HashMap<>();
+		// Map<Method, Class<?>[]> methodAnnotatedTypes = new HashMap<>();
 
 		// 返回类型
 		Map<Method, Class<?>> methodReturnClasses = new HashMap<>();
 
 		// 返回类型泛型集合
 		Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
-		
+
 		List<Method> declaredMethods = GGXReflectUtil.getAllDeclaredMethods(proxyInterface);
-		
+
 		for (Method mtd : declaredMethods) {
-			
+
 			Class<?>[] parameterTypes = mtd.getParameterTypes();
 			methodParamTypes.put(mtd, parameterTypes);
-			
+
 			methods.put(makeMethodName(mtd, parameterTypes), mtd);
-			
-			
+
+			for (int i = 0; i < parameterTypes.length; i++) {
+				Class<?> paramType = parameterTypes[i];
+				//添加目标服务注解信息缓存
+				GGXRpcTargetService annotation = paramType.getAnnotation(GGXRpcTargetService.class);
+				if (annotation != null) {
+					interfaceInfo.setTargetServiceParamIndex(i);
+					interfaceInfo.setTargetServiceParamType(paramType);
+					break;
+				}
+
+			}
+
 			Class<?> returnType = mtd.getReturnType();
 			if (returnType == List.class) {
 				methodReturnClasses.put(mtd, ArrayList.class);
-			}else if (returnType == Map.class) {
+			} else if (returnType == Map.class) {
 				methodReturnClasses.put(mtd, LinkedHashMap.class);
-			}else {
+			} else {
 				methodReturnClasses.put(mtd, returnType);
 			}
-			
-			
+
 			// 获取返回值的泛型参数
 			Type genericReturnType = mtd.getGenericReturnType();
-			
+
 			if (genericReturnType instanceof ParameterizedType) {
 				List<Class<?>> genericReturnTypeList = new ArrayList<>();
 				Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
 				for (Type type : actualTypeArguments) {
 					if (type.getTypeName() == "?") {
 						genericReturnTypeList.add(Object.class);
-					}else {
+					} else {
 						genericReturnTypeList.add((Class<?>) type);
 					}
 				}
 				methodGenericReturnTypes.put(mtd, genericReturnTypeList);
 			}
 		}
-		
-		
-		
+
 		interfaceInfo.setMethods(methods);
 		interfaceInfo.setMethodParamTypes(methodParamTypes);
 		interfaceInfo.setMethodReturnClasses(methodReturnClasses);
 		interfaceInfo.setMethodGenericReturnTypes(methodGenericReturnTypes);
-		
+
 		return interfaceInfo;
 	}
-	
+
 	public String makeMethodName(Method method, Class<?>[] parameterTypes) {
 		StringBuilder sb = new StringBuilder(32);
 		sb.append(method.getName()).append("(");

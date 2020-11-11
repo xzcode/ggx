@@ -25,6 +25,11 @@ public class RpcClient{
 		return (T) this.proxyManager.register(serviceInterface, fallbackObj);
 	}
 	
+	
+	public <T> T getServiceImplements(Class<T> serviceInterface, Object fallbackObj) {
+		return (T) this.proxyManager.register(serviceInterface, fallbackObj);
+	}
+	
 
 	public void shutdown() {
 		if (this.config.getSharedEventLoopGroup() != null) {

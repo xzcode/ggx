@@ -7,31 +7,36 @@ import java.util.Map;
 /***
  * 代理接口信息类
  *
- * @author zai
- * 2020-10-03 23:56:22
+ * @author zai 2020-10-03 23:56:22
  */
 public class InterfaceInfo {
-	
-	//接口名称
+
+	// 接口名称
 	protected String interfaceName;
 
-	//接口class
+	// 接口class
 	protected Class<?> interfaceClass;
-	
-	//备用实例class name
+
+	// 备用实例class name
 	protected String fallbackClassName;
-	
-	//备用实例class
+
+	// 目标服务参数下标
+	protected Integer targetServiceParamIndex;
+
+	// 目标服务参数类型
+	protected Class<?> targetServiceParamType;
+
+	// 备用实例class
 	protected Class<?> fallbackClass;
 
-	//所有方法集合
+	// 所有方法集合
 	protected Map<String, Method> methods;
 
-	// 方法
+	// 方法参数类型
 	protected Map<Method, Class<?>[]> methodParamTypes;
-	
+
 	// 方法异步集合
-	protected Map<Method,Boolean> methodAsyncMap;
+	protected Map<Method, Boolean> methodAsyncMap;
 
 	// 方法注解类型集合
 	protected Map<Method, Class<?>[]> methodAnnotatedTypes;
@@ -40,8 +45,7 @@ public class InterfaceInfo {
 	protected Map<Method, Class<?>> methodReturnClasses;
 
 	// 返回类型泛型集合
-	protected  Map<Method, List<Class<?>>> methodGenericReturnTypes;
-
+	protected Map<Method, List<Class<?>>> methodGenericReturnTypes;
 
 	public Class<?> getInterfaceClass() {
 		return interfaceClass;
@@ -98,29 +102,44 @@ public class InterfaceInfo {
 	public void setInterfaceName(String interfaceName) {
 		this.interfaceName = interfaceName;
 	}
-	
+
 	public Class<?> getFallbackClass() {
 		return fallbackClass;
 	}
-	
+
 	public void setFallbackClass(Class<?> fallbackClass) {
 		this.fallbackClass = fallbackClass;
 	}
 
-
 	public String getFallbackClassName() {
 		return fallbackClassName;
 	}
-	
+
 	public void setFallbackClassName(String fallbackClassName) {
 		this.fallbackClassName = fallbackClassName;
 	}
-	
+
 	public Map<Method, Boolean> getMethodAsyncMap() {
 		return methodAsyncMap;
 	}
-	
+
 	public void setMethodAsyncMap(Map<Method, Boolean> methodAsyncMap) {
 		this.methodAsyncMap = methodAsyncMap;
+	}
+
+	public Integer getTargetServiceParamIndex() {
+		return targetServiceParamIndex;
+	}
+
+	public void setTargetServiceParamIndex(Integer targetServiceParamIndex) {
+		this.targetServiceParamIndex = targetServiceParamIndex;
+	}
+
+	public Class<?> getTargetServiceParamType() {
+		return targetServiceParamType;
+	}
+
+	public void setTargetServiceParamType(Class<?> targetServiceParamType) {
+		this.targetServiceParamType = targetServiceParamType;
 	}
 }
