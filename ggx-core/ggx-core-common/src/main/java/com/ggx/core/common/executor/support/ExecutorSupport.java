@@ -14,17 +14,15 @@ import io.netty.channel.EventLoopGroup;
  * 计划任务执行支持接口
  * 
  * 
- * @author zai
- * 2019-12-01 16:15:52
+ * @author zai 2019-12-01 16:15:52
  */
 public interface ExecutorSupport extends TaskExecutor {
-	
+
 	/**
 	 * 获取任务执行器
 	 * 
 	 * @return
-	 * @author zai
-	 * 2019-12-21 11:16:45
+	 * @author zai 2019-12-21 11:16:45
 	 */
 	TaskExecutor getTaskExecutor();
 
@@ -40,28 +38,28 @@ public interface ExecutorSupport extends TaskExecutor {
 
 	@Override
 	default GGXFuture<?> schedule(long delay, TimeUnit timeUnit, Runnable runnable) {
-		return  getTaskExecutor().schedule(delay, timeUnit, runnable);
+		return getTaskExecutor().schedule(delay, timeUnit, runnable);
 	}
 
 	@Override
 	default <V> GGXFuture<V> schedule(long delay, TimeUnit timeUnit, Callable<V> callable) {
-		return  getTaskExecutor().schedule(delay, timeUnit, callable);
+		return getTaskExecutor().schedule(delay, timeUnit, callable);
 	}
 
 	@Override
 	default GGXFuture<?> scheduleAfter(GGXFuture<?> afterFuture, long delay, TimeUnit timeUnit, Runnable runnable) {
-		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, runnable);
+		return getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, runnable);
 	}
-	
+
 	@Override
 	default GGXFuture<?> scheduleAfter(GGXFuture<?> afterFuture, long delayMs, Runnable runnable) {
-		return  getTaskExecutor().scheduleAfter(afterFuture, delayMs, TimeUnit.MILLISECONDS, runnable);
+		return getTaskExecutor().scheduleAfter(afterFuture, delayMs, TimeUnit.MILLISECONDS, runnable);
 	}
 
 	@Override
 	default <V> GGXFuture<V> scheduleAfter(GGXFuture<?> afterFuture, long delay, TimeUnit timeUnit,
 			Callable<V> callable) {
-		return  getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, callable);
+		return getTaskExecutor().scheduleAfter(afterFuture, delay, timeUnit, callable);
 	}
 
 	@Override
@@ -83,7 +81,7 @@ public interface ExecutorSupport extends TaskExecutor {
 	default TaskExecutor nextEvecutor() {
 		return getTaskExecutor().nextEvecutor();
 	}
-	
+
 	@Override
 	default void execute(Runnable command) {
 		getTaskExecutor().submitTask(command);
@@ -91,8 +89,8 @@ public interface ExecutorSupport extends TaskExecutor {
 
 	@Override
 	default GGXFuture<?> shutdown() {
-		return new GGXNettyFuture(getEventLoopGroup().shutdownGracefully());
-		
+		return new GGXNettyFuture<>(getEventLoopGroup().shutdownGracefully());
+
 	}
 
 	@Override
@@ -100,6 +98,4 @@ public interface ExecutorSupport extends TaskExecutor {
 		return getTaskExecutor().getEventLoopGroup();
 	}
 
-	
-	
 }

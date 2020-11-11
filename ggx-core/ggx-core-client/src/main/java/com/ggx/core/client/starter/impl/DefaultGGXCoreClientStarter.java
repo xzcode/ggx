@@ -75,7 +75,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
         	Bootstrap boot = config.getBootstrap();
             // 连接服务器
             ChannelFuture future = boot.connect(host, port);
-            return new GGXNettyFuture(future);
+            return new GGXNettyFuture<>(future);
         }catch (Exception e) {
         	throw new RuntimeException("GGClient connect error !! ", e);
 		}
@@ -89,7 +89,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 	}
 	
 	public GGXFuture<?> shutdown() {
-		GGXNettyFuture ggFuture = new GGXNettyFuture();
+		GGXNettyFuture<?> ggFuture = new GGXNettyFuture<>();
 		try {
 			Future<?> future = config.getWorkerGroup().shutdownGracefully();
 			ggFuture.setFuture(future);

@@ -6,11 +6,11 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.ReceiveMessageManager;
 
 public class DefaultReceivePackHandler implements ReceivePackHandler {
-	
 
-	private GGXCoreConfig config;
+	protected GGXCoreConfig config;
+
 	private ReceiveMessageManager receiveMessageManager;
-	
+
 	public DefaultReceivePackHandler(GGXCoreConfig config) {
 		this.config = config;
 		this.receiveMessageManager = config.getReceiveMessageManager();
@@ -20,6 +20,5 @@ public class DefaultReceivePackHandler implements ReceivePackHandler {
 	public void handle(Pack pack) {
 		this.receiveMessageManager.receive(pack);
 	}
-
 
 }

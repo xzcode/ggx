@@ -7,7 +7,6 @@ import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.id.SessionIdGenerator;
 import com.ggx.core.common.session.impl.DefaultChannelSession;
-import com.ggx.core.common.utils.GGXIdUtil;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;

@@ -7,15 +7,13 @@ import com.ggx.core.common.message.Pack;
 
 public interface FilterManager {
 
-	
+	GGXFuture<?> doReceiveMessageFilters(MessageData data);
 
-	GGXFuture doReceiveMessageFilters(MessageData data);
+	GGXFuture<?> doSendMessageFilters(MessageData data);
 
-	GGXFuture doSendMessageFilters(MessageData data);
-	
-	GGXFuture doReceivePackFilters(Pack pack);
+	GGXFuture<?> doReceivePackFilters(Pack pack);
 
-	GGXFuture doSendPackFilters(Pack pack);
+	GGXFuture<?> doSendPackFilters(Pack pack);
 
 	FilterInfo<?> addFilter(FilterInfo<?> filter);
 

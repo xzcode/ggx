@@ -19,9 +19,6 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	
 	protected RpcServiceLoadbalancer loadblancer;
 	
-	
-	
-	
 	public RpcServiceGroup(String serviceGroupId) {
 		this.serviceGroupId = serviceGroupId;
 	}
@@ -29,9 +26,6 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 		this.serviceGroupId = serviceGroupId;
 		this.loadblancer = loadblancer;
 	}
-
-
-
 
 	public GGXFuture<?> invoke(RpcReq req) {
 		if (this.loadblancer != null) {

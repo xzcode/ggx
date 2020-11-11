@@ -2,9 +2,6 @@ package com.ggx.core.common.channel.handler;
 
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.channel.handler.common.InboundCommonHandler;
 import com.ggx.core.common.channel.handler.common.OutboundCommonHandler;
@@ -31,7 +28,6 @@ import io.netty.util.AttributeKey;
  */
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(WebSocketChannelInitializer.class);
 	
 	protected static final AttributeKey<String> PROTOCOL_TYPE_KEY = AttributeKey.valueOf(DefaultChannelAttributeKeys.PROTOCOL_TYPE);
 	
