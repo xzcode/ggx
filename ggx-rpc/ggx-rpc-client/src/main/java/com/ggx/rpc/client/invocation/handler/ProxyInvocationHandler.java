@@ -78,11 +78,13 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		RpcService rpcService = null;
 		Integer targetServiceParamIndex = interfaceInfo.getTargetServiceParamIndex();
 		String serviceId = null;
-		if (targetServiceParamIndex != null) {
-			serviceId = String.valueOf(args[targetServiceParamIndex]);
-			rpcService = group.get(serviceId);
-		} else {
-			rpcService = group.getRandomOne();
+		if (group != null) {
+			if (targetServiceParamIndex != null) {
+				serviceId = String.valueOf(args[targetServiceParamIndex]);
+				rpcService = group.get(serviceId);
+			} else {
+				rpcService = group.getRandomOne();
+			}
 		}
 
 		Class<?> returnType = interfaceInfo.getMethodReturnClasses().get(method);
@@ -140,7 +142,7 @@ public class ProxyInvocationHandler implements InvocationHandler {
 		this.rpcMethodCallbackManager.put(callback.getRpcId(), callback);
 
 		// 发送数据包
-		GGXFuture<?> invokeFuture = group.invoke(req);
+		GGXFuture<?> invokeFuture = rpcService.invoke(req);
 		invokeFuture.addListener(f -> {
 			if (!f.isSuccess()) {
 				GGXFuture<?> timeoutFuture = callback.getTimeoutFuture();

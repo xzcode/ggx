@@ -62,10 +62,10 @@ public interface MapDataManager<K, V> {
 		Set<Entry<K, V>> entrySet = getMap().entrySet();
 		Object[] array = entrySet.toArray();
 		if (array.length == 1) {
-			return (V) array[0];
+			return ((Entry<K, V>) array[0]).getValue();
 		}
 		if (array.length > 1) {
-			return (V) array[ThreadLocalRandom.current().nextInt(array.length)];
+			return ((Entry<K, V>) array[ThreadLocalRandom.current().nextInt(array.length)]).getValue();
 		}
 		return null;
 	}

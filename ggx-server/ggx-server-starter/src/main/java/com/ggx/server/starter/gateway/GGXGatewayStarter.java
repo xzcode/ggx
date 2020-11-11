@@ -1,6 +1,7 @@
 package com.ggx.server.starter.gateway;
 
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
@@ -50,14 +51,15 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 	
 
 	public void start() {
-		
-		this.coreServer.start().addListener(f -> {
+		GGXFuture<?> future = this.coreServer.start();
+		future.addListener(f -> {
 			if (f.isSuccess()) {
 				this.registryClient.start();
 			}else {
 				this.shutdown();
 			}
 		});
+		
 		
 	}
 	
