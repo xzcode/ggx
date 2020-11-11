@@ -24,6 +24,8 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 	
 	private boolean waiting;
 	
+	private long defaultWaitTimeout = 30L * 1000L;//默认超时时间 ms
+	
 	private Object data;
 	
 	private Class<?> dataType;
@@ -102,20 +104,23 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 		return this.cancel;
 	}
 
-
 	@Override
 	public T get(long timeout, TimeUnit unit) {
-		return get();
+		return this.get(unit.toMillis(timeout));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T get() {
+	public T get(long timeout) {
 		try {
 			synchronized (this) {
 				if (!this.done) {
 					this.waiting = true;
-					this.wait();
+					if (timeout <= 0L) {
+						this.wait(this.defaultWaitTimeout);
+					}else {
+						this.wait(timeout);
+					}
 				}
 			}
 		} catch (Throwable e) {
@@ -126,6 +131,12 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 		}
 		return (T) this.data;
 	}
+
+	@Override
+	public T get() {
+		return this.get(0);
+	}
+	
 
 	@Override
 	public GGXSession getSession() {
@@ -185,4 +196,11 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 	public Class<?> getDataType() {
 		return dataType;
 	}
+	
+	public void setDefaultWaitTimeout(long waitTimeout) {
+		if (waitTimeout > 0L) {
+			this.defaultWaitTimeout = waitTimeout;
+		}
+	}
+	
 }

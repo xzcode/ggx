@@ -165,7 +165,8 @@ public class ProxyInvocationHandler implements InvocationHandler {
 			if (!callback.isNotified()) {
 				callback.setWaiting(true);
 				//如果是同步，挂起线程等待
-				callback.wait();
+				callback.wait(this.config.getRpcTimeout());
+				callback.setWaiting(false);
 			}
 		}
 		if (callback.getException() != null) {

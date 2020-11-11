@@ -76,5 +76,10 @@ public class GGXFailedFuture<T> implements GGXFuture<T> {
 		return null;
 	}
 
+	@Override
+	public T get(long timeout) {
+		return null;
+	}
+
 
 }

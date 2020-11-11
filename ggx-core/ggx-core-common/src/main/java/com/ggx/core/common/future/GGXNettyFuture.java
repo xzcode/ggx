@@ -65,7 +65,7 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 					});
 				}
 		} catch (Exception e) {
-			GGXLogUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
+			GGXLogUtil.getLogger().error("GGXFuture 'operationComplete' Error!", e);
 		}
 		
 	}
@@ -132,6 +132,11 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 	@Override
 	public Throwable cause() {
 		return this.nettyFuture.cause();
+	}
+
+	@Override
+	public T get(long timeout) {
+		return this.get(timeout, TimeUnit.MILLISECONDS);
 	}
 
 }
