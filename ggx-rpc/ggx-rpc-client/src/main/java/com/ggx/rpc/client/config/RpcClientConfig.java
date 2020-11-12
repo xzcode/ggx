@@ -46,7 +46,7 @@ public class RpcClientConfig {
 	protected String authToken = RpcConstant.DEFAULT_AUTH_TOKEN;
 	
 	//服务组id
-	protected String serviceGroupId = RpcConstant.DEFAULT_RPC_SERVICE_GROUP_ID;
+	protected String rpcServiceGroupId = RpcConstant.DEFAULT_RPC_SERVICE_GROUP_ID;
 	
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
@@ -269,12 +269,12 @@ public class RpcClientConfig {
 		this.rpcMethodCallbackManager = rpcMethodCallbackManager;
 	}
 
-	public String getServiceGroupId() {
-		return serviceGroupId;
+	public String getRpcServiceGroupId() {
+		return rpcServiceGroupId;
 	}
 	
-	public void setServiceGroupId(String serviceGroupId) {
-		this.serviceGroupId = serviceGroupId;
+	public void setRpcServiceGroupId(String serviceGroupId) {
+		this.rpcServiceGroupId = serviceGroupId;
 	}
 	
 	public InvocationHandler getProxyInvocationHandler() {

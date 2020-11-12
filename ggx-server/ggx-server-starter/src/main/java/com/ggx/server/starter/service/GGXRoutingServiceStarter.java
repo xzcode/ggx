@@ -44,9 +44,12 @@ public class GGXRoutingServiceStarter extends GGXBasicServerStarter {
 		this.rpcClientConfig.setRegistryClient(registryClient);
 		this.rpcClient = new RpcClient(rpcClientConfig);
 		
-		if (this.rpcServerConfig == null) {
-			this.rpcServerConfig = new RpcServerConfig();
+		if (this.rpcServerConfig != null) {
+			this.rpcServer = new RpcServer(rpcServerConfig);
+			this.rpcServerConfig.setRegistryClient(registryClient);
+			this.rpcServer.start();
 		}
+		
 		this.rpcServerConfig.setRegistryClient(registryClient);
 		this.rpcServer = new RpcServer(rpcServerConfig);
 

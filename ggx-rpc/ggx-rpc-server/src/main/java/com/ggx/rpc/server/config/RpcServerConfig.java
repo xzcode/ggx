@@ -52,8 +52,11 @@ public class RpcServerConfig {
 	//使用随机端口启动
 	protected boolean 	bootWithRandomPort = true;
 	
-	//服务组id
-	protected String serviceGroupId;
+	//RPC服务id
+	protected String rpcServiceId;
+	
+	//RPC服务组id
+	protected String rpcServiceGroupId;
 	
 	
 	//参数序列化器工厂
@@ -162,12 +165,12 @@ public class RpcServerConfig {
 		this.portChangeStrategy = portChangeStrategy;
 	}
 
-	public String getServiceGroupId() {
-		return serviceGroupId;
+	public String getRpcServiceGroupId() {
+		return rpcServiceGroupId;
 	}
 
-	public void setServiceGroupId(String rpcGroupId) {
-		this.serviceGroupId = rpcGroupId;
+	public void setRpcServiceGroupId(String rpcGroupId) {
+		this.rpcServiceGroupId = rpcGroupId;
 	}
 	
 	public InterfaceInfoParser getInterfaceInfoParser() {
@@ -196,5 +199,13 @@ public class RpcServerConfig {
 		this.parameterSerializerFactory = parameterSerializerFactory;
 	}
 	
+	
+	public String getRpcServiceId() {
+		return rpcServiceId;
+	}
+	
+	public void setRpcServiceId(String rpcServiceId) {
+		this.rpcServiceId = rpcServiceId;
+	}
 	
 }

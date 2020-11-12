@@ -57,9 +57,11 @@ public class EventbusServer implements GGXCoreSupport{
 				if (registryClient != null) {
 					//添加自定义参数
 					//添加自定义事件组id
-					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY, this.config.getEventbusGroupId());
+					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_GROUP_KEY, this.config.getEventbusGroupId(), false);
 					//添加自定义事件服务端端口
-					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_PORT_KEY, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()));
+					registryClient.addCustomData(EventbusConstant.REGISTRY_CUSTOM_EVENTBUS_PORT_KEY, String.valueOf(this.config.getSessionGroupServer().getConfig().getSessionServer().getConfig().getPort()), false);
+					
+					registryClient.updateService();
 				}
 			}
 		});

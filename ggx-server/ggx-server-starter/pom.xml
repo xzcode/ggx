@@ -96,6 +96,11 @@
 			<artifactId>ggx-rpc-server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ggx</groupId>
+			<artifactId>ggx-data-collector</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.apache.commons</groupId>

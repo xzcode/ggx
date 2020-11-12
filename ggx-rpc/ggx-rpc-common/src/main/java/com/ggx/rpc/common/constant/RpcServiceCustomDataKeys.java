@@ -23,5 +23,15 @@ public interface RpcServiceCustomDataKeys {
 	 */
 	String RPC_INTERFACE_INFO_LIST = "RPC_INTERFACE_INFO_LIST";
 	
+	/**
+	 * RPC服务组ID
+	 */
+	String RPC_SERVICE_GROUP_ID = "RPC_SERVICE_GROUP_ID";
+
+	/**
+	 * RPC服务ID
+	 */
+	String RPC_SERVICE_ID = "RPC_SERVICE_ID";
+	
 	
 }

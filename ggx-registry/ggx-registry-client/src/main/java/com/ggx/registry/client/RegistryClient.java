@@ -91,6 +91,13 @@ public class RegistryClient {
 		this.updateService();
 	}
 	
+	public void addCustomData(String key, String value, boolean updateService) {
+		this.config.addCustomData(key, value);
+		if (updateService) {
+			this.updateService();
+		}
+	}
+	
 	public void connect() {
 		GGXCoreClient ggClient = config.getCoreClient();
 		ggClient.schedule(3000L, () -> {
@@ -117,7 +124,7 @@ public class RegistryClient {
 	 * @author zai
 	 * 2020-02-04 17:11:08
 	 */
-	private void updateService() {
+	public void updateService() {
 		GGXSession session = config.getSession();
 		if (session == null) {
 			return;

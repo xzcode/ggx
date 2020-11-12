@@ -16,12 +16,12 @@ import com.ggx.server.starter.registry.GGXRegistryServerStarter;
 import com.ggx.server.starter.rpc.GGXRpcServiceStarter;
 import com.ggx.server.starter.service.GGXRoutingServiceStarter;
 
-public class GGXServer implements GGXServerStarter{
-	
+public class GGXServer implements GGXServerStarter {
+
 	private GGXServerStarter serverStarter;
-	
+
 	private String mode = GGXServerMode.CORE_SERVER;
-	
+
 	private GGXServerConfig config;
 
 	public GGXServer(GGXServerConfig config) {
@@ -33,7 +33,7 @@ public class GGXServer implements GGXServerStarter{
 	public GGXServer() {
 		init();
 	}
-	
+
 	private void init() {
 		switch (mode) {
 		case GGXServerMode.CORE_SERVER:
@@ -69,9 +69,15 @@ public class GGXServer implements GGXServerStarter{
 			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
 				ggxRoutingServiceStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
 			}
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxRoutingServiceStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (config.getRpc() != null) {
+				if (config.getRpc().getClient() != null) {
+					ggxRoutingServiceStarter.setRpcClientConfig(config.getRpc().getClient());
+				}
+				if (config.getRpc().getServer() != null) {
+					ggxRoutingServiceStarter.setRpcServerConfig(config.getRpc().getServer());
+				}
 			}
+
 			ggxRoutingServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			ggxRoutingServiceStarter.init();
 			this.serverStarter = ggxRoutingServiceStarter;
@@ -98,9 +104,9 @@ public class GGXServer implements GGXServerStarter{
 			break;
 		case GGXServerMode.SERVICE_CLIENT:
 			GGXServiceClientStarter ggxEventbusClientStarter = new GGXServiceClientStarter();
-				ggxEventbusClientStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			ggxEventbusClientStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-					ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+				ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
 			}
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxEventbusClientStarter.setRpcClientConfig(config.getRpc().getClient());
@@ -112,7 +118,7 @@ public class GGXServer implements GGXServerStarter{
 			GGXEventbusServerStarter ggxEventbusServerStarter = new GGXEventbusServerStarter();
 			ggxEventbusServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			if (config.getEventbus() != null && config.getEventbus().getServer() != null) {
-					ggxEventbusServerStarter.setEventbusServerConfig(config.getEventbus().getServer());
+				ggxEventbusServerStarter.setEventbusServerConfig(config.getEventbus().getServer());
 			}
 			ggxEventbusServerStarter.init();
 			this.serverStarter = ggxEventbusServerStarter;
@@ -121,7 +127,7 @@ public class GGXServer implements GGXServerStarter{
 			GGXRpcServiceStarter ggxRpcServiceStarter = new GGXRpcServiceStarter();
 			ggxRpcServiceStarter.setRpcServerConfig(config.getRpc().getServer());
 			ggxRpcServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
-			
+
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxRpcServiceStarter.setRpcClientConfig(config.getRpc().getClient());
 			}
@@ -132,12 +138,10 @@ public class GGXServer implements GGXServerStarter{
 			break;
 		}
 	}
-	
-	
+
 	public GGXFuture<?> routeMessage(String serviceId, Message message, GGXSession session) {
 		return this.serverStarter.routeMessage(null, serviceId, message, session);
 	}
-	
 
 	@Override
 	public GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
@@ -148,7 +152,7 @@ public class GGXServer implements GGXServerStarter{
 	public void publishEventbusMessage(EventbusMessage message) {
 		this.serverStarter.publishEventbusMessage(message);
 	}
-	
+
 	@Override
 	public void registerSubscriberController(Object controller) {
 		this.serverStarter.registerSubscriberController(controller);
@@ -157,7 +161,7 @@ public class GGXServer implements GGXServerStarter{
 	@Override
 	public void registerRpcService(Class<?> serviceInterface, Object serviceObj) {
 		this.serverStarter.registerRpcService(serviceInterface, serviceObj);
-		
+
 	}
 
 	@Override
@@ -179,13 +183,9 @@ public class GGXServer implements GGXServerStarter{
 	public GGXCore getGGXCore() {
 		return this.serverStarter;
 	}
-	
-
-	
 
 	public GGXServerConfig getConfig() {
 		return config;
 	}
-
 
 }
