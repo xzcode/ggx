@@ -76,9 +76,9 @@ public class ProxyInvocationHandler implements InvocationHandler {
 
 		RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
 		RpcService rpcService = null;
-		Integer targetServiceParamIndex = interfaceInfo.getTargetServiceParamIndex();
 		String serviceId = null;
 		if (group != null) {
+			Integer targetServiceParamIndex = interfaceInfo.getMethodTargetServiceParamIndexes().get(method);
 			if (targetServiceParamIndex != null) {
 				serviceId = String.valueOf(args[targetServiceParamIndex]);
 				rpcService = group.get(serviceId);

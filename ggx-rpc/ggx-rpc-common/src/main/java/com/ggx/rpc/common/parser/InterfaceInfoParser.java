@@ -1,5 +1,6 @@
 package com.ggx.rpc.common.parser;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -9,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ggx.rpc.common.annotation.GGXRpcInterface;
+import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
 
@@ -28,7 +29,7 @@ public class InterfaceInfoParser {
 
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
 
-		GGXRpcInterface annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcInterface.class);
+		GGXRpcService annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcService.class);
 		if (annotatedRpcInterface != null) {
 			Class<?> fallback = annotatedRpcInterface.fallback();
 			if (fallback != null) {
@@ -46,6 +47,9 @@ public class InterfaceInfoParser {
 
 		// 返回类型
 		Map<Method, Class<?>> methodReturnClasses = new HashMap<>();
+		
+		// 方法指定服务id参数下标集合
+		Map<Method, Integer> methodTargetServiceParamIndexes = new HashMap<>();
 
 		// 返回类型泛型集合
 		Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
@@ -58,16 +62,28 @@ public class InterfaceInfoParser {
 			methodParamTypes.put(mtd, parameterTypes);
 
 			methods.put(makeMethodName(mtd, parameterTypes), mtd);
-
+			Annotation[][] parameterAnnotations = mtd.getParameterAnnotations();
 			for (int i = 0; i < parameterTypes.length; i++) {
-				Class<?> paramType = parameterTypes[i];
-				//添加目标服务注解信息缓存
-				GGXRpcTargetService annotation = paramType.getAnnotation(GGXRpcTargetService.class);
-				if (annotation != null) {
-					interfaceInfo.setTargetServiceParamIndex(i);
-					interfaceInfo.setTargetServiceParamType(paramType);
+				
+				boolean findGGXRpcTargetService =false;
+				Annotation[] annos = parameterAnnotations[i];
+				if (annos != null && annos.length > 0) {
+					for (int j = 0; j < annos.length; j++) {
+						//添加目标服务注解信息缓存
+						Annotation curAnn = annos[j];
+						if (curAnn.annotationType() == GGXRpcTargetService.class) {
+							methodTargetServiceParamIndexes.put(mtd, i);
+							findGGXRpcTargetService = true;
+							break;
+						}
+					}
+					
+				}
+				
+				if (findGGXRpcTargetService) {
 					break;
 				}
+				
 
 			}
 
@@ -101,7 +117,8 @@ public class InterfaceInfoParser {
 		interfaceInfo.setMethodParamTypes(methodParamTypes);
 		interfaceInfo.setMethodReturnClasses(methodReturnClasses);
 		interfaceInfo.setMethodGenericReturnTypes(methodGenericReturnTypes);
-
+		interfaceInfo.setMethodTargetServiceParamIndexes(methodTargetServiceParamIndexes);
+		
 		return interfaceInfo;
 	}
 

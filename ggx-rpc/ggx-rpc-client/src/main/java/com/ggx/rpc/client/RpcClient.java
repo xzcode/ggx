@@ -26,6 +26,7 @@ public class RpcClient{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getServiceImplements(Class<T> serviceInterface, Object fallbackObj) {
 		return (T) this.proxyManager.register(serviceInterface, fallbackObj);
 	}

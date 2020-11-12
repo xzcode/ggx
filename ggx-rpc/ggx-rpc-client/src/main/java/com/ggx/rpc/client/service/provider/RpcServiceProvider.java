@@ -37,17 +37,23 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 
 		// 添加注册中心服务管器的服务取消注册监听器
 		serviceManager.addUnregisterListener(service -> {
-			String serviceGroupId = service.getServiceGroupId();
-			RpcServiceGroup rpcServiceGroup = this.get(serviceGroupId);
-			if (rpcServiceGroup != null) {
-				rpcServiceGroup.remove(service.getServiceId());
+			Map<String, String> customData = service.getCustomData();
+			String rpcServiceGroupId = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE_GROUP_ID);
+			String rpcServiceId = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE_ID);
+			if (rpcServiceGroupId != null) {
+				RpcServiceGroup rpcServiceGroup = this.get(rpcServiceGroupId);
+				if (rpcServiceGroup != null) {
+					rpcServiceGroup.remove(rpcServiceId);
+				}
 			}
 		});
 
 		serviceManager.addUpdateListener(service -> {
-			String serviceGroupId = service.getServiceGroupId();
-			RpcServiceGroup rpcServiceGroup = this.get(serviceGroupId);
-			RpcService routerService = rpcServiceGroup.get(service.getServiceId());
+			Map<String, String> customData = service.getCustomData();
+			String rpcServiceGroupId = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE_GROUP_ID);
+			String rpcServiceId = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE_ID);
+			RpcServiceGroup rpcServiceGroup = this.get(rpcServiceGroupId);
+			RpcService routerService = rpcServiceGroup.get(rpcServiceId);
 			if (routerService != null) {
 				routerService.addAllExtraData(service.getCustomData());
 			} else {

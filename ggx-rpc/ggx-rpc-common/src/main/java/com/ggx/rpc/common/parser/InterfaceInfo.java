@@ -20,12 +20,6 @@ public class InterfaceInfo {
 	// 备用实例class name
 	protected String fallbackClassName;
 
-	// 目标服务参数下标
-	protected Integer targetServiceParamIndex;
-
-	// 目标服务参数类型
-	protected Class<?> targetServiceParamType;
-
 	// 备用实例class
 	protected Class<?> fallbackClass;
 
@@ -34,6 +28,9 @@ public class InterfaceInfo {
 
 	// 方法参数类型
 	protected Map<Method, Class<?>[]> methodParamTypes;
+	
+	// 方法指定服务id参数下标集合
+	protected Map<Method, Integer> methodTargetServiceParamIndexes;
 
 	// 方法异步集合
 	protected Map<Method, Boolean> methodAsyncMap;
@@ -127,19 +124,10 @@ public class InterfaceInfo {
 		this.methodAsyncMap = methodAsyncMap;
 	}
 
-	public Integer getTargetServiceParamIndex() {
-		return targetServiceParamIndex;
+	public Map<Method, Integer> getMethodTargetServiceParamIndexes() {
+		return methodTargetServiceParamIndexes;
 	}
-
-	public void setTargetServiceParamIndex(Integer targetServiceParamIndex) {
-		this.targetServiceParamIndex = targetServiceParamIndex;
-	}
-
-	public Class<?> getTargetServiceParamType() {
-		return targetServiceParamType;
-	}
-
-	public void setTargetServiceParamType(Class<?> targetServiceParamType) {
-		this.targetServiceParamType = targetServiceParamType;
+	public void setMethodTargetServiceParamIndexes(Map<Method, Integer> methodTargetServiceParamIndexes) {
+		this.methodTargetServiceParamIndexes = methodTargetServiceParamIndexes;
 	}
 }

@@ -15,9 +15,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.common.annotation.GGXRpcInterface;
+import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.server.config.RpcServerConfig;
-import com.ggx.server.spring.boot.starter.annotation.GGXRpcService;
+import com.ggx.server.spring.boot.starter.annotation.GGXRpcServiceImpl;
 import com.ggx.server.spring.boot.starter.rpc.RpcProxyFactoryBean;
 import com.ggx.server.spring.boot.starter.support.model.RpcServiceScanInfo;
 import com.ggx.util.logger.GGXLogUtil;
@@ -47,10 +47,10 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 		
 		try (ScanResult scanResult = classGraph.scan()) {
 			
-			ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcInterface.class.getName());
+			ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcService.class.getName());
 			for (ClassInfo info : rpcInterfaceInfoList) {
 				Class<?> interfaceClass = info.loadClass();
-				GGXRpcInterface annotation = interfaceClass.getAnnotation(GGXRpcInterface.class);
+				GGXRpcService annotation = interfaceClass.getAnnotation(GGXRpcService.class);
 				Class<?> fallbackClass = annotation.fallback();
 				if (fallbackClass == Void.class) {
 					fallbackClass = null;
@@ -63,7 +63,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				Class<?> implClass = null;
 				for (ClassInfo ci : implClasses) {
 					Class<?> cii = ci.loadClass();
-					if (cii != fallbackClass && cii.getAnnotation(GGXRpcService.class) != null) {
+					if (cii != fallbackClass && cii.getAnnotation(GGXRpcServiceImpl.class) != null) {
 						implClass = cii;
 						break;
 					}
