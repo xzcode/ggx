@@ -181,7 +181,7 @@
 	</build>
 
 	<modules>
-		<module>ggx-dashboard</module>
+		<module>ggx-data</module>
 		<module>ggx-core</module>
 		<module>ggx-docs</module>
 		<module>ggx-eventbus</module>
