@@ -18,7 +18,7 @@ public interface GGXCoreServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:27:57
 	 */
-	GGXFuture start();
+	GGXFuture<?> start();
 	
 	/**
 	 * 关闭
@@ -26,7 +26,7 @@ public interface GGXCoreServerStarter {
 	 * @author zai
 	 * 2019-12-18 17:28:02
 	 */
-	GGXFuture shutdown();
+	GGXFuture<?> shutdown();
 	
 	/**
 	 * 设置配置

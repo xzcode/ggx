@@ -17,13 +17,13 @@ public interface GGXCoreServer extends GGXCoreConfigSupport<GGXCoreServerConfig>
 	 * 
 	 * @author zai 2019-12-05 10:41:09
 	 */
-	GGXFuture start();
+	GGXFuture<?> start();
 
 	/**
 	 * 关闭服务器
 	 * 
 	 * @author zai 2019-12-05 10:41:16
 	 */
-	GGXFuture shutdown();
+	GGXFuture<?> shutdown();
 
 }
