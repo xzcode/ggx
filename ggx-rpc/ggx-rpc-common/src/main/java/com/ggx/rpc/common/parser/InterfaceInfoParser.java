@@ -57,7 +57,6 @@ public class InterfaceInfoParser {
 		List<Method> declaredMethods = GGXReflectUtil.getAllDeclaredMethods(proxyInterface);
 
 		for (Method mtd : declaredMethods) {
-
 			Class<?>[] parameterTypes = mtd.getParameterTypes();
 			methodParamTypes.put(mtd, parameterTypes);
 
@@ -83,8 +82,6 @@ public class InterfaceInfoParser {
 				if (findGGXRpcTargetService) {
 					break;
 				}
-				
-
 			}
 
 			Class<?> returnType = mtd.getReturnType();
@@ -103,7 +100,7 @@ public class InterfaceInfoParser {
 				List<Class<?>> genericReturnTypeList = new ArrayList<>();
 				Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
 				for (Type type : actualTypeArguments) {
-					if (type.getTypeName() == "?") {
+					if (type.getTypeName().contentEquals("?") || type.getTypeName().contentEquals("T") ) {
 						genericReturnTypeList.add(Object.class);
 					} else {
 						genericReturnTypeList.add((Class<?>) type);

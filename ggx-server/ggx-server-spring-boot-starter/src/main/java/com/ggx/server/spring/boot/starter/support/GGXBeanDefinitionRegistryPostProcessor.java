@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.invocation.handler.DefaultProxyInvocationHandler;
 import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.server.spring.boot.starter.annotation.GGXRpcServiceImpl;
@@ -55,7 +56,7 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				if (fallbackClass == Void.class) {
 					fallbackClass = null;
 				}
-				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass}, rpcClientConfig.getProxyInvocationHandler());
+				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass},  new DefaultProxyInvocationHandler(rpcClientConfig, interfaceClass));
 				registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
 				rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
 				ClassInfoList implClasses = scanResult.getClassesImplementing(interfaceClass.getName());

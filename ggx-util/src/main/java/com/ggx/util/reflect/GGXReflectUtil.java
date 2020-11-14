@@ -3,6 +3,7 @@ package com.ggx.util.reflect;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +40,30 @@ public class GGXReflectUtil {
 	}
 	
 	/**
+	 * 获取所有接口
+	 *
+	 * @param interfaceClazz
+	 * @param includeSelf
+	 * @return
+	 * @author zai
+	 * 2020-11-14 18:01:04
+	 */
+	public static List<Class<?>> getAllInterfaceClasses(Class<?> interfaceClazz, boolean includeSelf) {
+		List<Class<?>> interfaces = new ArrayList<>();
+		if (includeSelf) {
+			interfaces.add(interfaceClazz);
+		}
+		Class<?>[] arr = interfaceClazz.getInterfaces();
+		interfaces.addAll(Arrays.asList(interfaceClazz.getInterfaces()));
+		if (arr.length > 0) {
+			for (Class<?> inter : arr) {
+				interfaces.addAll(getAllInterfaceClasses(inter, false));
+			}
+		}
+		return interfaces;
+	}
+	
+	/**
 	 * 获取所有声明的方法
 	 *
 	 * @param clazz
@@ -47,7 +72,12 @@ public class GGXReflectUtil {
 	 * 2020-10-04 00:39:08
 	 */
 	public static List<Method> getAllDeclaredMethods(Class<?> clazz) {
-		List<Class<?>> classes = getAllSuperClasses(clazz, true);
+		List<Class<?>> classes = null;
+		if (clazz.isInterface()) {
+			classes = getAllInterfaceClasses(clazz, true);
+		}else {
+			classes = getAllSuperClasses(clazz, true);
+		}
 		List<Method> list = new ArrayList<>();
 		for (Class<?> cla : classes) {
 			Method[] methods = cla.getDeclaredMethods();
@@ -67,7 +97,12 @@ public class GGXReflectUtil {
 	 * 2020-10-04 00:39:08
 	 */
 	public static List<Field> getAllDeclaredFields(Class<?> clazz) {
-		List<Class<?>> classes = getAllSuperClasses(clazz, true);
+		List<Class<?>> classes = null;
+		if (clazz.isInterface()) {
+			classes = getAllInterfaceClasses(clazz, true);
+		}else {
+			classes = getAllSuperClasses(clazz, true);
+		}
 		List<Field> list = new ArrayList<>();
 		for (Class<?> cla : classes) {
 			Field[] fields = cla.getDeclaredFields();

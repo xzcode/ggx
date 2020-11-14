@@ -1,13 +1,10 @@
 package com.ggx.rpc.client.config;
 
-import java.lang.reflect.InvocationHandler;
-
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
-import com.ggx.rpc.client.invocation.handler.ProxyInvocationHandler;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcServiceClassCache;
@@ -87,8 +84,6 @@ public class RpcClientConfig {
 	
 	//RPC方法回调管理器
 	protected RpcMethodCallbackManager rpcMethodCallbackManager = new RpcMethodCallbackManager(this);
-	//RPC方法回调管理器
-	protected InvocationHandler proxyInvocationHandler = new ProxyInvocationHandler(this);
 	
 
 	public void init() {
@@ -277,11 +272,4 @@ public class RpcClientConfig {
 		this.rpcServiceGroupId = serviceGroupId;
 	}
 	
-	public InvocationHandler getProxyInvocationHandler() {
-		return proxyInvocationHandler;
-	}
-	
-	public void setProxyInvocationHandler(InvocationHandler proxyInvocationHandler) {
-		this.proxyInvocationHandler = proxyInvocationHandler;
-	}
 }
