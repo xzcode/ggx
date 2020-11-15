@@ -20,17 +20,19 @@ import com.ggx.server.spring.boot.starter.annotation.GGXFilter;
 import com.ggx.server.spring.boot.starter.support.model.RpcServiceScanInfo;
 import com.ggx.server.starter.GGXServer;
 
-public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
+public class GGXAnnotationComponentScanner implements ApplicationContextAware {
 
 	protected ApplicationContext applicationContext;
-	
+
 	@Autowired
 	private GGXServer ggxserver;
+
 	@Autowired
 	private GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor;
-	
+
 	@PostConstruct
 	public void init() {
+
 		// 注册控制器
 		Map<String, Object> messageControllers = applicationContext.getBeansWithAnnotation(GGXController.class);
 		for (Entry<String, Object> entry : messageControllers.entrySet()) {
@@ -39,7 +41,6 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 			ggxserver.registerEventController(obj);
 			ggxserver.registerSubscriberController(obj);
 		}
-
 
 		// 注册过滤器
 		Map<String, Object> filters = applicationContext.getBeansWithAnnotation(GGXFilter.class);
@@ -54,10 +55,10 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 				ggxserver.addFilter(obj, order);
 			}
 		}
-		
-		//注册rpcservice相关
+
+		// 注册rpcservice相关
 		List<RpcServiceScanInfo> rpcServiceScanInfos = ggxBeanDefinitionRegistryPostProcessor.getRpcServiceScanInfos();
-		
+
 		for (RpcServiceScanInfo rpcServiceScanInfo : rpcServiceScanInfos) {
 			Class<?> implClass = rpcServiceScanInfo.getImplClass();
 			Class<?> interfaceClass = rpcServiceScanInfo.getInterfaceClass();
@@ -70,15 +71,15 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 					impl = applicationContext.getBean(implClass);
 					ggxserver.registerRpcService(interfaceClass, impl);
 				} catch (Exception e) {
-					
+
 				}
 			}
 			if (fallbackClass != null) {
 				try {
 					fallback = applicationContext.getBean(fallbackClass);
-					
+
 				} catch (Exception e) {
-					
+
 				}
 			}
 			RpcClientConfig rpcClientConfig = ggxserver.getConfig().getRpc().getClient();
@@ -87,13 +88,13 @@ public class GGXAnnotationComponentScanner  implements ApplicationContextAware {
 			RpcProxyInfo rpcProxyInfo = proxyManager.get(interfaceClass);
 			rpcProxyInfo.setTarget(impl);
 		}
-		
-		
+
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
+
 	}
 
 }

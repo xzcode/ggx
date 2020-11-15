@@ -44,10 +44,12 @@ public class GGXSpringPrototypeBeanGenerator implements ApplicationContextAware 
 	 * 2020-10-16 16:29:52
 	 */
 	public void registerPrototypeBean(Class<?> clazz) {
+		
 		synchronized (clazz) {
+			
 			ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) this.applicationContext;
 			BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
-	
+	        
 			GenericBeanDefinition beanDefinition = (GenericBeanDefinition) beanDefinitionBuilder.getRawBeanDefinition();
 			
 			beanDefinition.setBeanClass(clazz);
@@ -55,7 +57,9 @@ public class GGXSpringPrototypeBeanGenerator implements ApplicationContextAware 
 			
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) applicationContext.getBeanFactory();
 			registry.registerBeanDefinition(clazz.getSimpleName(), beanDefinition);
+			
 		}
+		
 	}
 	
 

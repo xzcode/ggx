@@ -28,26 +28,28 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 
-public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContextAware, BeanDefinitionRegistryPostProcessor{
+public class GGXBeanDefinitionRegistryPostProcessor
+		implements ApplicationContextAware, BeanDefinitionRegistryPostProcessor {
 
 	private ApplicationContext applicationContext;
-	
+
 	private RpcClientConfig rpcClientConfig = new RpcClientConfig();
 	private RpcServerConfig rpcServerConfig = new RpcServerConfig();
 	private List<RpcServiceScanInfo> rpcServiceScanInfos = new ArrayList<>();
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
 		// 注册RPC服务
-		String[] whitelistPackages = {getSpringBootEnterPackage()};
+		String[] whitelistPackages = { getSpringBootEnterPackage() };
 		ClassGraph classGraph = new ClassGraph();
 		classGraph.enableAllInfo();
 		if (whitelistPackages.length > 0) {
 			classGraph.whitelistPackages(whitelistPackages);
 		}
-		
+
 		try (ScanResult scanResult = classGraph.scan()) {
-			
+
 			ClassInfoList rpcInterfaceInfoList = scanResult.getClassesWithAnnotation(GGXRpcService.class.getName());
 			for (ClassInfo info : rpcInterfaceInfoList) {
 				Class<?> interfaceClass = info.loadClass();
@@ -56,11 +58,8 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 				if (fallbackClass == Void.class) {
 					fallbackClass = null;
 				}
-				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] {interfaceClass},  new DefaultProxyInvocationHandler(rpcClientConfig, interfaceClass));
-				registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
-				rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
 				ClassInfoList implClasses = scanResult.getClassesImplementing(interfaceClass.getName());
-				
+
 				Class<?> implClass = null;
 				for (ClassInfo ci : implClasses) {
 					Class<?> cii = ci.loadClass();
@@ -69,26 +68,33 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 						break;
 					}
 				}
-				rpcServiceScanInfos.add(new RpcServiceScanInfo(interfaceClass, implClass, fallbackClass, proxy));
+
+				if (implClass == null || !beanFactory.containsBean(implClass.getSimpleName())) {
+					Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass }, new DefaultProxyInvocationHandler(rpcClientConfig, interfaceClass));
+					registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+					rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
+					rpcServiceScanInfos.add(new RpcServiceScanInfo(interfaceClass, implClass, fallbackClass, proxy));
+				}
+
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("GGXServer Scan packages ERROR!", e);
 		}
-		
+
 	}
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-		
+
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
-		
+
 	}
-	
+
 	public void registerRpcProxyBean(String name, Class<?> clazz, Object proxy, boolean primary) {
 		ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) this.applicationContext;
 
@@ -106,12 +112,12 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 		beanDefinition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_TYPE);
 		beanDefinition.setPrimary(primary);
 		beanDefinition.setAutowireCandidate(true);
-		
+
 		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) applicationContext.getBeanFactory();
 		registry.registerBeanDefinition(name, beanDefinition);
 
 	}
-	
+
 	public String getSpringBootEnterPackage() {
 		try {
 			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
@@ -129,12 +135,13 @@ public class GGXBeanDefinitionRegistryPostProcessor implements ApplicationContex
 	public RpcClientConfig getRpcClientConfig() {
 		return rpcClientConfig;
 	}
+
 	public RpcServerConfig getRpcServerConfig() {
 		return rpcServerConfig;
 	}
-	
+
 	public List<RpcServiceScanInfo> getRpcServiceScanInfos() {
 		return rpcServiceScanInfos;
 	}
-	
+
 }
