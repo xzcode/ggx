@@ -69,12 +69,10 @@ public class GGXBeanDefinitionRegistryPostProcessor
 					}
 				}
 
-				if (implClass == null || !beanFactory.containsBean(implClass.getSimpleName())) {
-					Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass }, new DefaultProxyInvocationHandler(rpcClientConfig, interfaceClass));
-					registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
-					rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
-					rpcServiceScanInfos.add(new RpcServiceScanInfo(interfaceClass, implClass, fallbackClass, proxy));
-				}
+				Object proxy = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass }, new DefaultProxyInvocationHandler(rpcClientConfig, interfaceClass));
+				registerRpcProxyBean(interfaceClass.getSimpleName(), interfaceClass, proxy, true);
+				rpcClientConfig.getProxyManager().register(interfaceClass, proxy, null);
+				rpcServiceScanInfos.add(new RpcServiceScanInfo(interfaceClass, implClass, fallbackClass, proxy));
 
 			}
 
