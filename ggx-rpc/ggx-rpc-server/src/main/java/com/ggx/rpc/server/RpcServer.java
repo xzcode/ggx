@@ -1,5 +1,7 @@
 package com.ggx.rpc.server;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
@@ -40,7 +42,13 @@ public class RpcServer implements GGXCoreSupport {
 			GGXLogUtil.getLogger(this).error("'RpcServerConfig.rpcServiceGroupId' must not be 'null' or empty!!");
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 		}
-
+		//是否使用自定义rpc线程池
+		if (this.config.isUseCustomRpcThreadPool()) {
+			if (this.config.getCustomRpcThreadPool() == null) {
+				this.config.setCustomRpcThreadPool(new ScheduledThreadPoolExecutor(this.config.getCustomRpcThreadPoolSize(), new  GGXThreadFactory("ggx-rpc-custom-", false)));
+			}
+		}
+		
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
 		sessionServerConfig.setWorkThreadSize(this.config.getWorkThreadSize());

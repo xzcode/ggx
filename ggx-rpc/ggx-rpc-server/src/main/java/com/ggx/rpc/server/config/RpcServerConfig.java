@@ -1,5 +1,7 @@
 package com.ggx.rpc.server.config;
 
+import java.util.concurrent.ExecutorService;
+
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
@@ -37,8 +39,18 @@ public class RpcServerConfig {
 	// 连接数
 	protected int connectionSize = 4;
 	
+	// 使用自定义rpc线程组
+	protected boolean useCustomRpcThreadPool = true;
+	
+	// 自定义rpc线程组工作线程数
+	protected int customRpcThreadPoolSize = 8;
+	
+	//自定义rpc线程组
+	protected ExecutorService customRpcThreadPool;
+	
+	
 	//认证token
-	private String authToken = RpcConstant.DEFAULT_AUTH_TOKEN;
+	protected String authToken = RpcConstant.DEFAULT_AUTH_TOKEN;
 	
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
@@ -207,5 +219,36 @@ public class RpcServerConfig {
 	public void setRpcServiceId(String rpcServiceId) {
 		this.rpcServiceId = rpcServiceId;
 	}
+
+
+	public boolean isUseCustomRpcThreadPool() {
+		return useCustomRpcThreadPool;
+	}
+
+
+	public void setUseCustomRpcThreadPool(boolean userCustomRpcThreadPool) {
+		this.useCustomRpcThreadPool = userCustomRpcThreadPool;
+	}
+
+
+	public int getCustomRpcThreadPoolSize() {
+		return customRpcThreadPoolSize;
+	}
+
+
+	public void setCustomRpcThreadPoolSize(int customRpcThreadPoolSize) {
+		this.customRpcThreadPoolSize = customRpcThreadPoolSize;
+	}
+
+
+	public ExecutorService getCustomRpcThreadPool() {
+		return customRpcThreadPool;
+	}
+
+
+	public void setCustomRpcThreadPool(ExecutorService customRpcThreadPool) {
+		this.customRpcThreadPool = customRpcThreadPool;
+	}
+	
 	
 }
