@@ -1,8 +1,10 @@
-package com.ggx.rpc.common.parser;
+package com.ggx.rpc.common.Interfaceinfo;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+
+import com.ggx.rpc.common.Interfaceinfo.returntype.ReturnTypeGenerator;
 
 /***
  * 代理接口信息类
@@ -39,10 +41,10 @@ public class InterfaceInfo {
 	protected Map<Method, Class<?>[]> methodAnnotatedTypes;
 
 	// 返回类型
-	protected Map<Method, Class<?>> methodReturnClasses;
+	protected Map<Method, ReturnTypeGenerator> methodReturnClasses;
 
 	// 返回类型泛型集合
-	protected Map<Method, List<Class<?>>> methodGenericReturnTypes;
+	protected Map<Method, List<ReturnTypeGenerator>> methodGenericReturnTypes;
 
 	public Class<?> getInterfaceClass() {
 		return interfaceClass;
@@ -76,21 +78,6 @@ public class InterfaceInfo {
 		this.methodAnnotatedTypes = methodAnnotatedTypes;
 	}
 
-	public Map<Method, Class<?>> getMethodReturnClasses() {
-		return methodReturnClasses;
-	}
-
-	public void setMethodReturnClasses(Map<Method, Class<?>> methodReturnClasses) {
-		this.methodReturnClasses = methodReturnClasses;
-	}
-
-	public Map<Method, List<Class<?>>> getMethodGenericReturnTypes() {
-		return methodGenericReturnTypes;
-	}
-
-	public void setMethodGenericReturnTypes(Map<Method, List<Class<?>>> methodGenericReturnTypes) {
-		this.methodGenericReturnTypes = methodGenericReturnTypes;
-	}
 
 	public String getInterfaceName() {
 		return interfaceName;
@@ -130,4 +117,22 @@ public class InterfaceInfo {
 	public void setMethodTargetServiceParamIndexes(Map<Method, Integer> methodTargetServiceParamIndexes) {
 		this.methodTargetServiceParamIndexes = methodTargetServiceParamIndexes;
 	}
+
+	public Map<Method, ReturnTypeGenerator> getMethodReturnClasses() {
+		return methodReturnClasses;
+	}
+
+	public void setMethodReturnClasses(Map<Method, ReturnTypeGenerator> methodReturnClasses) {
+		this.methodReturnClasses = methodReturnClasses;
+	}
+
+	public Map<Method, List<ReturnTypeGenerator>> getMethodGenericReturnTypes() {
+		return methodGenericReturnTypes;
+	}
+
+	public void setMethodGenericReturnTypes(Map<Method, List<ReturnTypeGenerator>> methodGenericReturnTypes) {
+		this.methodGenericReturnTypes = methodGenericReturnTypes;
+	}
+	
+	
 }

@@ -1,6 +1,6 @@
 package com.ggx.rpc.client.proxy;
 
-import com.ggx.rpc.common.parser.InterfaceInfo;
+import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 
 public class RpcProxyInfo {
 	

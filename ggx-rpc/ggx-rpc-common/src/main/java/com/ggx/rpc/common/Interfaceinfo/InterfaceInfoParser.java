@@ -1,15 +1,19 @@
-package com.ggx.rpc.common.parser;
+package com.ggx.rpc.common.Interfaceinfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ggx.rpc.common.Interfaceinfo.returntype.ReturnTypeGenerator;
+import com.ggx.rpc.common.Interfaceinfo.returntype.impl.DefaultReturnTypeGenerator;
+import com.ggx.rpc.common.Interfaceinfo.returntype.impl.ParamsIndexReturnTypeGenerator;
 import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
@@ -46,24 +50,39 @@ public class InterfaceInfoParser {
 		// Map<Method, Class<?>[]> methodAnnotatedTypes = new HashMap<>();
 
 		// 返回类型
-		Map<Method, Class<?>> methodReturnClasses = new HashMap<>();
+		//Map<Method, Class<?>> methodReturnClasses = new HashMap<>();
+		// 返回类型
+		Map<Method, ReturnTypeGenerator> methodReturnClasses = new HashMap<>();
 		
 		// 方法指定服务id参数下标集合
 		Map<Method, Integer> methodTargetServiceParamIndexes = new HashMap<>();
 
 		// 返回类型泛型集合
-		Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
-
+		//Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
+		
+		// 返回泛型类型生成器集合
+		Map<Method, List<ReturnTypeGenerator>> methodGenericReturnTypes = new HashMap<>();
+		
 		List<Method> declaredMethods = GGXReflectUtil.getAllDeclaredMethods(proxyInterface);
 
+		
 		for (Method mtd : declaredMethods) {
+			Map<String, Integer> paramGenericReturnTypeIndexMap = new HashMap<>();
+			
 			Class<?>[] parameterTypes = mtd.getParameterTypes();
 			methodParamTypes.put(mtd, parameterTypes);
 
 			methods.put(makeMethodName(mtd, parameterTypes), mtd);
 			Annotation[][] parameterAnnotations = mtd.getParameterAnnotations();
 			for (int i = 0; i < parameterTypes.length; i++) {
-				
+				Class<?> type = parameterTypes[i];
+				TypeVariable<?>[] typeParameters = type.getTypeParameters();
+				if (typeParameters.length > 0) {
+					if (type == Class.class) {
+						String name = typeParameters[0].getName();
+						paramGenericReturnTypeIndexMap.put(name, i);
+					}
+				}
 				boolean findGGXRpcTargetService =false;
 				Annotation[] annos = parameterAnnotations[i];
 				if (annos != null && annos.length > 0) {
@@ -86,28 +105,37 @@ public class InterfaceInfoParser {
 
 			Class<?> returnType = mtd.getReturnType();
 			if (returnType == List.class) {
-				methodReturnClasses.put(mtd, ArrayList.class);
+				methodReturnClasses.put(mtd, new DefaultReturnTypeGenerator(ArrayList.class));
 			} else if (returnType == Map.class) {
-				methodReturnClasses.put(mtd, LinkedHashMap.class);
+				methodReturnClasses.put(mtd, new DefaultReturnTypeGenerator(LinkedHashMap.class));
 			} else {
-				methodReturnClasses.put(mtd, returnType);
-			}
-
-			// 获取返回值的泛型参数
-			Type genericReturnType = mtd.getGenericReturnType();
-
-			if (genericReturnType instanceof ParameterizedType) {
-				List<Class<?>> genericReturnTypeList = new ArrayList<>();
-				Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
-				for (Type type : actualTypeArguments) {
-					if (type.getTypeName().contentEquals("?") || type.getTypeName().contentEquals("T") ) {
-						genericReturnTypeList.add(Object.class);
-					} else {
-						genericReturnTypeList.add((Class<?>) type);
-					}
+				// 获取返回值的泛型参数
+				Type genericReturnType = mtd.getGenericReturnType();
+				Integer paramReturnTypeIndex = paramGenericReturnTypeIndexMap.get(genericReturnType.getTypeName());
+				if (paramReturnTypeIndex != null) {
+					methodReturnClasses.put(mtd, new ParamsIndexReturnTypeGenerator(paramReturnTypeIndex));
+				}else {
+					methodReturnClasses.put(mtd, new DefaultReturnTypeGenerator(returnType));
 				}
-				methodGenericReturnTypes.put(mtd, genericReturnTypeList);
+				
+				if (genericReturnType instanceof ParameterizedType) {
+					List<ReturnTypeGenerator> genericReturnTypeList = new ArrayList<>();
+					Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
+					for (Type type : actualTypeArguments) {
+						String typeName = type.getTypeName();
+						Integer typeParamIndex = paramGenericReturnTypeIndexMap.get(typeName);
+						if (typeParamIndex != null) {
+							genericReturnTypeList.add(new ParamsIndexReturnTypeGenerator(typeParamIndex));
+						}else {
+							genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
+							
+						}
+					}
+					methodGenericReturnTypes.put(mtd, genericReturnTypeList);
+				}
+				
 			}
+			
 		}
 
 		interfaceInfo.setMethods(methods);
@@ -131,5 +159,6 @@ public class InterfaceInfoParser {
 		sb.append(")");
 		return sb.toString();
 	}
+	
 
 }

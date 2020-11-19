@@ -19,9 +19,9 @@ import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
+import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
+import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.message.req.RpcReq;
-import com.ggx.rpc.common.parser.InterfaceInfo;
-import com.ggx.rpc.common.parser.InterfaceInfoParser;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.util.id.GGXRandomIdUtil;
@@ -90,7 +90,7 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 				}
 			}
 	
-			Class<?> returnType = interfaceInfo.getMethodReturnClasses().get(method);
+			Class<?> returnType = interfaceInfo.getMethodReturnClasses().get(method).generateReturnType(method, args);
 	
 			// 判断是否异步回调
 			boolean async = returnType == GGXFuture.class;
@@ -135,7 +135,7 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 			callback.setCallbackFuture(GGXFutureFactory.create());
 			callback.setServiceName(serviceName);
 			if (async) {
-				callback.setAsyncDataType(interfaceInfo.getMethodGenericReturnTypes().get(method).get(0));
+				callback.setAsyncDataType(interfaceInfo.getMethodGenericReturnTypes().get(method).get(0).generateReturnType(method, args));
 			}
 	
 			callback.getCallbackFuture().addListener(f -> {

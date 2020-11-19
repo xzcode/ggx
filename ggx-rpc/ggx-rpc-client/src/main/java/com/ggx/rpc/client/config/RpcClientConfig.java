@@ -13,8 +13,8 @@ import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.fallback.DefaultFallbackInstanceFactory;
 import com.ggx.rpc.client.service.fallback.FallbackInstanceFactory;
 import com.ggx.rpc.client.service.provider.RpcServiceProvider;
+import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
-import com.ggx.rpc.common.parser.InterfaceInfoParser;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.rpc.common.serializer.factory.impl.DefaultParameterSerializerFactory;
 
