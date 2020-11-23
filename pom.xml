@@ -88,6 +88,11 @@
 				<artifactId>gson</artifactId>
 				<version>2.8.5</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>2.9.0</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -105,16 +110,16 @@
 				<version>3.9</version>
 			</dependency>
 			<dependency>
-			    <groupId>io.protostuff</groupId>
-			    <artifactId>protostuff-core</artifactId>
-			    <version>1.7.2</version>
-			</dependency> 
-			  
-			<dependency>  
-			    <groupId>io.protostuff</groupId>  
-			    <artifactId>protostuff-runtime</artifactId>  
-			    <version>1.7.2</version>  
-			</dependency>  
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-core</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-runtime</artifactId>
+				<version>1.7.2</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -124,7 +129,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<distributionManagement>
@@ -192,5 +197,6 @@
 		<module>ggx-util</module>
 		<module>ggx-server</module>
 		<module>ggx-game-support</module>
+		<module>ggx-spring-common</module>
 	</modules>
 </project>
