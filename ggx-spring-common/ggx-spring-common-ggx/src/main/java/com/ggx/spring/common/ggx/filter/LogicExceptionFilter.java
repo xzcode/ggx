@@ -16,6 +16,11 @@ public class LogicExceptionFilter implements ReceiveMessageFilter{
 	
 	@Autowired
 	private GGXServer ggxserver;
+	
+	@Autowired
+	public void init() {
+		ggxserver.addFilter(this);
+	}
 
 	@Override
 	public void doFilter(MessageData data, FilterChain<MessageData> filterChain)  throws Throwable{
