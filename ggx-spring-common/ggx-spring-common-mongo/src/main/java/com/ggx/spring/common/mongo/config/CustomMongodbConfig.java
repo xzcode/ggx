@@ -27,4 +27,9 @@ public class CustomMongodbConfig {
 		return mappingConverter;
 	}
 	
+	@Bean
+	public MongoIndexesConfigBean mongoIndexesConfigBean() {
+		return new MongoIndexesConfigBean();
+	}
+	
 }

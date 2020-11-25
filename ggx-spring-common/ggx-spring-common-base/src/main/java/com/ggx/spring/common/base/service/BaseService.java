@@ -56,6 +56,15 @@ public interface BaseService {
 	 * @author zai 2020-11-10 17:05:25
 	 */
 	<T> T getByUid(ObjectId uid, Class<T> clazz);
+	
+	/**
+	 * 根据uid删除
+	 *
+	 * @param uid
+	 * @param clazz
+	 * 2020-11-25 17:53:47
+	 */
+	void deleteByUid(ObjectId uid, Class<?> clazz);
 
 	/**
 	 * 根据字符串uidlist批量获取

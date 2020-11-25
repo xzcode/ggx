@@ -18,6 +18,7 @@ import com.ggx.spring.common.base.util.pager.Pager;
 import com.ggx.spring.common.mongo.service.model.PageQueryOperaction;
 import com.mongodb.client.result.DeleteResult;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public abstract class AbstractBaseService implements BaseService {
@@ -31,6 +32,22 @@ public abstract class AbstractBaseService implements BaseService {
 	public <T> GGXFuture<T> subscribeForFuture(Mono<T> mono) {
 		GGXDefaultFuture<T> future = new GGXDefaultFuture<>();
 		mono.switchIfEmpty(Mono.create(o -> {
+			future.setSuccess(true);
+			future.setDone(true);
+		})).subscribe(s -> {
+			future.setSuccess(true);
+			future.setData(s);
+			future.setDone(true);
+		}, err -> {
+			future.setSuccess(false);
+			future.setDone(true);
+			future.setCause(err);
+		});
+		return future;
+	}
+	public <T> GGXFuture<T> subscribeForFuture(Flux<T> flux) {
+		GGXDefaultFuture<T> future = new GGXDefaultFuture<>();
+		flux.switchIfEmpty(Mono.create(o -> {
 			future.setSuccess(true);
 			future.setDone(true);
 		})).subscribe(s -> {
@@ -88,6 +105,11 @@ public abstract class AbstractBaseService implements BaseService {
 	@Override
 	public <T> T getByUid(ObjectId uid, Class<T> clazz) {
 		return mongoTemplate.findOne(Query.query(Criteria.where("_id").is(uid)), clazz);
+	}
+	
+	@Override
+	public void deleteByUid(ObjectId uid, Class<?> clazz) {
+		mongoTemplate.remove(Query.query(Criteria.where("_id").is(uid)), clazz);
 	}
 
 	@Override
