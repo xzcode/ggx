@@ -12,15 +12,11 @@ import com.ggx.spring.common.base.exception.LogicException;
 import com.ggx.spring.common.ggx.message.BaseResp;
 import com.ggx.util.logger.GGXLogUtil;
 
-public class LogicExceptionFilter implements ReceiveMessageFilter{
+public class GGXLogicExceptionFilter implements ReceiveMessageFilter{
 	
 	@Autowired
 	private GGXServer ggxserver;
 	
-	@Autowired
-	public void init() {
-		ggxserver.addFilter(this);
-	}
 
 	@Override
 	public void doFilter(MessageData data, FilterChain<MessageData> filterChain)  throws Throwable{

@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 @Configuration
-public class CustomMongodbConfig {
+public class GGXSpringCommonMongodbConfig {
 
 	@Bean
 	public MappingMongoConverter mappingMongoConverter(MongoDatabaseFactory factory, MongoMappingContext context, BeanFactory beanFactory) {
