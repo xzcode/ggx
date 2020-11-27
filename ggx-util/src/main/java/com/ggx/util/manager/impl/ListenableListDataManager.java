@@ -1,5 +1,6 @@
 package com.ggx.util.manager.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,6 +19,11 @@ public abstract class ListenableListDataManager<T> implements ListDataManager<T>
 	@Override
 	public List<T> getList() {
 		return list;
+	}
+	
+	@Override
+	public List<T> getCloneList() {
+		return new ArrayList<>(list);
 	}
 	
 	public void onAdd(Listener<T> listener) {

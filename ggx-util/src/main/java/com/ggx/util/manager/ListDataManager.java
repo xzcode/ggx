@@ -13,8 +13,21 @@ import java.util.concurrent.ThreadLocalRandom;
 public interface ListDataManager<T> {
 	
 	
-	
+	/**
+	 * 获取集合
+	 *
+	 * @return
+	 * 2020-11-27 18:43:27
+	 */
 	List<T> getList();
+	
+	/**
+	 * 获取克隆集合
+	 *
+	 * @return
+	 * 2020-11-27 18:43:19
+	 */
+	List<T> getCloneList();
 	
 	/**
 	 * 添加
