@@ -34,6 +34,14 @@ public interface BaseService {
 	 * @author zai 2020-11-10 17:05:08
 	 */
 	void save(Object obj);
+	
+	/**
+	 * 保存所有记录
+	 *
+	 * @param objs
+	 * 2020-11-30 11:55:17
+	 */
+	<T> void saveAll(List<? extends T> objs);
 
 	/**
 	 * 根据uid获取
@@ -120,5 +128,7 @@ public interface BaseService {
 	 * @author zai 2020-11-22 09:36:36
 	 */
 	<T> long deleteByUidList(List<ObjectId> uidList, Class<T> clazz);
+
+	
 
 }

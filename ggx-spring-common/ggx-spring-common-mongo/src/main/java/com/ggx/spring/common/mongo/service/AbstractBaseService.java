@@ -96,6 +96,10 @@ public abstract class AbstractBaseService implements BaseService {
 	public void save(Object obj) {
 		this.mongoTemplate.save(obj);
 	}
+	@Override
+	public <T> void saveAll(List<? extends T> objs) {
+		this.mongoTemplate.insertAll(objs);
+	}
 
 	@Override
 	public <T> T getByUid(String uid, Class<T> clazz) {
