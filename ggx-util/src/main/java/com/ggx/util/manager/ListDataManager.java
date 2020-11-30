@@ -3,6 +3,8 @@ package com.ggx.util.manager;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.ggx.util.interfaces.ForEach;
+
 /**
  * List管理器接口
  *
@@ -102,6 +104,16 @@ public interface ListDataManager<T> {
 	 */
 	default int size() {
 		return this.getList().size();
+	}
+	
+	/**
+	 * foreach遍历
+	 *
+	 * @param one
+	 * 2020-11-30 18:08:45
+	 */
+	default void ForEach(ForEach<T> one) {
+		this.getList().forEach(e -> one.each(e));
 	}
 
 }

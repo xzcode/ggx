@@ -5,57 +5,55 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.ggx.util.interfaces.ForEach;
+
 /**
  * Map管理器接口
  *
  * @author zai
  * 2020-09-15 14:28:15
  */
-public interface MapDataManager<K, V> {
-	
-	
-	
+public interface MapDataManager <K, V> {
+
 	Map<K, V> getMap();
-	
+
 	/**
 	 * 添加
 	 *
-	 * @param key 键
+	 * @param key   键
 	 * @param value 值
-	 * @author zai
-	 * 2020-09-15 18:07:43
+	 * @author zai 2020-09-15 18:07:43
 	 */
 	default V put(K key, V value) {
 		return getMap().put(key, value);
 	}
-	
+
 	/**
 	 * 获取
+	 * 
 	 * @param key
 	 * @return
-	 * @author zai
-	 * 2020-10-3 11:47:22
+	 * @author zai 2020-10-3 11:47:22
 	 */
 	default V get(K key) {
 		return getMap().get(key);
 	}
-	
+
 	/**
 	 * 移除
 	 *
 	 * @param key
-	 * @author zai
-	 * 2020-09-15 16:49:08
+	 * @author zai 2020-09-15 16:49:08
 	 */
 	default V remove(K key) {
 		return getMap().remove(key);
 	}
-	
+
 	/**
 	 * 随机获取一个
+	 * 
 	 * @return
-	 * @author zai
-	 * 2020-10-2 14:35:04
+	 * @author zai 2020-10-2 14:35:04
 	 */
 	@SuppressWarnings("unchecked")
 	default V getRandomOne() {
@@ -69,15 +67,25 @@ public interface MapDataManager<K, V> {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 获取map中元素个数
+	 * 
 	 * @return
-	 * @author zai
-	 * 2020-10-3 15:19:43
+	 * @author zai 2020-10-3 15:19:43
 	 */
 	default int size() {
 		return this.getMap().size();
+	}
+
+	/**
+	 * foreach遍历
+	 *
+	 * @param one
+	 * 2020-11-30 18:08:45
+	 */
+	default void ForEach(ForEach<V> one) {
+		this.getMap().entrySet().forEach(e -> one.each(e.getValue()));
 	}
 
 }
