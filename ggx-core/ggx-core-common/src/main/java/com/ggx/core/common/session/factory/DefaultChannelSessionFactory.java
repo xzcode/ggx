@@ -35,6 +35,7 @@ public class DefaultChannelSessionFactory implements ChannelSessionFactory{
 	@Override
 	public GGXSession getSession(Channel channel) {
 		GGXSession session = channel.attr(sessAttributeKey).get();
+		session.updateExpire();
 		return session;
 	}
 	

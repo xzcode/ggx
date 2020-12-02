@@ -51,15 +51,10 @@ public class TcpChannelInitializer extends ChannelInitializer<Channel> {
 		   	 //空闲事件处理
 		   	 ch.pipeline().addLast(new IdleHandler(config));
 	   	}
-   	 
+	   	
         ch.pipeline().addLast(new TcpInboundHandler(this.config));
         
-        ch.pipeline().addLast(new InboundCommonHandler(this.config));
-        
-        
         ch.pipeline().addLast(new TcpOutboundHandler(this.config));
-        
-        ch.pipeline().addLast(new OutboundCommonHandler(this.config));
         
         ch.attr(PROTOCOL_TYPE_KEY).set(ProtocolTypeConstants.TCP);
 	}

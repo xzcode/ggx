@@ -65,6 +65,14 @@ public class WebSocketOutboundFrameHandler extends ChannelOutboundHandlerAdapter
 		
 	}
 
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		if (cause instanceof java.io.IOException) {
+			LOGGER.error("Outbound ERROR! {}", cause.getMessage());
+			return;
+		}
+		LOGGER.error("Outbound ERROR! ", cause);
+	}
     
     
 }

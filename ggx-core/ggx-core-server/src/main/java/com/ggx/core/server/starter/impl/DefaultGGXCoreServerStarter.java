@@ -109,7 +109,6 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     	if (f.isSuccess()) {
     		System.out.println(logoString);
     		System.out.println(config.getServerName() + " started successfully on port " + config.getPort() + "!\n");
-    		//GGLoggerUtil.getLogger().warn("{}\n{} started successfully on port {}!\n", logoString, config.getServerName(), config.getPort());
     		ggFuture.setFuture(f);
 		}else {
 			int oldPort = this.config.getPort();

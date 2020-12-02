@@ -8,11 +8,16 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGXCoreEvents;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.session.GGXSession;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,14 +35,13 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 
 
 public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Object> {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketInboundFrameHandler.class);
-
-    //private static final String WEBSOCKET_PATH = "/websocket";
 
     private WebSocketServerHandshaker handshaker;
     
@@ -53,7 +57,6 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
 	@Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof FullHttpRequest) {
-        	//String uri = ((FullHttpRequest) msg).uri();
             handleHttpRequest(ctx, (FullHttpRequest) msg);
         } else if (msg instanceof WebSocketFrame) {
             handleWebSocketFrame(ctx, (WebSocketFrame) msg);
@@ -77,26 +80,6 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
             return;
         }
         
-        /*
-        // Send the demo page and favicon.ico
-        if ("/".equals(req.uri())) {
-            ByteBuf content = WebSocketServerBenchmarkPage.getContent(getWebSocketLocation(req));
-            FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, OK, content);
-
-            res.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
-            HttpUtil.setContentLength(res, content.readableBytes());
-
-            sendHttpResponse(ctx, req, res);
-            return;
-        }
-        */
-        /*
-        if ("/favicon.ico".equals(req.uri())) {
-            FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, NOT_FOUND);
-            sendHttpResponse(ctx, req, res);
-            return;
-        }
-         */
         
         // Handshake
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketLocation(req), null, true, config.getMaxDataLength());
@@ -160,14 +143,64 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
         }
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOGGER.error(cause.getMessage());
-        ctx.close();
-    }
-
     private String getWebSocketLocation(FullHttpRequest req) {
         String location =  req.headers().get(HttpHeaderNames.HOST) + this.config.getWebsocketPath();
         return "wss://" + location;
     }
+    
+
+	@Override
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelRegistered(ctx);
+	}
+
+	
+	@Override
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		Channel channel = ctx.channel();
+		config.getSessionFactory().channelActive(channel);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Channel Active:{}", channel);
+		}
+		GGXSession session = (GGXSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
+		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.OPENED, null));
+		super.channelActive(ctx);
+	}
+	
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		config.getSessionFactory().channelInActive(ctx.channel());
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("channel Inactive:{}", ctx.channel());
+		}
+		GGXSession session = (GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
+		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.CLOSED, null));
+		super.channelInactive(ctx);
+	}
+	
+	@Override
+	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Channel Unregistered:{}", ctx.channel());
+		}
+		super.channelUnregistered(ctx);
+	}
+	
+	
+	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("userEventTriggered:{}", evt);			
+		}
+		super.userEventTriggered(ctx, evt);
+	}
+	
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		if (cause instanceof java.io.IOException) {
+			LOGGER.error("Inbound ERROR! {}", cause.getMessage());
+			return;
+		}
+		LOGGER.error("Inbound ERROR! ", cause);
+	}
 }

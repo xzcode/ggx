@@ -29,62 +29,7 @@ public class InboundCommonHandler extends ChannelInboundHandlerAdapter{
 		this.config = config;
 	}
 	
-	@Override
-	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		super.channelRegistered(ctx);
-	}
-
 	
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		Channel channel = ctx.channel();
-		config.getSessionFactory().channelActive(channel);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Channel Active:{}", channel);
-		}
-		GGXSession session = (GGXSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
-		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.OPENED, null));
-		super.channelActive(ctx);
-	}
-	
-	@Override
-	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		config.getSessionFactory().channelInActive(ctx.channel());
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("channel Inactive:{}", ctx.channel());
-		}
-		GGXSession session = (GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
-		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.CLOSED, null));
-		super.channelInactive(ctx);
-	}
-	
-	@Override
-	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Channel Unregistered:{}", ctx.channel());
-		}
-		super.channelUnregistered(ctx);
-	}
-	
-	
-	
-	
-	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("userEventTriggered:{}", evt);			
-		}
-		super.userEventTriggered(ctx, evt);
-	}
-	
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		if (cause instanceof java.io.IOException) {
-			LOGGER.error("Inbound ERROR! {}", cause.getMessage());
-			return;
-		}
-		LOGGER.error("Inbound ERROR! ", cause);
-	}
 
 
 	public GGXCoreConfig getConfig() {
