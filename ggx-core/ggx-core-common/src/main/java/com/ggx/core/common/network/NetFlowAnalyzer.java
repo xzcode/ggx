@@ -101,7 +101,7 @@ public class NetFlowAnalyzer {
 	public void analyzeUpFlow(long dataLength, GGXSession session) {
 		try {
 			NetFlowData netFlowData = this.getNetFlowData(session);
-			netFlowData.incrTotalDown(dataLength);
+			netFlowData.incrTotalUp(dataLength);
 			netFlowData.incrTotal(dataLength);
 		} catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("Analyze Up Flow Error!", e);

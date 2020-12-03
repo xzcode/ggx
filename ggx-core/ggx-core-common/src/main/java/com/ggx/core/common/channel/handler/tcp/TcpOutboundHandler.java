@@ -69,11 +69,6 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 			//调用编码处理器
 			out = config.getEncodeHandler().handle(ctx, (Pack) msg);
 			
-			//分析网络流量
-			if (this.config.isEnableNetFlowAnalyze()) {
-				this.config.getNetFlowAnalyzer().analyzeUpFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
-			}
-			
 			ChannelFuture writeFuture = ctx.writeAndFlush(out, promise);
 			writeFuture.addListener(f -> {
 				if (!f.isSuccess()) {
@@ -82,7 +77,11 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 	            	}
 				}
 			});
-			
+		}
+		
+		//分析网络流量
+		if (this.config.isEnableNetFlowAnalyze()) {
+			this.config.getNetFlowAnalyzer().analyzeDownFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
 		}
 	}
 	

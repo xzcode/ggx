@@ -56,7 +56,7 @@ public class WebSocketOutboundFrameHandler extends ChannelOutboundHandlerAdapter
 		
 		//分析网络流量
 		if (this.config.isEnableNetFlowAnalyze()) {
-			this.config.getNetFlowAnalyzer().analyzeUpFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
+			this.config.getNetFlowAnalyzer().analyzeDownFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
 		}
 		
 		ChannelFuture writeAndFlush = ctx.writeAndFlush(new BinaryWebSocketFrame(out), promise);

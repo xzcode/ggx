@@ -140,7 +140,7 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
 
 		// 分析网络流量
 		if (this.config.isEnableNetFlowAnalyze()) {
-			this.config.getNetFlowAnalyzer().analyzeUpFlow(res.content().readableBytes(),
+			this.config.getNetFlowAnalyzer().analyzeDownFlow(res.content().readableBytes(),
 					this.config.getSessionFactory().getSession(ctx.channel()));
 		}
 
