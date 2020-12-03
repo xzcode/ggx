@@ -3,8 +3,12 @@ package com.ggx.core.common.handler.codec.impl;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.handler.codec.DecodeHandler;
 import com.ggx.core.common.message.Pack;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 import com.ggx.core.common.utils.logger.PackLogger;
 
 import io.netty.buffer.ByteBuf;
@@ -69,35 +73,40 @@ public class DefaultDecodeHandler implements DecodeHandler {
 			throw new RuntimeException("Unknow protocolType !!");
 		}
 
+		Channel channel = ctx.channel();
+		GGSession session = config.getSessionFactory().getSession(channel);
 		
-		in.readUnsignedShort();//读取预留字节
-		
-		// 读取指令标识
-		int actionLen = in.readByte();
-		byte[] action = new byte[actionLen];
-		in.readBytes(action);
-
-		// 读取数据体 = 总包长 - 标识长度占用字节 - 标识体占用字节数
-		int bodyLen = packLen - ALL_TAG_LEN - actionLen;
+		byte[] action = null;
 		byte[] message = null;
-		if (bodyLen != 0) {
-
-			message = new byte[bodyLen];
-			// 读取数据体部分byte数组
-			in.readBytes(message);
+		try {
+			in.readUnsignedShort();//读取预留字节
+			// 读取指令标识
+			int actionLen = in.readByte();
+			action = new byte[actionLen];
+			in.readBytes(action);
+			// 读取数据体 = 总包长 - 标识长度占用字节 - 标识体占用字节数
+			int bodyLen = packLen - ALL_TAG_LEN - actionLen;
 			
-		}
-		
-		
+			if (bodyLen != 0) {
 
+				message = new byte[bodyLen];
+				// 读取数据体部分byte数组
+				in.readBytes(message);
+
+			} 
+		} catch (Exception e) {
+			// 解码失败，触发解码错误事件
+			config.getEventManager().emitEvent(new EventData<>(session, GGEvents.Codec.DECODE_ERROR, null));
+			GGLoggerUtil.getLogger(this).error("Decode Error!",e);
+		}
 		Pack pack = new Pack(action, message);
 		pack.setProtocolType(protocolType);
 		
-		Channel channel = ctx.channel();
+		
 		pack.setChannel(channel);
 		
 		// 获取session
-		pack.setSession(config.getSessionFactory().getSession(channel));
+		pack.setSession(session);
 
 		// 接收包处理
 		config.getReceivePackHandler().handle(pack);

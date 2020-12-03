@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
 
 import io.netty.buffer.ByteBuf;
@@ -47,7 +49,13 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 			int packLen = in.readInt();
 			in.resetReaderIndex();
 			
+			//分析网络流量
+			if (this.config.isEnableNetFlowAnalyze()) {
+				this.config.getNetFlowAnalyzer().analyzeUpFlow(PACKAGE_LEN + packLen, this.config.getSessionFactory().getSession(ctx.channel()));
+			}
+			
 			if (packLen > config.getMaxDataLength()) {
+				config.getEventManager().emitEvent(new EventData<>(GGEvents.Codec.PACKAGE_OVERSIZE, ctx.channel()));
 				LOGGER.error("Package length {} is over limit {} ! Channel close !", packLen, config.getMaxDataLength());
 				ctx.close();
 				return;

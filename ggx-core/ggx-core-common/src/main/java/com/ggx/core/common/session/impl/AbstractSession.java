@@ -9,6 +9,7 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.handler.serializer.ISerializer;
+import com.ggx.core.common.network.model.NetFlowData;
 import com.ggx.core.common.session.GGSession;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 import com.ggx.core.common.utils.logger.GGLoggerUtil;
@@ -42,6 +43,9 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 
 	// 是否已超时
 	protected boolean expired = false;
+	
+	//会话流量信息
+	protected NetFlowData netFlowData;
 	
 	//会话组id
 	protected String groupId;
@@ -190,6 +194,14 @@ public abstract class AbstractSession<C extends GGConfig> implements GGSession {
 		
 	}
 	
+	@Override
+	public NetFlowData getNetFlowData() {
+		return this.netFlowData;
+	}
 	
+	@Override
+	public void setNetFlowData(NetFlowData netFlowData) {
+		this.netFlowData = netFlowData;
+	}
 
 }

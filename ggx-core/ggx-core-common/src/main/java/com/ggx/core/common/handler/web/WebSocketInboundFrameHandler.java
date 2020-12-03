@@ -114,7 +114,11 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
     }
 
     private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
-    	
+    	// 分析网络流量
+		if (this.config.isEnableNetFlowAnalyze()) {
+			this.config.getNetFlowAnalyzer().analyzeUpFlow(frame.content().readableBytes(),
+					this.config.getSessionFactory().getSession(ctx.channel()));
+		}
     	if (frame instanceof BinaryWebSocketFrame) {
     		ByteBuf in = ((BinaryWebSocketFrame) frame).content();
     		//调用解码处理器

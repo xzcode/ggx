@@ -80,8 +80,11 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 			
 		}
 		
-		
-		
+		//分析网络流量
+		if (this.config.isEnableNetFlowAnalyze()) {
+			this.config.getNetFlowAnalyzer().analyzeDownFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
+		}
+				
 	}
 
 }

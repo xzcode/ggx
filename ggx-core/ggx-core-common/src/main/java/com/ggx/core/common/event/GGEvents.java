@@ -69,5 +69,25 @@ public interface GGEvents {
 		
 
 	}
+	
+	/**
+	 * 编码
+	 *
+	 * 2020-12-02 15:49:07
+	 */
+	interface Codec {
+		
+		/**
+		 * 包体超长
+		 */
+		String PACKAGE_OVERSIZE = "GGX.CODEC.PACKAGE.OVERSIZE";
+		
+		/**
+		 * 解码错误
+		 */
+		String DECODE_ERROR = "GG.CODEC.DECODE.ERROR";
+		
+
+	}
 
 }

@@ -27,6 +27,7 @@ import com.ggx.core.common.message.pingpong.model.GGPing;
 import com.ggx.core.common.message.pingpong.model.GGPong;
 import com.ggx.core.common.message.receive.manager.DefaultRequestMessageManager;
 import com.ggx.core.common.message.receive.manager.ReceiveMessageManager;
+import com.ggx.core.common.network.NetFlowAnalyzer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
 import com.ggx.core.common.session.factory.DefaultChannelSessionFactory;
 import com.ggx.core.common.session.id.DefaultSessionIdGenerator;
@@ -123,6 +124,12 @@ public class GGConfig {
 	protected String aesEncryptKey;
 	
 	protected AESCipher aesCipher;
+	
+	//网络流量分析器
+	protected NetFlowAnalyzer netFlowAnalyzer;
+	
+	//是否开启网络流量分析
+	protected boolean enableNetFlowAnalyze= false;
 
 	public void init() {
 		receiveMessageManager = new DefaultRequestMessageManager();
@@ -174,6 +181,10 @@ public class GGConfig {
 		}
 		if (sessionIdGenerator == null) {
 			sessionIdGenerator = new DefaultSessionIdGenerator();
+		}
+		
+		if (this.enableNetFlowAnalyze) {
+			this.netFlowAnalyzer = new NetFlowAnalyzer(this);
 		}
 		
 		if (this.enableAesEncryption) {
@@ -539,5 +550,19 @@ public class GGConfig {
 		this.aesCipher = aesCipher;
 	}
 	
+	public NetFlowAnalyzer getNetFlowAnalyzer() {
+		return netFlowAnalyzer;
+	}
 	
+	public void setNetFlowAnalyzer(NetFlowAnalyzer netFlowAnalyzer) {
+		this.netFlowAnalyzer = netFlowAnalyzer;
+	}
+	
+	public boolean isEnableNetFlowAnalyze() {
+		return enableNetFlowAnalyze;
+	}
+	
+	public void setEnableNetFlowAnalyze(boolean enableNetFlowAnalyze) {
+		this.enableNetFlowAnalyze = enableNetFlowAnalyze;
+	}
 }

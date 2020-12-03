@@ -4,6 +4,7 @@ import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.future.GGFuture;
 import com.ggx.core.common.message.send.support.SessionSendMessageSupport;
+import com.ggx.core.common.network.model.NetFlowData;
 import com.ggx.core.common.session.listener.ISessionDisconnectListener;
 
 import io.netty.channel.Channel;
@@ -198,5 +199,20 @@ public interface GGSession extends SessionSendMessageSupport, ExecutorSupport, E
 	 * 2020-04-13 18:22:12
 	 */
 	String getGroupId();
+	
+	/**
+	 * 设置会话流量信息
+	 *
+	 * @param netFlowData
+	 * 2020-12-02 17:55:21
+	 */
+	void setNetFlowData(NetFlowData netFlowData);
+	
+	/**
+	 * 获取会话流量信息
+	 *
+	 * 2020-12-02 17:55:33
+	 */
+	NetFlowData getNetFlowData();
 
 }
