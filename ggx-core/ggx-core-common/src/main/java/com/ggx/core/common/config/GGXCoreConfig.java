@@ -40,6 +40,7 @@ import com.ggx.core.common.message.receive.controller.impl.DefaultMessageControl
 import com.ggx.core.common.message.receive.impl.DefaultReceiveMessageManager;
 import com.ggx.core.common.message.send.SendMessageManager;
 import com.ggx.core.common.message.send.impl.DefaultSendMessageManager;
+import com.ggx.core.common.network.NetFlowAnalyzer;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.impl.ProtoStuffSerializer;
 import com.ggx.core.common.session.factory.ChannelSessionFactory;
@@ -172,6 +173,12 @@ public class GGXCoreConfig {
 	protected String aesEncryptKey;
 	
 	protected AESCipher aesCipher;
+	
+	//网络流量分析器
+	protected NetFlowAnalyzer netFlowAnalyzer;
+	
+	//是否开启网络流量分析
+	protected boolean enableNetFlowAnalyze= false;
 
 	public void init() {
 		eventManager = new DefaultEventManager();
@@ -246,6 +253,10 @@ public class GGXCoreConfig {
 
 		if (sessionFactory == null) {
 			sessionFactory = new DefaultChannelSessionFactory(this);
+		}
+		
+		if (this.enableNetFlowAnalyze) {
+			this.netFlowAnalyzer = new NetFlowAnalyzer(this);
 		}
 		
 		if (this.enableAesEncryption) {
@@ -722,5 +733,21 @@ public class GGXCoreConfig {
 	}
 	public void setSessionExpireCheckPeriodMs(long sessionExpireCheckPeriodMs) {
 		this.sessionExpireCheckPeriodMs = sessionExpireCheckPeriodMs;
+	}
+	
+	public NetFlowAnalyzer getNetFlowAnalyzer() {
+		return netFlowAnalyzer;
+	}
+	
+	public void setNetFlowAnalyzer(NetFlowAnalyzer netFlowAnalyzer) {
+		this.netFlowAnalyzer = netFlowAnalyzer;
+	}
+	
+	public boolean isEnableNetFlowAnalyze() {
+		return enableNetFlowAnalyze;
+	}
+	
+	public void setEnableNetFlowAnalyze(boolean enableNetFlowAnalyze) {
+		this.enableNetFlowAnalyze = enableNetFlowAnalyze;
 	}
 }

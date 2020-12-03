@@ -53,6 +53,11 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 			int packLen = in.readInt();
 			in.resetReaderIndex();
 			
+			//分析网络流量
+			if (this.config.isEnableNetFlowAnalyze()) {
+				this.config.getNetFlowAnalyzer().analyzeUpFlow(PACKAGE_LEN + packLen, this.config.getSessionFactory().getSession(ctx.channel()));
+			}
+			
 			if (packLen > config.getMaxDataLength()) {
 				config.getEventManager().emitEvent(new EventData<>(GGXCoreEvents.Codec.PACKAGE_OVERSIZE, ctx.channel()));
 				LOGGER.error("Package length {} is over limit {} ! Channel close !", packLen, config.getMaxDataLength());

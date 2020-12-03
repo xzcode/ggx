@@ -4,11 +4,36 @@ public class NetFlowData {
 	
 	private long upPerSecond;
 	private long downPerSecond;
+	private long totalPerSecond;
 	private long totalUp;
+	private long lastTotalUp;
 	private long totalDown;
+	private long lastTotalDown;
 	private long total;
-	private long lastUpTime;
-	private long lastDownTime;
+	private long lastTotal;
+	private long createTime = System.currentTimeMillis();
+	
+	public void incrTotalPerSecond(long add) {
+		this.totalPerSecond += add;
+	}
+	public void incrUpPerSecond(long add) {
+		this.upPerSecond += add;
+	}
+	
+	public void incrDownPerSecond(long add) {
+		this.downPerSecond += add;
+	}
+	
+	public void incrTotalUp(long add) {
+		this.totalUp += add;
+	}
+	public void incrTotalDown(long add) {
+		this.totalDown += add;
+	}
+	
+	public void incrTotal(long add) {
+		this.total += add;
+	}
 	
 	public long getUpPerSecond() {
 		return upPerSecond;
@@ -41,20 +66,44 @@ public class NetFlowData {
 		this.total = total;
 	}
 	
-	public long getLastDownTime() {
-		return lastDownTime;
-	}
 	
-	public void setLastDownTime(long lastDownTime) {
-		this.lastDownTime = lastDownTime;
-	}
-	
-	public void setLastUpTime(long lastUpTime) {
-		this.lastUpTime = lastUpTime;
-	}
-	
-	public long getLastUpTime() {
-		return lastUpTime;
+	public long getCreateTime() {
+		return createTime;
 	}
 
+	public long getLastTotalUp() {
+		return lastTotalUp;
+	}
+
+	public void setLastTotalUp(long lastTotalUp) {
+		this.lastTotalUp = lastTotalUp;
+	}
+
+	public long getLastTotalDown() {
+		return lastTotalDown;
+	}
+
+	public void setLastTotalDown(long lastTotalDown) {
+		this.lastTotalDown = lastTotalDown;
+	}
+
+	public long getLastTotal() {
+		return lastTotal;
+	}
+
+	public void setLastTotal(long lastTotal) {
+		this.lastTotal = lastTotal;
+	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+	public long getTotalPerSecond() {
+		return totalPerSecond;
+	}
+	
+	public void setTotalPerSecond(long totalPerSecond) {
+		this.totalPerSecond = totalPerSecond;
+	}
+	
 }

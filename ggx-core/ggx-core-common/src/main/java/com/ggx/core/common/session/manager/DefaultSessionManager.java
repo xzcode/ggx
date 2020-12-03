@@ -8,11 +8,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * session管理器
@@ -40,15 +40,19 @@ public class DefaultSessionManager implements SessionManager {
 	 * 2020-04-13 10:25:24
 	 */
 	protected void startSessionExpireCheckTask() {
-		TaskExecutor taskExecutor = this.config.getTaskExecutor();
-		taskExecutor.scheduleWithFixedDelay(10L * 1000L, this.config.getSessionExpireCheckPeriodMs(), TimeUnit.MILLISECONDS, () -> {
-			for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
-				GGXSession session = entry.getValue();
-				session.checkExpire();
-				if (session.isExpired()) {
-					session.disconnect();
+		this.config.getTaskExecutor().schedule(this.config.getSessionExpireCheckPeriodMs(), TimeUnit.MILLISECONDS, () -> {
+			try {
+				for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
+					GGXSession session = entry.getValue();
+					session.checkExpire();
+					if (session.isExpired()) {
+						session.disconnect();
+					}
 				}
+			} catch (Exception e) {
+				GGXLogUtil.getLogger(this).error("Session Expire Check Task Error!", e);
 			}
+			startSessionExpireCheckTask();
 		});
 	}
 	

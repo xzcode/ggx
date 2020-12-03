@@ -54,6 +54,11 @@ public class WebSocketOutboundFrameHandler extends ChannelOutboundHandlerAdapter
 		//调用编码处理器
 		ByteBuf out = config.getEncodeHandler().handle(ctx, (Pack) msg);
 		
+		//分析网络流量
+		if (this.config.isEnableNetFlowAnalyze()) {
+			this.config.getNetFlowAnalyzer().analyzeUpFlow(out.readableBytes(), this.config.getSessionFactory().getSession(ctx.channel()));
+		}
+		
 		ChannelFuture writeAndFlush = ctx.writeAndFlush(new BinaryWebSocketFrame(out), promise);
 		writeAndFlush.addListener(f -> {
 			if (!f.isSuccess()) {
