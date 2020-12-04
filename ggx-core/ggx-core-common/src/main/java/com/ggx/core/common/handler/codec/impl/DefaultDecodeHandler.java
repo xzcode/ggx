@@ -98,6 +98,8 @@ public class DefaultDecodeHandler implements DecodeHandler {
 			// 解码失败，触发解码错误事件
 			config.getEventManager().emitEvent(new EventData<>(session, GGEvents.Codec.DECODE_ERROR, null));
 			GGLoggerUtil.getLogger(this).error("Decode Error!",e);
+			channel.close();
+			return;
 		}
 		Pack pack = new Pack(action, message);
 		pack.setProtocolType(protocolType);
