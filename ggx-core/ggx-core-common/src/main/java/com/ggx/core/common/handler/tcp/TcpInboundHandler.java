@@ -10,6 +10,7 @@ import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.handler.codec.impl.DefaultDecodeHandler;
+import com.ggx.core.common.session.GGSession;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -55,7 +56,8 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 			}
 			
 			if (packLen > config.getMaxDataLength()) {
-				config.getEventManager().emitEvent(new EventData<>(GGEvents.Codec.PACKAGE_OVERSIZE, ctx.channel()));
+				GGSession session = config.getSessionFactory().getSession(ctx.channel());
+				config.getEventManager().emitEvent(new EventData<>(session, GGEvents.Codec.PACKAGE_OVERSIZE, ctx.channel()));
 				LOGGER.error("Package length {} is over limit {} ! Channel close !", packLen, config.getMaxDataLength());
 				ctx.close();
 				return;
