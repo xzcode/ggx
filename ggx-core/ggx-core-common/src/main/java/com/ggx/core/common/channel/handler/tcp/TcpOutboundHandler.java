@@ -47,29 +47,29 @@ public class TcpOutboundHandler extends ChannelOutboundHandlerAdapter {
 		Channel channel = ctx.channel();
 		if (!channel.isActive()) {
     		if(LOGGER.isDebugEnabled()){
-        		LOGGER.debug("\nWrite channel:{} is inActive...", ctx.channel());        		
+        		LOGGER.debug("\nWrite channel:{} is inActive...", channel);        		
         	}
 			return;
 		}
 		
 		if (msg instanceof ByteBuf) {
-			ctx.writeAndFlush(msg);
+			channel.writeAndFlush(msg);
 			return;
 		}
 		
 		ByteBuf out = null;
 		if (msg instanceof byte[]) {
 			byte[] bytes = (byte[]) msg;
-			out = ctx.alloc().buffer(bytes.length);
+			out = channel.alloc().buffer(bytes.length);
 			out.writeBytes(bytes);
-			ctx.writeAndFlush(out);
+			channel.writeAndFlush(out);
 		}
 		else {
 		
 			//调用编码处理器
 			out = config.getEncodeHandler().handle(ctx, (Pack) msg);
 			
-			ChannelFuture writeFuture = ctx.writeAndFlush(out, promise);
+			ChannelFuture writeFuture = channel.writeAndFlush(out, promise);
 			writeFuture.addListener(f -> {
 				if (!f.isSuccess()) {
 					if (LOGGER.isInfoEnabled()) {

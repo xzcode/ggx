@@ -40,6 +40,8 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		
+		Channel channel = ctx.channel();
+		
 		while (true) {
 			
 			int readableBytes = in.readableBytes();
@@ -53,15 +55,10 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 			int packLen = in.readInt();
 			in.resetReaderIndex();
 			
-			//分析网络流量
-			if (this.config.isEnableNetFlowAnalyze()) {
-				this.config.getNetFlowAnalyzer().analyzeUpFlow(PACKAGE_LEN + packLen, this.config.getSessionFactory().getSession(ctx.channel()));
-			}
-			
 			if (packLen > config.getMaxDataLength()) {
-				config.getEventManager().emitEvent(new EventData<>(GGXCoreEvents.Codec.PACKAGE_OVERSIZE, ctx.channel()));
-				LOGGER.error("Package length {} is over limit {} ! Channel close !", packLen, config.getMaxDataLength());
-				ctx.close();
+				config.getEventManager().emitEvent(new EventData<>(GGXCoreEvents.Codec.PACKAGE_OVERSIZE, channel));
+				LOGGER.error("Package length {} is over limit {} ! Channel [{}] close !", packLen, config.getMaxDataLength(), channel);
+				channel.close();
 				return;
 			}
 			
@@ -69,6 +66,12 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 				in.resetReaderIndex();
 				return;
 			}
+			
+			//分析网络流量
+			if (this.config.isEnableNetFlowAnalyze()) {
+				this.config.getNetFlowAnalyzer().analyzeUpFlow(PACKAGE_LEN + packLen, this.config.getSessionFactory().getSession(channel));
+			}
+			
 			//调用解码处理器
 			this.config.getDecodeHandler().handle(ctx, in, ProtocolTypeConstants.TCP);
 		}
