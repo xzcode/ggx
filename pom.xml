@@ -13,7 +13,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.boot.version>2.3.6.RELEASE</spring.boot.version>
+		<spring.boot.version>2.4.0</spring.boot.version>
 		<netty.version>4.1.49.Final</netty.version>
 		<common.host>common.host</common.host>
 	</properties>
@@ -74,6 +74,11 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.7</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
 				<version>2.0.1.Final</version>
@@ -127,7 +132,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<version>1.7.30</version>
 		</dependency>
 
 	</dependencies>
@@ -187,6 +192,7 @@
 
 	<modules>
 		<module>ggx-data</module>
+		<module>ggx-files</module>
 		<module>ggx-core</module>
 		<module>ggx-docs</module>
 		<module>ggx-eventbus</module>

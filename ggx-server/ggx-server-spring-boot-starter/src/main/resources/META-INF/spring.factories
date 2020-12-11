@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.ggx.server.spring.boot.starter.GGXServerSpringBootAutoConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.ggx.server.spring.boot.starter.support.GGXServerEnvironmentPostProcessor

@@ -1,0 +1,21 @@
+
+server:
+  port: 15678
+
+spring:
+  application:
+    name: '@project.artifactId@'
+  data:
+    mongodb:
+       field-naming-strategy: com.ggx.spring.common.mongo.config.CustomFieldNamingStrategy
+       gridfs:
+         bucket: ggxfiles
+         database: ggxfiles
+         
+custom:
+  project:
+    version: '@project.version@'
+    appname: '@project.artifactId@'
+
+
+
