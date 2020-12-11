@@ -6,7 +6,7 @@ import com.ggx.rpc.client.config.RpcClientConfig;
 
 public class ConnOpenEventListener implements EventListener<Void>{
 
-	private RpcClientConfig config;
+	protected RpcClientConfig config;
 	
 	public ConnOpenEventListener(RpcClientConfig config) {
 		this.config = config;

@@ -1,8 +1,5 @@
 package com.ggx.session.group.client.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
@@ -17,8 +14,6 @@ import com.ggx.session.group.client.config.SessionGroupClientConfig;
  * 2020-01-16 17:04:11
  */
 public class SessionGroupRegisterRespHandler {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(SessionGroupRegisterRespHandler.class);
 	
 	protected SessionGroupClientConfig config;
 	

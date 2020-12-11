@@ -6,7 +6,7 @@ import com.ggx.registry.server.config.RegistryServerConfig;
 
 public class ConnActiveEventListener implements EventListener<Void>{
 	
-	private RegistryServerConfig config;
+	protected RegistryServerConfig config;
 
 
 	public ConnActiveEventListener(RegistryServerConfig config) {

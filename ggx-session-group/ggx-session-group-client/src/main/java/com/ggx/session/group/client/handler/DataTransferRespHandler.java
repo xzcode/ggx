@@ -4,7 +4,6 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
-import com.ggx.core.common.message.receive.task.ReceiveMessageTask;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.group.common.message.resp.DataTransferResp;

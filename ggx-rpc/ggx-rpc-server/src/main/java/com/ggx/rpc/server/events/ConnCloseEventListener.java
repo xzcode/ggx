@@ -6,7 +6,7 @@ import com.ggx.rpc.server.config.RpcServerConfig;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	
-	private RpcServerConfig config;
+	protected RpcServerConfig config;
 
 	public ConnCloseEventListener(RpcServerConfig config) {
 		super();

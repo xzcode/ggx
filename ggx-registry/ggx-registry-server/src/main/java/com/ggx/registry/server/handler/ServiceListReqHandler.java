@@ -2,7 +2,6 @@ package com.ggx.registry.server.handler;
 
 import java.util.List;
 
-import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.common.message.req.RegistryServiceListReq;

@@ -10,7 +10,7 @@ import com.ggx.util.logger.GGXLogUtil;
 
 public class HeartbeatLostEventListener implements EventListener<Void>{
 	
-	private RegistryServerConfig config;
+	protected RegistryServerConfig config;
 
 	public HeartbeatLostEventListener(RegistryServerConfig config) {
 		super();

@@ -21,7 +21,6 @@
 		<dependency>
 			<groupId>com.ggx</groupId>
 			<artifactId>ggx-util</artifactId>
-			 <version>${project.version}</version>
 		</dependency>
 		
 		<dependency>

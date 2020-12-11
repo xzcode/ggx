@@ -6,7 +6,7 @@ import com.ggx.group.server.config.SessionGroupServerConfig;
 
 public class ConnCloseEventListener implements EventListener<Void>{
 	
-	private SessionGroupServerConfig config;
+	protected SessionGroupServerConfig config;
 
 	public ConnCloseEventListener(SessionGroupServerConfig config) {
 		super();

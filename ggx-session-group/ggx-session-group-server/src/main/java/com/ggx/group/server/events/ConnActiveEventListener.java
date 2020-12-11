@@ -6,7 +6,7 @@ import com.ggx.group.server.config.SessionGroupServerConfig;
 
 public class ConnActiveEventListener implements EventListener<Void>{
 	
-	private SessionGroupServerConfig config;
+	protected SessionGroupServerConfig config;
 
 
 	public ConnActiveEventListener(SessionGroupServerConfig config) {
