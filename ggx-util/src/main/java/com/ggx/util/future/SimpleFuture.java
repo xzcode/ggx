@@ -53,19 +53,17 @@ public class SimpleFuture<T> implements Future<T> {
 		this.triggerListeners();
 	}
 	
-
-
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addListener(FutureListener<T> listener) {
+	public void addListener(FutureListener<Future<T>> listener) {
 		synchronized (this) {
-			if (this.done) {
-				triggerListener(listener);
+			if (this.done) {	
+				triggerListener((FutureListener<T>) listener);
 			} else {
-				listeners.add(listener);
+				listeners.add((FutureListener<T>) listener);
 			}
 		}
-
+		
 	}
 
 	@Override
@@ -187,5 +185,8 @@ public class SimpleFuture<T> implements Future<T> {
 			this.defaultWaitTimeout = waitTimeout;
 		}
 	}
+
+
+
 	
 }

@@ -15,7 +15,7 @@ public interface Future<T> extends java.util.concurrent.Future<T> {
 	 * @author zai
 	 * 2020-11-11 15:36:40
 	 */
-	void addListener(FutureListener<T> listener);
+	void addListener(FutureListener<Future<T>> listener);
 
 	/**
 	 * 取消该任务(针对定时任务)

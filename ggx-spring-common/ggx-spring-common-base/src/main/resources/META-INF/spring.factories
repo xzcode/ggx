@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.ggx.server.spring.boot.starter.GGXServerSpringBootAutoConfiguration

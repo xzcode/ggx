@@ -192,7 +192,6 @@
 
 	<modules>
 		<module>ggx-data</module>
-		<module>ggx-files</module>
 		<module>ggx-core</module>
 		<module>ggx-docs</module>
 		<module>ggx-eventbus</module>
@@ -203,6 +202,5 @@
 		<module>ggx-util</module>
 		<module>ggx-server</module>
 		<module>ggx-game-support</module>
-		<module>ggx-spring-common</module>
 	</modules>
 </project>

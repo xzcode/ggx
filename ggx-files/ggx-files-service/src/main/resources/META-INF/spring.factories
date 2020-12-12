@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.ggx.files.GGXFilesServiceAutoConfig
-
-org.springframework.boot.env.EnvironmentPostProcessor=com.ggx.files.service.config.spring.GGXFilesEnvironmentPostProcessor

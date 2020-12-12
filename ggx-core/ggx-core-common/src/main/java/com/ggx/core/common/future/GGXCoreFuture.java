@@ -5,7 +5,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.util.future.Future;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -176,10 +175,9 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void triggerListener(GGXFutureListener<T> listener) {
 		try {
-			listener.operationComplete((Future<T>) this);
+			listener.operationComplete(this);
 		} catch (Exception e) {
 			GGXLogUtil.getLogger(this).error("GGXFuture trigger listener ERROR!", e);
 		}
