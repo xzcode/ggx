@@ -1,6 +1,6 @@
 package com.ggx.core.common.future.factory;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
 
@@ -15,16 +15,16 @@ public class GGXFutureFactory {
 
 	public static final GGXSuccessFuture<?> DEFAULT_SUCCESS_FUTURE = new GGXSuccessFuture<>();
 
-	public static GGXDefaultFuture<?> success(Object data) {
-		return new GGXDefaultFuture<>(true, data);
+	public static GGXCoreFuture<?> success(Object data) {
+		return new GGXCoreFuture<>(true, data);
 	}
 
-	public static GGXDefaultFuture<?> fail(Throwable cause) {
-		return new GGXDefaultFuture<>(false, cause);
+	public static GGXCoreFuture<?> fail(Throwable cause) {
+		return new GGXCoreFuture<>(false, cause);
 	}
 
-	public static GGXDefaultFuture<?> create() {
-		return new GGXDefaultFuture<>();
+	public static GGXCoreFuture<?> create() {
+		return new GGXCoreFuture<>();
 	}
 
 }

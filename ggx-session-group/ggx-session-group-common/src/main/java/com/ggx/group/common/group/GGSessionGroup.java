@@ -6,10 +6,10 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.common.config.GGXCoreConfig;
-import com.ggx.core.common.future.GGXDefaultFuture;
-import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.future.GGXCoreFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -53,7 +53,7 @@ public interface GGSessionGroup extends MakePackSupport {
 	 */
 	default GGXFuture<?> sendToAll(Pack pack) {
 		Map<String, GGXSession> sessionMap = getSessionMap();
-		GGXDefaultFuture<?> defaultFuture = new GGXDefaultFuture<>();
+		GGXCoreFuture<?> defaultFuture = new GGXCoreFuture<>();
 		Set<Entry<String, GGXSession>> entrySet = sessionMap.entrySet();
 		int size = entrySet.size();
 		AtomicInteger count = new AtomicInteger(0);

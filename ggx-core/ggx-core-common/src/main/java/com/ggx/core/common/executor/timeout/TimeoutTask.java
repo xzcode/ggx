@@ -1,7 +1,7 @@
 package com.ggx.core.common.executor.timeout;
 
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.executor.TaskExecutor;
 
 /**
  * 超时等待模型

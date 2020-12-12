@@ -4,6 +4,7 @@ package com.ggx.core.common.future;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.util.future.Future;
 import com.ggx.util.logger.GGXLogUtil;
 
 
@@ -47,7 +48,7 @@ public class GGXFailedFuture<T> implements GGXFuture<T> {
 	@Override
 	public void addListener(GGXFutureListener<T> listener) {
 		try {
-			listener.operationComplete((GGXFuture<T>) DEFAULT_FAILED_FUTURE);
+			listener.operationComplete((Future<T>) DEFAULT_FAILED_FUTURE);
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}

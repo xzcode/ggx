@@ -1,7 +1,7 @@
 package com.ggx.rpc.client.handler;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.rpc.client.config.RpcClientConfig;
@@ -37,7 +37,7 @@ public class RpcRespHandler {
 		if (callback == null) {
 			return;
 		}
-		GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
+		GGXCoreFuture<?> callbackFuture = callback.getCallbackFuture();
 		try {
 			GGXFuture<?> tof = callback.getTimeoutFuture();
 			if (tof != null && tof.cancel()) {

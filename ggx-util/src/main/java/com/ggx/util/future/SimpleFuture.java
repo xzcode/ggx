@@ -1,18 +1,12 @@
-package com.ggx.core.common.future;
+package com.ggx.util.future;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
-import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
 
-/**
- * 默认future
- *
- * @author zai 2020-04-07 14:26:57
- */
-public class GGXDefaultFuture<T> implements GGXFuture<T> {
+public class SimpleFuture<T> implements Future<T> {
 
 	private Throwable cause;
 
@@ -30,30 +24,29 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 	
 	private Class<?> dataType;
 	
-	private GGXSession session;
 	
 	
-	private List<GGXFutureListener<T>> listeners = new CopyOnWriteArrayList<>();
+	private List<FutureListener<T>> listeners = new CopyOnWriteArrayList<>();
 
-	public GGXDefaultFuture() {
+	public SimpleFuture() {
 	}
 	
 	
 	
-	public GGXDefaultFuture(boolean success) {
+	public SimpleFuture(boolean success) {
 		this.success = success;
 		this.done = true;
 		this.triggerListeners();
 	}
 
-	public GGXDefaultFuture(boolean success, T data) {
+	public SimpleFuture(boolean success, T data) {
 		this.success = success;
 		this.data = data;
 		this.done = true;
 		this.triggerListeners();
 	}
 	
-	public GGXDefaultFuture(boolean success, Throwable cause) {
+	public SimpleFuture(boolean success, Throwable cause) {
 		this.success = success;
 		this.cause = cause;
 		this.done = true;
@@ -64,7 +57,7 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 
 
 	@Override
-	public void addListener(GGXFutureListener<T> listener) {
+	public void addListener(FutureListener<T> listener) {
 		synchronized (this) {
 			if (this.done) {
 				triggerListener(listener);
@@ -138,15 +131,7 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 	}
 	
 
-	@Override
-	public GGXSession getSession() {
-		return session;
-	}
 
-	public void setSession(GGXSession session) {
-		this.session = session;
-	}
-	
 	public void setData(Object data) {
 		this.data = data;
 		if (this.data != null) {
@@ -170,12 +155,12 @@ public class GGXDefaultFuture<T> implements GGXFuture<T> {
 	}
 
 	private void triggerListeners() {
-		for (GGXFutureListener<T> listener : listeners) {
+		for (FutureListener<T> listener : listeners) {
 			triggerListener(listener);
 		}
 	}
 
-	private void triggerListener(GGXFutureListener<T> listener) {
+	private void triggerListener(FutureListener<T> listener) {
 		try {
 			listener.operationComplete(this);
 		} catch (Exception e) {

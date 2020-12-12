@@ -1,7 +1,7 @@
 package com.ggx.core.common.session.support;
 
-import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.session.GGXSession;
 
 public interface GGXSessionDisconnectSupport extends  ExecutorSupport{

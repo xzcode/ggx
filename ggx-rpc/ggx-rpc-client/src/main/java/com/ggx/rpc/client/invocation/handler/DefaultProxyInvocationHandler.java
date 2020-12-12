@@ -4,8 +4,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.future.factory.GGXFutureFactory;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.exception.RpcServiceNoFallbackException;
@@ -150,7 +150,7 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 				if (!f.isSuccess()) {
 					GGXFuture<?> timeoutFuture = callback.getTimeoutFuture();
 					if (timeoutFuture.cancel()) {
-						GGXDefaultFuture<?> callbackFuture = callback.getCallbackFuture();
+						GGXCoreFuture<?> callbackFuture = callback.getCallbackFuture();
 						callbackFuture.setSuccess(false);
 						callbackFuture.setDone(true);
 						callbackFuture.setCause(new RpcServiceSendMessageFailedException(callback.getServiceName()));

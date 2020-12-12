@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import com.ggx.core.common.future.GGXFuture;
+import com.ggx.util.future.Future;
 
 import reactor.core.publisher.Mono;
 
@@ -25,7 +25,7 @@ public interface BaseService {
 	 * @author zai
 	 * 2020-11-12 14:27:57
 	 */
-	<T> GGXFuture<T> subscribeForFuture(Mono<T> mono);
+	<T> Future<T, ?> subscribeForFuture(Mono<T> mono);
 
 	/**
 	 * 保存或更新记录

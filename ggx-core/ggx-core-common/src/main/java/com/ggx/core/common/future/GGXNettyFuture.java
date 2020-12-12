@@ -46,12 +46,13 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 		if (listeners != null && listeners.size() > 0) {
 			for (GGXFutureListener<T> listener : listeners) {
 				nettyFuture.addListener((f) -> {
-					listener.operationComplete(this);
+					listener.operationComplete((com.ggx.util.future.Future<T>) this);
 				});
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addListener(GGXFutureListener<T> listener) {
 		try {
@@ -61,7 +62,7 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 						return;
 					}
 					nettyFuture.addListener((f) -> {
-						listener.operationComplete(this);
+						listener.operationComplete((com.ggx.util.future.Future<T>) this);
 					});
 				}
 		} catch (Exception e) {

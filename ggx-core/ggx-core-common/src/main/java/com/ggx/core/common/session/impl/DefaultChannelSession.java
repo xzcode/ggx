@@ -1,7 +1,7 @@
 package com.ggx.core.common.session.impl;
 
-import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXNettyFuture;
 
 import io.netty.channel.Channel;

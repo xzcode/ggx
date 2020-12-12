@@ -1,10 +1,10 @@
 package com.ggx.eventbus.server;
 
 import com.ggx.common.constant.EventbusConstant;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 import com.ggx.eventbus.server.controller.EventbusServerController;

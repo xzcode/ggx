@@ -1,8 +1,8 @@
 package com.ggx.router.client.session;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXFailedFuture;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.VirtualSession;

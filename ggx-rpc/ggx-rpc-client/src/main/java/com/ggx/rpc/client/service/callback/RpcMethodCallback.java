@@ -1,7 +1,7 @@
 package com.ggx.rpc.client.service.callback;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 
 /**
  * 方法调用信息
@@ -18,7 +18,7 @@ public class RpcMethodCallback {
 	private long timeout;
 	
 	//调用future
-	private GGXDefaultFuture<?> callbackFuture;
+	private GGXCoreFuture<?> callbackFuture;
 	
 	private GGXFuture<?> timeoutFuture;
 	
@@ -54,11 +54,11 @@ public class RpcMethodCallback {
 		this.timeout = timeout;
 	}
 
-	public GGXDefaultFuture<?> getCallbackFuture() {
+	public GGXCoreFuture<?> getCallbackFuture() {
 		return callbackFuture;
 	}
 
-	public void setCallbackFuture(GGXDefaultFuture<?> future) {
+	public void setCallbackFuture(GGXCoreFuture<?> future) {
 		this.callbackFuture = future;
 	}
 

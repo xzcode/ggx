@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.spring.common.base.page.PageQuery;
 import com.ggx.spring.common.base.service.BaseService;
 import com.ggx.spring.common.base.util.pager.Pager;
@@ -30,7 +30,7 @@ public abstract class AbstractBaseService implements BaseService {
 	protected ReactiveMongoTemplate reactiveMongoTemplate;
 
 	public <T> GGXFuture<T> subscribeForFuture(Mono<T> mono) {
-		GGXDefaultFuture<T> future = new GGXDefaultFuture<>();
+		GGXCoreFuture<T> future = new GGXCoreFuture<>();
 		mono.switchIfEmpty(Mono.create(o -> {
 			future.setSuccess(true);
 			future.setDone(true);
@@ -46,7 +46,7 @@ public abstract class AbstractBaseService implements BaseService {
 		return future;
 	}
 	public <T> GGXFuture<T> subscribeForFuture(Flux<T> flux) {
-		GGXDefaultFuture<T> future = new GGXDefaultFuture<>();
+		GGXCoreFuture<T> future = new GGXCoreFuture<>();
 		flux.switchIfEmpty(Mono.create(o -> {
 			future.setSuccess(true);
 			future.setDone(true);

@@ -1,8 +1,8 @@
 package com.ggx.server.starter;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCoreSupport;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 

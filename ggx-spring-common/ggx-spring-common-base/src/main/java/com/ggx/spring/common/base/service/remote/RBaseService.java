@@ -1,6 +1,6 @@
 package com.ggx.spring.common.base.service.remote;
 
-import com.ggx.core.common.future.GGXFuture;
+import com.ggx.util.future.Future;
 
 import reactor.core.publisher.Mono;
 
@@ -15,5 +15,5 @@ public interface RBaseService{
 	 * @author zai
 	 * 2020-11-12 14:27:57
 	 */
-	<T> GGXFuture<T> subscribeForFuture(Mono<T> mono);
+	<T> Future<T, ?> subscribeForFuture(Mono<T> mono);
 }

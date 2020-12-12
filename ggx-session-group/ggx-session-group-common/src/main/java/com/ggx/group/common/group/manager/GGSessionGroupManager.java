@@ -3,9 +3,9 @@ package com.ggx.group.common.group.manager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXFailedFuture;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;

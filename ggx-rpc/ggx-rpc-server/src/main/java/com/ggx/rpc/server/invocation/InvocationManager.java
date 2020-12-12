@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.ggx.core.common.future.GGXDefaultFuture;
-import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
+import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.future.factory.GGXFutureFactory;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
@@ -90,7 +90,7 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 				return (GGXFuture<?>) result;
 			}
 			
-			return new GGXDefaultFuture<>(true, result);
+			return new GGXCoreFuture<>(true, result);
 			
 		} catch (Throwable e) {
 			if (e instanceof InvocationTargetException) {

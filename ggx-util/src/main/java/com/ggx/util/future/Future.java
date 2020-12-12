@@ -1,17 +1,12 @@
-package com.ggx.core.common.future;
-
-import java.util.concurrent.Future;
-
-import com.ggx.core.common.session.GGXSession;
+package com.ggx.util.future;
 
 /**
- * 未来对象
- * 
- * @param <V>
- * 
- * @author zai 2019-11-24 17:35:47
+ * future对象
+ *
+ * @param <T>
+ * 2020-12-12 15:51:00
  */
-public interface GGXFuture<T> extends Future<T> {
+public interface Future<T> extends java.util.concurrent.Future<T> {
 
 	/**
 	 * 添加回调监听器
@@ -20,7 +15,7 @@ public interface GGXFuture<T> extends Future<T> {
 	 * @author zai
 	 * 2020-11-11 15:36:40
 	 */
-	void addListener(GGXFutureListener<T> listener);
+	void addListener(FutureListener<T> listener);
 
 	/**
 	 * 取消该任务(针对定时任务)
@@ -58,15 +53,6 @@ public interface GGXFuture<T> extends Future<T> {
 	 * 2020-11-11 15:36:54
 	 */
 	boolean isSuccess();
-
-	/**
-	 * 获取会话(如果可以)
-	 *
-	 * @return
-	 * @author zai
-	 * 2020-11-11 15:37:09
-	 */
-	GGXSession getSession();
 
 	/**
 	 * 异步任务中抛出的异常对象

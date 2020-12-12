@@ -1,9 +1,9 @@
 package com.ggx.group.server;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;

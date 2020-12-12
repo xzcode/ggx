@@ -1,7 +1,7 @@
 package com.ggx.core.common.filter;
 
-import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 

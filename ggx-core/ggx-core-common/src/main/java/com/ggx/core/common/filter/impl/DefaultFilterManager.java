@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
@@ -14,7 +15,6 @@ import com.ggx.core.common.filter.chain.impl.MessageFilterChain;
 import com.ggx.core.common.filter.chain.impl.PackFilterChain;
 import com.ggx.core.common.filter.model.FilterInfo;
 import com.ggx.core.common.future.GGXFailedFuture;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;

@@ -1,11 +1,11 @@
 package com.ggx.session.group.client.session;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.future.GGXDefaultFuture;
+import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
@@ -74,7 +74,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		//触发断开连接事件
 		this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
 		
-		GGXDefaultFuture<?> future = new GGXDefaultFuture<>();
+		GGXCoreFuture<?> future = new GGXCoreFuture<>();
 		future.setSession(this);
 		future.setDone(true);
 		future.setSuccess(true);

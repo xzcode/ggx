@@ -1,12 +1,12 @@
 package com.ggx.router.server;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;

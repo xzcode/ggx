@@ -3,9 +3,9 @@ package com.ggx.core.common.executor.support;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.executor.timeout.TimeoutTask;
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXNettyFuture;
 
 import io.netty.channel.EventLoopGroup;
