@@ -2,7 +2,6 @@ package com.ggx.files.service.service;
 
 import java.io.InputStream;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
@@ -160,9 +159,5 @@ public class FilesService {
 			GGXLogUtil.getLogger(this).warn("Get file ext name error!", e);
 		}
 		return "unknow";
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(DigestUtils.sha256Hex("xxoo").length());
 	}
 }

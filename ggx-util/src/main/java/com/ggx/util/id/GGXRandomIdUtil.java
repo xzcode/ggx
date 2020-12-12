@@ -13,44 +13,32 @@ public class GGXRandomIdUtil {
 	
 	private static final String RAND_STRINGS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
-	/**
-	 * 新uuid
-	 *
-	 * @return
-	 * @author zai
-	 * 2020-04-09 11:58:34
-	 */
 	public static String newUUID() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
-	/**
-	 * 产生24位严格大小写的数字+子母字符串
-	 *
-	 * @return
-	 * @author zai
-	 * 2020-04-09 12:09:16
-	 */
-	public static String newRandomStringId24() {
-		ThreadLocalRandom random = ThreadLocalRandom.current();
-		StringBuilder sb = new StringBuilder(24);
-		for (int i = 0; i < 24; i++) {
-			sb.append(RAND_STRINGS.charAt(random.nextInt(RAND_STRINGS.length())));
-		}
-		return sb.toString();
+	public static String newRandomStringId32() {
+		return newRandomStringId(32);
 	}
 	
-	/**
-	 * 产生16位严格大小写的数字+子母字符串
-	 *
-	 * @return
-	 * @author zai
-	 * 2020-04-09 12:09:16
-	 */
+	
+	public static String newRandomStringId24() {
+		return newRandomStringId(24);
+	}
+	
 	public static String newRandomStringId16() {
+		return newRandomStringId(16);
+	}
+	
+	
+	public static String newRandomStringId6() {
+		return newRandomStringId(6);
+	}
+	
+	public static String newRandomStringId(int len) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
-		StringBuilder sb = new StringBuilder(16);
-		for (int i = 0; i < 16; i++) {
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++) {
 			sb.append(RAND_STRINGS.charAt(random.nextInt(RAND_STRINGS.length())));
 		}
 		return sb.toString();

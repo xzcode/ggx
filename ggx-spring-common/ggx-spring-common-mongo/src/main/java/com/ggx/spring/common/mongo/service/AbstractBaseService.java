@@ -62,6 +62,17 @@ public abstract class AbstractBaseService implements BaseService {
 		return future;
 	}
 	
+	/**
+	 * 通用分页查询
+	 *
+	 * @param <Q>
+	 * @param <T>
+	 * @param pageQuery
+	 * @param clazzT
+	 * @param pageOper
+	 * @return
+	 * 2020-12-12 10:57:41
+	 */
 	public <Q extends PageQuery, T> Pager<T> page(Q pageQuery, Class<T> clazzT,  PageQueryOperaction<Q,T> pageOper) {
 
 		Query listQuery = new Query();
