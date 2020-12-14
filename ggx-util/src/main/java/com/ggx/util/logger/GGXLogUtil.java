@@ -15,6 +15,10 @@ public class GGXLogUtil {
 		return LoggerFactory.getLogger(object.getClass());
 		
 	}
+	public static Logger getLogger(Class<?> clazz) {
+		return LoggerFactory.getLogger(clazz);
+		
+	}
 	
 	public static boolean isTraceEnabled() {
 		return LOGGER.isTraceEnabled();

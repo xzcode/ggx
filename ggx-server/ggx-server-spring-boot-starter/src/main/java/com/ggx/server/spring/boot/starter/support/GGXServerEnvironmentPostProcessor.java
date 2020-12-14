@@ -26,7 +26,7 @@ public class GGXServerEnvironmentPostProcessor implements EnvironmentPostProcess
             throw new IllegalArgumentException("Resource " + path + " does not exist");
         }
         try {
-            return this.loader.load("custom-resource", path).get(0);
+            return this.loader.load("ggxserver-spring", path).get(0);
         }
         catch (IOException ex) {
             throw new IllegalStateException("Failed to load yaml configuration from " + path, ex);
