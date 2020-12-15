@@ -18,7 +18,7 @@ public class GGXServerEnvironmentPostProcessor implements EnvironmentPostProcess
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Resource path = new ClassPathResource("ggxserver-spring.yml");
         PropertySource<?> propertySource = loadYaml(path);
-        environment.getPropertySources().addFirst(propertySource);
+        environment.getPropertySources().addLast(propertySource);
     }
 
     private PropertySource<?> loadYaml(Resource path) {
