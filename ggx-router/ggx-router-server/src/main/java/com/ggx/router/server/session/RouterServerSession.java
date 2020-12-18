@@ -1,8 +1,8 @@
 package com.ggx.router.server.session;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.VirtualSession;
@@ -12,10 +12,11 @@ import com.ggx.router.common.message.resp.RouteMessageResp;
 public class RouterServerSession extends VirtualSession {
 
 	
-
+	
 	public RouterServerSession(String sessionId, GGXSession realSession, SessionManager realSessionManager, GGXCoreConfig config) {
 		super(sessionId, realSession, realSessionManager, config);
 	}
+	
 
 	@Override
 	public GGXFuture<?> send(Pack pack) {

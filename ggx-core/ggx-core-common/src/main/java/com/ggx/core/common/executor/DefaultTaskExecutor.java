@@ -12,6 +12,7 @@ import com.ggx.core.common.executor.timeout.TimeoutTask;
 import com.ggx.core.common.future.GGXNettyFuture;
 
 import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.channel.EventLoop;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.ScheduledFuture;
 
@@ -20,6 +21,9 @@ public class DefaultTaskExecutor implements TaskExecutor{
 	protected EventLoopGroup executor;
 
 	public DefaultTaskExecutor(EventLoopGroup executor) {
+		this.executor = executor;
+	}
+	public DefaultTaskExecutor(EventLoop executor) {
 		this.executor = executor;
 	}
 	public DefaultTaskExecutor(String threadNamePrefix, int threadSize) {

@@ -3,8 +3,6 @@ package com.ggx.core.common.channel.handler;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
-import com.ggx.core.common.channel.handler.common.InboundCommonHandler;
-import com.ggx.core.common.channel.handler.common.OutboundCommonHandler;
 import com.ggx.core.common.channel.handler.idle.IdleHandler;
 import com.ggx.core.common.channel.handler.tcp.TcpInboundHandler;
 import com.ggx.core.common.channel.handler.tcp.TcpOutboundHandler;

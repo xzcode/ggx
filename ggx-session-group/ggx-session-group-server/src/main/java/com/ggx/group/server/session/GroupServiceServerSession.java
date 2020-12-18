@@ -4,6 +4,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.message.Pack;
@@ -33,6 +34,11 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		this.groupId = groupId;
 		this.groupSession = sessionGroupManager.getRandomOne(groupId);
 		setReady(true);
+	}
+	
+	@Override
+	public TaskExecutor getTaskExecutor() {
+		return this.groupSession.getTaskExecutor();
 	}
 
 	@Override

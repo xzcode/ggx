@@ -4,6 +4,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
@@ -22,6 +23,11 @@ public class VirtualSession extends AbstractAttrMapSession<GGXCoreConfig>{
 		this.realSession = realSession;
 		this.realSessionManager = realSessionManager;
 		setReady(true);
+	}
+	
+	@Override
+	public TaskExecutor getTaskExecutor() {
+		return this.realSession.getTaskExecutor();
 	}
 
 	@Override

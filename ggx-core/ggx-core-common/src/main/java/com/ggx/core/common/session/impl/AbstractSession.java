@@ -50,6 +50,9 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	
 	//会话组id
 	protected String groupId;
+	
+	//会话绑定任务执行器
+	protected TaskExecutor taskExecutor;
 
 	// 断开连接监听器
 	protected List<SessionDisconnectListener> disconnectListeners = new CopyOnWriteArrayList<SessionDisconnectListener>();
@@ -57,6 +60,12 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	public AbstractSession(String sessionId, C config) {
 		this.config = config;
 		this.sessionId = sessionId;
+		updateExpire();
+	}
+	public AbstractSession(String sessionId,TaskExecutor taskExecutor, C config) {
+		this.config = config;
+		this.sessionId = sessionId;
+		this.taskExecutor = taskExecutor;
 		updateExpire();
 	}
 

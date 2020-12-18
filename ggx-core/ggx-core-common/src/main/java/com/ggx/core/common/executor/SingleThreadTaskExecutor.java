@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadFactory;
 import com.ggx.core.common.executor.thread.GGXThreadFactory;
 
 import io.netty.channel.DefaultEventLoop;
+import io.netty.channel.EventLoop;
 
 /**
  * 单线程任务执行器
@@ -13,6 +14,10 @@ import io.netty.channel.DefaultEventLoop;
  * 2019-12-24 17:45:30
  */
 public class SingleThreadTaskExecutor extends DefaultTaskExecutor{
+	
+	public SingleThreadTaskExecutor(EventLoop eventLoop) {
+		super(eventLoop);
+	}
 	
 	public SingleThreadTaskExecutor() {
 		super(new DefaultEventLoop());
