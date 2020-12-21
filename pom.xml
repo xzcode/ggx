@@ -201,6 +201,5 @@
 		<module>ggx-session-group</module>
 		<module>ggx-util</module>
 		<module>ggx-server</module>
-		<module>ggx-game-support</module>
 	</modules>
 </project>
