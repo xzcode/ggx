@@ -10,9 +10,14 @@ import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.config.GGConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.event.GGEvents;
+import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.session.GGSession;
+import com.ggx.core.common.utils.logger.GGLoggerUtil;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -133,6 +138,11 @@ public class WebSocketInboundFrameHandler extends SimpleChannelInboundHandler<Ob
         	if(LOGGER.isDebugEnabled()){
         		LOGGER.debug("\nReceived string message:\nchannel{}\ntext:{} ; Channel Close!!", ctx.channel(), ((TextWebSocketFrame) frame).text());        		
         	}
+        	Channel channel = ctx.channel();
+    		GGSession session = config.getSessionFactory().getSession(channel);
+        	// 解码失败，触发解码错误事件
+			config.getEventManager().emitEvent(new EventData<>(session, GGEvents.Codec.DECODE_ERROR, null));
+			GGLoggerUtil.getLogger(this).error("Decode Error!Unsupport Text Messages!");
         	ctx.writeAndFlush("Unsupport Text Messages!").addListener(e -> {
         		ctx.close();        		
         	});
