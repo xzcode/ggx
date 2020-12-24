@@ -97,7 +97,7 @@ public interface ListDataManager<T> {
 	}
 	
 	/**
-	 * 获取map中元素个数
+	 * 获取元素个数
 	 * @return
 	 * @author zai
 	 * 2020-10-3 15:19:43
