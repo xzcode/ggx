@@ -22,11 +22,6 @@ public interface DefaultChannelAttributeKeys {
 	/**
 	 * 心跳信息
 	 */
-	String PING_INFO = "GG_PING_INFO";
-	
-	/**
-	 * 通道组id
-	 */
-	String CHANNEL_GROUP_ID = "CHANNEL_GROUP_ID";
+	String PING_INFO = "GGX_PING_INFO";
 	
 }

@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ggx.core.common.future.GGXFuture;
-import com.ggx.core.common.channel.handler.MixedSocketChannelInitializer;
-import com.ggx.core.common.channel.handler.TcpChannelInitializer;
-import com.ggx.core.common.channel.handler.WebSocketChannelInitializer;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.future.GGXNettyFuture;
+import com.ggx.core.common.handler.MixedSocketChannelInitializer;
+import com.ggx.core.common.handler.TcpChannelInitializer;
+import com.ggx.core.common.handler.WebSocketChannelInitializer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.core.server.starter.GGXCoreServerStarter;
@@ -108,7 +108,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
     		System.out.println(logoString);
-    		System.out.println(config.getServerName() + " started successfully on port " + config.getPort() + "!\n");
+    		System.out.println(config.getServerName() + " started on port " + config.getPort() + "!\n");
     		ggFuture.setFuture(f);
 		}else {
 			int oldPort = this.config.getPort();
