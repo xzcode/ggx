@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,6 +18,8 @@ import com.ggx.rpc.common.Interfaceinfo.returntype.impl.ParamsIndexReturnTypeGen
 import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
+
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 /***
  * 代理接口解析器
@@ -127,7 +130,14 @@ public class InterfaceInfoParser {
 						if (typeParamIndex != null) {
 							genericReturnTypeList.add(new ParamsIndexReturnTypeGenerator(typeParamIndex));
 						}else {
-							genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
+							if (type instanceof WildcardType) {
+								genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
+							}else if(type instanceof TypeVariableImpl) {
+								genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
+							}
+							else {
+								genericReturnTypeList.add(new DefaultReturnTypeGenerator((Class<?>)type));
+							}
 							
 						}
 					}
