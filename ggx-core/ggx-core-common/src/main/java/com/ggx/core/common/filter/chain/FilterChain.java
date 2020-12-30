@@ -17,25 +17,6 @@ public interface FilterChain<T> {
 	void doFilter(T data) throws Throwable;
 	
 	/**
-	 * 添加过滤器
-	 *
-	 * @param filter
-	 * @author zai
-	 * 2020-10-12 11:15:03
-	 */
-	void addFilter(Filter<T> filter);
-	
-	/**
-	 * 移除过滤器
-	 *
-	 * @param filter
-	 * @author zai
-	 * 2020-10-12 11:15:10
-	 */
-	void removeFilter(Filter<T> filter);
-
-	
-	/**
 	 * 设置过滤器集合
 	 *
 	 * @param filters

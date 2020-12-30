@@ -22,10 +22,10 @@ import com.ggx.util.logger.GGXLogUtil;
 
 public class DefaultFilterManager implements FilterManager {
 
-	private PackFilterChain receivePackFilterChain = new PackFilterChain();
-	private MessageFilterChain receiveMessageFilterChain = new MessageFilterChain();
-	private PackFilterChain sendPackFilterChain = new PackFilterChain();
-	private MessageFilterChain sendMessageFilterChain = new MessageFilterChain();
+	private List<Filter<Pack>> receivePackFilters = new ArrayList<>();
+	private List<Filter<MessageData>> receiveMessageFilters = new ArrayList<>();
+	private List<Filter<Pack>> sendPackFilters = new ArrayList<>();
+	private List<Filter<MessageData>> sendMessageFilters = new ArrayList<>();
 
 
 	private ReceivePackFilter finalReceivePackFilter;
@@ -46,22 +46,22 @@ public class DefaultFilterManager implements FilterManager {
 			SendPackFilter finalSendPackChainFilter) {
 		
 		this.finalReceivePackFilter = finalReceivePackFilter;
-		receivePackFilterChain.addFilter(finalReceivePackFilter);
+		receivePackFilters.add(finalReceivePackFilter);
 		
 		this.finalReceiveMessageFilter = finalReceiveMessageFilter;
-		receiveMessageFilterChain.addFilter(finalReceiveMessageFilter);
+		receiveMessageFilters.add(finalReceiveMessageFilter);
 		
 		this.finalSendMessageChainFilter = finalSendMessageChainFilter;
-		sendMessageFilterChain.addFilter(finalSendMessageChainFilter);
+		sendMessageFilters.add(finalSendMessageChainFilter);
 		
 		this.finalSendPackChainFilter = finalSendPackChainFilter;
-		sendPackFilterChain.addFilter(finalSendPackChainFilter);
+		sendPackFilters.add(finalSendPackChainFilter);
 	}
 
 	@Override
 	public GGXFuture<?> doReceiveMessageFilters(MessageData data) {
 		try {
-			this.receiveMessageFilterChain.doFilter(data);
+			new MessageFilterChain(this.receiveMessageFilters).doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Receive Message Filters Error!", e);
@@ -72,7 +72,7 @@ public class DefaultFilterManager implements FilterManager {
 	@Override
 	public GGXFuture<?> doSendMessageFilters(MessageData data) {
 		try {
-			this.sendMessageFilterChain.doFilter(data);
+			new MessageFilterChain(this.sendMessageFilters).doFilter(data);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Send Message Filters Error!", e);
@@ -84,7 +84,7 @@ public class DefaultFilterManager implements FilterManager {
 	@Override
 	public GGXFuture<?> doReceivePackFilters(Pack pack) {
 		try {
-			this.receivePackFilterChain.doFilter(pack);
+			new PackFilterChain(this.receivePackFilters).doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Receive Pack Filters Error!", e);
@@ -95,7 +95,7 @@ public class DefaultFilterManager implements FilterManager {
 	@Override
 	public GGXFuture<?> doSendPackFilters(Pack pack) {
 		try {
-			this.sendPackFilterChain.doFilter(pack);
+			new PackFilterChain(this.sendPackFilters).doFilter(pack);
 			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Send Pack Filters Error!", e);
@@ -113,26 +113,26 @@ public class DefaultFilterManager implements FilterManager {
 			this.receivePackFilterInfos.add((FilterInfo<Pack>) filterInfo);
 			List list = sortFiltersAndGetFilterList(this.receivePackFilterInfos);
 			list.add(finalReceivePackFilter);
-			receivePackFilterChain.setFilters(list);
+			this.receivePackFilters = list;
 			
 		}else
 		if (filter instanceof ReceiveMessageFilter) {
 			this.receiveMessageFilterInfos.add(filterInfo);
 			List list = sortFiltersAndGetFilterList(this.receiveMessageFilterInfos);
 			list.add(finalReceiveMessageFilter);
-			receiveMessageFilterChain.setFilters(list);
+			this.receiveMessageFilters = list;
 		}else
 		if (filter instanceof SendMessageFilter) {
 			this.sendMessageFilterInfos.add((FilterInfo<MessageData>) filterInfo);
 			List list = sortFiltersAndGetFilterList(this.sendMessageFilterInfos);
 			list.add(finalSendMessageChainFilter);
-			sendMessageFilterChain.setFilters(list);
+			this.sendMessageFilters = list;
 		}else
 		if (filter instanceof SendPackFilter) {
 			this.sendPackFilterInfos.add(filterInfo);
 			List list = sortFiltersAndGetFilterList(this.sendPackFilterInfos);
 			list.add(finalSendPackChainFilter);
-			sendPackFilterChain.setFilters(list);
+			this.sendPackFilters = list;
 		}
 		return filterInfo;
 	}
