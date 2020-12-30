@@ -7,7 +7,7 @@ import com.ggx.core.common.filter.chain.FilterChain;
 
 public abstract class AbstractFiterChain <T> implements FilterChain<T> {
 
-	private int filterIndex = 0;
+	private int filterIndex = -1;
 
 	private List<Filter<T>> filters;
 
@@ -17,10 +17,10 @@ public abstract class AbstractFiterChain <T> implements FilterChain<T> {
 
 	@Override
 	public void doFilter(T data) throws Throwable {
-
+		this.filterIndex++;
 		try {
 			filters.get(filterIndex).doFilter(data, this);
-			this.filterIndex++;
+			
 		} catch (Throwable e) {
 			throw e;
 		}
