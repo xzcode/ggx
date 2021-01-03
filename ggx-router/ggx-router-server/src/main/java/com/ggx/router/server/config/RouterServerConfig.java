@@ -50,6 +50,8 @@ public class RouterServerConfig {
 
 	protected String actionIdPrefix;
 	
+	private String[] scanPackages;
+	
 	//忽略处理的指令前缀
 	protected List<String> ignoreActionIdPrefixes = new ArrayList<>();
 
@@ -214,5 +216,12 @@ public class RouterServerConfig {
 		this.hostServer = hostServer;
 	}
 	
+	public String[] getScanPackages() {
+		return scanPackages;
+	}
+	
+	public void setScanPackages(String[] scanPackages) {
+		this.scanPackages = scanPackages;
+	}
 	
 }

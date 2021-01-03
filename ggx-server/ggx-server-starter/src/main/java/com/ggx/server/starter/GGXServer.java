@@ -45,6 +45,7 @@ public class GGXServer implements GGXServerStarter {
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxCoreServerStarter.setRpcClientConfig(config.getRpc().getClient());
 			}
+			ggxCoreServerStarter.getCoreServerConfig().setScanPackages(config.getScanPackages());
 			ggxCoreServerStarter.setRegistryClientConfig(ggxCoreServerStarter.getRegistryClientConfig());
 			ggxCoreServerStarter.init();
 			this.serverStarter = ggxCoreServerStarter;
@@ -77,7 +78,7 @@ public class GGXServer implements GGXServerStarter {
 					ggxRoutingServiceStarter.setRpcServerConfig(config.getRpc().getServer());
 				}
 			}
-
+			config.getRouter().getServer().setScanPackages(config.getScanPackages());
 			ggxRoutingServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
 			ggxRoutingServiceStarter.init();
 			this.serverStarter = ggxRoutingServiceStarter;
@@ -98,6 +99,7 @@ public class GGXServer implements GGXServerStarter {
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxGatewayStarter.setRpcClientConfig(config.getRpc().getClient());
 			}
+			config.getCore().setScanPackages(config.getScanPackages());
 			ggxGatewayStarter.setRouterClientConfig(config.getRouter().getClient());
 			ggxGatewayStarter.init();
 			this.serverStarter = ggxGatewayStarter;

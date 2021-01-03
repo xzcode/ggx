@@ -88,7 +88,9 @@ public class RouterServer implements GGXCoreSupport {
 		
 		
 		this.sessionServiceServer = sessionServerConfig.getServiceServer();
+		this.sessionServiceServer.getConfig().setScanPackages(this.config.getScanPackages());
 		this.sessionServiceServer.getConfig().setIgnoreActionIdPrefixes(config.getIgnoreActionIdPrefixes());
+		
 		
 		
 		//监听session断开传递

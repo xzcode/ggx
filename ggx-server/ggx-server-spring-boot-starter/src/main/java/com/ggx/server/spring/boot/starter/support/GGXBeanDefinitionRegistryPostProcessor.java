@@ -45,7 +45,7 @@ public class GGXBeanDefinitionRegistryPostProcessor
 		ClassGraph classGraph = new ClassGraph();
 		classGraph.enableAllInfo();
 		if (whitelistPackages.length > 0) {
-			classGraph.whitelistPackages(whitelistPackages);
+			classGraph.acceptPackages(whitelistPackages);
 		}
 
 		try (ScanResult scanResult = classGraph.scan()) {

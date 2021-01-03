@@ -70,7 +70,7 @@ public class GGXCoreConfig {
 	protected boolean ggxComponent = false;
 	
 	//扫描包目录
-	protected String[] scanPackages = {};
+	protected String[] scanPackages;
 	
 	//扫描包黑名单
 	protected String[] scanPackageBlacklist = {"java", "org.springframework", "org.apache", "net.sf", "io.netty", "io.protostuff", "com.google", "org.slf4j", "io.github", "nonapi"};
