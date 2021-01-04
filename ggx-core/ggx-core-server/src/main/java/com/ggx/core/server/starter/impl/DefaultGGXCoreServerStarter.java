@@ -7,8 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
@@ -34,6 +34,8 @@ import io.netty.util.concurrent.Future;
  * 2018-12-20 10:17:44
  */
 public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
+	
+	private static boolean SHOWED_LOGO = false;
 	
 	protected static final Logger logger = LoggerFactory.getLogger(DefaultGGXCoreServerStarter.class);
 	
@@ -107,7 +109,10 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     private void handleStartFutureCallback(ServerBootstrap boot, GGXNettyFuture<?> ggFuture, Future<? super Void> f) {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
-    		System.out.println(logoString);
+    		if (!SHOWED_LOGO) {
+    			System.out.println(logoString);
+    			SHOWED_LOGO = true;
+			}
     		System.out.println(config.getServerName() + " started on port " + config.getPort() + "!\n");
     		ggFuture.setFuture(f);
 		}else {

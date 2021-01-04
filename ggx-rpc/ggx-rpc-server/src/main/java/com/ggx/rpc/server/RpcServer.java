@@ -56,14 +56,17 @@ public class RpcServer implements GGXCoreSupport {
 		sessionServerConfig.setPortChangeStrategy(this.config.getPortChangeStrategy());
 		sessionServerConfig.setChangeAndRebootIfPortInUse(this.config.isChangeAndRebootIfPortInUse());
 		sessionServerConfig.setBootWithRandomPort(this.config.isBootWithRandomPort());
-
+		
 		SessionGroupServer sessionGroupServer = new SessionGroupServer(sessionServerConfig);
 		this.config.setSessionGroupServer(sessionGroupServer);
+		
 
 		this.serviceServer = sessionServerConfig.getServiceServer();
 		GGXCoreServerConfig serviceServerConfig = this.serviceServer.getConfig();
 		serviceServerConfig.setGgxComponent(true);
 		this.serviceServer.registerMessageController(new RpcReqHandler(config));
+		
+		sessionServerConfig.getSessionServer().getConfig().setServerName("GGXRpcServer");
 
 		GGXFuture<?> startFuture = sessionGroupServer.start();
 		startFuture.addListener(f -> {
