@@ -15,7 +15,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author zai
  * 2020-06-19 18:33:50
  */
-public class GGXServerSpringPrototypeBeanGenerator implements ApplicationContextAware {
+public class GGXSpringBeanGenerator implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 	
