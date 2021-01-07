@@ -73,6 +73,11 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	public void addDisconnectListener(SessionDisconnectListener listener) {
 		this.disconnectListeners.add(listener);
 	}
+	
+	@Override
+	public void removeDisconnectListener(SessionDisconnectListener listener) {
+		this.disconnectListeners.remove(listener);
+	}
 
 	/**
 	 * 触发断开连接监听器

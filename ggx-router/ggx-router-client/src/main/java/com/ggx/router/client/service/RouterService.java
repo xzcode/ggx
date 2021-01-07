@@ -16,6 +16,7 @@ import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageController;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.listener.SessionDisconnectListener;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -42,6 +43,8 @@ import com.ggx.util.logger.GGXLogUtil;
  * 2019-11-07 16:52:05
  */
 public class RouterService {
+	
+	private static final String DISPATCH_DISCONNECT_LISTENER_KEY = "DISPATCH_DISCONNECT_LISTENER_KEY";
 	
 	protected RouterClientConfig config;
 	
@@ -201,20 +204,26 @@ public class RouterService {
 			}
 			
 			@GGXAction
-			public void handle(RouterSessionDisconnectTransferResp resp) {
+			public void handle(RouterSessionDisconnectTransferResp resp, GGXSession session) {
 				//监听session断开回传
 				String tranferSessionId = resp.getTranferSessionId();
 				
-				//判断是否继续处理会话断开推送传递
-				if (RouterService.this.config.isSessionDisconnectTransferResponseEnabled()) {
-					
-					SessionManager hostServersessionManager = config.getHostServer().getSessionManager();
-					GGXSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
-					if (hostServerSession != null) {
-						hostServerSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
-						hostServerSession.send(resp).addListener(f -> {
-							hostServerSession.disconnect();
-						});
+				SessionManager hostServersessionManager = config.getHostServer().getSessionManager();
+				GGXSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
+				
+				if (hostServerSession != null) {
+					//判断是否继续处理会话断开推送传递
+					if (RouterService.this.config.isSessionDisconnectTransferResponseEnabled()) {
+							hostServerSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
+							hostServerSession.send(resp).addListener(f -> {
+								hostServerSession.disconnect();
+							});
+					}else {
+						// 如果不继续传递断开推送，则移除最初绑定的连接断开监听器，避免多次重复添加监听器造成内存溢出
+						SessionDisconnectListener disconnectListener = session.getAttribute(DISPATCH_DISCONNECT_LISTENER_KEY,SessionDisconnectListener.class);
+						if (disconnectListener != null) {
+							hostServerSession.removeDisconnectListener(disconnectListener);
+						}
 					}
 				}
 			}
@@ -226,6 +235,7 @@ public class RouterService {
 		
 	}
 
+	
 	
 	/**
 	 * 转发消息
@@ -260,18 +270,26 @@ public class RouterService {
 				customClientSession = addSessionIfAbsent;
 			}else {
 				
-				routingSession.addDisconnectListener(sesssion -> {
-					Integer tranType = sesssion.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
-					if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
-						serviceClientSession.disconnect();
-						return;
+				SessionDisconnectListener disconnectListener = new SessionDisconnectListener() {
+					
+					@Override
+					public void onDisconnect(GGXSession session) {
+						Integer tranType = session.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
+						if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
+							serviceClientSession.disconnect();
+							return;
+						}
+						//判断是否开启会话断开传递请求
+						if (RouterService.this.config.isSessionDisconnectTransferRequestEnabled()) {
+							//传递会话断开请求
+							serviceClientSession.send(new RouterSessionDisconnectTransferReq(session.getSessionId()));
+						}
+						
 					}
-					//判断是否开启会话断开传递请求
-					if (this.config.isSessionDisconnectTransferRequestEnabled()) {
-						//传递会话断开请求
-						serviceClientSession.send(new RouterSessionDisconnectTransferReq(sesssion.getSessionId()));
-					}
-				});
+				};
+				
+				routingSession.addDisconnectListener(disconnectListener);
+				customClientSession.addAttribute(DISPATCH_DISCONNECT_LISTENER_KEY, disconnectListener);
 				
 			}
 		}

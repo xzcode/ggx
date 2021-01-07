@@ -158,6 +158,14 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	void addDisconnectListener(SessionDisconnectListener listener);
 	
 	/**
+	 * 移除断开连接监听器
+	 *
+	 * @param listener
+	 * 2021-01-07 16:47:41
+	 */
+	void removeDisconnectListener(SessionDisconnectListener listener);
+	
+	/**
 	 * 是否超时
 	 *
 	 * @return
