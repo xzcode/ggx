@@ -1,8 +1,5 @@
 package com.ggx.core.common.handler.tcp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.Pack;
 import com.ggx.util.logger.GGXLogUtil;

@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 import com.ggx.core.common.channel.DefaultChannelAttributeKeys;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
-import com.ggx.core.common.handler.common.InboundCommonHandler;
-import com.ggx.core.common.handler.common.OutboundCommonHandler;
 import com.ggx.core.common.handler.idle.IdleHandler;
 import com.ggx.core.common.handler.tcp.TcpInboundHandler;
 import com.ggx.core.common.handler.tcp.TcpOutboundHandler;
