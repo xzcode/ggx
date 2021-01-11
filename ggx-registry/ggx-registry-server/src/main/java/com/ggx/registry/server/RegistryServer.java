@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
@@ -20,6 +19,7 @@ import com.ggx.registry.server.handler.RegisterReqHandler;
 import com.ggx.registry.server.handler.ServiceListReqHandler;
 import com.ggx.registry.server.handler.ServiceUpdateReqHandler;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

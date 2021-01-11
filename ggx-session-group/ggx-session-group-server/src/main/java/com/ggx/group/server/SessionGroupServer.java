@@ -3,7 +3,6 @@ package com.ggx.group.server;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
@@ -15,6 +14,7 @@ import com.ggx.group.server.events.ConnCloseEventListener;
 import com.ggx.group.server.handler.AuthReqHandler;
 import com.ggx.group.server.handler.DataTransferReqHandler;
 import com.ggx.group.server.handler.SessionGroupRegisterReqHandler;
+import com.ggx.util.thread.GGXThreadFactory;
 
 /**
  * 会话组服务器启动类

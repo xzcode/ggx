@@ -11,7 +11,6 @@ import com.ggx.core.common.event.EventSupport;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.message.send.support.MakePackSupport;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
@@ -25,6 +24,7 @@ import com.ggx.session.group.client.handler.DataTransferRespHandler;
 import com.ggx.session.group.client.handler.SessionGroupRegisterRespHandler;
 import com.ggx.session.group.client.session.GroupServiceClientSession;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 
 /**
  * 会话组客户端

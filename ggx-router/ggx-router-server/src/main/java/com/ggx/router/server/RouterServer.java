@@ -6,7 +6,6 @@ import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -29,6 +28,7 @@ import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServ
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.router.server.session.RouterServerSession;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

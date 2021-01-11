@@ -8,7 +8,6 @@ import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.config.RegistryClientConfig;
 import com.ggx.registry.client.events.ConnCloseEventListener;
@@ -24,6 +23,7 @@ import com.ggx.registry.common.message.req.RegistryServiceListReq;
 import com.ggx.registry.common.message.req.RegistryServiceUpdateReq;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

@@ -2,7 +2,7 @@ package com.ggx.core.common.executor;
 
 import java.util.concurrent.ThreadFactory;
 
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.DefaultEventLoop;
 import io.netty.channel.EventLoop;

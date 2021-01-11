@@ -7,7 +7,6 @@ import com.ggx.common.controller.req.EventSubscribeReq;
 import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
@@ -20,6 +19,7 @@ import com.ggx.group.common.constant.GGSessionGroupEventConstant;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 
 public class EventbusClient{
 	

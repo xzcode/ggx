@@ -12,7 +12,6 @@ import com.ggx.core.common.event.EventManager;
 import com.ggx.core.common.event.impl.DefaultEventManager;
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.filter.FilterManager;
 import com.ggx.core.common.filter.impl.DefaultFilterManager;
 import com.ggx.core.common.filter.impl.FinalReceiveMessageChainFilter;
@@ -50,6 +49,7 @@ import com.ggx.core.common.session.id.SessionIdGenerator;
 import com.ggx.core.common.session.manager.DefaultSessionManager;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.utils.logger.PackLogger;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;

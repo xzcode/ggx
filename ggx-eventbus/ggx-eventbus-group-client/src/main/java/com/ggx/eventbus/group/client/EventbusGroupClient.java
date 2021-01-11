@@ -8,13 +8,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.ggx.common.constant.EventbusConstant;
 import com.ggx.common.message.EventbusMessage;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.eventbus.client.EventbusClient;
 import com.ggx.eventbus.client.config.EventbusClientConfig;
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

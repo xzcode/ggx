@@ -2,7 +2,6 @@ package com.ggx.rpc.client.config;
 
 import com.ggx.core.common.executor.DefaultTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
@@ -17,6 +16,7 @@ import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.rpc.common.serializer.factory.impl.DefaultParameterSerializerFactory;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;

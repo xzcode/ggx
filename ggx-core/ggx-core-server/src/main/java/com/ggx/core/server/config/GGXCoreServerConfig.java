@@ -4,10 +4,10 @@ import java.util.concurrent.ThreadFactory;
 
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.message.pingpong.GGXPingPongServerEventListener;
 import com.ggx.core.common.message.pingpong.GGXPingPongController;
 import com.ggx.core.server.port.PortChangeStrategy;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.nio.NioEventLoopGroup;
 

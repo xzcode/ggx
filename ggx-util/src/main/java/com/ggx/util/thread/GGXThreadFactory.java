@@ -1,4 +1,4 @@
-package com.ggx.core.common.executor.thread;
+package com.ggx.util.thread;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -1,7 +1,6 @@
 package com.ggx.router.client.config;
 
 import com.ggx.core.common.executor.TaskExecutor;
-import com.ggx.core.common.executor.thread.GGXThreadFactory;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
@@ -22,6 +21,7 @@ import com.ggx.router.client.service.loadblancer.factory.RouterServiceLoadblance
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
+import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
