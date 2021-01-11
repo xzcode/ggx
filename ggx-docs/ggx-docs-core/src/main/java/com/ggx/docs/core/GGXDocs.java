@@ -1,7 +1,6 @@
 package com.ggx.docs.core;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +18,6 @@ import javax.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.message.actionid.impl.DefaultActionIdGenerator;
 import com.ggx.core.common.utils.ClassNameGenerateIdUtil;
 import com.ggx.docs.core.annotation.DocsModel;
 import com.ggx.docs.core.annotation.DocsModelProperty;
@@ -70,8 +68,8 @@ public class GGXDocs {
 		
 		ScanResult scanResult = new ClassGraph()
 				.enableAllInfo()
-				.whitelistPackages(scanPackages)//扫描的路径
-				.blacklistPackages(excludedPackages)//排除的路径
+				.acceptPackages(scanPackages)//扫描的路径
+				.rejectPackages(excludedPackages)//排除的路径
 				.scan();
 
 		// 扫描模型注解

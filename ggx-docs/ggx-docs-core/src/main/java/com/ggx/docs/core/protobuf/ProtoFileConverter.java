@@ -17,15 +17,24 @@ import com.ggx.docs.core.model.Doc;
  * @author zai 2019-12-17 12:32:15
  */
 public interface ProtoFileConverter {
-
+	
 	/**
 	 * 转换成proto文件
+	 *
+	 * @param doc
+	 * @return
+	 * 2021-01-11 11:51:00
+	 */
+	List<ProtoFile> convertToProtoFileList(Doc doc);
+
+	/**
+	 * 转换成proto字符串
 	 * 
 	 * @param model
 	 * @return 返回字符串
 	 * @author zai 2019-12-17 12:33:59
 	 */
-	List<ProtoFile> convertToProtoString(Doc doc);
+	String convertToProtoString(Doc doc);
 
 	/**
 	 * 转换成proto文件并输出到文件
@@ -141,5 +150,7 @@ public interface ProtoFileConverter {
 		}
 		return null;
 	}
+
+	
 
 }
