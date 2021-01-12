@@ -1,1 +1,1 @@
-mvn deploy & pause
+mvn clean deploy & pause
