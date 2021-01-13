@@ -27,6 +27,18 @@ public interface MapDataManager <K, V> {
 	default V put(K key, V value) {
 		return getMap().put(key, value);
 	}
+	
+	/**
+	 * 当不存在的时候进行添加
+	 *
+	 * @param key
+	 * @param value
+	 * @return
+	 * 2021-01-13 11:25:51
+	 */
+	default V putIfAbsent(K key, V value) {
+		return getMap().putIfAbsent(key, value);
+	}
 
 	/**
 	 * 获取

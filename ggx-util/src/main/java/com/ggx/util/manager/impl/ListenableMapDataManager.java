@@ -38,6 +38,15 @@ public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K
 		return oldV;
 	}
 	
+	@Override
+	public V putIfAbsent(K key, V value) {
+		V returnObj = MapDataManager.super.putIfAbsent(key, value);
+		if (returnObj == null) {
+			this.onPutListenerManager.triggerListeners(value);
+		}
+		return returnObj;
+	}
+	
 	
 	@Override
 	public V get(K key) {

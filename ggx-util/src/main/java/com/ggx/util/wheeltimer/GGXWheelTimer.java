@@ -37,6 +37,7 @@ public class GGXWheelTimer {
 		super();
 		this.tickDuration = tickDuration;
 		this.ticksPerWheel = ticksPerWheel;
+		this.init();
 	}
 
 
