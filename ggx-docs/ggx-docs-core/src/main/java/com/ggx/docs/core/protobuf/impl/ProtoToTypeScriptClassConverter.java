@@ -32,7 +32,7 @@ import com.ggx.docs.core.protobuf.ProtoMessage;
  *
  * @author zai 2020-06-20 11:39:38
  */
-public class ProtoToProtobufjsTSClassFileConverter implements ProtoFileConverter {
+public class ProtoToTypeScriptClassConverter implements ProtoFileConverter {
 
 	private static String IMPORT_LINE = "import { Message, Type, Field, OneOf, MapField } from 'protobufjs/light';\n";
 

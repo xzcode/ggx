@@ -30,7 +30,7 @@ import oshi.software.os.OperatingSystem;
  *
  * @author zai 2020-04-21 16:00:49
  */
-public class OSInfoCollector implements DataCollector<OSInfo> {
+public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 
 	// 系统信息对象
 	protected SystemInfo si = new SystemInfo();

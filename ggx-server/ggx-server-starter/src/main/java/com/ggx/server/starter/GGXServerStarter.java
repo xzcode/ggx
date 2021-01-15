@@ -5,6 +5,7 @@ import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.registry.client.RegistryClient;
 
 public interface GGXServerStarter extends GGXCoreSupport{
 	
@@ -80,5 +81,14 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * 2020-10-13 14:50:15
 	 */
 	GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session);
+
+
+	/**
+	 * 获取注册中心客户端对象
+	 *
+	 * @return
+	 * 2021-01-15 18:49:56
+	 */
+	RegistryClient getRegistryClient();
 
 }

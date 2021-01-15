@@ -5,6 +5,7 @@ import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.registry.client.RegistryClient;
 import com.ggx.server.starter.config.GGXServerConfig;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
@@ -188,6 +189,11 @@ public class GGXServer implements GGXServerStarter {
 
 	public GGXServerConfig getConfig() {
 		return config;
+	}
+
+	@Override
+	public RegistryClient getRegistryClient() {
+		return this.serverStarter.getRegistryClient();
 	}
 
 }
