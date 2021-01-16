@@ -8,11 +8,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationFailedEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationPrepareEventListener;
 import com.ggx.server.spring.boot.starter.event.GGXServerSpringBootApplicationStartedEventListener;
+import com.ggx.server.spring.boot.starter.rpc.GGXRpcScannerRegistrar;
 import com.ggx.server.spring.boot.starter.support.GGXAnnotationComponentScanner;
-import com.ggx.server.spring.boot.starter.support.GGXBeanDefinitionRegistryPostProcessor;
 import com.ggx.server.spring.boot.starter.support.GGXSpringBeanGenerator;
 import com.ggx.server.starter.GGXServer;
 import com.ggx.server.starter.config.GGXServerConfig;
@@ -23,73 +25,67 @@ import com.ggx.server.starter.config.GGXServerRpcConfigModel;
 public class GGXServerSpringBootAutoConfiguration implements ApplicationContextAware {
 
 	protected ApplicationContext applicationContext;
-	
+
 	@Bean
 	public static GGXAnnotationComponentScanner ggxAnnotationComponentScanner() {
 		return new GGXAnnotationComponentScanner();
 	}
+
 	@Bean
-	public static GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor() {
-		return new GGXBeanDefinitionRegistryPostProcessor();
+	public static GGXRpcScannerRegistrar rpcBeanDefinitionRegistrar() {
+		return new GGXRpcScannerRegistrar();
 	}
-	
+
+	@Bean
+	public static RpcClientConfig rpcClientConfig() {
+		return new RpcClientConfig();
+	}
+
+	@Bean
+	public static RpcServerConfig rpcServerConfig() {
+		return new RpcServerConfig();
+	}
+
 	@ConfigurationProperties(prefix = "ggx")
 	@Bean
-	public GGXServerConfig ggxserverConfig() {
-		
-		GGXBeanDefinitionRegistryPostProcessor ggxBeanDefinitionRegistryPostProcessor = applicationContext.getBean(GGXBeanDefinitionRegistryPostProcessor.class);
+	public GGXServerConfig ggxserverConfig(RpcClientConfig rpcClientConfig, RpcServerConfig rpcServerConfig) {
+
 		GGXServerConfig config = new GGXServerConfig();
 		config.setRpc(new GGXServerRpcConfigModel());
-		config.getRpc().setClient(ggxBeanDefinitionRegistryPostProcessor.getRpcClientConfig());
-		config.getRpc().setServer(ggxBeanDefinitionRegistryPostProcessor.getRpcServerConfig());
+		config.getRpc().setClient(rpcClientConfig);
+		config.getRpc().setServer(rpcServerConfig);
 		return config;
 	}
-	
+
 	@Bean
-	public GGXServer ggxserver() {
-		GGXServer ggxserver = new GGXServer(ggxserverConfig());
+	public GGXServer ggxserver(GGXServerConfig ggxserverConfig) {
+		GGXServer ggxserver = new GGXServer(ggxserverConfig);
 		return ggxserver;
 	}
-	
-	
+
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 
-	
-	public boolean checkPackage(Class<?> checkClass, String[] scanPackages) {
-		if (scanPackages != null && scanPackages.length > 0) {
-			String className = checkClass.getName();
-			for (String packa : scanPackages) {
-				if (className.startsWith(packa)) {
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
-	
 	@Bean
 	public GGXSpringBeanGenerator ggxSpringBeanGenerator() {
 		return new GGXSpringBeanGenerator();
 	}
+
 	@Bean
 	public GGXServerSpringBootApplicationStartedEventListener applicationReadyEventListener() {
 		return new GGXServerSpringBootApplicationStartedEventListener();
 	}
-	
+
 	@Bean
 	public GGXServerSpringBootApplicationFailedEventListener applicationFailedEventListener() {
 		return new GGXServerSpringBootApplicationFailedEventListener();
 	}
+
 	@Bean
 	public GGXServerSpringBootApplicationPrepareEventListener applicationPrepareEventListener() {
 		return new GGXServerSpringBootApplicationPrepareEventListener();
 	}
-
-	
-
 
 }

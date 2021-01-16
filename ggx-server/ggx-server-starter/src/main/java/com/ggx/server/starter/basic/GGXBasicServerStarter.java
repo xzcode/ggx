@@ -169,6 +169,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		this.registryClientConfig = registryClientConfig;
 	}
 
+	@Override
 	public RegistryClient getRegistryClient() {
 		return registryClient;
 	}

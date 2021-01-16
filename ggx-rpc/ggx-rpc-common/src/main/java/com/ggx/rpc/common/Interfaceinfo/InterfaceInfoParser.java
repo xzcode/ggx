@@ -15,11 +15,9 @@ import java.util.Map;
 import com.ggx.rpc.common.Interfaceinfo.returntype.ReturnTypeGenerator;
 import com.ggx.rpc.common.Interfaceinfo.returntype.impl.DefaultReturnTypeGenerator;
 import com.ggx.rpc.common.Interfaceinfo.returntype.impl.ParamsIndexReturnTypeGenerator;
-import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
 
-import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 /***
  * 代理接口解析器
@@ -36,15 +34,13 @@ public class InterfaceInfoParser {
 
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
 
-		GGXRpcService annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcService.class);
-		if (annotatedRpcInterface != null) {
-			Class<?> fallback = annotatedRpcInterface.fallback();
-			if (fallback != null) {
-				interfaceInfo.setFallbackClass(fallback);
-				interfaceInfo.setFallbackClassName(fallback.getCanonicalName());
-			}
-		}
-
+		//GGXRpcService annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcService.class);
+		/*
+		 * if (annotatedRpcInterface != null) { Class<?> fallback =
+		 * annotatedRpcInterface.fallback(); if (fallback != null) {
+		 * interfaceInfo.setFallbackClass(fallback);
+		 * interfaceInfo.setFallbackClassName(fallback.getCanonicalName()); } }
+		 */
 		Map<String, Method> methods = new HashMap<>();
 		// 方法
 		Map<Method, Class<?>[]> methodParamTypes = new HashMap<>();
@@ -132,7 +128,7 @@ public class InterfaceInfoParser {
 						}else {
 							if (type instanceof WildcardType) {
 								genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
-							}else if(type instanceof TypeVariableImpl) {
+							}else if(type instanceof TypeVariable) {
 								genericReturnTypeList.add(new DefaultReturnTypeGenerator(Object.class));
 							}
 							else {

@@ -85,6 +85,10 @@ public class RpcClientConfig {
 	//RPC方法回调管理器
 	protected RpcMethodCallbackManager rpcMethodCallbackManager = new RpcMethodCallbackManager(this);
 	
+	public RpcClientConfig() {
+		System.out.println();
+	}
+	
 
 	public void init() {
 		

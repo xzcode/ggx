@@ -127,7 +127,7 @@ public class InvocationManager extends ListenableMapDataManager<String, Invocati
 		for (Entry<String, InvocationInfo> entry : this.getMap().entrySet()) {
 			InvocationInfo info = entry.getValue();
 			InterfaceInfo interfaceInfo = info.getInterfaceInfo();
-			list.add(new InterfaceInfoModel(interfaceInfo.getInterfaceName(), interfaceInfo.getFallbackClass().getCanonicalName()));
+			list.add(new InterfaceInfoModel(interfaceInfo.getInterfaceName()));
 		}
 		return list;
 	}
