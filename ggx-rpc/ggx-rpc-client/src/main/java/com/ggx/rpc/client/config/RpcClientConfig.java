@@ -5,12 +5,14 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.rpc.client.RpcClient;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
-import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
-import com.ggx.rpc.client.service.RpcServiceClassCache;
 import com.ggx.rpc.client.service.RpcServiceManager;
+import com.ggx.rpc.client.service.cache.InterfaceServiceCrossGroupCache;
+import com.ggx.rpc.client.service.cache.InterfaceServiceGroupCache;
+import com.ggx.rpc.client.service.cache.RpcServiceClassCache;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.fallback.DefaultFallbackInstanceFactory;
 import com.ggx.rpc.client.service.fallback.FallbackInstanceFactory;
+import com.ggx.rpc.client.service.group.RpcServiceCrossGroupManager;
 import com.ggx.rpc.client.service.provider.RpcServiceProvider;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
@@ -73,6 +75,12 @@ public class RpcClientConfig {
 	//接口与rpc服务关联缓存
 	protected InterfaceServiceGroupCache interfaceServiceGroupCache = new  InterfaceServiceGroupCache();
 	
+	//接口与rpc跨组服务关联缓存
+	protected InterfaceServiceCrossGroupCache interfaceServiceCrossGroupCache = new  InterfaceServiceCrossGroupCache();
+	
+	//接口与rpc跨组服务管理器
+	protected RpcServiceCrossGroupManager serviceCrossGroupManager = new  RpcServiceCrossGroupManager();
+	
 	//rpc服务相关类型缓存
 	protected RpcServiceClassCache classCache = new  RpcServiceClassCache();
 	
@@ -86,7 +94,6 @@ public class RpcClientConfig {
 	protected RpcMethodCallbackManager rpcMethodCallbackManager = new RpcMethodCallbackManager(this);
 	
 	public RpcClientConfig() {
-		System.out.println();
 	}
 	
 
@@ -235,6 +242,20 @@ public class RpcClientConfig {
 	}
 	public void setInterfaceServiceGroupCache(InterfaceServiceGroupCache interfaceServiceCache) {
 		this.interfaceServiceGroupCache = interfaceServiceCache;
+	}
+	
+	public InterfaceServiceCrossGroupCache getInterfaceServiceCrossGroupCache() {
+		return interfaceServiceCrossGroupCache;
+	}
+	public void setInterfaceServiceCrossGroupCache(InterfaceServiceCrossGroupCache interfaceServiceCrossGroupCache) {
+		this.interfaceServiceCrossGroupCache = interfaceServiceCrossGroupCache;
+	}
+	
+	public RpcServiceCrossGroupManager getServiceCrossGroupManager() {
+		return serviceCrossGroupManager;
+	}
+	public void setServiceCrossGroupManager(RpcServiceCrossGroupManager serviceCrossGroupManager) {
+		this.serviceCrossGroupManager = serviceCrossGroupManager;
 	}
 	
 	public RpcServiceClassCache getClassCache() {

@@ -6,17 +6,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE})
+/**
+ * 目标服务组参数注解
+ *
+ * 2021-01-17 11:35:48
+ */
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface GGXRpcService {
-	
-	/**
-	 * 跨组名称
-	 *
-	 * @return
-	 * 2021-01-17 11:57:31
-	 */
-	String crossGroup() default "";
-	
+public @interface GGXRpcTargetGroup {
 }

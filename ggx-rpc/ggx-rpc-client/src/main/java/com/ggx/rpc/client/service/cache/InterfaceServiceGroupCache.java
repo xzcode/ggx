@@ -1,4 +1,4 @@
-package com.ggx.rpc.client.service;
+package com.ggx.rpc.client.service.cache;
 
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.util.manager.impl.ListenableMapDataManager;

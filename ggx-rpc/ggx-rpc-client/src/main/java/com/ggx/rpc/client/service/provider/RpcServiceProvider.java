@@ -7,9 +7,12 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.registry.common.service.ServiceInfo;
 import com.ggx.registry.common.service.ServiceManager;
 import com.ggx.rpc.client.config.RpcClientConfig;
-import com.ggx.rpc.client.service.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.RpcService;
-import com.ggx.rpc.client.service.RpcServiceClassCache;
+import com.ggx.rpc.client.service.cache.InterfaceServiceCrossGroupCache;
+import com.ggx.rpc.client.service.cache.InterfaceServiceGroupCache;
+import com.ggx.rpc.client.service.cache.RpcServiceClassCache;
+import com.ggx.rpc.client.service.group.RpcServiceCrossGroup;
+import com.ggx.rpc.client.service.group.RpcServiceCrossGroupManager;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.rpc.client.service.loadbalancer.impl.ConsistentHashingRpcServiceLoadbalancer;
 import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
@@ -46,6 +49,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 					rpcServiceGroup.remove(rpcServiceId);
 				}
 			}
+			
 		});
 
 		serviceManager.addUpdateListener(service -> {
@@ -100,6 +104,8 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 		Integer rpcServicePort = Integer.valueOf(servicePortString);
 
 		InterfaceServiceGroupCache interfaceServiceCache = this.config.getInterfaceServiceGroupCache();
+		InterfaceServiceCrossGroupCache interfaceServiceCrossGroupCache = this.config.getInterfaceServiceCrossGroupCache();
+		RpcServiceCrossGroupManager serviceCrossGroupManager = this.config.getServiceCrossGroupManager();
 		RpcServiceClassCache classCache = this.config.getClassCache();
 		RpcServiceGroup serviceGroup = this.get(rpcServiceGroupId);
 		boolean newGroup = false;
@@ -155,9 +161,29 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				String interfaceName = info.getInterfaceName();
 				Class<?> interfaceClass = classCache.get(interfaceName);
 				if (interfaceClass != null) {
-					// 接口服务组缓存
-					interfaceServiceCache.put(interfaceClass, serviceGroup);
+
+					String crossGroup = info.getCrossGroup();
+					// 判断是否为跨组接口
+					if (crossGroup != null && !crossGroup.isEmpty()) {
+						RpcServiceCrossGroup serviceCrossGroup = serviceCrossGroupManager.get(crossGroup);
+						if (serviceCrossGroup == null) {
+							serviceCrossGroup = new RpcServiceCrossGroup(crossGroup);
+							serviceCrossGroupManager.put(crossGroup, serviceCrossGroup);
+						}
+						
+						serviceCrossGroup.put(serviceGroup.getServiceGroupId(), serviceGroup);
+						
+						// 纳入跨组缓存
+						interfaceServiceCrossGroupCache.put(interfaceClass, serviceCrossGroup);
+						
+					}else {
+						
+						// 接口服务组缓存
+						interfaceServiceCache.put(interfaceClass, serviceGroup);
+					}
 				}
+				
+				
 			}
 
 		}

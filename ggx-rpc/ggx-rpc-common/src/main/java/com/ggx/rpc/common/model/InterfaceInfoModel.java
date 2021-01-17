@@ -4,6 +4,8 @@ public class InterfaceInfoModel {
 	
 	private String interfaceName;
 	
+	private String crossGroup;
+	
 	
 	public InterfaceInfoModel() {
 	}
@@ -15,6 +17,14 @@ public class InterfaceInfoModel {
 	}
 	public void setInterfaceName(String interfaceName) {
 		this.interfaceName = interfaceName;
+	}
+	
+	public String getCrossGroup() {
+		return crossGroup;
+	}
+	
+	public void setCrossGroup(String crossGroup) {
+		this.crossGroup = crossGroup;
 	}
 
 }

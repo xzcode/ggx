@@ -15,6 +15,9 @@ public class InterfaceInfo {
 
 	// 接口名称
 	protected String interfaceName;
+	
+	// 跨组名称
+	protected String crossGroup;
 
 	// 接口class
 	protected Class<?> interfaceClass;
@@ -33,6 +36,9 @@ public class InterfaceInfo {
 	
 	// 方法指定服务id参数下标集合
 	protected Map<Method, Integer> methodTargetServiceParamIndexes;
+	
+	// 方法指定服务组id参数下标集合
+	protected Map<Method, Integer> methodTargetGroupParamIndexes;
 
 	// 方法异步集合
 	protected Map<Method, Boolean> methodAsyncMap;
@@ -132,6 +138,22 @@ public class InterfaceInfo {
 
 	public void setMethodGenericReturnTypes(Map<Method, List<ReturnTypeGenerator>> methodGenericReturnTypes) {
 		this.methodGenericReturnTypes = methodGenericReturnTypes;
+	}
+	
+	public Map<Method, Integer> getMethodTargetGroupParamIndexes() {
+		return methodTargetGroupParamIndexes;
+	}
+	
+	public void setMethodTargetGroupParamIndexes(Map<Method, Integer> methodTargetGroupParamIndexes) {
+		this.methodTargetGroupParamIndexes = methodTargetGroupParamIndexes;
+	}
+	
+	public String getCrossGroup() {
+		return crossGroup;
+	}
+	
+	public void setCrossGroup(String crossGroup) {
+		this.crossGroup = crossGroup;
 	}
 	
 	

@@ -15,9 +15,10 @@ import java.util.Map;
 import com.ggx.rpc.common.Interfaceinfo.returntype.ReturnTypeGenerator;
 import com.ggx.rpc.common.Interfaceinfo.returntype.impl.DefaultReturnTypeGenerator;
 import com.ggx.rpc.common.Interfaceinfo.returntype.impl.ParamsIndexReturnTypeGenerator;
+import com.ggx.rpc.common.annotation.GGXRpcService;
+import com.ggx.rpc.common.annotation.GGXRpcTargetGroup;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
-
 
 /***
  * 代理接口解析器
@@ -34,7 +35,11 @@ public class InterfaceInfoParser {
 
 		interfaceInfo.setInterfaceName(proxyInterface.getCanonicalName());
 
-		//GGXRpcService annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcService.class);
+		GGXRpcService annotatedRpcInterface = proxyInterface.getAnnotation(GGXRpcService.class);
+		String crossGroup = annotatedRpcInterface.crossGroup();
+		if (!crossGroup.trim().isEmpty()) {
+			interfaceInfo.setCrossGroup(crossGroup.trim());
+		}
 		/*
 		 * if (annotatedRpcInterface != null) { Class<?> fallback =
 		 * annotatedRpcInterface.fallback(); if (fallback != null) {
@@ -55,6 +60,9 @@ public class InterfaceInfoParser {
 		
 		// 方法指定服务id参数下标集合
 		Map<Method, Integer> methodTargetServiceParamIndexes = new HashMap<>();
+		
+		// 方法指定服务组id参数下标集合
+		Map<Method, Integer> methodTargetGroupParamIndexes = new HashMap<>();
 
 		// 返回类型泛型集合
 		//Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
@@ -83,6 +91,7 @@ public class InterfaceInfoParser {
 					}
 				}
 				boolean findGGXRpcTargetService =false;
+				boolean findGGXRpcTargetGroup =false;
 				Annotation[] annos = parameterAnnotations[i];
 				if (annos != null && annos.length > 0) {
 					for (int j = 0; j < annos.length; j++) {
@@ -93,11 +102,15 @@ public class InterfaceInfoParser {
 							findGGXRpcTargetService = true;
 							break;
 						}
+						if (curAnn.annotationType() == GGXRpcTargetGroup.class) {
+							methodTargetGroupParamIndexes.put(mtd, i);
+							findGGXRpcTargetGroup = true;
+							break;
+						}
 					}
-					
 				}
 				
-				if (findGGXRpcTargetService) {
+				if (findGGXRpcTargetService && findGGXRpcTargetGroup) {
 					break;
 				}
 			}
@@ -134,14 +147,11 @@ public class InterfaceInfoParser {
 							else {
 								genericReturnTypeList.add(new DefaultReturnTypeGenerator((Class<?>)type));
 							}
-							
 						}
 					}
 					methodGenericReturnTypes.put(mtd, genericReturnTypeList);
 				}
-				
 			}
-			
 		}
 
 		interfaceInfo.setMethods(methods);
@@ -149,12 +159,13 @@ public class InterfaceInfoParser {
 		interfaceInfo.setMethodReturnClasses(methodReturnClasses);
 		interfaceInfo.setMethodGenericReturnTypes(methodGenericReturnTypes);
 		interfaceInfo.setMethodTargetServiceParamIndexes(methodTargetServiceParamIndexes);
+		interfaceInfo.setMethodTargetGroupParamIndexes(methodTargetGroupParamIndexes);
 		
 		return interfaceInfo;
 	}
 
 	public String makeMethodName(Method method, Class<?>[] parameterTypes) {
-		StringBuilder sb = new StringBuilder(32);
+		StringBuilder sb = new StringBuilder(128);
 		sb.append(method.getName()).append("(");
 		if (parameterTypes != null && parameterTypes.length > 0) {
 			for (Class<?> paramType : parameterTypes) {
