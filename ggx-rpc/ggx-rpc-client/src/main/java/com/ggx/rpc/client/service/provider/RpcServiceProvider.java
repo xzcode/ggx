@@ -134,7 +134,18 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 				if (fServiceGroup.size() == 0) {
 					this.remove(fServiceGroup.getServiceGroupId());
 					for (InterfaceInfoModel info : interfaceInfos) {
-						interfaceServiceCache.remove(classCache.get(info.getInterfaceName()));
+						Class<?> interfaceClass = classCache.get(info.getInterfaceName());
+						interfaceServiceCache.remove(interfaceClass);
+						
+						interfaceServiceCrossGroupCache.remove(interfaceClass);
+						
+						String crossGroup = info.getCrossGroup();
+						if (crossGroup != null && !crossGroup.isEmpty()) {
+							RpcServiceCrossGroup serviceCrossGroup = serviceCrossGroupManager.get(crossGroup);
+							if (serviceCrossGroup != null) {
+								serviceCrossGroup.remove(fServiceGroup.getServiceGroupId());
+							}
+						}
 					}
 				}
 			});
@@ -182,10 +193,7 @@ public class RpcServiceProvider extends ListenableMapDataManager<String, RpcServ
 						interfaceServiceCache.put(interfaceClass, serviceGroup);
 					}
 				}
-				
-				
 			}
-
 		}
 
 		rpcService.init();

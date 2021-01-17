@@ -15,9 +15,11 @@ import com.ggx.rpc.client.exception.RpcServiceSendMessageFailedException;
 import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.RpcService;
+import com.ggx.rpc.client.service.cache.InterfaceServiceCrossGroupCache;
 import com.ggx.rpc.client.service.cache.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
+import com.ggx.rpc.client.service.group.RpcServiceCrossGroup;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
@@ -31,6 +33,7 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 
 	private RpcClientConfig config;
 	private InterfaceServiceGroupCache interfaceServiceGroupCache;
+	private InterfaceServiceCrossGroupCache interfaceServiceCrossGroupCache;
 	private RpcProxyManager proxyManager;
 	private InterfaceInfoParser interfaceInfoParser;
 	private ParameterSerializerFactory serializerFactory;
@@ -40,6 +43,7 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 	public DefaultProxyInvocationHandler(RpcClientConfig config, Class<?> serviceInterface) {
 		this.config = config;
 		this.interfaceServiceGroupCache = this.config.getInterfaceServiceGroupCache();
+		this.interfaceServiceCrossGroupCache = this.config.getInterfaceServiceCrossGroupCache();
 		this.proxyManager = this.config.getProxyManager();
 		this.interfaceInfoParser = this.config.getInterfaceInfoParser();
 		this.serializerFactory = this.config.getParameterSerializerFactory();
@@ -74,10 +78,25 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 				}
 				return proxyMethod.invoke(fallbackObj, args);
 			}
+			RpcServiceGroup group = null;
+			
+			String crossGroup = interfaceInfo.getCrossGroup();
+			
+			if (crossGroup != null && !crossGroup.isEmpty()) {
+				RpcServiceCrossGroup rpcServiceCrossGroup = interfaceServiceCrossGroupCache.get(serviceInterface);
+				Integer groupParamIndex = interfaceInfo.getMethodTargetGroupParamIndexes().get(method);
+				if (groupParamIndex != null) {
+					 String serviceGroupId = String.valueOf(args[groupParamIndex]);
+					 group = rpcServiceCrossGroup.get(serviceGroupId);
+				}else {
+					group = rpcServiceCrossGroup.getRandomOne();
+				}
+			}else {
+				group = interfaceServiceGroupCache.get(serviceInterface);
+			}
 	
 			Class<?>[] paramTypes = proxyInfo.getInterfaceInfo().getMethodParamTypes().get(method);
 	
-			RpcServiceGroup group = interfaceServiceGroupCache.get(serviceInterface);
 			RpcService rpcService = null;
 			String serviceId = null;
 			if (group != null) {

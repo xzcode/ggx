@@ -105,7 +105,7 @@ public class GGXCoreConfig {
 
 	protected long allIdleTime = 5000;
 
-	protected int maxDataLength = 4 * 1024 *1024;
+	protected int maxDataLength = 16 * 1024 *1024;
 
 	protected String protocolType = ProtocolTypeConstants.MIXED;
 

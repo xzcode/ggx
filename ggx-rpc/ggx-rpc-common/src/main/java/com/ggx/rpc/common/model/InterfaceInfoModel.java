@@ -12,6 +12,12 @@ public class InterfaceInfoModel {
 	public InterfaceInfoModel(String interfaceName) {
 		this.interfaceName = interfaceName;
 	}
+	
+	public InterfaceInfoModel(String interfaceName, String crossGroup) {
+		super();
+		this.interfaceName = interfaceName;
+		this.crossGroup = crossGroup;
+	}
 	public String getInterfaceName() {
 		return interfaceName;
 	}
