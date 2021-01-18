@@ -1,7 +1,11 @@
 package com.ggx.rpc.client;
 
+import java.util.List;
+
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
+import com.ggx.rpc.client.service.RpcService;
+import com.ggx.rpc.client.service.group.RpcServiceGroup;
 
 public class RpcClient{
 	
@@ -39,6 +43,10 @@ public class RpcClient{
 		if (this.config.getTaskExecutor() != null && this.config.getTaskExecutor().getEventLoopGroup() != null) {
 			this.config.getTaskExecutor().getEventLoopGroup().shutdownGracefully();
 		}
+	}
+	
+	public List<RpcServiceGroup> getAllRpcServiceGroup() {
+		return this.config.getServiceManager().getList();
 	}
 
 	

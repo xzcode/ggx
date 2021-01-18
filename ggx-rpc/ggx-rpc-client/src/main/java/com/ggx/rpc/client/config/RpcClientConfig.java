@@ -13,7 +13,6 @@ import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.fallback.DefaultFallbackInstanceFactory;
 import com.ggx.rpc.client.service.fallback.FallbackInstanceFactory;
 import com.ggx.rpc.client.service.group.RpcServiceCrossGroupManager;
-import com.ggx.rpc.client.service.provider.RpcServiceProvider;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.constant.RpcConstant;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
@@ -64,10 +63,7 @@ public class RpcClientConfig {
 	protected RpcProxyManager proxyManager = new  RpcProxyManager(this);
 	
 	//代理服务管理器
-	protected RpcServiceManager serviceManager = new  RpcServiceManager(this);
-	
-	//代理服务供应器
-	protected RpcServiceProvider serviceProvider;
+	protected RpcServiceManager serviceManager;
 	
 	//接口信息解析器
 	protected InterfaceInfoParser interfaceInfoParser = new  InterfaceInfoParser();
@@ -108,11 +104,10 @@ public class RpcClientConfig {
 			this.setTaskExecutor(new DefaultTaskExecutor(this.getSharedEventLoopGroup()));
 		}
 		
-		if (this.getRegistryClient() != null) {
-			if (this.getServiceProvider() == null) {
-				this.setServiceProvider(new RpcServiceProvider(this));
-			}
+		if (this.serviceManager == null) {
+			this.serviceManager = new  RpcServiceManager(this);
 		}
+		
 	}
 
 
@@ -202,14 +197,6 @@ public class RpcClientConfig {
 	
 	public void setServiceManager(RpcServiceManager serviceManager) {
 		this.serviceManager = serviceManager;
-	}
-	
-	public RpcServiceProvider getServiceProvider() {
-		return serviceProvider;
-	}
-	
-	public void setServiceProvider(RpcServiceProvider serviceProvider) {
-		this.serviceProvider = serviceProvider;
 	}
 
 	public RegistryClient getRegistryClient() {

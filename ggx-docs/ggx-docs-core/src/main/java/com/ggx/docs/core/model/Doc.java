@@ -43,7 +43,9 @@ public class Doc {
 	}
 
 	public void setActionIdPrefix(String actionIdPrefix) {
-		this.actionIdPrefix = actionIdPrefix;
+		if (actionIdPrefix != null) {
+			this.actionIdPrefix = actionIdPrefix;
+		}
 	}
 
 	public String getMessageModelPrefix() {
@@ -51,7 +53,9 @@ public class Doc {
 	}
 
 	public void setMessageModelPrefix(String messageModelPrefix) {
-		this.messageModelPrefix = messageModelPrefix;
+		if (messageModelPrefix != null) {
+			this.messageModelPrefix = messageModelPrefix;
+		}
 	}
 
 	public void setNamespaces(Map<String, Namespace> namespaces) {

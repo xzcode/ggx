@@ -1,12 +1,18 @@
 package com.ggx.server.starter;
 
 import com.ggx.core.common.future.GGXFuture;
+
+import java.util.List;
+
 import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.rpc.client.config.RpcClientConfig;
+import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.server.starter.config.GGXServerConfig;
+import com.ggx.server.starter.config.GGXServerRpcConfigModel;
 import com.ggx.server.starter.constant.GGXServerMode;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
 import com.ggx.server.starter.eventbus.GGXEventbusServerStarter;
@@ -99,6 +105,9 @@ public class GGXServer implements GGXServerStarter {
 			}
 			if (config.getRpc() != null && config.getRpc().getClient() != null) {
 				ggxGatewayStarter.setRpcClientConfig(config.getRpc().getClient());
+			}
+			if (config.getRpc().getServer() != null) {
+				ggxGatewayStarter.setRpcServerConfig(config.getRpc().getServer());
 			}
 			config.getCore().setScanPackages(config.getScanPackages());
 			ggxGatewayStarter.setRouterClientConfig(config.getRouter().getClient());
@@ -194,6 +203,18 @@ public class GGXServer implements GGXServerStarter {
 	@Override
 	public RegistryClient getRegistryClient() {
 		return this.serverStarter.getRegistryClient();
+	}
+	
+	public List<RpcServiceGroup> getAllRpcServiceGroup() {
+		GGXServerRpcConfigModel rpc = this.config.getRpc();
+		if (rpc == null) {
+			return null;
+		}
+		RpcClientConfig client = rpc.getClient();
+		if (client == null) {
+			return null;
+		}
+		return client.getServiceManager().getList();
 	}
 
 }

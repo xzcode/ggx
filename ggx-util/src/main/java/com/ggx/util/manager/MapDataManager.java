@@ -1,9 +1,11 @@
 package com.ggx.util.manager;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import com.ggx.util.interfaces.ForEach;
 
@@ -98,6 +100,16 @@ public interface MapDataManager <K, V> {
 	 */
 	default void ForEach(ForEach<V> one) {
 		this.getMap().entrySet().forEach(e -> one.each(e.getValue()));
+	}
+	
+	/**
+	 * 获取list
+	 *
+	 * @return
+	 * 2021-01-18 11:06:44
+	 */
+	default List<V> getList() {
+		return this.getMap().entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
 	}
 
 }
