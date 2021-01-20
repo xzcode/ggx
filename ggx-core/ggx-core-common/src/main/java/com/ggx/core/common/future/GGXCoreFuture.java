@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -72,7 +73,6 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 				listeners.add(listener);
 			}
 		}
-
 	}
 
 	@Override
@@ -127,6 +127,9 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 			GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", e);
 		}
 		if (this.cause() != null) {
+			if (this.cause instanceof GGXNoStackTraceRuntimeException) {
+				GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", cause);
+			}
 			throw new RuntimeException(this.cause());
 		}
 		return (T) this.data;

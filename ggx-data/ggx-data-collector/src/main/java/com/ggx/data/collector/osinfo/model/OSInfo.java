@@ -40,10 +40,13 @@ public class OSInfo {
 
 	// 文件系统存储信息
 	private List<FileStoreInfo> fileStoreInfos;
-
+	
 	// 网络信息
 	private List<NetworkInfo> networkInfos;
 
+	// 网络信息
+	private List<JvmThreadInfo> jvmThreadInfos;
+	
 	// 初始化堆内存
 	private long jvmHeapMemoryUsageInit;
 
@@ -247,7 +250,13 @@ public class OSInfo {
 		this.jvmCpuUse = jvmCpuUse;
 	}
 	
+	public List<JvmThreadInfo> getJvmThreadInfos() {
+		return jvmThreadInfos;
+	}
 	
+	public void setJvmThreadInfos(List<JvmThreadInfo> jvmThreadInfos) {
+		this.jvmThreadInfos = jvmThreadInfos;
+	}
 	
 
 }

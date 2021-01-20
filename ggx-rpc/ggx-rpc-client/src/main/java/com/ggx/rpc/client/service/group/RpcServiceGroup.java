@@ -17,6 +17,8 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	//rpc组id
 	protected String serviceGroupId;
 	
+	protected String serviceGroupName;
+	
 	protected RpcServiceLoadbalancer loadblancer;
 	
 	public RpcServiceGroup(String serviceGroupId) {
@@ -49,4 +51,11 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 		return loadblancer;
 	}
 
+	public String getServiceGroupName() {
+		return serviceGroupName;
+	}
+	
+	public void setServiceGroupName(String serviceGroupName) {
+		this.serviceGroupName = serviceGroupName;
+	}
 }

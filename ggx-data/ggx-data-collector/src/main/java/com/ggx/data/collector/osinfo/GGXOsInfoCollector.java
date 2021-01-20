@@ -3,6 +3,7 @@ package com.ggx.data.collector.osinfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ggx.data.collector.DataCollector;
 import com.ggx.data.collector.osinfo.model.FileStoreInfo;
+import com.ggx.data.collector.osinfo.model.JvmThreadInfo;
 import com.ggx.data.collector.osinfo.model.NetworkInfo;
 import com.ggx.data.collector.osinfo.model.OSInfo;
 
@@ -78,10 +80,13 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	protected String cpuInfo = this.getCpuInfo();
 
 	// 文件系统信息集合
-	protected List<FileStoreInfo> fileStoreInfos;;
-
+	protected List<FileStoreInfo> fileStoreInfos;
+	
 	// 网络信息集合
-	protected List<NetworkInfo> networkInfos;;
+	protected List<NetworkInfo> networkInfos;
+
+	// JVM线程集合
+	protected List<JvmThreadInfo> jvmThreadInfos;
 
 	// 上一个时间点的cpu时钟信息
 	protected long[] prevTicks = processor.getSystemCpuLoadTicks();
@@ -103,6 +108,7 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 
 		//包装数据
 		OSInfo oSInfo = new OSInfo();
+		
 		oSInfo.setOs(os.toString());
 		oSInfo.setCpu(cpuInfo);
 		oSInfo.setTotalMemory(memory.getTotal());
@@ -114,8 +120,6 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 
 		oSInfo.setCpuUse(this.cpuUse);
 
-		oSInfo.setNetworkInfos(this.networkInfos);
-
 		oSInfo.setJvmHeapMemoryUsageUsed(heapMemoryUsage.getUsed());
 		oSInfo.setJvmHeapMemoryUsageCommitted(heapMemoryUsage.getCommitted());
 		oSInfo.setJvmHeapMemoryUsageInit(heapMemoryUsage.getInit());
@@ -125,17 +129,17 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		oSInfo.setJvmNonheapMemoryUsageCommitted(nonHeapMemoryUsage.getCommitted());
 		oSInfo.setJvmNonheapMemoryUsageInit(nonHeapMemoryUsage.getInit());
 		oSInfo.setJvmNonheapMemoryUsageMax(nonHeapMemoryUsage.getMax());
+		
+		oSInfo.setNetworkInfos(this.networkInfos);
+		
+		oSInfo.setJvmThreadInfos(this.jvmThreadInfos);
 
 		return oSInfo;
 	}
 
 	public String getCpuInfo() {
 		if (this.cpuInfo == null) {
-			StringBuilder sb = new StringBuilder(128);
-			sb.append(processor.toString()).append(" ").append(processor.getPhysicalPackageCount()).append(" CPU ")
-					.append(processor.getPhysicalProcessorCount()).append(" Cores ")
-					.append(processor.getLogicalProcessorCount()).append(" Threads");
-			this.cpuInfo = sb.toString();
+			this.cpuInfo = processor.toString();
 		}
 		return cpuInfo;
 	}
@@ -148,7 +152,7 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	 */
 	public long updateCpuUse() {
 		long[] ticks = processor.getSystemCpuLoadTicks();
-
+		
 		long user = ticks[TickType.USER.getIndex()] - prevTicks[TickType.USER.getIndex()];
 		long nice = ticks[TickType.NICE.getIndex()] - prevTicks[TickType.NICE.getIndex()];
 		long sys = ticks[TickType.SYSTEM.getIndex()] - prevTicks[TickType.SYSTEM.getIndex()];
@@ -158,7 +162,7 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		long softirq = ticks[TickType.SOFTIRQ.getIndex()] - prevTicks[TickType.SOFTIRQ.getIndex()];
 		long steal = ticks[TickType.STEAL.getIndex()] - prevTicks[TickType.STEAL.getIndex()];
 		long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
-
+		
 		// cpu总使用率
 		this.cpuUse = 100d * idle / totalCpu;
 
@@ -174,9 +178,37 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	 */
 	public double updateJvmCpuUse() {
 		long totalTime = 0;
+		this.jvmThreadInfos = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
 		for (long id : threadMXBean.getAllThreadIds()) {
 			totalTime += threadMXBean.getThreadCpuTime(id);
+			ThreadInfo threadInfo = threadMXBean.getThreadInfo(id);
+			JvmThreadInfo jvmThreadInfo = new JvmThreadInfo();
+			jvmThreadInfo.setThreadName(threadInfo.getThreadName());
+			jvmThreadInfo.setSuspended(threadInfo.isSuspended());
+			jvmThreadInfo.setThreadState(threadInfo.getThreadState().toString());
+			jvmThreadInfo.setBlockedTime(threadInfo.getBlockedTime());
+			jvmThreadInfo.setBlockedCount(threadInfo.getBlockedCount());
+			jvmThreadInfo.setWaitedTime(threadInfo.getBlockedTime());
+			jvmThreadInfo.setWaitedCount(threadInfo.getWaitedCount());
+			jvmThreadInfo.setLockName(threadInfo.getLockName());
+			jvmThreadInfo.setLockOwnerName(threadInfo.getLockOwnerName());
+			jvmThreadInfo.setInNative(threadInfo.isInNative());
+			
+			StackTraceElement[] stackTrace = threadInfo.getStackTrace();
+			
+			for (StackTraceElement element : stackTrace) {
+				sb.append(element.toString()).append(",\n");
+			}
+			if (sb.length() > 0) {
+				sb.setLength(sb.length() - 1);
+			}
+			jvmThreadInfo.setThreadTrace(sb.toString());
+			sb.setLength(0);
+			
+			this.jvmThreadInfos.add(jvmThreadInfo);
 		}
+		
 		long curtime = System.nanoTime();
 		long usedTime = totalTime - jvmCpuPrevUse;
 		long totalPassedTime = curtime - jvmCpuPrevTime;
@@ -267,5 +299,6 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		// 更新网络信息
 		this.updateNetworkInfos();
 	}
+	
 
 }

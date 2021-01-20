@@ -135,6 +135,7 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 		} else {
 			newGroup = true;
 			serviceGroup = new RpcServiceGroup(rpcServiceGroupId);
+			serviceGroup.setServiceGroupName(service.getServiceGroupDescName());
 			serviceGroup.setLoadblancer(new ConsistentHashingRpcServiceLoadbalancer(serviceGroup));
 			RpcServiceGroup fServiceGroup = serviceGroup;
 			serviceGroup.onRemove(rpcService -> {

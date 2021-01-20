@@ -55,7 +55,7 @@ public class RpcReqHandler {
 						}
 						RpcResp rpcResp = new RpcResp(rpcId, returnData, returnDataType);
 						session.send(rpcResp);
-						if (LOGGER.isInfoEnabled()) {
+						if (LOGGER.isDebugEnabled()) {
 							LOGGER.info("RPC Response, rpcId: {} , interface: {}, method: {}, return: {}",
 									req.getRpcId(), req.getInterfaceName(), req.getMethodName(), GSON.toJson(result));
 						}
@@ -70,7 +70,7 @@ public class RpcReqHandler {
 
 				});
 
-				if (LOGGER.isInfoEnabled()) {
+				if (LOGGER.isDebugEnabled()) {
 					LOGGER.info("RPC Request, rpcId: {} , interface: {}, method: {}", req.getRpcId(),
 							req.getInterfaceName(), req.getMethodName());
 				}

@@ -75,7 +75,7 @@ public class GGXDocs {
 		// 扫描模型注解
 		ClassInfoList classInfoList = scanResult.getClassesWithAnnotation(DocsModel.class.getName());
 		if (classInfoList.size() <= 0) {
-			LOGGER.warn("Cannot find class files annotated by DocsModel!");
+			LOGGER.info("Cannot find class files annotated by DocsModel!");
 			return null;
 		}
 		Model annoModel = null;
