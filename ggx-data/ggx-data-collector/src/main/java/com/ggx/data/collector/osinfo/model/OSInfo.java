@@ -1,7 +1,6 @@
 package com.ggx.data.collector.osinfo.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class OSInfo {
 
@@ -38,15 +37,6 @@ public class OSInfo {
 	// jvm 内cpu使用率
 	protected double jvmCpuUse;
 
-	// 文件系统存储信息
-	private List<FileStoreInfo> fileStoreInfos;
-	
-	// 网络信息
-	private List<NetworkInfo> networkInfos;
-
-	// 网络信息
-	private List<JvmThreadInfo> jvmThreadInfos;
-	
 	// 初始化堆内存
 	private long jvmHeapMemoryUsageInit;
 
@@ -146,22 +136,6 @@ public class OSInfo {
 		this.cpuUse = cpuUse;
 	}
 
-	public List<FileStoreInfo> getFileStoreInfos() {
-		return fileStoreInfos;
-	}
-
-	public void setFileStoreInfos(List<FileStoreInfo> fileStoreInfos) {
-		this.fileStoreInfos = fileStoreInfos;
-	}
-
-	public List<NetworkInfo> getNetworkInfos() {
-		return networkInfos;
-	}
-
-	public void setNetworkInfos(List<NetworkInfo> networkInfos) {
-		this.networkInfos = networkInfos;
-	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -249,14 +223,5 @@ public class OSInfo {
 	public void setJvmCpuUse(double jvmCpuUse) {
 		this.jvmCpuUse = jvmCpuUse;
 	}
-	
-	public List<JvmThreadInfo> getJvmThreadInfos() {
-		return jvmThreadInfos;
-	}
-	
-	public void setJvmThreadInfos(List<JvmThreadInfo> jvmThreadInfos) {
-		this.jvmThreadInfos = jvmThreadInfos;
-	}
-	
 
 }

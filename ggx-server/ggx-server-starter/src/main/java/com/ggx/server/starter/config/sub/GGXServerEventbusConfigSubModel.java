@@ -1,9 +1,9 @@
-package com.ggx.server.starter.config;
+package com.ggx.server.starter.config.sub;
 
 import com.ggx.eventbus.group.client.config.EventbusGroupClientConfig;
 import com.ggx.eventbus.server.config.EventbusServerConfig;
 
-public class GGXServerEventbusConfigModel {
+public class GGXServerEventbusConfigSubModel {
 	
 	protected EventbusServerConfig server;
 	

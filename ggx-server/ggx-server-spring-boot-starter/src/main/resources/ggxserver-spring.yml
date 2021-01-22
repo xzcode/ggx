@@ -1,2 +1,120 @@
 ggx: 
-  enabled: false
+  server:
+    enabled: false
+#---------------------------registry-server----------------------------------
+  registry-server:
+    enabled: false
+    registry:
+       server:
+         period-print-service-infos: false
+         port: 19394
+#---------------------------gateway----------------------------------'
+  gateway:
+    enabled: false
+    core: 
+      port: '@game.gateway.port@'
+      websocket-path: /websocket
+      change-and-reboot-if-port-in-use: true
+      port-change-strategy: incrementt
+    router:
+      client:
+        router-group-id: '@gateway.router.group.id@'
+#        service-provider-type: 'registry_single_service'
+        session-disconnect-transfer-request-enabled: true
+        session-disconnect-transfer-response-enabled: false
+    registry:
+      client:
+        service-name: ${spring.application.name}
+        registries:
+          - domain: localhost
+            port: 19394
+    rpc:
+      server:
+         rpc-service-group-id: ${spring.application.name}
+      client:
+         rpc-service-group-id: ${spring.application.name}
+    quick:
+      data:
+        collector: 
+          errorcode: 
+            group: ${spring.application.name}
+            packages: com.ggx.quick
+          proto:
+            group: ${spring.application.name}
+            packages: com.ggx.quick
+#---------------------------routing-service----------------------------------
+  routing-service:
+    enabled: false
+    rpc:
+      server:
+        rpc-service-group-id: ${spring.application.name}
+      client:
+        rpc-service-group-id: ${spring.application.name}
+    registry:
+      client:
+        service-name: ${spring.application.name}
+        registries:
+          - domain: localhost
+            port: 19394
+    router:
+      server:
+        router-group-id: '@gateway.router.group.id@'
+        boot-with-random-port: true
+        change-and-reboot-if-port-in-use: true
+        port-change-strategy: 'random'
+        session-disconnect-transfer-request-enabled: true
+        session-disconnect-transfer-response-enabled: true
+#---------------------------core-server----------------------------------e
+  core-server:
+    enabled: false
+    core: 
+      websocketPath: /websocket
+      change-and-reboot-if-port-in-use: true
+      port-change-strategy: increment
+#---------------------------loadbalancer----------------------------------
+  loadbalancer:
+    enabled: false
+    router:
+      server:
+        action-id-prefix: '@game.action.id.prefix@'
+      client:
+        router-group-id: '@game.group@'
+    registry:
+      client:
+        service-name: ${spring.application.name}
+        service-group-id: '@game.group@'
+#---------------------------service-client----------------------------------
+  service-client:
+    enabled: false
+    client:
+      service-name: ${spring.application.name}
+      registries:
+        - domain: localhost
+          port: 19394
+#---------------------------eventbus-server----------------------------------
+  eventbus-server:
+    enabled: false
+    eventbus:
+      server:
+        boot-with-random-port: true
+    registry:
+      client:
+        service-group-id: ${spring.application.name}
+        service-name: ${spring.application.name}
+        registries:
+          - domain: localhost
+#---------------------------rpc-server----------------------------------
+  rpc-service:
+    enabled: false
+    rpc:
+      server:
+        rpc-service-group-id: ${spring.application.name}
+      client:
+        rpc-service-group-id: ${spring.application.name}
+    registry:
+      client:
+        service-name: ${spring.application.name}
+        service-group-id: ${spring.application.name}
+        registries:
+          - domain: localhost
+  

@@ -1,9 +1,9 @@
-package com.ggx.server.starter.config;
+package com.ggx.server.starter.config.sub;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.server.config.RpcServerConfig;
 
-public class GGXServerRpcConfigModel {
+public class GGXServerRpcConfigSubModel {
 	
 	protected RpcServerConfig server;
 	

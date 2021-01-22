@@ -14,7 +14,7 @@ import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 
 /**
- * 默认路由服务提供者
+ * 单路由服务提供者
  * 
  * @author zai
  * 2019-11-07 17:36:10

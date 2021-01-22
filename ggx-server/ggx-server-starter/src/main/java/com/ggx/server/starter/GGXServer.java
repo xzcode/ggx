@@ -1,19 +1,26 @@
 package com.ggx.server.starter;
 
-import com.ggx.core.common.future.GGXFuture;
-
 import java.util.List;
 
 import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.config.GGXCore;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.server.starter.config.GGXServerConfig;
-import com.ggx.server.starter.config.GGXServerRpcConfigModel;
-import com.ggx.server.starter.constant.GGXServerMode;
+import com.ggx.server.starter.config.module.GGXCoreServerConfigModel;
+import com.ggx.server.starter.config.module.GGXEventbusServerConfigModel;
+import com.ggx.server.starter.config.module.GGXGatewayConfigModel;
+import com.ggx.server.starter.config.module.GGXLoadbalancerConfigModel;
+import com.ggx.server.starter.config.module.GGXRegistryServerConfigModel;
+import com.ggx.server.starter.config.module.GGXRoutingServerConfigModel;
+import com.ggx.server.starter.config.module.GGXRpcServiceConfigModel;
+import com.ggx.server.starter.config.module.GGXServiceClientConfigModel;
+import com.ggx.server.starter.config.sub.GGXServerRpcConfigSubModel;
 import com.ggx.server.starter.core.GGXCoreServerStarter;
 import com.ggx.server.starter.eventbus.GGXEventbusServerStarter;
 import com.ggx.server.starter.eventbus.GGXServiceClientStarter;
@@ -27,127 +34,136 @@ public class GGXServer implements GGXServerStarter {
 
 	private GGXServerStarter serverStarter;
 
-	private String mode = GGXServerMode.CORE_SERVER;
-
 	private GGXServerConfig config;
 
 	public GGXServer(GGXServerConfig config) {
 		this.config = config;
-		this.mode = this.config.getMode();
-		init();
-	}
-
-	public GGXServer() {
 		init();
 	}
 
 	private void init() {
-		switch (mode) {
-		case GGXServerMode.CORE_SERVER:
+		if (config.getCoreServer() != null && config.getCoreServer().isEnabled()) {
+			GGXCoreServerConfigModel configModel = config.getCoreServer();
 			GGXCoreServerStarter ggxCoreServerStarter = new GGXCoreServerStarter();
-			ggxCoreServerStarter.setCoreServerConfig(config.getCore());
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
+			ggxCoreServerStarter.setCoreServerConfig(configModel.getCore());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
 				ggxCoreServerStarter.setEventbusGroupClientConfig(ggxCoreServerStarter.getEventbusGroupClientConfig());
 			}
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxCoreServerStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
+				ggxCoreServerStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
 			ggxCoreServerStarter.getCoreServerConfig().setScanPackages(config.getScanPackages());
 			ggxCoreServerStarter.setRegistryClientConfig(ggxCoreServerStarter.getRegistryClientConfig());
 			ggxCoreServerStarter.init();
 			this.serverStarter = ggxCoreServerStarter;
-			break;
-		case GGXServerMode.LOADBALANCER:
+			return;
+		}
+		if (config.getLoadbalancer() != null && config.getLoadbalancer().isEnabled()) {
+			GGXLoadbalancerConfigModel configModel = config.getLoadbalancer();
 			GGXLoadbalancerServerStarter ggxLoadbalancerServerStarter = new GGXLoadbalancerServerStarter();
-			ggxLoadbalancerServerStarter.setRouterServerConfig(config.getRouter().getServer());
-			ggxLoadbalancerServerStarter.setRouterClientConfig(config.getRouter().getClient());
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxLoadbalancerServerStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+			ggxLoadbalancerServerStarter.setRouterServerConfig(configModel.getRouter().getServer());
+			ggxLoadbalancerServerStarter.setRouterClientConfig(configModel.getRouter().getClient());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
+				ggxLoadbalancerServerStarter.setEventbusGroupClientConfig(configModel.getEventbus().getClient());
 			}
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxLoadbalancerServerStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
+				ggxLoadbalancerServerStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
-			ggxLoadbalancerServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			ggxLoadbalancerServerStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
 			ggxLoadbalancerServerStarter.init();
 			this.serverStarter = ggxLoadbalancerServerStarter;
-			break;
-		case GGXServerMode.ROUTING_SERVICE:
+			return;
+		}
+		if (config.getRoutingService() != null && config.getRoutingService().isEnabled()) {
+			GGXRoutingServerConfigModel configModel = config.getRoutingService();
 			GGXRoutingServiceStarter ggxRoutingServiceStarter = new GGXRoutingServiceStarter();
-			ggxRoutingServiceStarter.setRouterServerConfig(config.getRouter().getServer());
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxRoutingServiceStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+			ggxRoutingServiceStarter.setRouterServerConfig(configModel.getRouter().getServer());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
+				ggxRoutingServiceStarter.setEventbusGroupClientConfig(configModel.getEventbus().getClient());
 			}
-			if (config.getRpc() != null) {
-				if (config.getRpc().getClient() != null) {
-					ggxRoutingServiceStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (configModel.getRpc() != null) {
+				if (configModel.getRpc().getClient() != null) {
+					ggxRoutingServiceStarter.setRpcClientConfig(configModel.getRpc().getClient());
 				}
-				if (config.getRpc().getServer() != null) {
-					ggxRoutingServiceStarter.setRpcServerConfig(config.getRpc().getServer());
+				if (configModel.getRpc().getServer() != null) {
+					ggxRoutingServiceStarter.setRpcServerConfig(configModel.getRpc().getServer());
 				}
 			}
-			config.getRouter().getServer().setScanPackages(config.getScanPackages());
-			ggxRoutingServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			configModel.getRouter().getServer().setScanPackages(config.getScanPackages());
+			ggxRoutingServiceStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
 			ggxRoutingServiceStarter.init();
 			this.serverStarter = ggxRoutingServiceStarter;
-			break;
-		case GGXServerMode.REGISTRY_SERVER:
+			return;
+		}
+		if (config.getRegistryServer() != null && config.getRegistryServer().isEnabled()) {
+			GGXRegistryServerConfigModel configModel = config.getRegistryServer();
 			GGXRegistryServerStarter ggxRegistryServerStarter = new GGXRegistryServerStarter();
-			ggxRegistryServerStarter.setRegistryServerConfig(config.getRegistry().getServer());
+			ggxRegistryServerStarter.setRegistryServerConfig(configModel.getRegistry().getServer());
 			ggxRegistryServerStarter.init();
 			this.serverStarter = ggxRegistryServerStarter;
-			break;
-		case GGXServerMode.GATEWAY:
+			return;
+		}
+		if (config.getGateway() != null && config.getGateway().isEnabled()) {
+			GGXGatewayConfigModel configModel = config.getGateway();
 			GGXGatewayStarter ggxGatewayStarter = new GGXGatewayStarter();
-			ggxGatewayStarter.setCoreServerConfig(config.getCore());
-			ggxGatewayStarter.setRegistryClientConfig(config.getRegistry().getClient());
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxGatewayStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+			ggxGatewayStarter.setCoreServerConfig(configModel.getCore());
+			ggxGatewayStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
+				ggxGatewayStarter.setEventbusGroupClientConfig(configModel.getEventbus().getClient());
 			}
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxGatewayStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
+				ggxGatewayStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
-			if (config.getRpc().getServer() != null) {
-				ggxGatewayStarter.setRpcServerConfig(config.getRpc().getServer());
+			if (configModel.getRpc().getServer() != null) {
+				ggxGatewayStarter.setRpcServerConfig(configModel.getRpc().getServer());
 			}
-			config.getCore().setScanPackages(config.getScanPackages());
-			ggxGatewayStarter.setRouterClientConfig(config.getRouter().getClient());
+			configModel.getCore().setScanPackages(config.getScanPackages());
+			RouterClientConfig routerClientConfig = configModel.getRouter().getClient();
+			ggxGatewayStarter.setRouterClientConfig(routerClientConfig);
 			ggxGatewayStarter.init();
 			this.serverStarter = ggxGatewayStarter;
-			break;
-		case GGXServerMode.SERVICE_CLIENT:
+			return;
+
+		}
+		if (config.getServiceClient() != null && config.getServiceClient().isEnabled()) {
+			GGXServiceClientConfigModel configModel = config.getServiceClient();
 			GGXServiceClientStarter ggxEventbusClientStarter = new GGXServiceClientStarter();
-			ggxEventbusClientStarter.setRegistryClientConfig(config.getRegistry().getClient());
-			if (config.getEventbus() != null && config.getEventbus().getClient() != null) {
-				ggxEventbusClientStarter.setEventbusGroupClientConfig(config.getEventbus().getClient());
+			ggxEventbusClientStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
+				ggxEventbusClientStarter.setEventbusGroupClientConfig(configModel.getEventbus().getClient());
 			}
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxEventbusClientStarter.setRpcClientConfig(config.getRpc().getClient());
+			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
+				ggxEventbusClientStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
 			ggxEventbusClientStarter.init();
 			this.serverStarter = ggxEventbusClientStarter;
-			break;
-		case GGXServerMode.EVENTBUS_SERVER:
+			return;
+		}
+
+		if (config.getEventbusServer() != null && config.getEventbusServer().isEnabled()) {
+			GGXEventbusServerConfigModel configModel = config.getEventbusServer();
 			GGXEventbusServerStarter ggxEventbusServerStarter = new GGXEventbusServerStarter();
-			ggxEventbusServerStarter.setRegistryClientConfig(config.getRegistry().getClient());
-			if (config.getEventbus() != null && config.getEventbus().getServer() != null) {
-				ggxEventbusServerStarter.setEventbusServerConfig(config.getEventbus().getServer());
+			ggxEventbusServerStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
+			if (configModel.getEventbus() != null && configModel.getEventbus().getServer() != null) {
+				ggxEventbusServerStarter.setEventbusServerConfig(configModel.getEventbus().getServer());
 			}
 			ggxEventbusServerStarter.init();
 			this.serverStarter = ggxEventbusServerStarter;
-			break;
-		case GGXServerMode.RPC_SERVICE:
-			GGXRpcServiceStarter ggxRpcServiceStarter = new GGXRpcServiceStarter();
-			ggxRpcServiceStarter.setRpcServerConfig(config.getRpc().getServer());
-			ggxRpcServiceStarter.setRegistryClientConfig(config.getRegistry().getClient());
+			return;
+		}
 
-			if (config.getRpc() != null && config.getRpc().getClient() != null) {
-				ggxRpcServiceStarter.setRpcClientConfig(config.getRpc().getClient());
+		if (config.getRpcService() != null && config.getRpcService().isEnabled()) {
+			GGXRpcServiceConfigModel configModel = config.getRpcService();
+			GGXRpcServiceStarter ggxRpcServiceStarter = new GGXRpcServiceStarter();
+			ggxRpcServiceStarter.setRpcServerConfig(configModel.getRpc().getServer());
+			ggxRpcServiceStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
+
+			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
+				ggxRpcServiceStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
 			ggxRpcServiceStarter.init();
 			this.serverStarter = ggxRpcServiceStarter;
-			break;
-		default:
-			break;
+			return;
 		}
 	}
 
@@ -204,9 +220,9 @@ public class GGXServer implements GGXServerStarter {
 	public RegistryClient getRegistryClient() {
 		return this.serverStarter.getRegistryClient();
 	}
-	
+
 	public List<RpcServiceGroup> getAllRpcServiceGroup() {
-		GGXServerRpcConfigModel rpc = this.config.getRpc();
+		GGXServerRpcConfigSubModel rpc = this.config.getServiceClient().getRpc();
 		if (rpc == null) {
 			return null;
 		}

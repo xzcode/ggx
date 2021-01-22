@@ -1,8 +1,8 @@
-package com.ggx.server.starter.config;
+package com.ggx.server.starter.config.sub;
 
 import com.ggx.core.server.config.GGXCoreServerConfig;
 
-public class GGXServerCoreConfigModel {
+public class GGXServerCoreConfigSubModel {
 
 	protected GGXCoreServerConfig core;
 	

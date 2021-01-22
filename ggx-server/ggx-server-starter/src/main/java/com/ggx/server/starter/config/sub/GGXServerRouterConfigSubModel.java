@@ -1,9 +1,9 @@
-package com.ggx.server.starter.config;
+package com.ggx.server.starter.config.sub;
 
 import com.ggx.router.client.config.RouterClientConfig;
 import com.ggx.router.server.config.RouterServerConfig;
 
-public class GGXServerRouterConfigModel {
+public class GGXServerRouterConfigSubModel {
 	
 	protected RouterServerConfig server;
 	

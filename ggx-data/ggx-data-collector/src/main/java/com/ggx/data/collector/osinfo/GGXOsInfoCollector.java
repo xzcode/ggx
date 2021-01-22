@@ -129,10 +129,6 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		oSInfo.setJvmNonheapMemoryUsageCommitted(nonHeapMemoryUsage.getCommitted());
 		oSInfo.setJvmNonheapMemoryUsageInit(nonHeapMemoryUsage.getInit());
 		oSInfo.setJvmNonheapMemoryUsageMax(nonHeapMemoryUsage.getMax());
-		
-		oSInfo.setNetworkInfos(this.networkInfos);
-		
-		oSInfo.setJvmThreadInfos(this.jvmThreadInfos);
 
 		return oSInfo;
 	}
@@ -143,7 +139,19 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		}
 		return cpuInfo;
 	}
-
+	
+	public List<FileStoreInfo> getFileStoreInfos() {
+		return fileStoreInfos;
+	}
+	
+	public List<NetworkInfo> getNetworkInfos() {
+		return networkInfos;
+	}
+	
+	public List<JvmThreadInfo> getJvmThreadInfos() {
+		return jvmThreadInfos;
+	}
+	
 	/**
 	 * 更新系统cpu使用信息
 	 *

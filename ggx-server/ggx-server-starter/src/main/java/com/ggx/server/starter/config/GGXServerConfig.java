@@ -1,7 +1,13 @@
 package com.ggx.server.starter.config;
 
-import com.ggx.core.server.config.GGXCoreServerConfig;
-import com.ggx.server.starter.constant.GGXServerMode;
+import com.ggx.server.starter.config.module.GGXCoreServerConfigModel;
+import com.ggx.server.starter.config.module.GGXEventbusServerConfigModel;
+import com.ggx.server.starter.config.module.GGXGatewayConfigModel;
+import com.ggx.server.starter.config.module.GGXLoadbalancerConfigModel;
+import com.ggx.server.starter.config.module.GGXRegistryServerConfigModel;
+import com.ggx.server.starter.config.module.GGXRoutingServerConfigModel;
+import com.ggx.server.starter.config.module.GGXRpcServiceConfigModel;
+import com.ggx.server.starter.config.module.GGXServiceClientConfigModel;
 
 public class GGXServerConfig {
 	
@@ -11,28 +17,21 @@ public class GGXServerConfig {
 	
 	private String[] scanPackageBlacklist ={"java", "org.springframework", "org.apache", "net.sf", "io.netty", "io.protostuff", "com.google", "org.slf4j", "io.github", "nonapi"};;
 	
-	protected String mode = GGXServerMode.CORE_SERVER;
+	protected GGXRegistryServerConfigModel registryServer;
 	
-	protected GGXServerRouterConfigModel router;
+	protected GGXGatewayConfigModel gateway;
 	
-	protected GGXCoreServerConfig core;
+	protected GGXCoreServerConfigModel coreServer;
 	
-	protected GGXServerEventbusConfigModel eventbus;
+	protected GGXLoadbalancerConfigModel loadbalancer;
 	
-	protected GGXServerRegistryConfigModel registry;
+	protected GGXRoutingServerConfigModel routingService;
 	
-	protected GGXServerRpcConfigModel rpc;
+	protected GGXServiceClientConfigModel serviceClient;
 	
+	protected GGXEventbusServerConfigModel eventbusServer;
 	
-	
-
-	public String[] getScanPackageBlacklist() {
-		return scanPackageBlacklist;
-	}
-
-	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
-		this.scanPackageBlacklist = scanPackageBlacklist;
-	}
+	protected GGXRpcServiceConfigModel rpcService;
 
 	public boolean isEnabled() {
 		return enabled;
@@ -42,60 +41,87 @@ public class GGXServerConfig {
 		this.enabled = enabled;
 	}
 
-	public String getMode() {
-		return mode;
-	}
-
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
-
-	public GGXCoreServerConfig getCore() {
-		return core;
-	}
-
-	public void setCore(GGXCoreServerConfig core) {
-		this.core = core;
-	}
-
-	public GGXServerEventbusConfigModel getEventbus() {
-		return eventbus;
-	}
-
-	public void setEventbus(GGXServerEventbusConfigModel eventbus) {
-		this.eventbus = eventbus;
-	}
-
-	public GGXServerRegistryConfigModel getRegistry() {
-		return registry;
-	}
-
-	public void setRegistry(GGXServerRegistryConfigModel registry) {
-		this.registry = registry;
-	}
-
-	public GGXServerRouterConfigModel getRouter() {
-		return router;
-	}
-
-	public void setRouter(GGXServerRouterConfigModel router) {
-		this.router = router;
-	}
-
-	public GGXServerRpcConfigModel getRpc() {
-		return rpc;
-	}
-
-	public void setRpc(GGXServerRpcConfigModel rpc) {
-		this.rpc = rpc;
-	}
-	
 	public String[] getScanPackages() {
 		return scanPackages;
 	}
+
 	public void setScanPackages(String[] scanPackages) {
 		this.scanPackages = scanPackages;
 	}
+
+	public String[] getScanPackageBlacklist() {
+		return scanPackageBlacklist;
+	}
+
+	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
+		this.scanPackageBlacklist = scanPackageBlacklist;
+	}
+
+	public GGXRegistryServerConfigModel getRegistryServer() {
+		return registryServer;
+	}
+
+	public void setRegistryServer(GGXRegistryServerConfigModel registryServer) {
+		this.registryServer = registryServer;
+	}
+
+	public GGXGatewayConfigModel getGateway() {
+		return gateway;
+	}
+
+	public void setGateway(GGXGatewayConfigModel gateway) {
+		this.gateway = gateway;
+	}
+
+	public GGXCoreServerConfigModel getCoreServer() {
+		return coreServer;
+	}
+
+	public void setCoreServer(GGXCoreServerConfigModel coreServer) {
+		this.coreServer = coreServer;
+	}
+
+	public GGXLoadbalancerConfigModel getLoadbalancer() {
+		return loadbalancer;
+	}
+
+	public void setLoadbalancer(GGXLoadbalancerConfigModel loadbalancer) {
+		this.loadbalancer = loadbalancer;
+	}
+
+	public GGXServiceClientConfigModel getServiceClient() {
+		return serviceClient;
+	}
+
+	public void setServiceClient(GGXServiceClientConfigModel serviceClient) {
+		this.serviceClient = serviceClient;
+	}
+
+	public GGXEventbusServerConfigModel getEventbusServer() {
+		return eventbusServer;
+	}
+
+	public void setEventbusServer(GGXEventbusServerConfigModel eventbusServer) {
+		this.eventbusServer = eventbusServer;
+	}
+
+	public GGXRpcServiceConfigModel getRpcService() {
+		return rpcService;
+	}
+
+	public void setRpcService(GGXRpcServiceConfigModel rpcService) {
+		this.rpcService = rpcService;
+	}
+
+	public GGXRoutingServerConfigModel getRoutingService() {
+		return routingService;
+	}
+
+	public void setRoutingService(GGXRoutingServerConfigModel routingService) {
+		this.routingService = routingService;
+	}
+
 	
+
 	
 }

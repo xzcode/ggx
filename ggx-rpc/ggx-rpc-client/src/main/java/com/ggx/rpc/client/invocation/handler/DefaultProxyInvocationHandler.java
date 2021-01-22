@@ -26,6 +26,7 @@ import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
+import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
 import com.ggx.util.id.GGXRandomIdUtil;
 import com.ggx.util.logger.GGXLogUtil;
 
@@ -203,12 +204,20 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 			if (callback.getException() != null) {
 				throw callback.getException();
 			}
-	
-			return callback.getCallbackFuture().get();
+			
+			GGXCoreFuture<?> callbackFuture = callback.getCallbackFuture();
+			Throwable cause = callbackFuture.cause();
+			if (cause != null) {
+				if (cause instanceof GGXNoStackTraceRuntimeException) {
+					GGXLogUtil.getLogger(this).error(cause.getMessage());
+					return null;
+				}
+			}
+			return callbackFuture.get();
 		
 		} catch (Exception e) {
-			if (e instanceof RpcServiceRemoteErrorException) {
-				GGXLogUtil.getLogger(this).error("RPC Service Interface [{}] doesn't have a fallback implement!", this.serviceInterface.getCanonicalName());
+			if (e instanceof GGXNoStackTraceRuntimeException) {
+				GGXLogUtil.getLogger(this).error(e.getMessage());
 			}else {
 				GGXLogUtil.getLogger(this).error("RPC Service Interface [{}] proxy invoke error!", this.serviceInterface.getCanonicalName(), e);
 			}
