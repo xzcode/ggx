@@ -18,7 +18,7 @@ ggx:
       port-change-strategy: incrementt
     router:
       client:
-        router-group-id: '@gateway.router.group.id@'
+        router-group-id: 'default_router_group'
 #        service-provider-type: 'registry_single_service'
         session-disconnect-transfer-request-enabled: true
         session-disconnect-transfer-response-enabled: false
@@ -58,7 +58,7 @@ ggx:
             port: 19394
     router:
       server:
-        router-group-id: '@gateway.router.group.id@'
+        router-group-id: 'default_router_group'
         boot-with-random-port: true
         change-and-reboot-if-port-in-use: true
         port-change-strategy: 'random'
@@ -117,4 +117,5 @@ ggx:
         service-group-id: ${spring.application.name}
         registries:
           - domain: localhost
+            port: 19394
   

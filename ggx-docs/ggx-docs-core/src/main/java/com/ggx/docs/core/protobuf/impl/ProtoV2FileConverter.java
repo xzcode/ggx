@@ -51,10 +51,13 @@ public class ProtoV2FileConverter implements ProtoFileConverter {
 			ProtoFile protoFile = new ProtoFile(namespace.getName().toLowerCase() + ".proto");
 
 			StringBuilder sb = new StringBuilder(8192);
+			String author = null;
 			if (doc.getAuth() == null) {
-				doc.setAuth("GGX Docs " + this.getClass().getSimpleName());
+				author = "GGX Docs " + this.getClass().getSimpleName();
+			}else {
+				author = doc.getAuth();
 			}
-			sb.append(ENTER_LINE).append("//Author : ").append(doc.getAuth()).append(ENTER_LINE)
+			sb.append(ENTER_LINE).append("//Author : ").append(author).append(ENTER_LINE)
 					.append("//Namespace : " + namespace.getName()).append(ENTER_LINE)
 					.append("//Description : " + namespace.getDescription()).append(ENTER_LINE)
 					.append("//Create Date : " + dateFormat.format(new Date())).append(ENTER_LINE).append(ENTER_LINE)
