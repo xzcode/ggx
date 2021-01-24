@@ -23,8 +23,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.Future;
 
 /**
@@ -58,12 +56,6 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
             
             //设置工作线程组
             boot.group(config.getBossGroup(), config.getWorkerGroup());
-            
-            if (logger.isDebugEnabled()) {
-            	boot.handler(new LoggingHandler(LogLevel.INFO));				
-			}else {
-				boot.handler(new LoggingHandler(LogLevel.WARN));
-			}
             
             //设置channel类型
             boot.channel(NioServerSocketChannel.class);

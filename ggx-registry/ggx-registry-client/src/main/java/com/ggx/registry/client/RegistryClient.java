@@ -34,6 +34,8 @@ public class RegistryClient {
 	protected List<ClientRegisterSuccessListener> registerSuccessListeners = new ArrayList<>();
 
 	private ServiceInfo cachedServiceInfo;
+	
+	private int connectFailedTimes = 0;
 
 	public RegistryClient(RegistryClientConfig config) {
 		this.config = config;
@@ -104,16 +106,21 @@ public class RegistryClient {
 			RegistryInfo registry = config.getRegistryManager().getRandomRegistry();
 			ggClient.connect(registry.getDomain(), registry.getPort()).addListener(f -> {
 				if (!f.isSuccess()) {
-					// 连接失败，进行进行重连操作
-					GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",
-							registry.getDomain(), registry.getPort());
+					if (connectFailedTimes == 0) {
+						
+						// 连接失败，进行进行重连操作
+						GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Failed!",
+								registry.getDomain(), registry.getPort());
+					}
+					connectFailedTimes++;
 					ggClient.schedule(config.getTryRegisterInterval(), () -> {
 						connect();
 					});
 					return;
 				}
-				GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Successfully!",
+				GGXLogUtil.getLogger(this).warn("Registry Client Connect Server[{}:{}] Success!",
 						registry.getDomain(), registry.getPort());
+				connectFailedTimes = 0;
 			});
 		});
 

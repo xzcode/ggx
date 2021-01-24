@@ -187,13 +187,13 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 					}
 					if (!f.isSuccess()) {
 						// 连接失败，进行进行重连操作
-						GGXLogUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Fail!", host, port);
+						GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Fail! ({}/{})", config.getSessionGroupClientName(),config.getTargetServerName(), host, port, avaliableConnections.get(), config.getConnectionSize());
 						ggclient.schedule(config.getReconnectInterval(), () -> {
 							connectOne(host, port);
 						});
 						return;
 					}
-					GGXLogUtil.getLogger(this).warn("SessionGroupClient Connect Server[{}:{}] Success!", host, port);
+					GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Success!({}/{})", config.getSessionGroupClientName(),config.getTargetServerName(), host, port, avaliableConnections.get(), config.getConnectionSize());
 				});
 				
 			});

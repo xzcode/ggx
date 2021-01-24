@@ -122,7 +122,8 @@ public class RouterService {
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionGroupClientConfig.setServerHost(this.host);
 		sessionGroupClientConfig.setServerPort(this.port);
-		
+		sessionGroupClientConfig.setSessionGroupClientName(config.getRegistryClient().getConfig().getServiceGroupId());
+		sessionGroupClientConfig.setTargetServerName(serviceGroupId + "-" + serviceId);
 		
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 		

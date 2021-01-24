@@ -50,6 +50,8 @@ public class EventbusClient{
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionGroupClientConfig.setServerHost(this.config.getServerHost());
 		sessionGroupClientConfig.setServerPort(this.config.getServerPort());
+		sessionGroupClientConfig.setSessionGroupClientName(EventbusClient.class.getSimpleName());
+		sessionGroupClientConfig.setTargetServerName("EventbusServer");
 		
 		if (this.config.getSharedEventLoopGroup() != null) {
 			sessionGroupClientConfig.setWorkEventLoopGroup(this.config.getSharedEventLoopGroup());

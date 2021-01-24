@@ -1,6 +1,11 @@
 ggx: 
   server:
     enabled: false
+    registry:
+      default:
+        domain: localhost
+        port: 19394
+        
 #---------------------------registry-server----------------------------------
   registry-server:
     enabled: false
@@ -26,8 +31,8 @@ ggx:
       client:
         service-name: ${spring.application.name}
         registries:
-          - domain: localhost
-            port: 19394
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
     rpc:
       server:
          rpc-service-group-id: ${spring.application.name}
@@ -54,8 +59,8 @@ ggx:
       client:
         service-name: ${spring.application.name}
         registries:
-          - domain: localhost
-            port: 19394
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
     router:
       server:
         router-group-id: 'default_router_group'
@@ -86,11 +91,12 @@ ggx:
 #---------------------------service-client----------------------------------
   service-client:
     enabled: false
-    client:
-      service-name: ${spring.application.name}
-      registries:
-        - domain: localhost
-          port: 19394
+    registry: 
+      client:
+        service-name: ${spring.application.name}
+        registries:
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
 #---------------------------eventbus-server----------------------------------
   eventbus-server:
     enabled: false
@@ -102,7 +108,8 @@ ggx:
         service-group-id: ${spring.application.name}
         service-name: ${spring.application.name}
         registries:
-          - domain: localhost
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
 #---------------------------rpc-server----------------------------------
   rpc-service:
     enabled: false
@@ -116,6 +123,6 @@ ggx:
         service-name: ${spring.application.name}
         service-group-id: ${spring.application.name}
         registries:
-          - domain: localhost
-            port: 19394
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
   

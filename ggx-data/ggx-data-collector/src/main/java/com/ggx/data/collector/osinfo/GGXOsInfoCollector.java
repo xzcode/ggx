@@ -79,14 +79,9 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	// cpu信息
 	protected String cpuInfo = this.getCpuInfo();
 
-	// 文件系统信息集合
-	protected List<FileStoreInfo> fileStoreInfos;
-	
 	// 网络信息集合
 	protected List<NetworkInfo> networkInfos;
 
-	// JVM线程集合
-	protected List<JvmThreadInfo> jvmThreadInfos;
 
 	// 上一个时间点的cpu时钟信息
 	protected long[] prevTicks = processor.getSystemCpuLoadTicks();
@@ -141,6 +136,16 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	}
 	
 	public List<FileStoreInfo> getFileStoreInfos() {
+		List<FileStoreInfo> fileStoreInfos = new ArrayList<>();
+		OSFileStore[] fsArray = fileSystem.getFileStores();
+		for (OSFileStore fs : fsArray) {
+			FileStoreInfo info = new FileStoreInfo();
+			info.setName(fs.getLogicalVolume() == null ? fs.getName() : fs.getLogicalVolume());
+			info.setTotalSpace(fs.getTotalSpace());
+			info.setUsableSpace(fs.getUsableSpace());
+			fileStoreInfos.add(info);
+		}
+
 		return fileStoreInfos;
 	}
 	
@@ -149,6 +154,36 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	}
 	
 	public List<JvmThreadInfo> getJvmThreadInfos() {
+		
+		List<JvmThreadInfo> jvmThreadInfos = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
+		for (long id : threadMXBean.getAllThreadIds()) {
+			ThreadInfo threadInfo = threadMXBean.getThreadInfo(id);
+			JvmThreadInfo jvmThreadInfo = new JvmThreadInfo();
+			jvmThreadInfo.setThreadName(threadInfo.getThreadName());
+			jvmThreadInfo.setSuspended(threadInfo.isSuspended());
+			jvmThreadInfo.setThreadState(threadInfo.getThreadState().toString());
+			jvmThreadInfo.setBlockedTime(threadInfo.getBlockedTime());
+			jvmThreadInfo.setBlockedCount(threadInfo.getBlockedCount());
+			jvmThreadInfo.setWaitedTime(threadInfo.getBlockedTime());
+			jvmThreadInfo.setWaitedCount(threadInfo.getWaitedCount());
+			jvmThreadInfo.setLockName(threadInfo.getLockName());
+			jvmThreadInfo.setLockOwnerName(threadInfo.getLockOwnerName());
+			jvmThreadInfo.setInNative(threadInfo.isInNative());
+			
+			StackTraceElement[] stackTrace = threadInfo.getStackTrace();
+			
+			for (StackTraceElement element : stackTrace) {
+				sb.append(element.toString()).append(",\n");
+			}
+			if (sb.length() > 0) {
+				sb.setLength(sb.length() - 1);
+			}
+			jvmThreadInfo.setThreadTrace(sb.toString());
+			sb.setLength(0);
+			
+			jvmThreadInfos.add(jvmThreadInfo);
+		}
 		return jvmThreadInfos;
 	}
 	
@@ -186,35 +221,8 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 	 */
 	public double updateJvmCpuUse() {
 		long totalTime = 0;
-		this.jvmThreadInfos = new ArrayList<>();
-		StringBuilder sb = new StringBuilder();
 		for (long id : threadMXBean.getAllThreadIds()) {
 			totalTime += threadMXBean.getThreadCpuTime(id);
-			ThreadInfo threadInfo = threadMXBean.getThreadInfo(id);
-			JvmThreadInfo jvmThreadInfo = new JvmThreadInfo();
-			jvmThreadInfo.setThreadName(threadInfo.getThreadName());
-			jvmThreadInfo.setSuspended(threadInfo.isSuspended());
-			jvmThreadInfo.setThreadState(threadInfo.getThreadState().toString());
-			jvmThreadInfo.setBlockedTime(threadInfo.getBlockedTime());
-			jvmThreadInfo.setBlockedCount(threadInfo.getBlockedCount());
-			jvmThreadInfo.setWaitedTime(threadInfo.getBlockedTime());
-			jvmThreadInfo.setWaitedCount(threadInfo.getWaitedCount());
-			jvmThreadInfo.setLockName(threadInfo.getLockName());
-			jvmThreadInfo.setLockOwnerName(threadInfo.getLockOwnerName());
-			jvmThreadInfo.setInNative(threadInfo.isInNative());
-			
-			StackTraceElement[] stackTrace = threadInfo.getStackTrace();
-			
-			for (StackTraceElement element : stackTrace) {
-				sb.append(element.toString()).append(",\n");
-			}
-			if (sb.length() > 0) {
-				sb.setLength(sb.length() - 1);
-			}
-			jvmThreadInfo.setThreadTrace(sb.toString());
-			sb.setLength(0);
-			
-			this.jvmThreadInfos.add(jvmThreadInfo);
 		}
 		
 		long curtime = System.nanoTime();
@@ -226,27 +234,6 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		return this.jvmCpuUse;
 	}
 
-	/**
-	 * 获取文件系统存储信息
-	 *
-	 * @return
-	 * @author zai 2020-04-21 18:37:59
-	 */
-	public List<FileStoreInfo> updateFileStoreInfos() {
-		List<FileStoreInfo> fileStoreInfos = new ArrayList<>();
-		OSFileStore[] fsArray = fileSystem.getFileStores();
-		for (OSFileStore fs : fsArray) {
-			FileStoreInfo info = new FileStoreInfo();
-			info.setName(fs.getLogicalVolume() == null ? fs.getName() : fs.getLogicalVolume());
-			info.setTotalSpace(fs.getTotalSpace());
-			info.setUsableSpace(fs.getUsableSpace());
-			fileStoreInfos.add(info);
-		}
-
-		this.fileStoreInfos = fileStoreInfos;
-
-		return fileStoreInfos;
-	}
 
 	/**
 	 * 更新网络信息
@@ -300,9 +287,6 @@ public class GGXOsInfoCollector implements DataCollector<OSInfo> {
 		
 		// 更新jvm cpu使用率信息
 		this.updateJvmCpuUse();
-
-		// 更新文件系统信息
-		this.updateFileStoreInfos();
 
 		// 更新网络信息
 		this.updateNetworkInfos();

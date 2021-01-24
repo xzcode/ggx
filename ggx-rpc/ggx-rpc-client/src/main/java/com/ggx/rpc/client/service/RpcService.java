@@ -84,7 +84,8 @@ public class RpcService {
 		sessionGroupClientConfig.setPrintPingPongInfo(this.config.isPrintPingPongInfo());
 		sessionGroupClientConfig.setServerHost(this.host);
 		sessionGroupClientConfig.setServerPort(this.port);
-		
+		sessionGroupClientConfig.setSessionGroupClientName(config.getRpcServiceGroupId());
+		sessionGroupClientConfig.setTargetServerName(serviceGroupId + "-" + serviceId);
 
 		SessionGroupClient sessionGroupClient = new SessionGroupClient(sessionGroupClientConfig);
 

@@ -4,10 +4,10 @@ package com.ggx.core.client.starter.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.client.starter.GGXCoreClientStarter;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXNettyFuture;
 import com.ggx.core.common.handler.MixedSocketChannelInitializer;
 import com.ggx.core.common.handler.TcpChannelInitializer;
@@ -18,8 +18,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.Future;
 
 public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
@@ -41,12 +39,6 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 
         //设置工作线程组
         boot.group(config.getWorkerGroup());
-        
-        if (logger.isDebugEnabled()) {
-        	boot.handler(new LoggingHandler(LogLevel.INFO));				
-		}else {
-			boot.handler(new LoggingHandler(LogLevel.WARN));
-		}
         
         //设置channel类型
         boot.channel(NioSocketChannel.class); 
