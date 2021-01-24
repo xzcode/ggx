@@ -23,7 +23,7 @@ public class SessionGroupClientConfig {
 	protected String sessionGroupClientName = SessionGroupClient.class.getSimpleName();
 
 	// 目标服务端名称
-	protected String targetServerName = "unknow";
+	protected String targetServerName = "unknown";
 
 	// 会话组客户端
 	protected SessionGroupClient sessionGroupClient;

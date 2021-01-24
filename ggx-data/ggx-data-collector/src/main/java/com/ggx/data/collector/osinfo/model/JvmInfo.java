@@ -2,40 +2,30 @@ package com.ggx.data.collector.osinfo.model;
 
 import java.util.Date;
 
-public class OSInfo {
-
+public class JvmInfo {
+	
 	// 服务id
 	private String serviceId;
 
-	// 操作系统信息
-	private String os;
+	// 进程id
+	private String pid;
 
-	// cpu信息
-	private String cpu;
-
-	// 总内存
-	private long totalMemory;
-
-	// 已使用的内存
-	private long usedMemory;
-
-	// 总虚拟内存
-	private long totalVirtualMemory;
-
-	// 已使用的虚拟内存
-	private long usedVirtualMemory;
-
-	// 进程数
-	private int processes;
-
-	// 线程数
-	private int threads;
-
-	// cpu使用率
-	private double cpuUse;
 	
+	// 可用的处理器个数
+	private int availableProcessors;
+	
+	// jvm运行时长
+	private long jvmUpTime;
+	
+	
+	// jvm启动参数
+	private String jvmArgs;
+	
+	// jvm线程数
+	private long jvmThreads;
+
 	// jvm 内cpu使用率
-	protected double jvmCpuUse;
+	protected double jvmCpuUsage;
 
 	// 初始化堆内存
 	private long jvmHeapMemoryUsageInit;
@@ -64,77 +54,6 @@ public class OSInfo {
 	// 创建日期
 	private Date createDate;
 
-	public String getOs() {
-		return os;
-	}
-
-	public void setOs(String os) {
-		this.os = os;
-	}
-
-	public String getCpu() {
-		return cpu;
-	}
-
-	public void setCpu(String cpu) {
-		this.cpu = cpu;
-	}
-
-	public long getTotalMemory() {
-		return totalMemory;
-	}
-
-	public void setTotalMemory(long totalMemory) {
-		this.totalMemory = totalMemory;
-	}
-
-	public long getTotalVirtualMemory() {
-		return totalVirtualMemory;
-	}
-
-	public void setTotalVirtualMemory(long totalVirtualMemory) {
-		this.totalVirtualMemory = totalVirtualMemory;
-	}
-
-	public long getUsedMemory() {
-		return usedMemory;
-	}
-
-	public void setUsedMemory(long usedMemory) {
-		this.usedMemory = usedMemory;
-	}
-
-	public long getUsedVirtualMemory() {
-		return usedVirtualMemory;
-	}
-
-	public void setUsedVirtualMemory(long usedVirtualMemory) {
-		this.usedVirtualMemory = usedVirtualMemory;
-	}
-
-	public int getProcesses() {
-		return processes;
-	}
-
-	public void setProcesses(int processes) {
-		this.processes = processes;
-	}
-
-	public int getThreads() {
-		return threads;
-	}
-
-	public void setThreads(int threads) {
-		this.threads = threads;
-	}
-
-	public double getCpuUse() {
-		return cpuUse;
-	}
-
-	public void setCpuUse(double cpuUse) {
-		this.cpuUse = cpuUse;
-	}
 
 	public Date getCreateDate() {
 		return createDate;
@@ -216,12 +135,50 @@ public class OSInfo {
 		this.jvmNonheapMemoryUsageMax = jvmNonheapMemoryUsageMax;
 	}
 
-	public double getJvmCpuUse() {
-		return jvmCpuUse;
+	public double getJvmCpuUsage() {
+		return jvmCpuUsage;
 	}
 
-	public void setJvmCpuUse(double jvmCpuUse) {
-		this.jvmCpuUse = jvmCpuUse;
+	public void setJvmCpuUsage(double jvmCpuUse) {
+		this.jvmCpuUsage = jvmCpuUse;
 	}
 
+	public String getJvmArgs() {
+		return jvmArgs;
+	}
+
+	public void setJvmArgs(String jvmArgs) {
+		this.jvmArgs = jvmArgs;
+	}
+
+	public long getJvmThreads() {
+		return jvmThreads;
+	}
+
+	public void setJvmThreads(long jvmThreads) {
+		this.jvmThreads = jvmThreads;
+	}
+	
+	public long getJvmUpTime() {
+		return jvmUpTime;
+	}
+	
+	public void setJvmUpTime(long jvmUpTime) {
+		this.jvmUpTime = jvmUpTime;
+	}
+	public int getAvailableProcessors() {
+		return availableProcessors;
+	}
+	
+	public void setAvailableProcessors(int availableProcessors) {
+		this.availableProcessors = availableProcessors;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+	
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 }
