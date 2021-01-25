@@ -15,7 +15,7 @@
 		<java.version>1.8</java.version>
 		<spring.boot.version>2.4.0</spring.boot.version>
 		<netty.version>4.1.56.Final</netty.version>
-		<common.host>common.host</common.host>
+		<common.com>common.com</common.com>
 	</properties>
 
 	<profiles>
@@ -23,7 +23,7 @@
 		<profile>
 			<id>dev</id>
 			<properties>
-				<nexus.public>http://common.host:8081/repository/maven-public/</nexus.public>
+				<nexus.public>http://common.com:8081/repository/maven-public/</nexus.public>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -141,12 +141,12 @@
 		<repository>
 			<id>nexus-releases</id>
 			<name>Nexus Release Repository</name>
-			<url>http://${common.host}:8081/repository/maven-releases/</url>
+			<url>http://${common.com}:8081/repository/maven-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
 			<name>Nexus Snapshot Repository</name>
-			<url>http://${common.host}:8081/repository/maven-snapshots/</url>
+			<url>http://${common.com}:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
