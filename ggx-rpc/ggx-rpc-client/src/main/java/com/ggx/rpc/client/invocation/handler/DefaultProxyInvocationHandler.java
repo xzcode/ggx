@@ -85,12 +85,14 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 			
 			if (crossGroup != null && !crossGroup.isEmpty()) {
 				RpcServiceCrossGroup rpcServiceCrossGroup = interfaceServiceCrossGroupCache.get(serviceInterface);
-				Integer groupParamIndex = interfaceInfo.getMethodTargetGroupParamIndexes().get(method);
-				if (groupParamIndex != null) {
-					 String serviceGroupId = String.valueOf(args[groupParamIndex]);
-					 group = rpcServiceCrossGroup.get(serviceGroupId);
-				}else {
-					group = rpcServiceCrossGroup.getRandomOne();
+				if (rpcServiceCrossGroup != null) {
+					Integer groupParamIndex = interfaceInfo.getMethodTargetGroupParamIndexes().get(method);
+					if (groupParamIndex != null) {
+						 String serviceGroupId = String.valueOf(args[groupParamIndex]);
+						 group = rpcServiceCrossGroup.get(serviceGroupId);
+					}else {
+						group = rpcServiceCrossGroup.getRandomOne();
+					}
 				}
 			}else {
 				group = interfaceServiceGroupCache.get(serviceInterface);

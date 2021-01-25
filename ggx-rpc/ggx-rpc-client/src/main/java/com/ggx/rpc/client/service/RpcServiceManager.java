@@ -143,17 +143,23 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 				// 如果组内无服务，则移除组
 				if (fServiceGroup.size() == 0) {
 					this.remove(fServiceGroup.getServiceGroupId());
+					
+					
 					for (InterfaceInfoModel info : interfaceInfos) {
 						Class<?> interfaceClass = classCache.get(info.getInterfaceName());
 						interfaceServiceCache.remove(interfaceClass);
 						
-						interfaceServiceCrossGroupCache.remove(interfaceClass);
 						
 						String crossGroup = info.getCrossGroup();
 						if (crossGroup != null && !crossGroup.isEmpty()) {
 							RpcServiceCrossGroup serviceCrossGroup = serviceCrossGroupManager.get(crossGroup);
 							if (serviceCrossGroup != null) {
 								serviceCrossGroup.remove(fServiceGroup.getServiceGroupId());
+							}
+							
+							if (serviceCrossGroup != null && serviceCrossGroup.size() == 0) {
+								serviceCrossGroupManager.remove(crossGroup);
+								interfaceServiceCrossGroupCache.remove(interfaceClass);
 							}
 						}
 					}
