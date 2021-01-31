@@ -223,5 +223,14 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	 */
 	NetFlowData getNetFlowData();
 
+	
+	/**
+	 * 是否已断开
+	 *
+	 * @return
+	 * 2021-01-31 22:03:06
+	 */
+	boolean isDisconnected();
+
 
 }

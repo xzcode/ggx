@@ -74,6 +74,7 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 			}
 		}
 	}
+	
 
 	@Override
 	public boolean isSuccess() {

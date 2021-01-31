@@ -69,6 +69,7 @@ public class DefaultChannelSession extends AbstractSession<GGXCoreConfig> {
 	public GGXFuture<?> disconnect() {
 		GGXNettyFuture<?> future = new GGXNettyFuture<>(this.getChannel().close());
 		future.addListener(f -> {
+			this.disconnected = true;
 			triggerDisconnectListeners();
 		});
 		return future;

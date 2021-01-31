@@ -41,9 +41,12 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 
 	// 超时时间
 	protected long expireMs;
-
+	
 	// 是否已超时
 	protected boolean expired = false;
+
+	// 是否已断开
+	protected boolean disconnected = false;
 	
 	//会话流量信息
 	protected NetFlowData netFlowData;
@@ -71,7 +74,13 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 
 	@Override
 	public void addDisconnectListener(SessionDisconnectListener listener) {
-		this.disconnectListeners.add(listener);
+		this.submitTask(() -> {
+			if (this.isDisconnected()) {
+				listener.onDisconnect(this);
+				return;
+			}
+			this.disconnectListeners.add(listener);
+		});
 	}
 	
 	@Override
@@ -84,7 +93,7 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	 *
 	 * @author zai 2020-04-09 10:39:37
 	 */
-	public void triggerDisconnectListeners() {
+	protected void triggerDisconnectListeners() {
 		if (this.disconnectListeners.size() > 0) {
 			for (SessionDisconnectListener lis : disconnectListeners) {
 				try {
@@ -226,5 +235,11 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	public NetFlowData getNetFlowData() {
 		return netFlowData;
 	}
+	
+	@Override
+	public boolean isDisconnected() {
+		return disconnected;
+	}
+	
 
 }

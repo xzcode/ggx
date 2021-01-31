@@ -2,7 +2,10 @@ package com.ggx.core.common.future;
 
 import java.util.concurrent.Future;
 
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.manager.DefaultSessionManager;
+import com.ggx.util.logger.GGXLogUtil;
 
 /**
  * 未来对象
@@ -16,11 +19,32 @@ public interface GGXFuture<T> extends Future<T> {
 	/**
 	 * 添加回调监听器
 	 *
-	 * @param listener
+	 * @param listener 监听器
 	 * @author zai
 	 * 2020-11-11 15:36:40
 	 */
 	void addListener(GGXFutureListener<T> listener);
+	
+	/**
+	 * 添加回调监听器
+	 *
+	 * @param executor 回调执行器
+	 * @param listener 监听器
+	 * 2021-01-31 22:19:38
+	 */
+	default void addListener(TaskExecutor executor, GGXFutureListener<T> listener) {
+		if (executor != null) {
+			this.addListener(f -> {
+				executor.submitTask(() -> {
+					try {
+						listener.operationComplete(this);
+					} catch (Exception e) {
+						GGXLogUtil.getLogger(this).error("GGXFuture trigger listener ERROR!", e);
+					}
+				});
+			});
+		}
+	};
 
 	/**
 	 * 取消该任务(针对定时任务)

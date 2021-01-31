@@ -8,11 +8,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.executor.SingleThreadTaskExecutor;
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 
 /**
  * session管理器
@@ -27,6 +30,8 @@ public class DefaultSessionManager implements SessionManager {
 	
 	private final Map<String, GGXSession> sessionMap = new ConcurrentHashMap<>(1000);
 	
+	private TaskExecutor taskExecutor = new SingleThreadTaskExecutor(new GGXThreadFactory("session-manager-", true));
+	
 	public DefaultSessionManager(GGXCoreConfig config) {
 		this.config = config;
 		this.startSessionExpireCheckTask();
@@ -40,7 +45,7 @@ public class DefaultSessionManager implements SessionManager {
 	 * 2020-04-13 10:25:24
 	 */
 	protected void startSessionExpireCheckTask() {
-		this.config.getTaskExecutor().schedule(this.config.getSessionExpireCheckPeriodMs(), TimeUnit.MILLISECONDS, () -> {
+		this.taskExecutor.schedule(this.config.getSessionExpireCheckPeriodMs(), TimeUnit.MILLISECONDS, () -> {
 			try {
 				for (Entry<String, GGXSession> entry : sessionMap.entrySet()) {
 					GGXSession session = entry.getValue();

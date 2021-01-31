@@ -119,9 +119,9 @@ public class GGXCoreConfig {
 
 	protected boolean soReuseaddr = true;
 
-	protected long sessionExpireMs = 24L * 3600L * 1000L;
+	protected long sessionExpireMs = 1800L * 1000L; // 30分钟无更新超时
 	
-	protected long sessionExpireCheckPeriodMs = 3600L * 1000L;
+	protected long sessionExpireCheckPeriodMs = 60L * 1000L; // 一分钟进行session检查 
 
 	protected boolean pingPongEnabled = false;
 

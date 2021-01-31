@@ -71,15 +71,19 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 	@Override
 	public GGXFuture<?> disconnect() {
 		
-		triggerDisconnectListeners();
-		
-		//触发断开连接事件
-		this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
-		
 		GGXCoreFuture<?> future = new GGXCoreFuture<>();
-		future.setSession(this);
-		future.setDone(true);
-		future.setSuccess(true);
+		this.submitTask(() -> {
+			this.disconnected = true;
+			
+			triggerDisconnectListeners();
+			
+			//触发断开连接事件
+			this.emitEvent(new EventData<>(this, GGXCoreEvents.Connection.CLOSED, null));
+			
+			future.setSession(this);
+			future.setDone(true);
+			future.setSuccess(true);
+		});
 		return future;
 	}
 
