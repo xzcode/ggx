@@ -88,8 +88,8 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		Channel channel = ctx.channel();
 		config.getSessionFactory().channelActive(channel);
-		if (GGXLogUtil.isDebugEnabled()) {
-			GGXLogUtil.getLogger(this).debug("Channel Active:{}", channel);
+		if (GGXLogUtil.isInfoEnabled()) {
+			GGXLogUtil.getLogger(this).info("Channel Active:{}", channel);
 		}
 		GGXSession session = (GGXSession)channel.attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
 		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.OPENED, null));
@@ -99,8 +99,8 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		config.getSessionFactory().channelInActive(ctx.channel());
-		if (GGXLogUtil.isDebugEnabled()) {
-			GGXLogUtil.getLogger(this).debug("channel Inactive:{}", ctx.channel());
+		if (GGXLogUtil.isInfoEnabled()) {
+			GGXLogUtil.getLogger(this).info("channel Inactive:{}", ctx.channel());
 		}
 		GGXSession session = (GGXSession)ctx.channel().attr(AttributeKey.valueOf(DefaultChannelAttributeKeys.SESSION)).get();
 		config.getEventManager().emitEvent(new EventData<>(session, GGXCoreEvents.Connection.CLOSED, null));

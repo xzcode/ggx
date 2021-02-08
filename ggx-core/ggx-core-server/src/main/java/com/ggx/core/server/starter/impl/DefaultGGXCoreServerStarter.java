@@ -33,7 +33,7 @@ import io.netty.util.concurrent.Future;
  */
 public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
 	
-	private boolean showedLogo = false;
+	private static boolean SHOWED_LOGO = false;
 	
 	protected static final Logger logger = LoggerFactory.getLogger(DefaultGGXCoreServerStarter.class);
 	
@@ -101,9 +101,9 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
     private void handleStartFutureCallback(ServerBootstrap boot, GGXNettyFuture<?> ggFuture, Future<? super Void> f) {
     	String logoString = getLogoString();
     	if (f.isSuccess()) {
-    		if (!showedLogo) {
+    		if (!SHOWED_LOGO) {
     			System.out.println(logoString);
-    			showedLogo = true;
+    			SHOWED_LOGO = true;
 			}
     		System.out.println(config.getServerName() + " started on port " + config.getPort() + "!\n");
     		ggFuture.setFuture(f);

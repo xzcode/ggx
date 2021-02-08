@@ -16,11 +16,11 @@ import io.netty.util.AttributeKey;
 
 /**
  * 自定协议解析
- *  包体总长度      保留内容         指令长度      指令内容          数据体
- * +-----------+----------+-----------+-----------+------------+
- * | 4 bytes   | 2 bytes  |   1 byte  |    tag    |  data body |
- * +-----------+----------+-----------+-----------+------------+
- *             | _________________ AES CONTENT ________________|
+ *      包体总长度          指令长度       指令内容            数据体
+ * +-----------+----------+-----------+------------+
+ * | 4 bytes   |  1 byte  |    tag    |  data body |
+ * +-----------+----------+-----------+------------+
+ *             | ____________ AES CONTENT _________|
  * @author zai
  *
  */
@@ -82,11 +82,6 @@ public class AESSupportDecodeHandler implements DecodeHandler {
 		packLen = buff.length;
 		
 		int buffReadIndex = 0;
-		
-		//读取预留内容 2 字节
-		ByteArrayTransferUtil.bytesToShort(buff, buffReadIndex);
-		
-		buffReadIndex += 2;
 		
 		//读取指令长度标识1字节
 		int actionLen = buff[buffReadIndex];
