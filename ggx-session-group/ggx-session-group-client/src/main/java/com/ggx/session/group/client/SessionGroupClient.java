@@ -53,7 +53,7 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 	private void init() {
 		
 		if (this.config.getWorkThreadFactory() == null) {
-			this.config.setWorkThreadFactory(new GGXThreadFactory("gg-group-cli-", false));
+			this.config.setWorkThreadFactory(new GGXThreadFactory("ggx-group-cli-", false));
 		}
 		
 		GGXCoreClientConfig sessionClientConfig = new GGXCoreClientConfig();
@@ -187,13 +187,13 @@ public class SessionGroupClient implements EventSupport, MakePackSupport{
 					}
 					if (!f.isSuccess()) {
 						// 连接失败，进行进行重连操作
-						GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Fail! ({}/{})", config.getSessionGroupClientName(),config.getTargetServerName(), host, port, avaliableConnections.get(), config.getConnectionSize());
+						GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Fail! ", config.getSessionGroupClientName(),config.getTargetServerName(), host, port);
 						ggclient.schedule(config.getReconnectInterval(), () -> {
 							connectOne(host, port);
 						});
 						return;
 					}
-					GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Success!({}/{})", config.getSessionGroupClientName(),config.getTargetServerName(), host, port, avaliableConnections.get(), config.getConnectionSize());
+					GGXLogUtil.getLogger(this).warn("[{}] Connect Server [{}] - [{}:{}] Success!", config.getSessionGroupClientName(),config.getTargetServerName(), host, port);
 				});
 				
 			});
