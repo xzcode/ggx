@@ -1,8 +1,8 @@
 package com.ggx.server.starter.basic;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.common.message.EventbusMessage;
 import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.future.GGXSuccessFuture;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
@@ -18,6 +18,7 @@ import com.ggx.registry.server.RegistryServer;
 import com.ggx.registry.server.config.RegistryServerConfig;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.server.RouterServer;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.rpc.client.RpcClient;
@@ -142,6 +143,14 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 	@Override
 	public GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
 		return this.routerClient.route(groupId, serviceId, message, session);
+		
+	}
+	@Override
+	public RouterServiceGroup getRouterServiceGroup(String serviceGroupId) {
+		if (serviceGroupId != null) {
+			return this.routerClient.getConfig().getRouterServiceManager().getServiceGroup(serviceGroupId);
+		}
+		return this.routerClient.getConfig().getServiceProvider().getDefaultRouterServiceGroup();
 		
 	}
 

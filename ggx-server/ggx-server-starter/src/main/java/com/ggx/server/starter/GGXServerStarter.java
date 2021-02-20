@@ -6,6 +6,7 @@ import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.RegistryClient;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 
 public interface GGXServerStarter extends GGXCoreSupport{
 	
@@ -90,5 +91,15 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * 2021-01-15 18:49:56
 	 */
 	RegistryClient getRegistryClient();
+
+
+	/**
+	 * 获取路由组
+	 *
+	 * @param serviceGroupId
+	 * @return
+	 * 2021-02-20 12:22:39
+	 */
+	RouterServiceGroup getRouterServiceGroup(String serviceGroupId);
 
 }

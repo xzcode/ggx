@@ -9,6 +9,7 @@ import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.client.config.RouterClientConfig;
+import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 import com.ggx.server.starter.config.GGXServerConfig;
@@ -175,6 +176,11 @@ public class GGXServer implements GGXServerStarter {
 	public GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session) {
 		return this.serverStarter.routeMessage(groupId, serviceId, message, session);
 	}
+	
+	@Override
+	public RouterServiceGroup getRouterServiceGroup(String serviceGroupId) {
+		return this.serverStarter.getRouterServiceGroup(serviceGroupId);
+	}
 
 	@Override
 	public void publishEventbusMessage(EventbusMessage message) {
@@ -232,5 +238,7 @@ public class GGXServer implements GGXServerStarter {
 		}
 		return client.getServiceManager().getList();
 	}
+
+
 
 }
