@@ -100,6 +100,6 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * @return
 	 * 2021-02-20 12:22:39
 	 */
-	RouterServiceGroup getRouterServiceGroup(String serviceGroupId);
+	RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId);
 
 }

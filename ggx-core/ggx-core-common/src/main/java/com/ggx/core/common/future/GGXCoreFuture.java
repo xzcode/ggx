@@ -207,4 +207,13 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		}
 	}
 	
+	public void follow(GGXFuture<?> followFuture) {
+		followFuture.addListener(f -> {
+			this.data = followFuture.get();
+			this.cause = followFuture.cause();
+			this.success = followFuture.isSuccess();
+			this.setDone(followFuture.isDone());
+		});
+	}
+	
 }

@@ -178,8 +178,8 @@ public class GGXServer implements GGXServerStarter {
 	}
 	
 	@Override
-	public RouterServiceGroup getRouterServiceGroup(String serviceGroupId) {
-		return this.serverStarter.getRouterServiceGroup(serviceGroupId);
+	public RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId) {
+		return this.serverStarter.getDefaultRouterServiceGroup(serviceGroupId);
 	}
 
 	@Override

@@ -146,7 +146,7 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		
 	}
 	@Override
-	public RouterServiceGroup getRouterServiceGroup(String serviceGroupId) {
+	public RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId) {
 		if (serviceGroupId != null) {
 			return this.routerClient.getConfig().getRouterServiceManager().getServiceGroup(serviceGroupId);
 		}
