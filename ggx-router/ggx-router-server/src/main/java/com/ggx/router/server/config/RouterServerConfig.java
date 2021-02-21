@@ -8,6 +8,7 @@ import com.ggx.core.server.port.PortChangeStrategy;
 import com.ggx.group.server.SessionGroupServer;
 import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
+import com.ggx.router.common.session.attr.SessionTransferAttrInfoManager;
 import com.ggx.router.server.RouterServer;
 
 import io.netty.channel.EventLoopGroup;
@@ -71,6 +72,9 @@ public class RouterServerConfig {
 	
 	//会话断开推送传递是否开启
 	protected boolean 	sessionDisconnectTransferResponseEnabled = false;
+	
+	// 会话属性信息管理器
+	protected SessionTransferAttrInfoManager sessionTransferAttrInfoManager = new SessionTransferAttrInfoManager();
 	
 	public boolean isBootWithRandomPort() {
 		return bootWithRandomPort;
@@ -222,6 +226,14 @@ public class RouterServerConfig {
 	
 	public void setScanPackages(String[] scanPackages) {
 		this.scanPackages = scanPackages;
+	}
+	
+	public SessionTransferAttrInfoManager getSessionTransferAttrInfoManager() {
+		return sessionTransferAttrInfoManager;
+	}
+	
+	public void setSessionTransferAttrInfoManager(SessionTransferAttrInfoManager sessionTransferAttrInfoManager) {
+		this.sessionTransferAttrInfoManager = sessionTransferAttrInfoManager;
 	}
 	
 }

@@ -145,6 +145,19 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		return this.routerClient.route(groupId, serviceId, message, session);
 		
 	}
+	
+	@Override
+	public void registerRouterTransferSessionAttr(String key, Class<?> clazz) {
+		if (this.routerServer != null) {
+			this.routerServer.getConfig().getSessionTransferAttrInfoManager().register(key, clazz);
+		}
+		
+		if (this.routerClient != null) {
+			this.routerClient.getConfig().getSessionTransferAttrInfoManager().register(key, clazz);
+		}
+		
+	}
+	
 	@Override
 	public RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId) {
 		if (serviceGroupId != null) {

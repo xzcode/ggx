@@ -8,9 +8,5 @@ package com.ggx.core.common.session.constant;
  */
 public interface GGDefaultSessionKeys {
 	
-	/**
-	 * 序列化类型
-	 */
-	String SERIALIZE_TYPE = "SERIALIZE_TYPE";
 	
 }

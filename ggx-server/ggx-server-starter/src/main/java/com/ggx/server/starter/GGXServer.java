@@ -177,6 +177,13 @@ public class GGXServer implements GGXServerStarter {
 		return this.serverStarter.routeMessage(groupId, serviceId, message, session);
 	}
 	
+
+	@Override
+	public void registerRouterTransferSessionAttr(String key, Class<?> clazz) {
+		this.serverStarter.registerRouterTransferSessionAttr(key, clazz);
+		
+	}
+	
 	@Override
 	public RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId) {
 		return this.serverStarter.getDefaultRouterServiceGroup(serviceGroupId);
@@ -202,6 +209,7 @@ public class GGXServer implements GGXServerStarter {
 	public Object registerRpcClient(Class<?> serviceInterface, Object fallbackObj) {
 		return this.serverStarter.registerRpcClient(serviceInterface, fallbackObj);
 	}
+	
 
 	@Override
 	public void start() {
@@ -238,6 +246,7 @@ public class GGXServer implements GGXServerStarter {
 		}
 		return client.getServiceManager().getList();
 	}
+
 
 
 

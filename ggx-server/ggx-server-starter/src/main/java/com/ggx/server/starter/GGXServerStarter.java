@@ -82,6 +82,15 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * 2020-10-13 14:50:15
 	 */
 	GGXFuture<?> routeMessage(String groupId, String serviceId, Message message, GGXSession session);
+	
+	/**
+	 * 注册路由会话属性传递
+	 *
+	 * @param key
+	 * @param clazz
+	 * 2021-02-21 23:08:03
+	 */
+	void registerRouterTransferSessionAttr(String key, Class<?> clazz);
 
 
 	/**

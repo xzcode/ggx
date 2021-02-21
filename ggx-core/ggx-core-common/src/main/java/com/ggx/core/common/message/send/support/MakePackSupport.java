@@ -5,9 +5,7 @@ import java.nio.charset.Charset;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.serializer.Serializer;
-import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.session.constant.GGDefaultSessionKeys;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -48,20 +46,9 @@ public interface MakePackSupport{
 	default Pack makePack(MessageData messageData) {
 		try {
 			GGXSession session = messageData.getSession();
-			String serType = null;
-			if (session != null) {
-				serType = session.getAttribute(GGDefaultSessionKeys.SERIALIZE_TYPE, String.class);
-			}
-			Serializer serializer;
 			Pack pack = new Pack();
-			if (serType != null) {
-				serializer = SerializerFactory.getSerializer(serType);
-				pack.setSerializeType(serType);
-			}else {
-				serializer = getSerializer();
-			}
 			byte[] actionIdBytes = messageData.getAction().getBytes(getCharset());
-			byte[] messageBytes = messageData.getMessage() == null ? null : serializer.serialize(messageData.getMessage());
+			byte[] messageBytes = messageData.getMessage() == null ? null : getSerializer().serialize(messageData.getMessage());
 			pack.setSession(session);
 			pack.setAction(actionIdBytes);
 			pack.setMessage(messageBytes);

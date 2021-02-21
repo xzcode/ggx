@@ -23,11 +23,6 @@ public class RouterRedirectMessageToOtherRouterServicesResp implements Message {
 	/* 消息体 */
 	private byte[] message;
 	
-	/* 包操序列化方式*/
-	private String serializeType;
-	
-	
-
 	public RouterRedirectMessageToOtherRouterServicesResp() {
 
 	}
@@ -72,15 +67,6 @@ public class RouterRedirectMessageToOtherRouterServicesResp implements Message {
 		this.message = message;
 	}
 
-
-	public String getSerializeType() {
-		return serializeType;
-	}
-
-
-	public void setSerializeType(String serializeType) {
-		this.serializeType = serializeType;
-	}
 	
 	
 	

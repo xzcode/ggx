@@ -13,9 +13,7 @@ public class GGXServerConfig {
 	
 	protected boolean enabled = true;
 	
-	private String[] scanPackages;
-	
-	private String[] scanPackageBlacklist ={"java", "org.springframework", "org.apache", "net.sf", "io.netty", "io.protostuff", "com.google", "org.slf4j", "io.github", "nonapi"};;
+	protected String[] scanPackages;
 	
 	protected GGXRegistryServerConfigModel registryServer;
 	
@@ -47,14 +45,6 @@ public class GGXServerConfig {
 
 	public void setScanPackages(String[] scanPackages) {
 		this.scanPackages = scanPackages;
-	}
-
-	public String[] getScanPackageBlacklist() {
-		return scanPackageBlacklist;
-	}
-
-	public void setScanPackageBlacklist(String[] scanPackageBlacklist) {
-		this.scanPackageBlacklist = scanPackageBlacklist;
 	}
 
 	public GGXRegistryServerConfigModel getRegistryServer() {

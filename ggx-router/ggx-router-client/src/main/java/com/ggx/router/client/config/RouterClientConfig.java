@@ -21,6 +21,7 @@ import com.ggx.router.client.service.loadblancer.factory.RouterServiceLoadblance
 import com.ggx.router.client.service.manager.RouterServiceManager;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
+import com.ggx.router.common.session.attr.SessionTransferAttrInfoManager;
 import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.EventLoopGroup;
@@ -94,9 +95,13 @@ public class RouterClientConfig {
 
 	// 会话断开请求传递是否开启
 	protected boolean sessionDisconnectTransferRequestEnabled = true;
-
+	
 	// 会话断开推送传递是否开启
 	protected boolean sessionDisconnectTransferResponseEnabled = false;
+	
+
+	// 会话属性信息管理器
+	protected SessionTransferAttrInfoManager sessionTransferAttrInfoManager = new SessionTransferAttrInfoManager();
 
 	// 路由服务负载均衡器工厂
 	protected RouterServiceLoadblancerFactory routerServiceLoadblancerFactory = new DefaultRouterServiceLoadblancerFactory(
@@ -335,4 +340,13 @@ public class RouterClientConfig {
 	public void setServiceProviderType(String serviceProviderType) {
 		this.serviceProviderType = serviceProviderType;
 	}
+	
+	public SessionTransferAttrInfoManager getSessionTransferAttrInfoManager() {
+		return sessionTransferAttrInfoManager;
+	}
+	
+	public void setSessionTransferAttrInfoManager(SessionTransferAttrInfoManager sessionTransferAttrInfoManager) {
+		this.sessionTransferAttrInfoManager = sessionTransferAttrInfoManager;
+	}
+	
 }

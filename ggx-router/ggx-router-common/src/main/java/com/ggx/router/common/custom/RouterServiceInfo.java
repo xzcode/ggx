@@ -17,8 +17,6 @@ public class RouterServiceInfo {
 	//服务端口
 	protected int servicePort;
 	
-	
-	
 
 	public String getServiceActionIdPrefix() {
 		return serviceActionIdPrefix;

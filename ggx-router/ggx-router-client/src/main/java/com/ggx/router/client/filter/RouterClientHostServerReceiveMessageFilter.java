@@ -5,7 +5,6 @@ import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
-import com.ggx.core.common.serializer.factory.SerializerFactory;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.router.client.RouterClient;
 import com.ggx.router.client.config.RouterClientConfig;
@@ -36,10 +35,6 @@ public class RouterClientHostServerReceiveMessageFilter implements ReceivePackFi
 		if (messageControllerManager.getMethodInfo(actionId) != null) {
 			filterChain.doFilter(pack);
 			return;
-		}
-		if (pack.getSerializeType() == null) {
-			String serializerType = SerializerFactory.getSerializerType(hostServer.getSerializer());
-			pack.setSerializeType(serializerType);
 		}
 		
 		//如果匹配不到路由,交由后续过滤器处理

@@ -1,16 +1,20 @@
 package com.ggx.router.server;
 
-import com.ggx.core.common.future.GGXFuture;
+import java.util.List;
+
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.config.GGXCoreSupport;
 import com.ggx.core.common.event.EventListener;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.core.common.message.receive.controller.MessageController;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.impl.KryoSerializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.server.GGXCoreServer;
@@ -22,12 +26,17 @@ import com.ggx.registry.client.RegistryClient;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterServiceCustomDataKeys;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
+import com.ggx.router.common.message.model.TranferSessionAttrModel;
 import com.ggx.router.common.message.req.RouteMessageReq;
+import com.ggx.router.common.message.req.RouterCreateSessionReq;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
+import com.ggx.router.common.session.attr.SessionAttrInfo;
+import com.ggx.router.common.session.attr.SessionTransferAttrInfoManager;
 import com.ggx.router.server.config.RouterServerConfig;
 import com.ggx.router.server.session.RouterServerSession;
+import com.ggx.util.logger.GGXLogUtil;
 import com.ggx.util.thread.GGXThreadFactory;
 
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,6 +53,8 @@ public class RouterServer implements GGXCoreSupport {
 	
 	protected GGXCoreServer sessionServiceServer;
 	protected GGXCoreServer hostServer;
+	
+	protected Serializer transferSessionAttrSerializer = new KryoSerializer();
 
 
 	public RouterServer(RouterServerConfig config) {
@@ -56,9 +67,9 @@ public class RouterServer implements GGXCoreSupport {
 	public void init() {
 		
 		if (this.config.getSharedEventLoopGroup() == null) {
-			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("gg-router-serv-", false)));
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("ggx-router-serv-", false)));
 		}
-
+		
 		SessionGroupServerConfig sessionServerConfig = new SessionGroupServerConfig();
 		sessionServerConfig.setServiceActionIdPrefix(config.getActionIdPrefix());
 		sessionServerConfig.setAuthToken(this.config.getAuthToken());
@@ -76,22 +87,15 @@ public class RouterServer implements GGXCoreSupport {
 		SessionGroupServer sessionServer = new SessionGroupServer(sessionServerConfig);
 		this.config.setSessionGroupServer(sessionServer);
 		
-		
-		
-		
 		GGXCoreServerConfig hostServerConfig = new GGXCoreServerConfig();
 		hostServerConfig.setWorkerGroup(this.config.getSharedEventLoopGroup());
 		hostServerConfig.init();
 		
 		this.hostServer = new GGXDefaultCoreServer(hostServerConfig);
 		
-		
-		
 		this.sessionServiceServer = sessionServerConfig.getServiceServer();
 		this.sessionServiceServer.getConfig().setScanPackages(this.config.getScanPackages());
 		this.sessionServiceServer.getConfig().setIgnoreActionIdPrefixes(config.getIgnoreActionIdPrefixes());
-		
-		
 		
 		//监听session断开传递
 		this.sessionServiceServer.registerMessageController(new MessageController(){
@@ -108,11 +112,8 @@ public class RouterServer implements GGXCoreSupport {
 			}
 			
 			@GGXAction
-			public void routeMessageReq(RouteMessageReq req, GGXSession session) {
+			public void routerCreateSessionReq(RouterCreateSessionReq req, GGXSession session) {
 				String tranferSessionId = req.getTranferSessionId();
-				byte[] action = req.getAction();
-				String serializeType = req.getSerializeType();
-				byte[] message = req.getMessage();
 				
 				SessionManager hostSessionManager = hostServer.getSessionManager();
 				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
@@ -122,11 +123,36 @@ public class RouterServer implements GGXCoreSupport {
 					GGXSession addSessionIfAbsent = hostSessionManager.addSessionIfAbsent(hostSession);
 					if (addSessionIfAbsent != null) {
 						hostSession = addSessionIfAbsent;
+					}else {
+						
+						SessionTransferAttrInfoManager sessionTransferAttrInfoManager = RouterServer.this.config.getSessionTransferAttrInfoManager();
+						if (sessionTransferAttrInfoManager.size() > 0) {
+							List<TranferSessionAttrModel> tranferSessionAttrs = req.getTranferSessionAttrs();
+							for (TranferSessionAttrModel model : tranferSessionAttrs) {
+								
+								String key = model.getKey();
+								byte[] data = model.getData();
+								SessionAttrInfo attrInfo = sessionTransferAttrInfoManager.get(key);
+								if (attrInfo != null) {
+									try {
+										hostSession.addAttribute(key, transferSessionAttrSerializer.deserialize(data, attrInfo.getAttrClass()));
+									} catch (Exception e) {
+										GGXLogUtil.getLogger(this).error("Deserialize session attr error!", e);
+									}
+								}
+							}
+						}
 					}
 				}
+			}
+			
+			@GGXAction
+			public void routeMessageReq(RouteMessageReq req, GGXSession session) {
 				
-				Pack pack = new Pack(hostSession, action, message);
-				pack.setSerializeType(serializeType);
+				SessionManager hostSessionManager = hostServer.getSessionManager();
+				GGXSession hostSession = hostSessionManager.getSession(req.getTranferSessionId());
+				
+				Pack pack = new Pack(hostSession, req.getAction(), req.getMessage());
 				
 				hostServerConfig.getReceiveMessageManager().receive(pack);
 			}
@@ -152,8 +178,6 @@ public class RouterServer implements GGXCoreSupport {
 				}
 			}
 		});
-		
-
 	}
 
 	public GGXCoreServer getSessionServiceServer() {
@@ -205,7 +229,6 @@ public class RouterServer implements GGXCoreSupport {
 		resp.setTranferSessionId(redirectingSession.getSessionId());
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
-		resp.setSerializeType(pack.getSerializeType());
 		
 		redirectingSession.send(resp);
 		

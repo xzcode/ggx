@@ -8,10 +8,6 @@ package com.ggx.router.common.constant;
  */
 public interface RouterConstant {
 	
-	/**
-	 * 指令前缀
-	 */
-	String ACTION_ID_PREFIX = "ROUTER.";
 	
 	/**
 	 * 默认服务地址
@@ -46,7 +42,6 @@ public interface RouterConstant {
 	/**
 	 * 路由会话断开连接传递类型
 	 */
-	String ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY = "ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE";
-
-
+	String ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY = "DISCONNECT_TRANSFER_TYPE";
+	
 }

@@ -14,45 +14,64 @@ import com.ggx.core.common.serializer.Serializer;
  */
 public class KryoSerializer implements Serializer {
 
-	private static final Pool<Kryo> KRYO_POOL = new Pool<Kryo>(true, false, 1000) {
-		protected Kryo create() {
-			Kryo kryo = new Kryo();
-			kryo.setRegistrationRequired(false);
-			return kryo;
-		}
-	};
+	private int poolSize = Runtime.getRuntime().availableProcessors() * 2;
 
-	private static final Pool<Output> OUTPUT_POOL = new Pool<Output>(true, false, 1000) {
-		protected Output create() {
-			return new Output(1024, -1);
-		}
-	};
+	private Pool<Kryo> kryoPool;
 
-	private static final Pool<Input> INPUT_POOL = new Pool<Input>(true, false, 1000) {
-		protected Input create() {
-			return new Input(1024);
-		}
-	};
+	private Pool<Output> outputPool;
+
+	private Pool<Input> inputPool;
+
+	public KryoSerializer() {
+		init();
+	}
+
+	public KryoSerializer(int poolSize) {
+		this.poolSize = poolSize;
+		init();
+	}
+
+	private void init() {
+		kryoPool = new Pool<Kryo>(true, false, poolSize) {
+			protected Kryo create() {
+				Kryo kryo = new Kryo();
+				kryo.setRegistrationRequired(false);
+				return kryo;
+			}
+		};
+
+		outputPool = new Pool<Output>(true, false, poolSize) {
+			protected Output create() {
+				return new Output(1024, -1);
+			}
+		};
+
+		inputPool = new Pool<Input>(true, false, poolSize) {
+			protected Input create() {
+				return new Input(1024);
+			}
+		};
+	}
 
 	@Override
 	public byte[] serialize(Object message) throws Exception {
-		Kryo kryo = KRYO_POOL.obtain();
-		Output output = OUTPUT_POOL.obtain();
+		Kryo kryo = kryoPool.obtain();
+		Output output = outputPool.obtain();
 		kryo.writeObject(output, message);
 		byte[] bytes = output.toBytes();
-		KRYO_POOL.free(kryo);
-		OUTPUT_POOL.free(output);
+		kryoPool.free(kryo);
+		outputPool.free(output);
 		return bytes;
 	}
 
 	@Override
 	public <T> T deserialize(byte[] bytes, Class<T> t) throws Exception {
-		Kryo kryo = KRYO_POOL.obtain();
-		Input input = INPUT_POOL.obtain();
+		Kryo kryo = kryoPool.obtain();
+		Input input = inputPool.obtain();
 		input.setBuffer(bytes);
 		T readObject = kryo.readObject(input, t);
-		INPUT_POOL.free(input);
-		KRYO_POOL.free(kryo);
+		inputPool.free(input);
+		kryoPool.free(kryo);
 		return readObject;
 	}
 }

@@ -1,20 +1,23 @@
 package com.ggx.router.client.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.client.GGXCoreClient;
 import com.ggx.core.client.config.GGXCoreClientConfig;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageController;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
+import com.ggx.core.common.serializer.Serializer;
+import com.ggx.core.common.serializer.impl.KryoSerializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
 import com.ggx.core.common.session.manager.SessionManager;
@@ -28,10 +31,13 @@ import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.router.client.session.RouterClientSession;
 import com.ggx.router.common.constant.RouterConstant;
 import com.ggx.router.common.constant.RouterSessionDisconnectTransferType;
+import com.ggx.router.common.message.model.TranferSessionAttrModel;
+import com.ggx.router.common.message.req.RouterCreateSessionReq;
 import com.ggx.router.common.message.req.RouterSessionDisconnectTransferReq;
 import com.ggx.router.common.message.resp.RouteMessageResp;
 import com.ggx.router.common.message.resp.RouterRedirectMessageToOtherRouterServicesResp;
 import com.ggx.router.common.message.resp.RouterSessionDisconnectTransferResp;
+import com.ggx.router.common.session.attr.SessionTransferAttrInfoManager;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.util.logger.GGXLogUtil;
@@ -98,6 +104,9 @@ public class RouterService {
 	 * 负载量
 	 */
 	protected AtomicInteger load = new AtomicInteger(0);
+	
+	
+	protected Serializer transferSessionAttrSerializer = new KryoSerializer();
 	
 	
 
@@ -169,7 +178,6 @@ public class RouterService {
 					Pack pack = new Pack();
 					pack.setAction(resp.getAction());
 					pack.setMessage(resp.getMessage());
-					pack.setSerializeType(resp.getSerializeType());
 					pack.setSession(hostSession);
 					hostSession.send(pack);
 				}
@@ -198,7 +206,6 @@ public class RouterService {
 				Pack pack = new Pack();
 				pack.setAction(resp.getAction());
 				pack.setMessage(resp.getMessage());
-				pack.setSerializeType(resp.getSerializeType());
 				pack.setSession(hostSession);
 				
 				changeRouterService.dispatch(pack);
@@ -292,12 +299,53 @@ public class RouterService {
 				routingSession.addDisconnectListener(disconnectListener);
 				customClientSession.addAttribute(DISPATCH_DISCONNECT_LISTENER_KEY, disconnectListener);
 				
+				// 发送session创建请求
+				sendCreateSessionReq(routingSession, serviceClientSession, pack);
+				
 			}
 		}
-		
-		
 		return customClientSession.send(pack);
 		
+	}
+	
+	/**
+	 * 发送session创建请求
+	 *
+	 * @param routingSession
+	 * @param serviceClientSession
+	 * @param pack
+	 * 2021-02-21 21:55:56
+	 */
+	private void sendCreateSessionReq(GGXSession routingSession, GGXSession serviceClientSession,Pack pack) {
+		RouterCreateSessionReq createSessionReq = new RouterCreateSessionReq();
+		createSessionReq.setTranferSessionId(routingSession.getSessionId());
+		SessionTransferAttrInfoManager sessionTransferAttrInfoManager = this.config.getSessionTransferAttrInfoManager();
+		
+		if (sessionTransferAttrInfoManager.size() > 0) {
+			sessionTransferAttrInfoManager.ForEach(attrInfo -> {
+				Object attr = routingSession.getAttribute(attrInfo.getKey());
+				if (attr != null) {
+					TranferSessionAttrModel attrModel = new TranferSessionAttrModel();
+					attrModel.setKey(attrInfo.getKey());
+					try {
+						attrModel.setData(transferSessionAttrSerializer.serialize(attr));
+					} catch (Exception e) {
+						GGXLogUtil.getLogger(this).error("Serialize session attr error!", e);
+					}
+					createSessionReq.addAttr(attrModel);
+				}
+			});
+		}
+		serviceClientSession.send(createSessionReq);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		Serializer serializer = new KryoSerializer();
+		byte[] bytes = serializer.serialize("123456");
+		System.out.println(Arrays.toString(bytes));
+		System.out.println(int.class.getCanonicalName());
+		System.out.println(serializer.deserialize(bytes, String.class));
+		System.out.println(new String(new byte[] {10, 18, 8, 8, 16, 49, 16, 50, 16, 51, 16, 50, 16, 52, 16, 50, 16, 51, 16, 52, 16, 0}));
 	}
 	
 

@@ -41,11 +41,6 @@ public class Pack implements Serializable{
 	/* 包总长度 */
 	private int totalLength;
 	
-	/* 包操序列化方式*/
-	private String serializeType;
-	
-	
-	
 
 	public Pack() {
 	}
@@ -148,14 +143,6 @@ public class Pack implements Serializable{
 	
 	public int getTotalLength() {
 		return totalLength;
-	}
-	
-	public String getSerializeType() {
-		return serializeType;
-	}
-	
-	public void setSerializeType(String serializeType) {
-		this.serializeType = serializeType;
 	}
 
 }
