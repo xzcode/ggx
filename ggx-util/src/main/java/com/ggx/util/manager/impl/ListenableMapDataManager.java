@@ -9,11 +9,11 @@ import com.ggx.util.manager.listener.ListenerManager;
 
 public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K, V>{
 	
-	protected Map<K, V> map = new ConcurrentHashMap<>();
+	protected transient Map<K, V> map = new ConcurrentHashMap<>();
 	
-	private ListenerManager<V> onPutListenerManager = new DefaultListenerManager<>();
+	private transient ListenerManager<V> onPutListenerManager = new DefaultListenerManager<>();
 	
-	private ListenerManager<V> onRemoveListenerManager = new DefaultListenerManager<>();
+	private transient ListenerManager<V> onRemoveListenerManager = new DefaultListenerManager<>();
 	
 	@Override
 	public Map<K, V> getMap() {

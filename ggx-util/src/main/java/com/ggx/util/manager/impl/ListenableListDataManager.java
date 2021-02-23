@@ -10,11 +10,11 @@ import com.ggx.util.manager.listener.ListenerManager;
 
 public abstract class ListenableListDataManager<T> implements ListDataManager<T>{
 	
-	protected List<T> list = new CopyOnWriteArrayList<>();
+	protected transient List<T> list = new CopyOnWriteArrayList<>();
 	
-	private ListenerManager<T> onPutListenerManager = new DefaultListenerManager<>();
+	private transient ListenerManager<T> onPutListenerManager = new DefaultListenerManager<>();
 	
-	private ListenerManager<T> onRemoveListenerManager = new DefaultListenerManager<>();
+	private transient ListenerManager<T> onRemoveListenerManager = new DefaultListenerManager<>();
 	
 	@Override
 	public List<T> getList() {
