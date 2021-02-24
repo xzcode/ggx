@@ -31,6 +31,11 @@ public class GGXRandomIdUtil {
 	}
 	
 	
+	public static String newRandomStringId8() {
+		return newRandomStringId(8);
+	}
+	
+	
 	public static String newRandomStringId6() {
 		return newRandomStringId(6);
 	}
