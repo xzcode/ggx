@@ -49,7 +49,7 @@ public class GGXCoreServerConfig extends GGXCoreConfig{
 		}
 		
 		if (bossGroupThreadFactory == null) {
-			bossGroupThreadFactory = new GGXThreadFactory("gg-boss-", false);
+			bossGroupThreadFactory = new GGXThreadFactory("ggx-boss-", false);
 		}
 		
 		if (bossGroup == null) {

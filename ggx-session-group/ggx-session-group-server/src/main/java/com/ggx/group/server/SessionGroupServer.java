@@ -36,9 +36,9 @@ public class SessionGroupServer {
 
 	public void init() {
 		
-		GGXThreadFactory bossThreadFactory = new GGXThreadFactory("gg-group-boss-", false);
+		GGXThreadFactory bossThreadFactory = new GGXThreadFactory("ggx-group-boss-", false);
 		if (this.config.getWorkThreadFactory() == null) {
-			this.config.setWorkThreadFactory(new GGXThreadFactory("gg-group-worker-", false));
+			this.config.setWorkThreadFactory(new GGXThreadFactory("ggx-group-worker-", false));
 		}
 		
 		GGXCoreServerConfig sessionServerConfig = new GGXCoreServerConfig();

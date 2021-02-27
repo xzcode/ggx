@@ -39,7 +39,7 @@ public class EventbusGroupClient{
 	public void start() {
 		
 		if (this.config.getSharedEventLoopGroup() == null) {
-			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("gg-evt-group-", false)));
+			this.config.setSharedEventLoopGroup(new NioEventLoopGroup(this.config.getWorkThreadSize(), new GGXThreadFactory("ggx-evt-group-", false)));
 		}
 		
 		RegistryClient registryClient = this.config.getRegistryClient();

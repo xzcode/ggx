@@ -202,7 +202,7 @@ public class GGXCoreConfig {
 		}
 		
 		if (workerGroupThreadFactory == null) {
-			workerGroupThreadFactory = new GGXThreadFactory("gg-worker-", false);
+			workerGroupThreadFactory = new GGXThreadFactory("ggx-worker-", false);
 		}
 		if (workerGroup == null) {
 			workerGroup = new NioEventLoopGroup(getWorkThreadSize(), getWorkerGroupThreadFactory());

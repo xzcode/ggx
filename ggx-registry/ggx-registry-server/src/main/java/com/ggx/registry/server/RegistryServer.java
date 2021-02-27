@@ -55,8 +55,8 @@ public class RegistryServer {
 		ggconfig.setProtocolType(ProtocolTypeConstants.TCP);
 		ggconfig.setWorkThreadSize(this.config.getWorkThreadSize());
 		ggconfig.setPort(this.config.getPort());
-		ggconfig.setBossGroupThreadFactory(new GGXThreadFactory("gg-registry-boss-", false));
-		ggconfig.setWorkerGroupThreadFactory(new GGXThreadFactory("gg-registry-worker-", false));
+		ggconfig.setBossGroupThreadFactory(new GGXThreadFactory("ggx-registry-boss-", false));
+		ggconfig.setWorkerGroupThreadFactory(new GGXThreadFactory("ggx-registry-worker-", false));
 		ggconfig.getPackLogger().addPackLogFilter(pack -> {
 			return this.config.isShowRegistryLog();
 		});
