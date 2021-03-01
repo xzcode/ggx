@@ -175,10 +175,7 @@ public class RouterService {
 				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
 				
 				if (hostSession != null) {
-					Pack pack = new Pack();
-					pack.setAction(resp.getAction());
-					pack.setMessage(resp.getMessage());
-					pack.setSession(hostSession);
+					Pack pack = new Pack(hostSession, resp.getAction(), resp.getMessage(), resp.getRequestSeq());
 					hostSession.send(pack);
 				}
 			}

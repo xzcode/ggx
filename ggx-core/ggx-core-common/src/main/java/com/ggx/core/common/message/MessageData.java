@@ -20,6 +20,9 @@ public class MessageData {
 	//消息体
 	private Object message;
 	
+	//请求序列
+	private int requestSeq;
+	
 	//是否穿越过滤器
 	private boolean crossFilters;
 	
@@ -29,6 +32,19 @@ public class MessageData {
 		this.session = session;
 		this.action = action;
 		this.message = message;
+	}
+	
+	public MessageData(GGXSession session, String action, Object message, int requestSeq) {
+		this.session = session;
+		this.action = action;
+		this.message = message;
+		this.requestSeq = requestSeq;
+	}
+	public MessageData(GGXSession session, Object message, int requestSeq) {
+		this.session = session;
+		this.action = session.getActionIdCacheManager().get(message.getClass());
+		this.message = message;
+		this.requestSeq = requestSeq;
 	}
 	public MessageData(GGXSession session, Object message) {
 		this.session = session;
@@ -72,6 +88,14 @@ public class MessageData {
 	
 	public void setCrossFilters(boolean crossFilters) {
 		this.crossFilters = crossFilters;
+	}
+	
+	public int getRequestSeq() {
+		return requestSeq;
+	}
+	
+	public void setRequestSeq(int requestSeq) {
+		this.requestSeq = requestSeq;
 	}
 	
 }

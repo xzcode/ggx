@@ -6,7 +6,9 @@ public class RouteMessageResp implements Message {
 
 	// 传递的会话id
 	private String tranferSessionId;
-
+	
+	/* 请求序列 */
+	private int requestSeq;
 
 	/* 消息标识 */
 	private byte[] action;
@@ -36,6 +38,14 @@ public class RouteMessageResp implements Message {
 
 	public void setMessage(byte[] message) {
 		this.message = message;
+	}
+	
+	public int getRequestSeq() {
+		return requestSeq;
+	}
+	
+	public void setRequestSeq(int requestSeq) {
+		this.requestSeq = requestSeq;
 	}
 
 }

@@ -3,8 +3,10 @@ package com.ggx.core.common.filter.impl;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.filter.ReceiveMessageFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.model.Message;
+import com.ggx.core.common.session.GGXSession;
 
 public class FinalReceiveMessageChainFilter implements ReceiveMessageFilter{
 
@@ -17,9 +19,27 @@ public class FinalReceiveMessageChainFilter implements ReceiveMessageFilter{
 	
 	@Override
 	public void doFilter(MessageData data, FilterChain<MessageData> filterChain) throws Throwable {
+		
 		Object returnObject = config.getMessageControllerManager().invoke(data);
-		if (returnObject != null && returnObject instanceof Message) {
-			data.getSession().send((Message)returnObject);
+		
+		GGXSession session = data.getSession();
+		int requestSeq = data.getRequestSeq();
+		
+		if (returnObject != null) {
+			if (returnObject instanceof Message) {
+				MessageData messageData = new MessageData(session, (Message)returnObject, requestSeq);
+				session.send(messageData);
+			}else if (returnObject instanceof GGXFuture) {
+				GGXFuture<?> fu = (GGXFuture<?>) returnObject;
+				fu.addListener(f -> {
+					Object returnData = fu.get();
+					if (returnData != null && returnData instanceof Message) {
+						MessageData messageData = new MessageData(session, (Message)returnData, requestSeq);
+						session.send(messageData);
+					}
+				});
+				
+			}
 		}
 	}
 

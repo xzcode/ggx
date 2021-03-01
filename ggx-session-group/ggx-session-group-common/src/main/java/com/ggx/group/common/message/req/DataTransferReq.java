@@ -12,6 +12,9 @@ public class DataTransferReq extends AbstractMessage {
 
 	public static final String ACTION = GGSesssionGroupConstant.ACTION_ID_PREFIX + "DATA.TRANSFER.REQ";
 	
+	/* 请求序列 */
+	private int requestSeq;
+	
 	/* 消息标识 */
 	private byte[] action;
 
@@ -20,6 +23,14 @@ public class DataTransferReq extends AbstractMessage {
 
 	public DataTransferReq() {
 
+	}
+	
+	public int getRequestSeq() {
+		return requestSeq;
+	}
+	
+	public void setRequestSeq(int requestSeq) {
+		this.requestSeq = requestSeq;
 	}
 
 	public byte[] getAction() {

@@ -18,14 +18,15 @@ import io.netty.util.AttributeKey;
 
 /**
  * 自定协议解析
- *  包体总长度             指令长度            指令内容          数据体
- * +-----------+- ---------+-----------+------------+
- * | 4 bytes   |   1 byte  |    tag    |  data body |
- * +-----------+-- --------+-----------+------------+
+ *  包体总长度             请求序列            指令长度            指令内容          数据体
+ * +-----------+- ---------+-----------+-----------+------------+
+ * | 4 bytes   |   2 byte  |   1 byte  |    tag    |  data body |
+ * +-----------+-- --------+-----------+-----------+------------+
  * @author zai
  *
  */
 public class DefaultDecodeHandler implements DecodeHandler {
+	
 
 	/**
 	 * 指令长度标识占用字节数
@@ -33,9 +34,14 @@ public class DefaultDecodeHandler implements DecodeHandler {
 	public static final int ACTION_TAG_LEN = 1;
 	
 	/**
+	 * 请求序列字节数
+	 */
+	public static final int REQUEST_SEQ_LEN = 2;
+	
+	/**
 	 * 所有标识长度
 	 */
-	public static final int ALL_TAG_LEN =  ACTION_TAG_LEN;
+	public static final int ALL_TAG_LEN =  ACTION_TAG_LEN + REQUEST_SEQ_LEN;
 	
 	/**
 	 * 协议类型channel key
@@ -67,13 +73,20 @@ public class DefaultDecodeHandler implements DecodeHandler {
 			ctx.close();
 			throw new RuntimeException("Unknow protocolType !!");
 		}
+		
 		Channel channel = ctx.channel();
 		GGXSession session = config.getSessionFactory().getSession(channel);
-
+		
 		byte[] message = null;
 		byte[] action = null;
 		
+		// 请求序列
+		int requestSeq = 0;
+		
 		try {
+			
+			// 请求序列
+			requestSeq = in.readUnsignedShort(); // 读取预留字节
 			
 			// 读取指令标识
 			int actionLen = in.readByte();
@@ -83,6 +96,7 @@ public class DefaultDecodeHandler implements DecodeHandler {
 			// 读取数据体 = 总包长 - 标识长度占用字节 - 标识体占用字节数
 			int bodyLen = packLen - ALL_TAG_LEN - actionLen;
 			if (bodyLen != 0) {
+				
 				message = new byte[bodyLen];
 				// 读取数据体部分byte数组
 				in.readBytes(message);
@@ -98,6 +112,8 @@ public class DefaultDecodeHandler implements DecodeHandler {
 		pack.setProtocolType(protocolType);
 		
 		pack.setChannel(channel);
+		
+		pack.setRequestSeq(requestSeq);
 		
 		// 获取session
 		pack.setSession(config.getSessionFactory().getSession(channel));

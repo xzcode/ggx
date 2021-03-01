@@ -32,7 +32,7 @@ public class DataTransferReqHandler  {
 		SessionManager serviceSessionManager = serviceServerConfig.getSessionManager();
 		GGXSession serviceSession = serviceSessionManager.getSession(groupSessionId);
 		
-		serviceServerConfig.getReceiveMessageManager().receive(new Pack(serviceSession, req.getAction(), req.getMessage()));
+		serviceServerConfig.getReceiveMessageManager().receive(new Pack(serviceSession, req.getAction(), req.getMessage(), req.getRequestSeq()));
 		
 			
 	}

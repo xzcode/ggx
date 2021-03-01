@@ -54,7 +54,6 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		
 	}
 
-
 	@Override
 	public GGXFuture<?> send(Pack pack) {
 		
@@ -62,6 +61,7 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		DataTransferReq resp = new DataTransferReq();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
+		resp.setRequestSeq(pack.getRequestSeq());
 		
 		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);

@@ -13,21 +13,25 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 
 /**
- * 自定协议解析
- *  包体总长度            指令长度      指令内容          数据体
- * +-----------+-----------+-----------+------------+
- * | 4 bytes   |   1 byte  |    tag    |  data body |
- * +-----------+-----------+-----------+------------+
+ *     自定协议解析
+ *       包体总长度          请求序列          指令长度         指令内容          数据体
+ * +-----------+- ---------+-----------+-----------+------------+
+ * | 4 bytes   |   2 byte  |   1 byte  |    tag    |  data body |
+ * +-----------+-- --------+-----------+-----------+------------+
  * @author zai
  * 2018-12-07 13:38:22
  */
 public class DefaultEncodeHandler implements EncodeHandler {
 
-	
 	/**
 	 * 数据包长度标识 字节数
 	 */
 	public static final int PACKAGE_LEN = 4;
+	
+	/**
+	 * 请求序列字节数
+	 */
+	public static final int REQUEST_SEQ_LEN = 2;
 	
 	/**
 	 * 指令长度标识占用字节数
@@ -37,7 +41,7 @@ public class DefaultEncodeHandler implements EncodeHandler {
 	/**
 	 * 所有标识长度
 	 */
-	public static final int ALL_TAG_LEN =  ACTION_TAG_LEN;
+	public static final int ALL_TAG_LEN =  ACTION_TAG_LEN + REQUEST_SEQ_LEN;
 	
 	
 	/**
@@ -94,6 +98,9 @@ public class DefaultEncodeHandler implements EncodeHandler {
 		}else {
 			out = ctx.alloc().buffer(packLen);			
 		}
+		
+		// 请求序列
+		out.writeShort(pack.getRequestSeq()); 
 		
 		//action id
 		out.writeByte(tagBytes.length);

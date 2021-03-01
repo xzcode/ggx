@@ -36,7 +36,7 @@ public class DataTransferRespHandler  {
 		GGXSession seviceClientSession = seviceClientSessionManager.getSession(session.getSessionId());
 		if (seviceClientSession != null) {
 			//提交任务到业务客户端
-			Pack pack = new Pack(seviceClientSession, resp.getAction(), resp.getMessage());
+			Pack pack = new Pack(seviceClientSession, resp.getAction(), resp.getMessage(), resp.getRequestSeq());
 			serviceClientConfig.getReceiveMessageManager().receive(pack);
 		}
 	}

@@ -24,6 +24,7 @@ public class RouterServerSession extends VirtualSession {
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
 		resp.setTranferSessionId(pack.getSession().getSessionId());
+		resp.setRequestSeq(pack.getRequestSeq());
 		
 		if (this.realSession == null || this.realSession.isExpired()) {
 			this.realSession = realSessionManager.getRandomSession();

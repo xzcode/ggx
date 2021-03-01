@@ -152,7 +152,7 @@ public class RouterServer implements GGXCoreSupport {
 				SessionManager hostSessionManager = hostServer.getSessionManager();
 				GGXSession hostSession = hostSessionManager.getSession(req.getTranferSessionId());
 				
-				Pack pack = new Pack(hostSession, req.getAction(), req.getMessage());
+				Pack pack = new Pack(hostSession, req.getAction(), req.getMessage(), req.getRequestSeq());
 				
 				hostServerConfig.getReceiveMessageManager().receive(pack);
 			}

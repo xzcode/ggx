@@ -9,6 +9,9 @@ import com.ggx.core.common.message.model.AbstractMessage;
  * 2020-04-08 10:32:51
  */
 public class DataTransferResp extends AbstractMessage {
+	
+	/* 请求序列 */
+	private int requestSeq;
 
 	/* 消息标识 */
 	private byte[] action;
@@ -18,6 +21,14 @@ public class DataTransferResp extends AbstractMessage {
 
 	public DataTransferResp() {
 
+	}
+	
+	public int getRequestSeq() {
+		return requestSeq;
+	}
+	
+	public void setRequestSeq(int requestSeq) {
+		this.requestSeq = requestSeq;
 	}
 
 	public byte[] getAction() {

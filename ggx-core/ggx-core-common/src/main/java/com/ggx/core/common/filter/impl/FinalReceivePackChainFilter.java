@@ -13,18 +13,12 @@ import com.ggx.util.logger.GGXLogUtil;
 
 public class FinalReceivePackChainFilter implements ReceivePackFilter{
 	
-	
-	
-	
 	private GGXCoreConfig config;
 
 	public FinalReceivePackChainFilter(GGXCoreConfig config) {
 		this.config = config;
 	}
-
-
-
-
+	
 	@Override
 	public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
 		
@@ -32,17 +26,26 @@ public class FinalReceivePackChainFilter implements ReceivePackFilter{
 		String action = null;
 		
 		try {
+			
 			action = new String(pack.getAction(), config.getCharset());
 			Serializer serializer = config.getSerializer();
 			MessageControllerManager messageControllerManager = config.getMessageControllerManager();
 			ControllerMethodInfo methodInfo = messageControllerManager.getMethodInfo(action);
+			
 			if (pack.getMessage() != null) {
 				if (messageControllerManager.getMethodInfo(action) != null) {
 					message = (Message) serializer.deserialize(pack.getMessage(), methodInfo.getMessageClass());
 				}
 			}
-			MessageData messageData = new MessageData(pack.getSession(), action, message);
+			
+			MessageData messageData = new MessageData(pack.getSession(), action, message, pack.getRequestSeq());
+			
+			
+			
 			config.getFilterManager().doReceiveMessageFilters(messageData);
+			
+			
+			
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("FinalReceivePackChainFilter ERROR!! -- actionId: {}, error: {}", action, e);
 		}

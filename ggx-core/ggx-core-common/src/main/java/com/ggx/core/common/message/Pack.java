@@ -19,12 +19,16 @@ public class Pack implements Serializable{
 
 	/* 会话 */
 	private GGXSession session;
+
+	/* 请求序列 */
+	private int requestSeq;
 	
 	/* 消息标识 */
 	private byte[] action;
-
+	
 	/* 消息体 */
 	private byte[] message;
+
 	
 	/* 协议类型 */
 	private String protocolType;
@@ -51,12 +55,20 @@ public class Pack implements Serializable{
 		this.message = message;
 	}
 	
-
+	
 	public Pack(GGXSession session, byte[] action, byte[] message) {
 		super();
 		this.session = session;
 		this.action = action;
 		this.message = message;
+	}
+
+	public Pack(GGXSession session, byte[] action, byte[] message, int requestSeq) {
+		super();
+		this.session = session;
+		this.action = action;
+		this.message = message;
+		this.requestSeq = requestSeq;
 	}
 	
 	/**
@@ -143,6 +155,14 @@ public class Pack implements Serializable{
 	
 	public int getTotalLength() {
 		return totalLength;
+	}
+	
+	public int getRequestSeq() {
+		return requestSeq;
+	}
+	
+	public void setRequestSeq(int requestSeq) {
+		this.requestSeq = requestSeq;
 	}
 
 }

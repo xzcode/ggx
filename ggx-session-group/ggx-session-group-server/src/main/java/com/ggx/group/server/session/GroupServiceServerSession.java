@@ -58,6 +58,7 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		DataTransferResp resp = new DataTransferResp();
 		resp.setAction(pack.getAction());
 		resp.setMessage(pack.getMessage());
+		resp.setRequestSeq(pack.getRequestSeq());
 		
 		if (this.groupSession == null || this.groupSession.isExpired()) {
 			this.groupSession = sessionGroupManager.getRandomOne(groupId);
