@@ -4,7 +4,6 @@ import java.util.concurrent.Future;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.core.common.session.manager.DefaultSessionManager;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
