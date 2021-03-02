@@ -22,7 +22,7 @@ public class DataTransferRespHandler  {
 	private SessionGroupClientConfig config;
 
 	public DataTransferRespHandler(SessionGroupClientConfig config) {
-		super();
+		super(); 
 		this.config = config;
 	}
 
