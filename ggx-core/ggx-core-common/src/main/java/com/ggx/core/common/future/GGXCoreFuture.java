@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
+import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
 import com.ggx.util.logger.GGXLogUtil;
@@ -158,6 +159,13 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		}
 	}
 	
+	public void setDone(boolean success, Object data, Throwable cause, boolean done) {
+		this.setSuccess(success);
+		this.setData(data);
+		this.setCause(cause);
+		this.setDone(done);
+	}
+	
 	public void setDone(boolean done) {
 		if (this.done) {
 			return;
@@ -207,12 +215,28 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		}
 	}
 	
+	/**
+	 * 跟随指定future
+	 *
+	 * @param followFuture
+	 * 2021-03-03 12:08:36
+	 */
 	public void follow(GGXFuture<?> followFuture) {
 		followFuture.addListener(f -> {
-			this.data = followFuture.get();
-			this.cause = followFuture.cause();
-			this.success = followFuture.isSuccess();
-			this.setDone(followFuture.isDone());
+			this.setDone(followFuture.isSuccess(), followFuture.get(), followFuture.cause(), followFuture.isDone());
+		});
+	}
+	
+	/**
+	 * 跟随指定future
+	 *
+	 * @param executor
+	 * @param followFuture
+	 * 2021-03-03 12:08:50
+	 */
+	public void follow(TaskExecutor executor, GGXFuture<?> followFuture) {
+		followFuture.addListener(executor, f -> {
+			this.setDone(followFuture.isSuccess(), followFuture.get(), followFuture.cause(), followFuture.isDone());
 		});
 	}
 	

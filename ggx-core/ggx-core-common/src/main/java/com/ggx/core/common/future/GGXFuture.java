@@ -31,7 +31,7 @@ public interface GGXFuture<T> extends Future<T> {
 	 * @param listener 监听器
 	 * 2021-01-31 22:19:38
 	 */
-	default void addListener(TaskExecutor executor, GGXFutureListener<T> listener) {
+	default GGXFuture<T> addListener(TaskExecutor executor, GGXFutureListener<T> listener) {
 		if (executor != null) {
 			this.addListener(f -> {
 				executor.submitTask(() -> {
@@ -43,6 +43,7 @@ public interface GGXFuture<T> extends Future<T> {
 				});
 			});
 		}
+		return this;
 	};
 
 	/**
