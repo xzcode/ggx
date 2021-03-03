@@ -3,6 +3,8 @@ package com.ggx.core.common.filter.impl;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.model.Message;
@@ -20,7 +22,7 @@ public class FinalReceivePackChainFilter implements ReceivePackFilter{
 	}
 	
 	@Override
-	public void doFilter(Pack pack, FilterChain<Pack> filterChain) {
+	public GGXFuture<?> doFilter(Pack pack, FilterChain<Pack> filterChain) {
 		
 		Message message = null;
 		String action = null;
@@ -40,15 +42,12 @@ public class FinalReceivePackChainFilter implements ReceivePackFilter{
 			
 			MessageData messageData = new MessageData(pack.getSession(), action, message, pack.getRequestSeq());
 			
-			
-			
-			config.getFilterManager().doReceiveMessageFilters(messageData);
-			
-			
+			return config.getFilterManager().doReceiveMessageFilters(messageData);
 			
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("FinalReceivePackChainFilter ERROR!! -- actionId: {}, error: {}", action, e);
 		}
+		return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
 	}
 
 }

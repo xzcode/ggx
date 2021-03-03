@@ -3,6 +3,7 @@ package com.ggx.router.client.filter;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.filter.ReceivePackFilter;
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.server.GGXCoreServer;
@@ -28,19 +29,18 @@ public class RouterClientHostServerReceiveMessageFilter implements ReceivePackFi
 	}
 
 	@Override
-	public void doFilter(Pack pack, FilterChain<Pack> filterChain) throws Throwable{
+	public GGXFuture<?> doFilter(Pack pack, FilterChain<Pack> filterChain) throws Throwable{
 
 		String actionId = pack.getActionString(hostServer.getCharset());
 		//routingServer已定义的actionid,不参与路由
 		if (messageControllerManager.getMethodInfo(actionId) != null) {
-			filterChain.doFilter(pack);
-			return;
+			return filterChain.doFilter(pack);
 		}
 		
 		//如果匹配不到路由,交由后续过滤器处理
-		routerClient.route(pack)
+		return routerClient.route(pack)
 		.addListener(f -> {
-			if (!f.isDone()) {
+			if (!f.isSuccess()) {
 				//发送失败，触发消息不可达事件
 				this.hostServer.emitEvent(new EventData<>(pack.getSession(), RouterClientEvents.RoutingMessage.MESSAGE_UNREACHABLE, pack));
 			}

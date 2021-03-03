@@ -1,6 +1,7 @@
 package com.ggx.core.common.filter;
 
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.future.GGXFuture;
 
 /**
  * 会话消息过滤器统一接口
@@ -20,6 +21,6 @@ public interface Filter<T> {
 	 * 2020-10-12 09:49:03
 	 * @throws Exception 
 	 */
-	void doFilter(T data, FilterChain<T> filterChain) throws Throwable;
+	GGXFuture<?> doFilter(T data, FilterChain<T> filterChain) throws Throwable;
 
 }

@@ -66,7 +66,7 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 	
 
 	@Override
-	public void addListener(GGXFutureListener<T> listener) {
+	public GGXFuture<T> addListener(GGXFutureListener<T> listener) {
 		synchronized (this) {
 			if (this.done) {
 				triggerListener(listener);
@@ -74,6 +74,7 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 				listeners.add(listener);
 			}
 		}
+		return this;
 	}
 	
 

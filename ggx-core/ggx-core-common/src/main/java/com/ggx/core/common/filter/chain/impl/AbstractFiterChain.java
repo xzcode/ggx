@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ggx.core.common.filter.Filter;
 import com.ggx.core.common.filter.chain.FilterChain;
+import com.ggx.core.common.future.GGXFuture;
 
 public abstract class AbstractFiterChain <T> implements FilterChain<T> {
 
@@ -16,10 +17,10 @@ public abstract class AbstractFiterChain <T> implements FilterChain<T> {
 	}
 
 	@Override
-	public void doFilter(T data) throws Throwable {
+	public GGXFuture<?> doFilter(T data) throws Throwable {
 		this.filterIndex++;
 		try {
-			filters.get(filterIndex).doFilter(data, this);
+			return filters.get(filterIndex).doFilter(data, this);
 			
 		} catch (Throwable e) {
 			throw e;

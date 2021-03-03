@@ -3,6 +3,7 @@ package com.ggx.core.common.filter.chain;
 import java.util.List;
 
 import com.ggx.core.common.filter.Filter;
+import com.ggx.core.common.future.GGXFuture;
 
 public interface FilterChain<T> {
 	
@@ -14,7 +15,7 @@ public interface FilterChain<T> {
 	 * @author zai
 	 * 2020-10-12 09:49:03
 	 */
-	void doFilter(T data) throws Throwable;
+	GGXFuture<?> doFilter(T data) throws Throwable;
 	
 	/**
 	 * 设置过滤器集合

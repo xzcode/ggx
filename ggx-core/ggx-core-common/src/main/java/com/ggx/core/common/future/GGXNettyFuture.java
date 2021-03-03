@@ -53,12 +53,12 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 	}
 
 	@Override
-	public void addListener(GGXFutureListener<T> listener) {
+	public GGXFuture<T> addListener(GGXFutureListener<T> listener) {
 		try {
 				synchronized (this) {
 					if (nettyFuture == null) {
 						listeners.add(listener);
-						return;
+						return this;
 					}
 					nettyFuture.addListener((f) -> {
 						listener.operationComplete(this);
@@ -67,6 +67,7 @@ public class GGXNettyFuture<T> implements GGXFuture<T> {
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("GGXFuture 'operationComplete' Error!", e);
 		}
+		return this;
 		
 	}
 

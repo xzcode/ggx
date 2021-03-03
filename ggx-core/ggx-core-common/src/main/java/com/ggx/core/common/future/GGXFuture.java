@@ -22,7 +22,7 @@ public interface GGXFuture<T> extends Future<T> {
 	 * @author zai
 	 * 2020-11-11 15:36:40
 	 */
-	void addListener(GGXFutureListener<T> listener);
+	GGXFuture<T> addListener(GGXFutureListener<T> listener);
 	
 	/**
 	 * 添加回调监听器

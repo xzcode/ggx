@@ -45,12 +45,13 @@ public class GGXFailedFuture<T> implements GGXFuture<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addListener(GGXFutureListener<T> listener) {
+	public GGXFuture<T> addListener(GGXFutureListener<T> listener) {
 		try {
 			listener.operationComplete((GGXFuture<T>) DEFAULT_FAILED_FUTURE);
 		} catch (Exception e) {
 			GGXLogUtil.getLogger().error("IGGFuture 'operationComplete' Error!", e);
 		}
+		return this;
 		
 	}
 	
