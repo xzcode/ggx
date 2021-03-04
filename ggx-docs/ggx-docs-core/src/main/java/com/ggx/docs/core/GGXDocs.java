@@ -157,6 +157,7 @@ public class GGXDocs {
 				annoProperty.setField(field);
 				annoProperty.setDesc(modelProperty.value());
 				annoProperty.setName(field.getName());
+				annoProperty.setClazz(field.getType());
 				annoProperty.setDataType(field.getType().getSimpleName());
 				annoModel.addProperty(annoProperty);
 

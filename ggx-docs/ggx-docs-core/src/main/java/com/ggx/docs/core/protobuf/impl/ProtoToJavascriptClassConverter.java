@@ -48,7 +48,21 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 		for (Entry<String, Namespace> entry : namespaces.entrySet()) {
 			Namespace namespace = entry.getValue();
 			List<Model> models = namespace.getModels();
-
+			models.sort((a, b) -> {
+				List<ModelProperty> properties = a.getProperties();
+				for (ModelProperty property : properties) {
+					if (property.getClazz() == b.getClazz()) {
+						return 1;
+					}
+				}
+				properties = b.getProperties();
+				for (ModelProperty property : properties) {
+					if (property.getClazz() == a.getClazz()) {
+						return -1;
+					}
+				}
+				return 0;
+			});
 			ProtoFile protoFile = new ProtoFile(namespace.getName().toLowerCase() + ".ts");
 
 			StringBuilder sb = new StringBuilder(8192);
@@ -99,18 +113,17 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 					if (Modifier.isTransient(field.getModifiers())) {
 						continue;
 					}
-					
+
 					String fieldProtoDataType = getFieldProtoDataType(field, doc.getMessageModelPrefix());
 					boolean isCustomDataType = isCustomDataType(field, doc.getMessageModelPrefix());
-					
+
 					sb.append("  ").append(".add(new Field('").append(field.getName()).append("', ").append(seq)
-							.append(", '").append(fieldProtoDataType).append("'))")
-							.append("  // ").append(property.getDesc())
-							.append(ENTER_LINE);
+							.append(", '").append(fieldProtoDataType).append("'))").append("  // ")
+							.append(property.getDesc()).append(ENTER_LINE);
 					if (isCustomDataType) {
-						sb.append("  ").append(".add(").append(fieldProtoDataType).append(")");
+						sb.append("  ").append(".add(").append(fieldProtoDataType).append(")").append(ENTER_LINE);
 					}
-					
+
 				}
 				sb.append(";");
 				sb.append(ENTER_LINE).append(ENTER_LINE);

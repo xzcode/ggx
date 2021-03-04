@@ -29,6 +29,10 @@ public class ModelProperty {
 	 * 数据类型
 	 */
 	private String dataType;
+	/**
+	 * 数据类
+	 */
+	private Class<?> clazz;
 	
 	/**
 	 * 额外要求
@@ -114,4 +118,11 @@ public class ModelProperty {
 		return extra;
 	}
 	
+	public Class<?> getClazz() {
+		return clazz;
+	}
+	
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
 }
