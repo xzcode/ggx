@@ -81,10 +81,11 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 			RouterServiceGroup serviceGroup = routerServiceManager.getServiceGroup(service.getServiceGroupId());
 			if (serviceGroup != null) {
 				serviceGroup.removeService(service.getServiceId());
-			}
-			if (serviceGroup.size() == 0) {
-				routerServiceManager.removeServiceGroup(service.getServiceGroupId());
-				removeActionServiceCache(serviceGroup);
+				
+				if (serviceGroup.size() == 0) {
+					routerServiceManager.removeServiceGroup(service.getServiceGroupId());
+					removeActionServiceCache(serviceGroup);
+				}
 			}
 			
 		});
