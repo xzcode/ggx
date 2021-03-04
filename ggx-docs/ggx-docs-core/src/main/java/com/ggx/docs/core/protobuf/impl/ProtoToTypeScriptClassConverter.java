@@ -52,11 +52,8 @@ public class ProtoToTypeScriptClassConverter implements ProtoFileConverter {
 			ProtoFile protoFile = new ProtoFile(namespace.getName().toLowerCase() + ".ts");
 
 			StringBuilder sb = new StringBuilder(8192);
-			String author = null;
 			if (doc.getAuth() == null) {
 				doc.setAuth("GGX Docs " + this.getClass().getSimpleName());
-			}else {
-				author = doc.getAuth();
 			}
 			sb.append(ENTER_LINE).append("//Author : ").append(doc.getAuth()).append(ENTER_LINE)
 					.append("//Namespace : " + namespace.getName()).append(ENTER_LINE)
