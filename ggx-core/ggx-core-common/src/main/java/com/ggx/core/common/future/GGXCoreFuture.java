@@ -40,8 +40,6 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 	public GGXCoreFuture() {
 	}
 	
-	
-	
 	public GGXCoreFuture(boolean success) {
 		this.success = success;
 		this.done = true;
@@ -61,9 +59,6 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		this.done = true;
 		this.triggerListeners();
 	}
-	
-
-	
 
 	@Override
 	public GGXFuture<T> addListener(GGXFutureListener<T> listener) {

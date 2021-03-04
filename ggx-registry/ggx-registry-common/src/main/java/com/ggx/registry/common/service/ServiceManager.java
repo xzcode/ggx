@@ -271,8 +271,16 @@ public class ServiceManager {
 		return list;
 	}
 	
+	/**
+	 * 清除所有服务
+	 *
+	 * 2021-03-04 17:01:13
+	 */
 	public void clearAllServices() {
-		serviceGroups.clear();
+		List<ServiceInfo> serviceList = getServiceList();
+		for (ServiceInfo info : serviceList) {
+			this.removeService(info);
+		}
 	}
 	
 	/**

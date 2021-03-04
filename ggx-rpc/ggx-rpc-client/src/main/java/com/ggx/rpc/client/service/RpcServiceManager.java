@@ -131,6 +131,7 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 				} else {
 					return;
 				}
+				oldService.shutdown();
 			}
 		} else {
 			newGroup = true;

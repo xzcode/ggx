@@ -47,11 +47,13 @@ public interface MakePackSupport{
 		try {
 			GGXSession session = messageData.getSession();
 			Pack pack = new Pack();
+			int requestSeq = messageData.getRequestSeq();
 			byte[] actionIdBytes = messageData.getAction().getBytes(getCharset());
 			byte[] messageBytes = messageData.getMessage() == null ? null : getSerializer().serialize(messageData.getMessage());
 			pack.setSession(session);
 			pack.setAction(actionIdBytes);
 			pack.setMessage(messageBytes);
+			pack.setRequestSeq(requestSeq);
 			
 			return pack;
 		} catch (Exception e) {

@@ -72,8 +72,7 @@ public class DefaultFilterManager implements FilterManager {
 	@Override
 	public GGXFuture<?> doSendMessageFilters(MessageData data) {
 		try {
-			new MessageFilterChain(this.sendMessageFilters).doFilter(data);
-			return GGXSuccessFuture.DEFAULT_SUCCESS_FUTURE;
+			return new MessageFilterChain(this.sendMessageFilters).doFilter(data);
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("Do Send Message Filters Error!", e);
 			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;

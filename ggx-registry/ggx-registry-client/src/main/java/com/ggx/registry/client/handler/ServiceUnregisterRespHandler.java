@@ -24,7 +24,6 @@ public class ServiceUnregisterRespHandler {
 	}
 
 
-
 	@GGXAction
 	public void handle(RegistryServiceUnregisterResp resp) {
 		String serviceGroupId = resp.getServiceGroupId();
