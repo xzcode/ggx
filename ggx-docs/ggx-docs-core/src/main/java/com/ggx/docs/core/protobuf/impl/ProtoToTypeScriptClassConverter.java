@@ -28,13 +28,13 @@ import com.ggx.docs.core.protobuf.ProtoFileConverter;
 import com.ggx.docs.core.protobuf.ProtoMessage;
 
 /**
- * proto文件转换protobufjs的js消息类文件 转换器
+ * proto文件转换protobufjs的typescript消息类文件 转换器
  *
- * 2021-03-04 20:51:02
+ * @author zai 2020-06-20 11:39:38
  */
-public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
+public class ProtoToTypeScriptClassConverter implements ProtoFileConverter {
 
-	private static String IMPORT_LINE = "import { Type, Field } from 'protobufjs';\n";
+	private static String IMPORT_LINE = "import { Message, Type, Field, OneOf, MapField } from 'protobufjs/light';\n";
 
 	private static String ENTER_LINE = "\n";
 
@@ -54,11 +54,11 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 			StringBuilder sb = new StringBuilder(8192);
 			String author = null;
 			if (doc.getAuth() == null) {
-				author = "GGX Docs " + this.getClass().getSimpleName();
-			} else {
+				doc.setAuth("GGX Docs " + this.getClass().getSimpleName());
+			}else {
 				author = doc.getAuth();
 			}
-			sb.append(ENTER_LINE).append("//Author : ").append(author).append(ENTER_LINE)
+			sb.append(ENTER_LINE).append("//Author : ").append(doc.getAuth()).append(ENTER_LINE)
 					.append("//Namespace : " + namespace.getName()).append(ENTER_LINE)
 					.append("//Description : " + namespace.getDescription()).append(ENTER_LINE)
 					.append("//Create Date : " + dateFormat.format(new Date())).append(ENTER_LINE).append(ENTER_LINE)
@@ -78,13 +78,14 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 				String actionId = (StringUtils.isNotEmpty(model.getActionId()) ? doc.getActionIdPrefix() : "")
 						+ model.getActionId();
 				sb.append("// ").append(model.getDesc()).append(ENTER_LINE).append("// ").append(actionId)
-						.append(ENTER_LINE).append("export const ").append(messageName).append(" =  new Type('")
-						.append(messageName).append("')").append(ENTER_LINE);
+						.append(ENTER_LINE).append("export class ").append(messageName).append(" extends Message<")
+						.append(messageName).append("> {\n\n").append("  ").append("static readonly ACTION_ID = '")
+						.append(actionId).append("';\n").append(ENTER_LINE);
 
 				int seq = 0;
 
 				List<ModelProperty> properties = model.getProperties();
-				List<String> customDataTypes = new ArrayList<>();
+
 				for (ModelProperty property : properties) {
 
 					Field field = property.getField();
@@ -99,21 +100,16 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 					if (Modifier.isTransient(field.getModifiers())) {
 						continue;
 					}
-					
-					String fieldProtoDataType = getFieldProtoDataType(field, doc.getMessageModelPrefix());
-					boolean isCustomDataType = isCustomDataType(field, doc.getMessageModelPrefix());
-					
-					sb.append("  ").append(".add(new Field('").append(field.getName()).append("', ").append(seq)
-							.append(", '").append(fieldProtoDataType).append("'))")
-							.append("  // ").append(property.getDesc())
-							.append(ENTER_LINE);
-					if (isCustomDataType) {
-						sb.append("  ").append(".add(").append(fieldProtoDataType).append(")");
-					}
-					
+
+					sb.append("  ").append("// ").append(property.getDesc()).append(ENTER_LINE).append("  ")
+							.append("@Field.d(").append(seq).append(", '")
+							.append(getFieldProtoDataType(field, doc.getMessageModelPrefix())).append("', '")
+							.append(getFieldProtoModifier(field)).append("')\n").append("  ").append("public ")
+							.append(field.getName()).append(": ").append(getFieldDataType(doc, field))
+							.append(" | undefined;\n").append(ENTER_LINE);
+
 				}
-				sb.append(";");
-				sb.append(ENTER_LINE).append(ENTER_LINE);
+				sb.append("}").append(ENTER_LINE).append(ENTER_LINE);
 
 				protoFile.addMessage(new ProtoMessage(messageName, sb.toString()));
 

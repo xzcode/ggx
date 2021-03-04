@@ -121,6 +121,26 @@ public interface ProtoFileConverter {
 	}
 	
 	/**
+	 * 是否自定义类型
+	 *
+	 * @param field
+	 * @param simpleNamePrefix
+	 * @return
+	 * 2021-03-04 21:42:34
+	 */
+	default boolean isCustomDataType(Field field, String simpleNamePrefix) {
+		Class<?> type = field.getType();
+		
+		if (simpleNamePrefix == null) {
+			simpleNamePrefix = "";
+		}
+
+		String protoTypeString = getProtoTypeString(type);
+		
+		return protoTypeString == null;
+	}
+	
+	/**
 	 * 
 	 * 
 	 * @param type
