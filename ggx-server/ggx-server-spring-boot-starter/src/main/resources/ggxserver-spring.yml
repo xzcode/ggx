@@ -20,7 +20,7 @@ ggx:
       port: '@game.gateway.port@'
       websocket-path: /websocket
       change-and-reboot-if-port-in-use: true
-      port-change-strategy: incrementt
+      port-change-strategy: increment
     router:
       client:
         router-group-id: 'default_router_group'
