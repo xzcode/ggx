@@ -162,6 +162,13 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		this.setDone(done);
 	}
 	
+	public void setDone(boolean success, Object data, Throwable cause) {
+		this.setSuccess(success);
+		this.setData(data);
+		this.setCause(cause);
+		this.setDone(true);
+	}
+	
 	public void setDone(boolean done) {
 		if (this.done) {
 			return;
