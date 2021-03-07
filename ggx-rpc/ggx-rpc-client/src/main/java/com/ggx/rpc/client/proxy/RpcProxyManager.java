@@ -6,7 +6,7 @@ import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.invocation.handler.DefaultProxyInvocationHandler;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 public class RpcProxyManager extends ListenableMapDataManager<Class<?>, RpcProxyInfo>{
 	

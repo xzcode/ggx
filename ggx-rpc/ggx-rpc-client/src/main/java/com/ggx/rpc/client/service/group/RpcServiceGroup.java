@@ -4,7 +4,7 @@ import com.ggx.core.common.future.GGXFuture;
 import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.common.message.req.RpcReq;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 /**
  * rpc服务组

@@ -1,4 +1,4 @@
-package com.ggx.util.manager.listener;
+package com.ggx.util.manager.list.listener;
 
 /**
  * 取消监听器
@@ -7,7 +7,7 @@ package com.ggx.util.manager.listener;
  * @author zai
  * 2020-09-15 16:53:56
  */
-public interface Listener<T> {
+public interface ListDataListener<T> {
 	
 	/**
 	 * 取消动作

@@ -19,7 +19,7 @@ import com.ggx.rpc.common.constant.RpcServiceCustomDataKeys;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.rpc.common.model.InterfaceInfoModel;
 import com.ggx.util.json.GGXJsonUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServiceGroup> {
 	
@@ -139,7 +139,7 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 			serviceGroup.setServiceGroupName(service.getServiceGroupDescName());
 			serviceGroup.setLoadblancer(new ConsistentHashingRpcServiceLoadbalancer(serviceGroup));
 			RpcServiceGroup fServiceGroup = serviceGroup;
-			serviceGroup.onRemove(rpcService -> {
+			serviceGroup.onRemove((serviceId, rpcService) -> {
 				rpcService.shutdown();
 				// 如果组内无服务，则移除组
 				if (fServiceGroup.size() == 0) {

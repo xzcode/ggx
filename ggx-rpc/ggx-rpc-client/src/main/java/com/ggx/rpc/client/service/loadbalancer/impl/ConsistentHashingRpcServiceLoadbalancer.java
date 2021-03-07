@@ -34,11 +34,11 @@ public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadba
 	public ConsistentHashingRpcServiceLoadbalancer(RpcServiceGroup serviceGroup) {
 		this.serviceGroup = serviceGroup;
 		
-		this.serviceGroup.onPut(rpcService -> {
+		this.serviceGroup.onPut((key, rpcService) -> {
 			addService(rpcService);
 		});
 		
-		this.serviceGroup.onRemove(rpcService -> {
+		this.serviceGroup.onRemove((key, rpcService) -> {
 			removeService(rpcService);
 		});
 	}

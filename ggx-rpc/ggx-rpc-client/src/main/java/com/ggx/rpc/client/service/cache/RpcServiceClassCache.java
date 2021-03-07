@@ -1,7 +1,7 @@
 package com.ggx.rpc.client.service.cache;
 
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 public class RpcServiceClassCache extends ListenableMapDataManager<String, Class<?>> {
 

@@ -1,6 +1,6 @@
 package com.ggx.rpc.client.service.group;
 
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 /**
  * RPC跨组服务组管理器

@@ -1,20 +1,21 @@
-package com.ggx.util.manager.impl;
+package com.ggx.util.manager.list.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.ggx.util.manager.ListDataManager;
-import com.ggx.util.manager.listener.Listener;
-import com.ggx.util.manager.listener.ListenerManager;
+import com.ggx.util.manager.list.ListDataManager;
+import com.ggx.util.manager.list.listener.ListDataListener;
+import com.ggx.util.manager.list.listener.ListDataListenerManager;
+import com.ggx.util.manager.list.listener.impl.DefaultListDataListenerManager;
 
 public abstract class ListenableListDataManager<T> implements ListDataManager<T>{
 	
 	protected transient List<T> list = new CopyOnWriteArrayList<>();
 	
-	private transient ListenerManager<T> onPutListenerManager = new DefaultListenerManager<>();
+	private transient ListDataListenerManager<T> onPutListenerManager = new DefaultListDataListenerManager<>();
 	
-	private transient ListenerManager<T> onRemoveListenerManager = new DefaultListenerManager<>();
+	private transient ListDataListenerManager<T> onRemoveListenerManager = new DefaultListDataListenerManager<>();
 	
 	@Override
 	public List<T> getList() {
@@ -26,11 +27,11 @@ public abstract class ListenableListDataManager<T> implements ListDataManager<T>
 		return new ArrayList<>(list);
 	}
 	
-	public void onAdd(Listener<T> listener) {
+	public void onAdd(ListDataListener<T> listener) {
 		this.onPutListenerManager.addListener(listener);
 	}
 	
-	public void onRemove(Listener<T> listener) {
+	public void onRemove(ListDataListener<T> listener) {
 		this.onRemoveListenerManager.addListener(listener);
 	}
 

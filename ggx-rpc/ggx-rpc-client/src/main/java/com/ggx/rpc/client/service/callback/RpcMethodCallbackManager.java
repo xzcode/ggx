@@ -5,7 +5,7 @@ import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXCoreFuture;
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.exception.RpcServiceInvokeTimeoutException;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 /**
  * RPC方法回调管理器

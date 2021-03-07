@@ -1,39 +1,40 @@
-package com.ggx.util.manager.impl;
+package com.ggx.util.manager.map.impl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggx.util.manager.MapDataManager;
-import com.ggx.util.manager.listener.Listener;
-import com.ggx.util.manager.listener.ListenerManager;
+import com.ggx.util.manager.map.MapDataManager;
+import com.ggx.util.manager.map.listener.MapDataListener;
+import com.ggx.util.manager.map.listener.MapDataListenerManager;
+import com.ggx.util.manager.map.listener.impl.DefaultMapDataListenerManager;
 
 public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K, V>{
 	
 	protected transient Map<K, V> map = new ConcurrentHashMap<>();
 	
-	private transient ListenerManager<V> onPutListenerManager = new DefaultListenerManager<>();
+	private transient MapDataListenerManager<K, V> onPutListenerManager = new DefaultMapDataListenerManager<>();
 	
-	private transient ListenerManager<V> onRemoveListenerManager = new DefaultListenerManager<>();
+	private transient MapDataListenerManager<K, V> onRemoveListenerManager = new DefaultMapDataListenerManager<>();
 	
 	@Override
 	public Map<K, V> getMap() {
 		return map;
 	}
 	
-	public void onPut(Listener<V> listener) {
+	public void onPut(MapDataListener<K, V> listener) {
 		this.onPutListenerManager.addListener(listener);
 	}
 	
-	public void onRemove(Listener<V> listener) {
+	public void onRemove(MapDataListener<K, V> listener) {
 		this.onRemoveListenerManager.addListener(listener);
 	}
 
 	@Override
 	public V put(K key, V value) {
 		V oldV = MapDataManager.super.put(key, value);
-		this.onPutListenerManager.triggerListeners(value);
+		this.onPutListenerManager.triggerListeners(key, value);
 		if (oldV != null) {
-			this.onRemoveListenerManager.triggerListeners(oldV);
+			this.onRemoveListenerManager.triggerListeners(key, oldV);
 		}
 		return oldV;
 	}
@@ -42,7 +43,7 @@ public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K
 	public V putIfAbsent(K key, V value) {
 		V returnObj = MapDataManager.super.putIfAbsent(key, value);
 		if (returnObj == null) {
-			this.onPutListenerManager.triggerListeners(value);
+			this.onPutListenerManager.triggerListeners(key, value);
 		}
 		return returnObj;
 	}
@@ -57,7 +58,7 @@ public abstract class ListenableMapDataManager<K, V> implements MapDataManager<K
 	@Override
 	public V remove(K key) {
 		V removedValue = MapDataManager.super.remove(key);
-		this.onRemoveListenerManager.triggerListeners(removedValue);
+		this.onRemoveListenerManager.triggerListeners(key, removedValue);
 		return removedValue;
 	}
 	

@@ -1,7 +1,7 @@
 package com.ggx.router.common.session.attr;
 
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 /**
  * 会话属性信息管理器

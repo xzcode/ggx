@@ -1,4 +1,4 @@
-package com.ggx.util.manager;
+package com.ggx.util.manager.map;
 
 import java.util.List;
 import java.util.Map;

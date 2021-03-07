@@ -1,4 +1,4 @@
-package com.ggx.util.manager;
+package com.ggx.util.manager.list;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

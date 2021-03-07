@@ -19,7 +19,7 @@ import com.ggx.rpc.common.serializer.ParameterSerializer;
 import com.ggx.rpc.common.serializer.factory.ParameterSerializerFactory;
 import com.ggx.rpc.server.config.RpcServerConfig;
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 /**
  * RPC接口调用管理器

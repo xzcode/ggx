@@ -13,7 +13,7 @@ import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.message.receive.controller.model.ControllerMethodInfo;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 import com.ggx.util.reflect.GGXReflectUtil;
 
 public class DefaultMessageControllerManager extends ListenableMapDataManager<String, ControllerMethodInfo> implements MessageControllerManager{

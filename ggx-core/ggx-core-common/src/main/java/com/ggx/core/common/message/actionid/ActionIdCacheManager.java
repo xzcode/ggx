@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.message.model.Message;
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.impl.ListenableMapDataManager;
+import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
