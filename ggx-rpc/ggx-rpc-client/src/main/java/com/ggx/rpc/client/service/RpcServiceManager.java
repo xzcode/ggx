@@ -90,12 +90,12 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 		if (rpcServiceGroupId == null || rpcServiceGroupId.isEmpty()) {
 			return;
 		}
-
+		/*
 		// 跳过同组注册信息
 		if (rpcServiceGroupId.equals(config.getRpcServiceGroupId())) {
 			return;
 		}
-
+		*/
 		String rpcServiceId = customData.get(RpcServiceCustomDataKeys.RPC_SERVICE_ID);
 		if (rpcServiceId == null || rpcServiceId.isEmpty()) {
 			return;
