@@ -20,7 +20,7 @@ public class RandomRouterServiceLoadbalancer implements RouterServiceLoadbalance
 
 
 	@Override
-	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
+	public GGXFuture<?> loadblance(Pack pack, String serviceId) {
 		if (serviceId == null) {
 			return routerServiceGroup.dispatchRandom(pack);
 		}
@@ -32,7 +32,7 @@ public class RandomRouterServiceLoadbalancer implements RouterServiceLoadbalance
 	}
 
 	@Override
-	public GGXFuture<?> dispatch(Pack pack) {
+	public GGXFuture<?> loadblance(Pack pack) {
 		return routerServiceGroup.dispatchRandom(pack);
 	}
 

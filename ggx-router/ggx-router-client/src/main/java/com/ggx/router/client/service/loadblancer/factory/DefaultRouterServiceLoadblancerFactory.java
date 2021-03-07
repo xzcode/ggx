@@ -33,7 +33,7 @@ public class DefaultRouterServiceLoadblancerFactory implements RouterServiceLoad
 	public RouterServiceLoadbalancer getLoadblancer(String type) {
 		switch (type) {
 		case RouterServiceLoadblanceType.HASH:
-			return new ConsistentHashingRouterServiceLoadbalancer(this.config.getSingleThreadTaskExecutor());
+			return new ConsistentHashingRouterServiceLoadbalancer();
 		case RouterServiceLoadblanceType.RANDOM_BIND:
 			return new BindSessionRouterServiceLoadbalancer();
 		case RouterServiceLoadblanceType.RANDOM:

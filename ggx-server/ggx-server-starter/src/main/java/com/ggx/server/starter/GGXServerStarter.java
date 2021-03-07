@@ -91,6 +91,14 @@ public interface GGXServerStarter extends GGXCoreSupport{
 	 * 2021-02-21 23:08:03
 	 */
 	void registerRouterTransferSessionAttr(String key, Class<?> clazz);
+	
+	/**
+	 * 更新路由服务的负载参数
+	 *
+	 * @param load
+	 * 2021-03-07 02:47:42
+	 */
+	void updateRouterServiceLoad(int load);
 
 
 	/**

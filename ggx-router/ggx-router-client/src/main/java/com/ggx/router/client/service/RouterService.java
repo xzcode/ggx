@@ -392,6 +392,17 @@ public class RouterService {
 		});
 	}
 
+	public int incrLoad() {
+		return load.incrementAndGet();
+	}
+
+	public int getLoad() {
+		return load.get();
+	}
+	
+	public void setLoad(int load) {
+		this.load.set(load);
+	}
 	
 	public String getServiceId() {
 		return this.serviceId;
@@ -450,9 +461,6 @@ public class RouterService {
 		this.serviceGroupId = servcieName;
 	}
 	
-	public AtomicInteger getLoad() {
-		return load;
-	}
 
 	public String getActionIdPrefix() {
 		return actionIdPrefix;

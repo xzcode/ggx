@@ -166,6 +166,14 @@ public abstract class GGXBasicServerStarter implements GGXServerStarter{
 		return this.routerClient.getConfig().getServiceProvider().getDefaultRouterServiceGroup();
 		
 	}
+	
+	@Override
+	public void updateRouterServiceLoad(int load) {
+		if (this.routerServer == null) {
+			return;
+		}
+		this.routerServer.updateRouterServiceLoad(load);
+	}
 
 	public RegistryServer getRegistryServer() {
 		return registryServer;

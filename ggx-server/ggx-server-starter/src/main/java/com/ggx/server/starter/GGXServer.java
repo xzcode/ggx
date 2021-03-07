@@ -188,6 +188,13 @@ public class GGXServer implements GGXServerStarter {
 	public RouterServiceGroup getDefaultRouterServiceGroup(String serviceGroupId) {
 		return this.serverStarter.getDefaultRouterServiceGroup(serviceGroupId);
 	}
+	
+	
+	@Override
+	public void updateRouterServiceLoad(int load) {
+		this.serverStarter.updateRouterServiceLoad(load);
+		
+	}
 
 	@Override
 	public void publishEventbusMessage(EventbusMessage message) {

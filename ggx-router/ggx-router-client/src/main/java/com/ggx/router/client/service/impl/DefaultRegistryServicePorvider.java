@@ -123,6 +123,9 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 		if (actionIdPrefix == null || servicePortString == null) {
 			return;
 		}
+		
+		int load = Integer.valueOf(customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_LOAD));
+		
 		Integer servicePort = Integer.valueOf(servicePortString);
 		
 		String serviceGroupId = service.getServiceGroupId();
@@ -156,6 +159,7 @@ public class DefaultRegistryServicePorvider implements RouterServiceProvider{
 			
 			//创建新服务对象
 			RouterService routerService = new RouterService(config, serviceId);
+			routerService.setLoad(load);
 	        routerService.setHost(service.getHost());
 	        routerService.setPort(servicePort);
 	        routerService.setServiceId(service.getServiceId());

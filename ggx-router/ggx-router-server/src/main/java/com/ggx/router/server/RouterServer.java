@@ -235,6 +235,21 @@ public class RouterServer implements GGXCoreSupport {
 		
 	}
 	
+	/**
+	 * 更新路由服务负载参数
+	 *
+	 * @param load
+	 * 2021-03-07 02:37:34
+	 */
+	public void updateRouterServiceLoad(int load) {
+		RegistryClient registryClient = this.config.getRegistryClient();
+		if (registryClient == null) {
+			return;
+		}
+		registryClient.addCustomData(RouterServiceCustomDataKeys.ROUTER_SERVICE_LOAD, String.valueOf(load));
+		registryClient.updateService();
+	}
+	
 	
 	public GGXFuture<?> shutdown() {
 		return this.config.getSessionGroupServer().shutdown();

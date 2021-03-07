@@ -1,6 +1,5 @@
 package com.ggx.router.client.config;
 
-import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.utils.GGXIdUtil;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.eventbus.group.client.EventbusGroupClient;
@@ -162,9 +161,6 @@ public class RouterClientConfig {
 		return this.getRouterServiceLoadblancerFactory().getLoadblancer(this.getRouterServiceLoadblanceType());
 	}
 
-	public TaskExecutor getSingleThreadTaskExecutor() {
-		return this.getHostServer().getTaskExecutor().nextEvecutor();
-	}
 
 	public RouterServiceProvider getServiceProvider() {
 		return serviceProvider;

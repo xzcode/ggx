@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.executor.SingleThreadTaskExecutor;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXFailedFuture;
 import com.ggx.core.common.message.Pack;
@@ -14,6 +15,7 @@ import com.ggx.router.client.service.loadblancer.RouterServiceLoadbalancer;
 import com.ggx.router.client.service.loadblancer.impl.model.VirtualRouterServiceInfo;
 import com.ggx.router.client.service.manager.group.RouterServiceGroup;
 import com.ggx.util.hash.HashUtil;
+import com.ggx.util.thread.GGXThreadFactory;
 
 /**
  * 一致性哈希路由服务负载均衡器
@@ -23,9 +25,9 @@ import com.ggx.util.hash.HashUtil;
 public class ConsistentHashingRouterServiceLoadbalancer implements RouterServiceLoadbalancer {
 	
 	/**
-	 * 任务执行器
+	 * 共享任务执行器
 	 */
-	protected TaskExecutor taskExecutor;
+	protected static final TaskExecutor TASK_EXECUTOR = new SingleThreadTaskExecutor(new GGXThreadFactory("C-HASH-LB-", true));
 	
 	/**
 	 * 路由服务管理器
@@ -48,12 +50,11 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	protected final Map<String, RouterService> sessionBindServiceCache = new ConcurrentHashMap<>();
 	
 	
-	public ConsistentHashingRouterServiceLoadbalancer(TaskExecutor taskExecutor) {
-		this.taskExecutor = taskExecutor;
+	public ConsistentHashingRouterServiceLoadbalancer() {
 	}
 
 	@Override
-	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
+	public GGXFuture<?> loadblance(Pack pack, String serviceId) {
 		
 		GGXSession session = pack.getSession();
 		String sessonId = session.getSessionId();
@@ -93,8 +94,8 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	}
 	
 	@Override
-	public GGXFuture<?> dispatch(Pack pack) {
-		return this.dispatch(pack, null);
+	public GGXFuture<?> loadblance(Pack pack) {
+		return this.loadblance(pack, null);
 	}
 	
 
@@ -104,20 +105,20 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 		this.routerServiceGroup = routerServiceGroup;
 		
 		this.routerServiceGroup.addAddRouterServiceListener(routerService -> {
-			taskExecutor.submitTask(() -> {
+			TASK_EXECUTOR.submitTask(() -> {
 				addService(routerService);
 			});
 		});
 		
 		this.routerServiceGroup.addRemoveRouterServiceListener(routerService -> {
-			taskExecutor.submitTask(() -> {
+			TASK_EXECUTOR.submitTask(() -> {
 				removeService(routerService);
 			});
 			
 		});
 	}
 	
-	private void addService(RouterService routerService ) {
+	protected void addService(RouterService routerService ) {
 		String serviceId = routerService.getServiceId();
 		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
 			String virtualServiceId = serviceId + "#" + (i + 1);
@@ -126,7 +127,7 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 		}
 		
 	}
-	private void removeService(RouterService routerService ) {
+	protected void removeService(RouterService routerService ) {
 		String serviceId = routerService.getServiceId();
 		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {
 			String virtualServiceId = serviceId + "#" + (i + 1);
@@ -140,28 +141,5 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 	public void changeSessionBinding(String sessionId, RouterService routerService) {
 		this.sessionBindServiceCache.replace(sessionId, routerService);
 	}
-	
-	/*
-	 * private static void hashTest() { //哈希分布测试 ConcurrentSkipListMap<Integer,
-	 * String> vMap = new ConcurrentSkipListMap<>();
-	 * 
-	 * Map<String, AtomicInteger> countMap = new HashMap<>(); List<String> list =
-	 * new ArrayList<String>(); for (int i = 0; i < 5; i++) { String id =
-	 * GGXIdUtil.newRandomStringId24(); list.add(id); for (int j = 0; j < 100; j++)
-	 * { String id2 = id + "#" + (j+1); vMap.put(HashUtil.getFNV1_32_HASH(id2), id2);
-	 * countMap.put(id, new AtomicInteger()); } } int total = 10000 * 100; for (int
-	 * i = 0; i < total; i++) { String sessionId = GGXIdUtil.newRandomStringId24();
-	 * int hash = HashUtil.getFNV1_32_HASH(sessionId); Integer ceilingKey = vMap.ceilingKey(hash); if
-	 * (ceilingKey != null) { String id2 = vMap.get(ceilingKey); String id =
-	 * id2.split("#")[0]; countMap.get(id).getAndIncrement(); }else {
-	 * countMap.get(list.get(0)).getAndIncrement(); }
-	 * 
-	 * }
-	 * 
-	 * //System.out.println(countMap); //System.out.println(1d * total / hit * 100D
-	 * + "%");
-	 * 
-	 * }
-	 */
 
 }

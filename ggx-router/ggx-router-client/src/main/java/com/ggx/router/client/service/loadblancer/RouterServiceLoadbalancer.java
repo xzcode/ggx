@@ -21,10 +21,10 @@ public interface RouterServiceLoadbalancer {
 	 * @author zai
 	 * 2020-05-06 11:38:52
 	 */
-	GGXFuture<?> dispatch(Pack pack);
+	GGXFuture<?> loadblance(Pack pack);
 
 	
-	GGXFuture<?> dispatch(Pack pack, String serviceId);
+	GGXFuture<?> loadblance(Pack pack, String serviceId);
 	
 	/**
 	 * 设置路由服务组

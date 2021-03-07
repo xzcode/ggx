@@ -137,7 +137,7 @@ public class RouterServiceGroup {
 	 */
 	private void sortServiceList() {
 		this.sortedServiceList.sort((a, b) -> {
-			return a.getLoad().get() - b.getLoad().get();
+			return a.getLoad() - b.getLoad();
 		});
 	}
 	
@@ -150,10 +150,10 @@ public class RouterServiceGroup {
 	 * 2020-05-23 11:34:02
 	 */
 	public GGXFuture<?> dispatch(Pack pack) {
-		return this.routerServiceLoadbalancer.dispatch(pack);
+		return this.routerServiceLoadbalancer.loadblance(pack);
 	}
 	public GGXFuture<?> dispatch(Pack pack, String serviceId) {
-		return this.routerServiceLoadbalancer.dispatch(pack, serviceId);
+		return this.routerServiceLoadbalancer.loadblance(pack, serviceId);
 	}
 	
 	/**
