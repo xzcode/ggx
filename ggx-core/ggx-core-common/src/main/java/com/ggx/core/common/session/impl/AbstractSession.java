@@ -13,6 +13,7 @@ import com.ggx.core.common.network.model.NetFlowData;
 import com.ggx.core.common.serializer.Serializer;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
+import com.ggx.core.common.session.listener.SessionUpdateExpireListener;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -58,7 +59,10 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	protected TaskExecutor taskExecutor;
 
 	// 断开连接监听器
-	protected List<SessionDisconnectListener> disconnectListeners = new CopyOnWriteArrayList<SessionDisconnectListener>();
+	protected List<SessionDisconnectListener> disconnectListeners = new CopyOnWriteArrayList<>();
+	
+	// 会话更新超时时间监听器
+	protected List<SessionUpdateExpireListener> updateExpireListeners = new CopyOnWriteArrayList<>();
 
 	public AbstractSession(String sessionId, C config) {
 		this.config = config;
@@ -86,6 +90,16 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	@Override
 	public void removeDisconnectListener(SessionDisconnectListener listener) {
 		this.disconnectListeners.remove(listener);
+	}
+	
+	@Override
+	public void addUpdateExpireListener(SessionUpdateExpireListener listener) {
+		this.updateExpireListeners.add(listener);
+	}
+	
+	@Override
+	public void removeUpdateExpireListener(SessionUpdateExpireListener listener) {
+		this.updateExpireListeners.remove(listener);
 	}
 
 	/**
@@ -205,6 +219,15 @@ public abstract class AbstractSession<C extends GGXCoreConfig> implements GGXSes
 	@Override
 	public void updateExpire() {
 		this.expireMs = System.currentTimeMillis() + config.getSessionExpireMs();
+		if(this.updateExpireListeners.size() > 0) {
+			for (SessionUpdateExpireListener listener : this.updateExpireListeners) {
+				try {
+					listener.onUpdateExpire(this);
+				} catch (Exception e) {
+					GGXLogUtil.getLogger(this).warn("Session update expire Error!", e);
+				}
+			}
+		}
 	}
 
 	@Override

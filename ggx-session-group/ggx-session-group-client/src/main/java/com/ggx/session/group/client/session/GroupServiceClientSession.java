@@ -1,12 +1,11 @@
 package com.ggx.session.group.client.session;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXCoreFuture;
-import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
@@ -31,12 +30,30 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 
 	protected GGXSession groupSession;
 
-	public GroupServiceClientSession(String sessionId, GGXSession groupSession,String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
+	public GroupServiceClientSession(String sessionId, GGXSession groupSession, GGXCoreConfig config) {
 		super(sessionId, config);
-		this.sessionGroupManager = sessionGroupManager;
-		this.groupId = groupId;
 		this.groupSession = groupSession;
 		setReady(true);
+		groupSession.addDisconnectListener(s -> {
+			this.disconnect();
+		});
+		groupSession.addUpdateExpireListener(s -> {
+			this.updateExpire();
+		});
+	}
+	
+	/**
+	 * 启动超时自动更新任务，用于避免session超时
+	 *
+	 * 2021-03-09 00:14:34
+	 */
+	public void startUpdateExpireTask() {
+		this.schedule(30L * 1000L, () -> {
+			if(!this.disconnected) {
+				this.updateExpire();
+				this.startUpdateExpireTask();
+			}
+		});
 	}
 	
 	@Override
@@ -63,12 +80,6 @@ public class GroupServiceClientSession extends AbstractAttrMapSession<GGXCoreCon
 		resp.setMessage(pack.getMessage());
 		resp.setRequestSeq(pack.getRequestSeq());
 		
-		if (this.groupSession == null || this.groupSession.isExpired()) {
-			this.groupSession = sessionGroupManager.getRandomOne(groupId);
-		}
-		if (this.groupSession == null) {
-			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
-		}
 		return groupSession.send(resp);
 	}
 

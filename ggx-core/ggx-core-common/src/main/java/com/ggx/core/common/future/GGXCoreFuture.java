@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.session.GGXSession;
-import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
 import com.ggx.util.logger.GGXLogUtil;
 
 /**
@@ -169,6 +168,10 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 	}
 	public void doneWithError(Throwable cause) {
 		this.setCause(cause);
+		this.setDone(true);
+	}
+	public void doneWithSuccess(Object data) {
+		this.setData(data);
 		this.setDone(true);
 	}
 	

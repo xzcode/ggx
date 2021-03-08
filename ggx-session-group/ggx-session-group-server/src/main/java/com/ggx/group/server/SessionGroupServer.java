@@ -1,8 +1,11 @@
 package com.ggx.group.server;
 
 import com.ggx.core.common.future.GGXFuture;
+import com.ggx.core.common.session.GGXSession;
+import com.ggx.core.common.session.manager.SessionManager;
 import com.ggx.core.common.constant.ProtocolTypeConstants;
 import com.ggx.core.common.event.GGXCoreEvents;
+import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.server.GGXCoreServer;
 import com.ggx.core.server.config.GGXCoreServerConfig;
 import com.ggx.core.server.impl.GGXDefaultCoreServer;
@@ -14,6 +17,7 @@ import com.ggx.group.server.events.ConnCloseEventListener;
 import com.ggx.group.server.handler.AuthReqHandler;
 import com.ggx.group.server.handler.DataTransferReqHandler;
 import com.ggx.group.server.handler.SessionGroupRegisterReqHandler;
+import com.ggx.group.server.session.GroupServiceServerSession;
 import com.ggx.util.thread.GGXThreadFactory;
 
 /**
@@ -81,6 +85,21 @@ public class SessionGroupServer {
 		
 		GGXCoreServer serviceServer = new GGXDefaultCoreServer(serviceServerConfig);
 		this.config.setServiceServer(serviceServer);
+		
+		
+		sessionServer.addEventListener(GGXCoreEvents.Connection.OPENED, (EventData<Void> eventData) -> {
+			GGXSession groupSession = eventData.getSession();
+			String sessionId = groupSession.getSessionId();
+			
+			SessionManager serviceSessionManager = serviceServerConfig.getSessionManager();
+			
+			//创建业务服务端session
+			GGXSession serviceSession = (GroupServiceServerSession) serviceSessionManager.getSession(sessionId);
+			if (serviceSession == null) {
+				serviceSession = new GroupServiceServerSession(sessionId, groupSession, serviceServerConfig);
+				serviceSessionManager.addSessionIfAbsent(serviceSession);
+			}
+		});
 		
 	}
 	

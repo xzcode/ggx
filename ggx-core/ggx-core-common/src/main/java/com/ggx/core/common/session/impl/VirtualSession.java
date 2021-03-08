@@ -18,11 +18,17 @@ public class VirtualSession extends AbstractAttrMapSession<GGXCoreConfig>{
 	
 	protected GGXSession realSession;
 
-	public VirtualSession(String sessionId, GGXSession realSession, SessionManager realSessionManager, GGXCoreConfig config) {
+	public VirtualSession(String sessionId, GGXSession realSession, GGXCoreConfig config) {
 		super(sessionId, config);
 		this.realSession = realSession;
-		this.realSessionManager = realSessionManager;
 		setReady(true);
+		
+		realSession.addDisconnectListener(s -> {
+			this.disconnect();
+		});
+		realSession.addUpdateExpireListener(s -> {
+			this.updateExpire();
+		});
 	}
 	
 	@Override

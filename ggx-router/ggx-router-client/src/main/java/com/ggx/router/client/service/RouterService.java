@@ -1,7 +1,6 @@
 package com.ggx.router.client.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -79,30 +78,19 @@ public class RouterService {
 	
 	
 	
-	/**
-	 * 是否已准备接收数据
-	 */
+	// 是否已准备接收数据
 	protected AtomicInteger avaliableConnections = new AtomicInteger(0);
 	
-	/**
-	 * 额外数据
-	 */
+	// 额外数据
 	protected Map<String, String> customData = new ConcurrentHashMap<>();
 	
-	/**
-	 * 服务关闭监听器
-	 */
+	// 服务关闭监听器
 	protected List<RouterServiceShutdownListener> shutdownListeners = new ArrayList<>();
 	
-	
-	/**
-	 * 是否已关闭
-	 */
+	// 是否已关闭
 	protected boolean shutdown;
 	
-	/**
-	 * 负载量
-	 */
+	// 负载量
 	protected AtomicInteger load = new AtomicInteger(0);
 	
 	
@@ -210,26 +198,14 @@ public class RouterService {
 			
 			@GGXAction
 			public void handle(RouterSessionDisconnectTransferResp resp, GGXSession session) {
-				//监听session断开回传
 				String tranferSessionId = resp.getTranferSessionId();
 				
-				SessionManager hostServersessionManager = config.getHostServer().getSessionManager();
-				GGXSession hostServerSession = hostServersessionManager.getSession(tranferSessionId);
-				
-				if (hostServerSession != null) {
-					//判断是否继续处理会话断开推送传递
+				GGXSession customServiceClientSession = customServiceClient.getSessionManager().getSession(tranferSessionId);
+				if(null != customServiceClientSession) {
 					if (RouterService.this.config.isSessionDisconnectTransferResponseEnabled()) {
-							hostServerSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
-							hostServerSession.send(resp).addListener(f -> {
-								hostServerSession.disconnect();
-							});
-					}else {
-						// 如果不继续传递断开推送，则移除最初绑定的连接断开监听器，避免多次重复添加监听器造成内存溢出
-						SessionDisconnectListener disconnectListener = session.getAttribute(DISPATCH_DISCONNECT_LISTENER_KEY,SessionDisconnectListener.class);
-						if (disconnectListener != null) {
-							hostServerSession.removeDisconnectListener(disconnectListener);
-						}
+						customServiceClientSession.addAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, RouterSessionDisconnectTransferType.RESP);
 					}
+					customServiceClientSession.disconnect();
 				}
 			}
 				
@@ -265,36 +241,48 @@ public class RouterService {
 		SessionManager customServiceClientSessionManager = this.customServiceClient.getSessionManager();
 		GGXSession customClientSession = customServiceClientSessionManager.getSession(routingSessonId);
 		
-		GGXSession serviceClientSession = serviceClientSessionManager.getRandomSession();
 		
 		if (customClientSession == null) {
-			customClientSession = new RouterClientSession(routingSessonId, serviceClientSession, serviceClientSessionManager, this.customServiceClient.getConfig());
+			
+			GGXSession serviceClientSession = serviceClientSessionManager.getRandomSession();
+			
+			customClientSession = new RouterClientSession(routingSessonId, serviceClientSession, this.customServiceClient.getConfig());
 			GGXSession addSessionIfAbsent = customServiceClientSessionManager.addSessionIfAbsent(customClientSession);
 			
 			if (addSessionIfAbsent != null) {
 				customClientSession = addSessionIfAbsent;
 			}else {
 				
-				SessionDisconnectListener disconnectListener = new SessionDisconnectListener() {
-					
-					@Override
-					public void onDisconnect(GGXSession session) {
-						Integer tranType = session.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
-						if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
-							serviceClientSession.disconnect();
-							return;
-						}
-						//判断是否开启会话断开传递请求
-						if (RouterService.this.config.isSessionDisconnectTransferRequestEnabled()) {
-							//传递会话断开请求
-							serviceClientSession.send(new RouterSessionDisconnectTransferReq(session.getSessionId()));
-						}
-						
-					}
+				GGXSession finalCustomClientSession = customClientSession;
+				SessionDisconnectListener routingSessionDisconnectListener = s -> {
+					finalCustomClientSession.disconnect();
 				};
-				
-				routingSession.addDisconnectListener(disconnectListener);
-				customClientSession.addAttribute(DISPATCH_DISCONNECT_LISTENER_KEY, disconnectListener);
+				routingSession.addDisconnectListener(routingSessionDisconnectListener);
+				customClientSession.addDisconnectListener(s -> {
+					
+					
+					
+					//判断是否继续处理会话断开推送传递
+					if (this.config.isSessionDisconnectTransferResponseEnabled()) {
+						routingSession.send(new RouterSessionDisconnectTransferResp(routingSessonId)).addListener(f -> {
+							routingSession.disconnect();
+						});
+					}else {
+						routingSession.removeDisconnectListener(routingSessionDisconnectListener);
+					}
+					
+					Integer tranType = s.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
+					if (tranType != null && tranType == RouterSessionDisconnectTransferType.RESP) {
+						return;
+					}
+					//判断是否开启会话断开传递请求
+					if (this.config.isSessionDisconnectTransferRequestEnabled()) {
+						//传递会话断开请求
+						serviceClientSession.send(new RouterSessionDisconnectTransferReq(s.getSessionId()));
+					}
+					
+					
+				});
 				
 				// 发送session创建请求
 				sendCreateSessionReq(routingSession, serviceClientSession, pack);
@@ -336,16 +324,6 @@ public class RouterService {
 		serviceClientSession.send(createSessionReq);
 	}
 	
-	public static void main(String[] args) throws Exception {
-		Serializer serializer = new KryoSerializer();
-		byte[] bytes = serializer.serialize("123456");
-		System.out.println(Arrays.toString(bytes));
-		System.out.println(int.class.getCanonicalName());
-		System.out.println(serializer.deserialize(bytes, String.class));
-		System.out.println(new String(new byte[] {10, 18, 8, 8, 16, 49, 16, 50, 16, 51, 16, 50, 16, 52, 16, 50, 16, 51, 16, 52, 16, 0}));
-	}
-	
-
 	public boolean isAvailable() {
 		if (shutdown) {
 			return false;

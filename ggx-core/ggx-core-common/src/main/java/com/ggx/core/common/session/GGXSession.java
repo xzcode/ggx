@@ -6,6 +6,7 @@ import com.ggx.core.common.executor.support.ExecutorSupport;
 import com.ggx.core.common.message.send.support.SessionSendMessageSupport;
 import com.ggx.core.common.network.model.NetFlowData;
 import com.ggx.core.common.session.listener.SessionDisconnectListener;
+import com.ggx.core.common.session.listener.SessionUpdateExpireListener;
 
 import io.netty.channel.Channel;
 
@@ -166,6 +167,22 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	void removeDisconnectListener(SessionDisconnectListener listener);
 	
 	/**
+	 * 添加更新超时时间监听器
+	 *
+	 * @param listener
+	 * 2021-03-09 00:26:01
+	 */
+	void addUpdateExpireListener(SessionUpdateExpireListener listener);
+
+	/**
+	 * 移除更新超时时间监听器
+	 *
+	 * @param listener
+	 * 2021-03-09 00:26:12
+	 */
+	void removeUpdateExpireListener(SessionUpdateExpireListener listener);
+	
+	/**
 	 * 是否超时
 	 *
 	 * @return
@@ -231,6 +248,8 @@ public interface GGXSession extends SessionSendMessageSupport, ExecutorSupport, 
 	 * 2021-01-31 22:03:06
 	 */
 	boolean isDisconnected();
+
+
 
 
 }

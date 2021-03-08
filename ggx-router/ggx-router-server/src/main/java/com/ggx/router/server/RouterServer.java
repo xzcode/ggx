@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.ggx.core.common.config.GGXCore;
 import com.ggx.core.common.config.GGXCoreSupport;
-import com.ggx.core.common.event.EventListener;
-import com.ggx.core.common.event.GGXCoreEvents;
-import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.Pack;
@@ -101,7 +98,7 @@ public class RouterServer implements GGXCoreSupport {
 		this.sessionServiceServer.registerMessageController(new MessageController(){
 
 			@GGXAction
-			public void disconnectTransferReq(RouterSessionDisconnectTransferReq req) {
+			public void disconnectTransferReq(RouterSessionDisconnectTransferReq req, GGXSession session) {
 				String tranferSessionId = req.getTranferSessionId();
 				SessionManager hostSessionManager = hostServer.getSessionManager();
 				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
@@ -117,9 +114,9 @@ public class RouterServer implements GGXCoreSupport {
 				
 				SessionManager hostSessionManager = hostServer.getSessionManager();
 				GGXSession hostSession = hostSessionManager.getSession(tranferSessionId);
-				GGXCoreServerConfig hostServerConfig = hostServer.getConfig();
 				if (hostSession == null) {
-					hostSession = new RouterServerSession(tranferSessionId, session, sessionServiceServer.getSessionManager(), hostServerConfig);
+					GGXCoreServerConfig hostServerConfig = hostServer.getConfig();
+					hostSession = new RouterServerSession(tranferSessionId, session, hostServerConfig);
 					GGXSession addSessionIfAbsent = hostSessionManager.addSessionIfAbsent(hostSession);
 					if (addSessionIfAbsent != null) {
 						hostSession = addSessionIfAbsent;
@@ -144,6 +141,19 @@ public class RouterServer implements GGXCoreSupport {
 						}
 					}
 				}
+				
+				hostSession.addDisconnectListener(s -> {
+					if (s != null) {
+						Integer tranType = s.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
+						if (tranType  != null && RouterSessionDisconnectTransferType.REQ == tranType) {
+							return;
+						}
+						if (config.isSessionDisconnectTransferResponseEnabled()) {
+							session.send(new RouterSessionDisconnectTransferResp(s.getSessionId()));
+						}
+					}
+				});
+				
 			}
 			
 			@GGXAction
@@ -162,22 +172,6 @@ public class RouterServer implements GGXCoreSupport {
 		
 		
 		
-		//添加连接断开监听
-		this.hostServer.addEventListener(GGXCoreEvents.Connection.CLOSED, new EventListener<Void>() {
-			@Override
-			public void onEvent(EventData<Void> eventData) {
-				GGXSession hostSession = eventData.getSession();
-				if (hostSession != null) {
-					Integer tranType = hostSession.getAttribute(RouterConstant.ROUTER_SESSION_DISCONNECT_TRANSFER_TYPE_SESSION_KEY, Integer.class);
-					if (tranType  != null && RouterSessionDisconnectTransferType.REQ == tranType) {
-						return;
-					}
-					if (config.isSessionDisconnectTransferResponseEnabled()) {
-						sessionServiceServer.getSessionManager().getRandomSession().send(new RouterSessionDisconnectTransferResp(hostSession.getSessionId()));
-					}
-				}
-			}
-		});
 	}
 
 	public GGXCoreServer getSessionServiceServer() {

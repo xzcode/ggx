@@ -1,16 +1,14 @@
 package com.ggx.group.server.session;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.config.GGXCoreConfig;
 import com.ggx.core.common.event.GGXCoreEvents;
 import com.ggx.core.common.event.model.EventData;
 import com.ggx.core.common.executor.TaskExecutor;
 import com.ggx.core.common.future.GGXCoreFuture;
-import com.ggx.core.common.future.GGXFailedFuture;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.Pack;
 import com.ggx.core.common.session.GGXSession;
 import com.ggx.core.common.session.impl.AbstractAttrMapSession;
-import com.ggx.group.common.group.manager.GGSessionGroupManager;
 import com.ggx.group.common.message.resp.DataTransferResp;
 
 import io.netty.channel.Channel;
@@ -23,17 +21,19 @@ import io.netty.channel.Channel;
  */
 public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreConfig>{
 	
-	//会话组管理器
-	protected GGSessionGroupManager sessionGroupManager;
-	
 	protected GGXSession groupSession;
 
-	public GroupServiceServerSession(String sessionId, String groupId, GGSessionGroupManager sessionGroupManager,GGXCoreConfig config) {
+	public GroupServiceServerSession(String sessionId, GGXSession groupSession, GGXCoreConfig config) {
 		super(sessionId, config);
-		this.sessionGroupManager = sessionGroupManager;
-		this.groupId = groupId;
-		this.groupSession = sessionGroupManager.getRandomOne(groupId);
+		this.groupSession = groupSession;
 		setReady(true);
+		
+		groupSession.addDisconnectListener(s -> {
+			this.disconnect();
+		});
+		groupSession.addUpdateExpireListener(s -> {
+			this.updateExpire();
+		});
 	}
 	
 	@Override
@@ -60,12 +60,6 @@ public class GroupServiceServerSession extends AbstractAttrMapSession<GGXCoreCon
 		resp.setMessage(pack.getMessage());
 		resp.setRequestSeq(pack.getRequestSeq());
 		
-		if (this.groupSession == null || this.groupSession.isExpired()) {
-			this.groupSession = sessionGroupManager.getRandomOne(groupId);
-		}
-		if (this.groupSession == null) {
-			return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
-		}
 		return groupSession.send(resp);
 	}
 
