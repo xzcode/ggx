@@ -35,10 +35,12 @@ public class FinalReceiveMessageChainFilter implements ReceiveMessageFilter{
 			}else if (returnObject instanceof GGXFuture) {
 				GGXFuture<?> fu = (GGXFuture<?>) returnObject;
 				fu.addListener(f -> {
-					Object returnData = fu.get();
-					if (returnData != null && returnData instanceof Message) {
-						MessageData messageData = new MessageData(session, (Message)returnData, requestSeq);
-						session.send(messageData);
+					if (f.isSuccess()) {
+						Object returnData = fu.get();
+						if (returnData != null && returnData instanceof Message) {
+							MessageData messageData = new MessageData(session, (Message)returnData, requestSeq);
+							session.send(messageData);
+						}
 					}
 					returnFuture.follow(fu);
 				});

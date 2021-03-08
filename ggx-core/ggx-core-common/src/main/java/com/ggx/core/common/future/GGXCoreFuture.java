@@ -124,12 +124,11 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		} catch (Throwable e) {
 			GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", e);
 		}
-		if (this.cause() != null) {
-			if (this.cause instanceof GGXNoStackTraceRuntimeException) {
-				GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", cause);
-			}
-			throw new RuntimeException(this.cause());
-		}
+		/*
+		 * if (this.cause() != null) { if (this.cause instanceof
+		 * GGXNoStackTraceRuntimeException) {
+		 * GGXLogUtil.getLogger(this).error("GGXFuture.get() Error!", cause); } }
+		 */		
 		return (T) this.data;
 	}
 
@@ -165,6 +164,10 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 	public void setDone(boolean success, Object data, Throwable cause) {
 		this.setSuccess(success);
 		this.setData(data);
+		this.setCause(cause);
+		this.setDone(true);
+	}
+	public void doneWithError(Throwable cause) {
 		this.setCause(cause);
 		this.setDone(true);
 	}

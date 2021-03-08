@@ -17,6 +17,8 @@ public class ControllerMethodInfo {
 	
 	private Class<?> returnClass;
 	
+	private Class<?> genericGeturnClass;
+	
 	private boolean returnMessage;
 	
 	private int messageParamIndex = -1;
@@ -103,6 +105,12 @@ public class ControllerMethodInfo {
 		this.returnMessage = returnClassMessage;
 	}
 	
+	public Class<?> getGenericGeturnClass() {
+		return genericGeturnClass;
+	}
 	
+	public void setGenericGeturnClass(Class<?> genericGeturnClass) {
+		this.genericGeturnClass = genericGeturnClass;
+	}
 
 }

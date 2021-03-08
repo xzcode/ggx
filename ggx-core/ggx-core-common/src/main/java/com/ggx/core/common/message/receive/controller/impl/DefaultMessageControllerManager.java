@@ -2,9 +2,12 @@ package com.ggx.core.common.message.receive.controller.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import com.ggx.core.common.config.GGXCoreConfig;
+import com.ggx.core.common.future.GGXFuture;
 import com.ggx.core.common.message.MessageData;
 import com.ggx.core.common.message.actionid.ActionIdCacheManager;
 import com.ggx.core.common.message.model.Message;
@@ -12,6 +15,7 @@ import com.ggx.core.common.message.receive.controller.MessageControllerManager;
 import com.ggx.core.common.message.receive.controller.annotation.GGXAction;
 import com.ggx.core.common.message.receive.controller.model.ControllerMethodInfo;
 import com.ggx.core.common.session.GGXSession;
+import com.ggx.util.id.GGXRandomIdUtil;
 import com.ggx.util.logger.GGXLogUtil;
 import com.ggx.util.manager.map.impl.ListenableMapDataManager;
 import com.ggx.util.reflect.GGXReflectUtil;
@@ -64,8 +68,22 @@ public class DefaultMessageControllerManager extends ListenableMapDataManager<St
 			
 			if (onMessageClass != null || actionId != null) {
 				Class<?> returnType = method.getReturnType();
+				Class<?> genericReturnClass =null;
+				
+				if (GGXFuture.class.isAssignableFrom(returnType)) {
+					Type genericReturnType = method.getGenericReturnType();
+			        //获取返回值的泛型参数
+			        if (genericReturnType instanceof ParameterizedType) {
+			            Type[] actualTypeArguments = ((ParameterizedType) genericReturnType).getActualTypeArguments();
+			            genericReturnClass = (Class<?>)actualTypeArguments[0];
+			            if (!Message.class.isAssignableFrom(genericReturnClass)) {
+			            	genericReturnClass = null;
+						}
+			        }
+				}
+				
+				methodInfo.setGenericGeturnClass(genericReturnClass);
 				methodInfo.setReturnClass(returnType);
-				methodInfo.setReturnMessage(returnType.isAssignableFrom(Message.class));
 				methodInfo.setMessageClass(onMessageClass);
 				methodInfo.setMethod(method);
 				methodInfo.setControllerClass(controllerClass);
