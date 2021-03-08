@@ -103,7 +103,11 @@ public class RegistrySingleServicePorvider implements RouterServiceProvider{
 			return;
 		}
 		
-		int load = Integer.valueOf(customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_LOAD));
+		String loadString = customData.get(RouterServiceCustomDataKeys.ROUTER_SERVICE_LOAD);
+		int load = 0;
+		if (loadString != null) {
+			load = Integer.valueOf(loadString);
+		}
 		
 		Integer servicePort = Integer.valueOf(servicePortString);
 		

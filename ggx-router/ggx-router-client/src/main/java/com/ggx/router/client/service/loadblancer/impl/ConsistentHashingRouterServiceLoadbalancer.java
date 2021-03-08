@@ -67,6 +67,9 @@ public class ConsistentHashingRouterServiceLoadbalancer implements RouterService
 		}
 		
 		if (serviceId == null) {
+			if (this.virtualRouterServices.size() == 0) {
+				return GGXFailedFuture.DEFAULT_FAILED_FUTURE;
+			}
 			int sessionHash = HashUtil.getFNV1_32_HASH(pack.getSession().getSessionId());
 			
 			Integer firstKey = this.virtualRouterServices.ceilingKey(sessionHash);

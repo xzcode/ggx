@@ -22,6 +22,7 @@ public class RouterClientSession extends VirtualSession {
 		req.setAction(pack.getAction());
 		req.setMessage(pack.getMessage());
 		req.setRequestSeq(pack.getRequestSeq());
+		req.setTranferSessionId(pack.getSession().getSessionId());
 		
 		
 		if (this.realSession == null || this.realSession.isExpired()) {
