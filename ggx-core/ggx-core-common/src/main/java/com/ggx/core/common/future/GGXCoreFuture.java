@@ -171,6 +171,7 @@ public class GGXCoreFuture<T> implements GGXFuture<T> {
 		this.setDone(true);
 	}
 	public void doneWithSuccess(Object data) {
+		this.setSuccess(true);
 		this.setData(data);
 		this.setDone(true);
 	}
