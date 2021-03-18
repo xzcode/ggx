@@ -14,7 +14,7 @@ import io.netty.util.CharsetUtil;
  * 2017-07-28
  */
 public class JsonSerializer implements Serializer {
-
+	
 	private static final Gson gson = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 	@Override
