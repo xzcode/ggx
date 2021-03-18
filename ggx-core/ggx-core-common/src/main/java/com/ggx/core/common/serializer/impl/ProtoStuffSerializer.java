@@ -30,7 +30,7 @@ public class ProtoStuffSerializer implements Serializer {
 	
 	@SuppressWarnings("unchecked")
 	public <T> T deserialize(byte[] bytes, T obj) throws Exception {
-		Class<T> clazz = (Class<T>) obj;
+		Class<T> clazz = (Class<T>) obj.getClass();
 		ProtobufIOUtil.mergeFrom(bytes, obj, RuntimeSchema.getSchema(clazz));
         return obj;  
 	}
