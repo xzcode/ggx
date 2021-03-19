@@ -11,7 +11,7 @@ import com.ggx.util.logger.GGXLogUtil;
  * @author zai
  * 2020-09-15 16:55:47
  */
-public interface ListDataListenerManager<T> {
+public interface ListenerManager<T> {
 	
 	/**
 	 * 获取所有监听器
@@ -20,7 +20,7 @@ public interface ListDataListenerManager<T> {
 	 * @author zai
 	 * 2020-09-15 16:58:42
 	 */
-	List<ListDataListener<T>> getListeners();
+	List<Listener<T>> getListeners();
 	
 	
 	/**
@@ -30,7 +30,7 @@ public interface ListDataListenerManager<T> {
 	 * @author zai
 	 * 2020-09-15 16:55:56
 	 */
-	default void addListener(ListDataListener<T> listener) {
+	default void addListener(Listener<T> listener) {
 		getListeners().add(listener);
 	}
 	
@@ -41,7 +41,7 @@ public interface ListDataListenerManager<T> {
 	 * @author zai
 	 * 2020-09-15 16:56:42
 	 */
-	default void removeListener(ListDataListener<T> listener) {
+	default void removeListener(Listener<T> listener) {
 		getListeners().remove(listener);
 	}
 	
@@ -65,8 +65,8 @@ public interface ListDataListenerManager<T> {
 	 * 2020-09-15 17:38:15
 	 */
 	default void triggerListeners(T data, boolean continueOnError) {
-		List<ListDataListener<T>> listeners = getListeners();
-		for (ListDataListener<T> listener : listeners) {
+		List<Listener<T>> listeners = getListeners();
+		for (Listener<T> listener : listeners) {
 			if (continueOnError) {
 				try {
 					listener.onTrigger(data);

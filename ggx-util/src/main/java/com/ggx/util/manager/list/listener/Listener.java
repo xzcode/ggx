@@ -7,7 +7,7 @@ package com.ggx.util.manager.list.listener;
  * @author zai
  * 2020-09-15 16:53:56
  */
-public interface ListDataListener<T> {
+public interface Listener<T> {
 	
 	/**
 	 * 取消动作

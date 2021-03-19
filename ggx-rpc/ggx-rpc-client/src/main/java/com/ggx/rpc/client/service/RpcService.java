@@ -19,7 +19,7 @@ import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.session.group.client.SessionGroupClient;
 import com.ggx.session.group.client.config.SessionGroupClientConfig;
 import com.ggx.util.logger.GGXLogUtil;
-import com.ggx.util.manager.list.listener.ListDataListener;
+import com.ggx.util.manager.list.listener.Listener;
 import com.ggx.util.manager.map.listener.MapDataListener;
 
 public class RpcService {
@@ -59,7 +59,7 @@ public class RpcService {
 	/**
 	 * 服务关闭监听器
 	 */
-	protected List<ListDataListener<RpcService>> shutdownListeners = new ArrayList<>();
+	protected List<Listener<RpcService>> shutdownListeners = new ArrayList<>();
 
 	/**
 	 * 是否已关闭
@@ -149,7 +149,7 @@ public class RpcService {
 			}
 			this.shutdown = true;
 			this.sessionGroupClient.shutdown(false);
-			for (ListDataListener<RpcService> listener : shutdownListeners) {
+			for (Listener<RpcService> listener : shutdownListeners) {
 				try {
 					listener.onTrigger(this);
 				} catch (Exception e) {
@@ -160,7 +160,7 @@ public class RpcService {
 		});
 	}
 
-	public void addShutdownListener(ListDataListener<RpcService> listener) {
+	public void addShutdownListener(Listener<RpcService> listener) {
 		this.executor.submitTask(() -> {
 			if (shutdown) {
 				listener.onTrigger(this);
