@@ -116,9 +116,19 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 
 					String fieldProtoDataType = getFieldProtoDataType(field, doc.getMessageModelPrefix());
 					boolean isCustomDataType = isCustomDataType(field, doc.getMessageModelPrefix());
-
-					sb.append("  ").append(".add(new Field('").append(field.getName()).append("', ").append(seq)
-							.append(", '").append(fieldProtoDataType).append("'))").append("  // ")
+					
+					String fieldProtoModifier = getFieldProtoModifier(field);
+					sb.append("  ").append(".add(new Field('")
+						.append(field.getName())
+						.append("', ")
+						.append(seq)
+						.append(", '")
+						.append(fieldProtoDataType);
+						if(!fieldProtoModifier.isEmpty()) {
+							sb.append("', '")
+							.append(fieldProtoModifier);
+						}
+						sb.append("'))").append("  // ")
 							.append(property.getDesc()).append(ENTER_LINE);
 					if (isCustomDataType) {
 						sb.append("  ").append(".add(").append(fieldProtoDataType).append(")").append(ENTER_LINE);
@@ -143,6 +153,15 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 			});
 		}
 		return protoFiles;
+	}
+	
+	@Override
+	public String getFieldProtoModifier(Field field) {
+		Class<?> type = field.getType();
+		if (type.isArray() || type == List.class || type == ArrayList.class || type == LinkedList.class) {
+			return "repeated";
+		}
+		return "";
 	}
 
 	private String getFieldDataType(Doc doc, Field field) {
