@@ -48,21 +48,7 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 		for (Entry<String, Namespace> entry : namespaces.entrySet()) {
 			Namespace namespace = entry.getValue();
 			List<Model> models = namespace.getModels();
-			models.sort((a, b) -> {
-				List<ModelProperty> properties = a.getProperties();
-				for (ModelProperty property : properties) {
-					if (property.getClazz() == b.getClazz()) {
-						return 1;
-					}
-				}
-				properties = b.getProperties();
-				for (ModelProperty property : properties) {
-					if (property.getClazz() == a.getClazz()) {
-						return -1;
-					}
-				}
-				return 0;
-			});
+
 			ProtoFile protoFile = new ProtoFile(namespace.getName().toLowerCase() + ".ts");
 
 			StringBuilder sb = new StringBuilder(8192);
@@ -116,45 +102,78 @@ public class ProtoToJavascriptClassConverter implements ProtoFileConverter {
 
 					String fieldProtoDataType = getFieldProtoDataType(field, doc.getMessageModelPrefix());
 					boolean isCustomDataType = isCustomDataType(field, doc.getMessageModelPrefix());
-					
+
 					String fieldProtoModifier = getFieldProtoModifier(field);
-					sb.append("  ").append(".add(new Field('")
-						.append(field.getName())
-						.append("', ")
-						.append(seq)
-						.append(", '")
-						.append(fieldProtoDataType);
-						if(!fieldProtoModifier.isEmpty()) {
-							sb.append("', '")
-							.append(fieldProtoModifier);
-						}
-						sb.append("'))").append("  // ")
-							.append(property.getDesc()).append(ENTER_LINE);
+					sb.append("  ").append(".add(new Field('").append(field.getName()).append("', ").append(seq)
+							.append(", '").append(fieldProtoDataType);
+					if (!fieldProtoModifier.isEmpty()) {
+						sb.append("', '").append(fieldProtoModifier);
+					}
+					sb.append("'))").append("  // ").append(property.getDesc()).append(ENTER_LINE);
 					if (isCustomDataType) {
-						sb.append("  ").append(".add(").append(fieldProtoDataType).append(")").append(ENTER_LINE);
+						customDataTypes.add(fieldProtoDataType);
+						sb.append("  ").append(".add(Object.assign(new Type('" + fieldProtoDataType + "'), "
+								+ fieldProtoDataType + "))").append(ENTER_LINE);
 					}
 
 				}
 				sb.append(";");
 				sb.append(ENTER_LINE).append(ENTER_LINE);
 
-				protoFile.addMessage(new ProtoMessage(messageName, sb.toString()));
+				protoFile.addMessage(new ProtoMessage(messageName, sb.toString(), customDataTypes));
 
 				sb.setLength(0);
 
 			}
 			protoFiles.add(protoFile);
 		}
+
 		Comparator<Object> com = Collator.getInstance(java.util.Locale.CHINA);
 		for (ProtoFile pfile : protoFiles) {
+			
+			List<ProtoMessage> messages = pfile.getMessages();
 
-			pfile.getMessages().sort((a, b) -> {
+			messages.sort((a, b) -> {
 				return com.compare(a.getMessageName(), b.getMessageName());
 			});
+			
+			boolean restartSort = false;
+			
+			do {
+				restartSort = false;
+				for (int i = 0; i < messages.size(); i++) {
+					ProtoMessage a = messages.get(i);
+					List<String> aTypes = a.getCustomDataTypes();
+					if (aTypes.size() == 0) {
+						continue;
+					}
+					
+					for (int j = 0; j < messages.size(); j++) {
+						ProtoMessage b = messages.get(j);
+						if (aTypes.contains(b.getMessageName())) {
+							if (i < j) {
+								messages.set(i, b);
+								messages.set(j, a);
+								restartSort = true;
+								break;
+							}
+						}
+						
+					}
+					
+					if (restartSort) {
+						break;
+					}
+				}
+			
+			} while (restartSort);
+			
+
 		}
+
 		return protoFiles;
 	}
-	
+
 	@Override
 	public String getFieldProtoModifier(Field field) {
 		Class<?> type = field.getType();

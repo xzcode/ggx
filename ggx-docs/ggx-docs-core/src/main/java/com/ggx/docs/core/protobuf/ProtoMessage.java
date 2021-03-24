@@ -1,5 +1,7 @@
 package com.ggx.docs.core.protobuf;
 
+import java.util.List;
+
 public class ProtoMessage {
 	
 	/**
@@ -12,6 +14,11 @@ public class ProtoMessage {
 	 */
 	private String content;
 	
+	/**
+	 * 自定义消息类型
+	 */
+	private List<String> customDataTypes;
+	
 	
 	
 
@@ -21,6 +28,11 @@ public class ProtoMessage {
 	public ProtoMessage(String messageName, String content) {
 		this.messageName = messageName;
 		this.content = content;
+	}
+	public ProtoMessage(String messageName, String content, List<String> customDataTypes) {
+		this.messageName = messageName;
+		this.content = content;
+		this.customDataTypes = customDataTypes;
 	}
 
 	public String getMessageName() {
@@ -39,7 +51,13 @@ public class ProtoMessage {
 		this.content = content;
 	}
 	
+	public List<String> getCustomDataTypes() {
+		return customDataTypes;
+	}
 	
+	public void setCustomDataTypes(List<String> customDataTypes) {
+		this.customDataTypes = customDataTypes;
+	}
 	
 
 }
