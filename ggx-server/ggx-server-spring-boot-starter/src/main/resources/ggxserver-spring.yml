@@ -73,9 +73,30 @@ ggx:
   core-server:
     enabled: false
     core: 
-      websocketPath: /websocket
+      port: '@game.gateway.port@'
+      websocket-path: /websocket
       change-and-reboot-if-port-in-use: true
       port-change-strategy: increment
+    registry:
+      client:
+        service-name: ${spring.application.name}
+        registries:
+          - domain: ${ggx.server.registry.default.domain}
+            port: ${ggx.server.registry.default.port}
+    rpc:
+      server:
+         rpc-service-group-id: ${spring.application.name}
+      client:
+         rpc-service-group-id: ${spring.application.name}
+    quick:
+      data:
+        collector: 
+          errorcode: 
+            group: ${spring.application.name}
+            packages: com.ggx.quick
+          proto:
+            group: ${spring.application.name}
+            packages: com.ggx.quick
 #---------------------------loadbalancer----------------------------------
   loadbalancer:
     enabled: false

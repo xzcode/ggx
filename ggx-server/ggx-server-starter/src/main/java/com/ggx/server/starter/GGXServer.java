@@ -46,6 +46,7 @@ public class GGXServer implements GGXServerStarter {
 		if (config.getCoreServer() != null && config.getCoreServer().isEnabled()) {
 			GGXCoreServerConfigModel configModel = config.getCoreServer();
 			GGXCoreServerStarter ggxCoreServerStarter = new GGXCoreServerStarter();
+			ggxCoreServerStarter.setRegistryClientConfig(configModel.getRegistry().getClient());
 			ggxCoreServerStarter.setCoreServerConfig(configModel.getCore());
 			if (configModel.getEventbus() != null && configModel.getEventbus().getClient() != null) {
 				ggxCoreServerStarter.setEventbusGroupClientConfig(ggxCoreServerStarter.getEventbusGroupClientConfig());

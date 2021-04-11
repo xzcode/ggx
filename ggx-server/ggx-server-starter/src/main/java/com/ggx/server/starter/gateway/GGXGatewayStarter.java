@@ -54,8 +54,6 @@ public class GGXGatewayStarter  extends GGXBasicServerStarter{
 			this.rpcServerConfig.setRegistryClient(registryClient);
 		}
 		
-		this.rpcServerConfig.setRegistryClient(registryClient);
-		this.rpcServer = new RpcServer(rpcServerConfig);
 	}
 	
 
