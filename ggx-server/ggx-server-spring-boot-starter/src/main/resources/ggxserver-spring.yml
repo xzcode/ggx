@@ -73,7 +73,7 @@ ggx:
   core-server:
     enabled: false
     core: 
-      port: '@game.gateway.port@'
+      port: 9999
       websocket-path: /websocket
       change-and-reboot-if-port-in-use: true
       port-change-strategy: increment
