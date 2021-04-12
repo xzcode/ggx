@@ -1,7 +1,7 @@
 package com.ggx.core.common.message.pingpong.model;
 
 /**
- * 默认session实现
+ * 心跳信息
  * 
  * 
  * @author zai
