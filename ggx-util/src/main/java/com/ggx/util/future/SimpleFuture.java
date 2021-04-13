@@ -53,9 +53,8 @@ public class SimpleFuture<T> implements Future<T> {
 		this.triggerListeners();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public void addListener(FutureListener<Future<T>> listener) {
+	public void addListener(FutureListener<T> listener) {
 		synchronized (this) {
 			if (this.done) {	
 				triggerListener((FutureListener<T>) listener);
