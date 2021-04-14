@@ -54,6 +54,9 @@ public class GGXServer implements GGXServerStarter {
 			if (configModel.getRpc() != null && configModel.getRpc().getClient() != null) {
 				ggxCoreServerStarter.setRpcClientConfig(configModel.getRpc().getClient());
 			}
+			if (configModel.getRpc().getServer() != null) {
+				ggxCoreServerStarter.setRpcServerConfig(configModel.getRpc().getServer());
+			}
 			ggxCoreServerStarter.getCoreServerConfig().setScanPackages(config.getScanPackages());
 			ggxCoreServerStarter.setRegistryClientConfig(ggxCoreServerStarter.getRegistryClientConfig());
 			ggxCoreServerStarter.init();
