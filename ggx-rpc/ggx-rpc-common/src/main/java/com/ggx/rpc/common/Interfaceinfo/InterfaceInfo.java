@@ -37,6 +37,9 @@ public class InterfaceInfo {
 	// 方法指定服务id参数下标集合
 	protected Map<Method, Integer> methodTargetServiceParamIndexes;
 	
+	// 方法指定Hash服务id参数下标集合
+	protected Map<Method, Integer> methodTargetHashedServiceParamIndexes;
+	
 	// 方法指定服务组id参数下标集合
 	protected Map<Method, Integer> methodTargetGroupParamIndexes;
 
@@ -154,6 +157,14 @@ public class InterfaceInfo {
 	
 	public void setCrossGroup(String crossGroup) {
 		this.crossGroup = crossGroup;
+	}
+
+	public Map<Method, Integer> getMethodTargetHashedServiceParamIndexes() {
+		return methodTargetHashedServiceParamIndexes;
+	}
+
+	public void setMethodTargetHashedServiceParamIndexes(Map<Method, Integer> methodTargetHashedServiceParamIndexes) {
+		this.methodTargetHashedServiceParamIndexes = methodTargetHashedServiceParamIndexes;
 	}
 	
 	

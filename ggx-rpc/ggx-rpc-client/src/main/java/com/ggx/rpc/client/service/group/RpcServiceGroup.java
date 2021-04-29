@@ -2,6 +2,7 @@ package com.ggx.rpc.client.service.group;
 
 import com.ggx.core.common.future.GGXFuture;
 import com.ggx.rpc.client.service.RpcService;
+import com.ggx.rpc.client.service.cache.HashedRpcServiceCache;
 import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.util.manager.map.impl.ListenableMapDataManager;
@@ -20,6 +21,8 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	protected String serviceGroupName;
 	
 	protected RpcServiceLoadbalancer loadblancer;
+	
+	protected HashedRpcServiceCache hashedRpcServiceCache = new HashedRpcServiceCache(this);
 	
 	public RpcServiceGroup(String serviceGroupId) {
 		this.serviceGroupId = serviceGroupId;
@@ -58,4 +61,15 @@ public class RpcServiceGroup extends ListenableMapDataManager<String, RpcService
 	public void setServiceGroupName(String serviceGroupName) {
 		this.serviceGroupName = serviceGroupName;
 	}
+	public HashedRpcServiceCache getHashedRpcServiceCache() {
+		return hashedRpcServiceCache;
+	}
+	public void setHashedRpcServiceCache(HashedRpcServiceCache hashedRpcServiceCache) {
+		this.hashedRpcServiceCache = hashedRpcServiceCache;
+	}
+	public void setServiceGroupId(String serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
+	}
+	
+	
 }

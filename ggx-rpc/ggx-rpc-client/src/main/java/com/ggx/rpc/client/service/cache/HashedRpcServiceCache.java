@@ -1,21 +1,18 @@
-package com.ggx.rpc.client.service.loadbalancer.impl;
+package com.ggx.rpc.client.service.cache;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import com.ggx.core.common.future.GGXFuture;
 import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
-import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.client.service.loadbalancer.model.VirtualRpcServiceInfo;
-import com.ggx.rpc.common.message.req.RpcReq;
 import com.ggx.util.hash.HashUtil;
 
 /**
- * 一致性哈希RPC服务负载均衡器
+ * 一致性哈希RPC服务缓存
+ * @author zai
  *
- * @author zai 2020-05-22 15:10:41
  */
-public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadbalancer {
+public class HashedRpcServiceCache{
 	
 	
 	/**
@@ -31,7 +28,7 @@ public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadba
 	
 	protected RpcServiceGroup serviceGroup;
 	
-	public ConsistentHashingRpcServiceLoadbalancer(RpcServiceGroup serviceGroup) {
+	public HashedRpcServiceCache(RpcServiceGroup serviceGroup) {
 		this.serviceGroup = serviceGroup;
 		
 		this.serviceGroup.onPut((key, rpcService) -> {
@@ -43,13 +40,6 @@ public class ConsistentHashingRpcServiceLoadbalancer implements RpcServiceLoadba
 		});
 	}
 
-	@Override
-	public GGXFuture<?> invoke(RpcReq req) {
-		String rpcId = req.getRpcId();
-		RpcService rpcService = this.getService(rpcId);
-		return rpcService.invoke(req);
-	}
-	
 	public void addService(RpcService rpcService ) {
 		String serviceId = rpcService.getServiceId();
 		for (int i = 0; i < VIRTUAL_ROUTER_SERVICE_SIZE; i++) {

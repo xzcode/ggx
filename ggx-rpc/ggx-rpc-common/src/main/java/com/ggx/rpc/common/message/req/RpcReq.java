@@ -11,6 +11,9 @@ public class RpcReq extends AbstractMessage {
 
 	// 调用id
 	private String rpcId;
+	
+	// 负载均衡id
+	private String loadbalanceId;
 
 	// 接口名称
 	private String interfaceName;
@@ -70,28 +73,12 @@ public class RpcReq extends AbstractMessage {
 	}
 	
 	
-
-	/*
-	 * public static void main(String[] args) throws Exception {
-	 * ProtoStuffSerializer serializer = new ProtoStuffSerializer();
-	 * 
-	 * RpcReq rpcReq = new RpcReq(); rpcReq.setInterfaceName("interface01");
-	 * rpcReq.setMethodName("method01"); rpcReq.setParamDatas(Arrays.asList(new
-	 * byte[] { 1, 2, 3 }, new byte[] { 3, 2, 1 })); byte[] serialize =
-	 * serializer.serialize(rpcReq); System.out.println(Arrays.toString(serialize));
-	 * RpcReq deserialize = serializer.deserialize(serialize, RpcReq.class);
-	 * System.out.println(deserialize);
-	 * 
-	 * 
-	 * TestA<TestB> testA = new TestA<TestB>(); testA.setId("12123");
-	 * testA.setDataT(new TestB("xxx", 123));
-	 * 
-	 * byte[] bytes = serializer.serialize(testA);
-	 * System.out.println(Arrays.toString(bytes)); System.out.println(bytes.length);
-	 * TestA testA2 = serializer.deserialize(bytes, TestA.class);
-	 * System.out.println(testA2);
-	 * 
-	 * }
-	 */
+	public String getLoadbalanceId() {
+		return loadbalanceId;
+	}
+	
+	public void setLoadbalanceId(String loadbalanceId) {
+		this.loadbalanceId = loadbalanceId;
+	}
 
 }

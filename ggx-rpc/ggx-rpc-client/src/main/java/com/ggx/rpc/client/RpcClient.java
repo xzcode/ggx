@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ggx.rpc.client.config.RpcClientConfig;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
-import com.ggx.rpc.client.service.RpcService;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
 
 public class RpcClient{
@@ -18,11 +17,6 @@ public class RpcClient{
 		this.proxyManager = this.config.getProxyManager();
 		this.config.init();
 	}
-	
-	public void init() {
-		
-	}
-
 	
 	@SuppressWarnings("unchecked")
 	public <T> T register(Class<T> serviceInterface, Object fallbackObj) {

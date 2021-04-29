@@ -17,6 +17,7 @@ import com.ggx.rpc.common.Interfaceinfo.returntype.impl.DefaultReturnTypeGenerat
 import com.ggx.rpc.common.Interfaceinfo.returntype.impl.ParamsIndexReturnTypeGenerator;
 import com.ggx.rpc.common.annotation.GGXRpcService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetGroup;
+import com.ggx.rpc.common.annotation.GGXRpcTargetHashedService;
 import com.ggx.rpc.common.annotation.GGXRpcTargetService;
 import com.ggx.util.reflect.GGXReflectUtil;
 
@@ -63,6 +64,10 @@ public class InterfaceInfoParser {
 		
 		// 方法指定服务组id参数下标集合
 		Map<Method, Integer> methodTargetGroupParamIndexes = new HashMap<>();
+		
+		// 方法指定Hashed服务id参数下标集合
+		Map<Method, Integer> methodTargetHashedServiceParamIndexes = new HashMap<>();
+		
 
 		// 返回类型泛型集合
 		//Map<Method, List<Class<?>>> methodGenericReturnTypes = new HashMap<>();
@@ -99,6 +104,11 @@ public class InterfaceInfoParser {
 						Annotation curAnn = annos[j];
 						if (curAnn.annotationType() == GGXRpcTargetService.class) {
 							methodTargetServiceParamIndexes.put(mtd, i);
+							findGGXRpcTargetService = true;
+							break;
+						}
+						if (curAnn.annotationType() == GGXRpcTargetHashedService.class) {
+							methodTargetHashedServiceParamIndexes.put(mtd, i);
 							findGGXRpcTargetService = true;
 							break;
 						}
@@ -159,6 +169,7 @@ public class InterfaceInfoParser {
 		interfaceInfo.setMethodReturnClasses(methodReturnClasses);
 		interfaceInfo.setMethodGenericReturnTypes(methodGenericReturnTypes);
 		interfaceInfo.setMethodTargetServiceParamIndexes(methodTargetServiceParamIndexes);
+		interfaceInfo.setMethodTargetHashedServiceParamIndexes(methodTargetHashedServiceParamIndexes);
 		interfaceInfo.setMethodTargetGroupParamIndexes(methodTargetGroupParamIndexes);
 		
 		return interfaceInfo;

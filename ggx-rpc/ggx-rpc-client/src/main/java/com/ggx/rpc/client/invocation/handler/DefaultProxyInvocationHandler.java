@@ -14,12 +14,14 @@ import com.ggx.rpc.client.exception.RpcServiceSendMessageFailedException;
 import com.ggx.rpc.client.proxy.RpcProxyInfo;
 import com.ggx.rpc.client.proxy.RpcProxyManager;
 import com.ggx.rpc.client.service.RpcService;
+import com.ggx.rpc.client.service.cache.HashedRpcServiceCache;
 import com.ggx.rpc.client.service.cache.InterfaceServiceCrossGroupCache;
 import com.ggx.rpc.client.service.cache.InterfaceServiceGroupCache;
 import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.group.RpcServiceCrossGroup;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
+import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.message.req.RpcReq;
@@ -57,6 +59,8 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 		try {
 			// 确认需要调用的服务
 			RpcProxyInfo proxyInfo = proxyManager.get(serviceInterface);
+			
+			String loadbalanceId = null;
 	
 			if (proxyInfo.getTarget() != null) {
 				return proxyMethod.invoke(proxyInfo.getTarget(), args);
@@ -107,6 +111,15 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 					serviceId = String.valueOf(args[targetServiceParamIndex]);
 					rpcService = group.get(serviceId);
 				} else {
+					Integer targetHashServiceParamIndex = interfaceInfo.getMethodTargetHashedServiceParamIndexes().get(method);
+					if(targetHashServiceParamIndex != null) {
+						String hashKey = String.valueOf(args[targetHashServiceParamIndex]);
+						HashedRpcServiceCache hashedRpcServiceCache = group.getHashedRpcServiceCache();
+						rpcService = hashedRpcServiceCache.getService(hashKey);
+					}
+				}
+				
+				if(rpcService == null){
 					rpcService = group.getRandomOne();
 				}
 			}
@@ -139,6 +152,9 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 			// 组装数据包
 			RpcReq req = new RpcReq();
 			req.setRpcId(GGXRandomIdUtil.newRandomStringId24());
+			if (loadbalanceId == null) {
+				req.setLoadbalanceId(req.getRpcId());
+			}
 			req.setInterfaceName(interfaceInfo.getInterfaceName());
 			req.setMethodName(methodName);
 			if (paramTypes != null && paramTypes.length > 0) {
