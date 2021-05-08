@@ -58,9 +58,9 @@ public class HashedRpcServiceCache{
 	}
 
 	public RpcService getService(String key) {
-		int sessionHash = HashUtil.getFNV1_32_HASH(key);
+		int hashKey = HashUtil.getFNV1_32_HASH(key);
 		
-		Integer firstKey = this.virtualRpcServices.ceilingKey(sessionHash);
+		Integer firstKey = this.virtualRpcServices.ceilingKey(hashKey);
 		if (firstKey == null && this.virtualRpcServices.size() > 0) {
 			firstKey = this.virtualRpcServices.firstKey();
 		}

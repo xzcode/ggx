@@ -12,7 +12,7 @@ public class RpcServiceClassCache extends ListenableMapDataManager<String, Class
 			try {
 				clazz = Class.forName(key);
 			} catch (ClassNotFoundException e) {
-				GGXLogUtil.getLogger(this).error("Class Not Found!", e);
+				GGXLogUtil.getLogger(this).error("\n\nRPC Service Class Not Found: {} \n", key);
 			}
 			if (clazz != null) {
 				super.put(key, clazz);

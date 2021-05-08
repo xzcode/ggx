@@ -42,9 +42,11 @@ public class RpcReqHandler {
 				GGXFuture<?> future = RpcReqHandler.this.invocationManager.invoke(req);
 				String rpcId = req.getRpcId();
 				future.addListener(f -> {
+					
+					Object result = f.get();
+					
 					if (f.isSuccess()) {
 						// 成功
-						Object result = f.get();
 						byte[] returnData = null;
 						String returnDataType = null;
 						if (result != null) {
@@ -55,25 +57,20 @@ public class RpcReqHandler {
 						}
 						RpcResp rpcResp = new RpcResp(rpcId, returnData, returnDataType);
 						session.send(rpcResp);
-						if (LOGGER.isDebugEnabled()) {
-							LOGGER.info("RPC Response, rpcId: {} , interface: {}, method: {}, return: {}",
-									req.getRpcId(), req.getInterfaceName(), req.getMethodName(), GSON.toJson(result));
-						}
+						
 						return;
+					}else {
+						// 失败
+						RpcResp rpcResp = new RpcResp(rpcId, false);
+						session.send(rpcResp);
 					}
-					// 失败
-					RpcResp rpcResp = new RpcResp(rpcId, false);
-					session.send(rpcResp);
-
-					LOGGER.warn("RPC Request FAILED!! rpcId: {} , interface: {}, method: {}", req.getRpcId(),
-							req.getInterfaceName(), req.getMethodName());
-
+					
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.info("RPC Response, rpcId: {} , interface: {}, method: {}, return: {}",
+								req.getRpcId(), req.getInterfaceName(), req.getMethodName(), result != null ? GSON.toJson(result) : null);
+					}
 				});
-
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.info("RPC Request, rpcId: {} , interface: {}, method: {}", req.getRpcId(),
-							req.getInterfaceName(), req.getMethodName());
-				}
+				
 
 			}
 		};
