@@ -29,6 +29,12 @@ public class DefaultTaskExecutor implements TaskExecutor{
 	public DefaultTaskExecutor(String threadNamePrefix, int threadSize) {
 		this.executor = new DefaultEventLoopGroup(threadSize, new GGXThreadFactory(threadNamePrefix, false));
 	}
+	public DefaultTaskExecutor(String threadNamePrefix, int threadSize, boolean daemon) {
+		this.executor = new DefaultEventLoopGroup(threadSize, new GGXThreadFactory(threadNamePrefix, daemon));
+	}
+	public DefaultTaskExecutor(String threadNamePrefix, boolean daemon) {
+		this.executor = new DefaultEventLoopGroup(new GGXThreadFactory(threadNamePrefix, daemon));
+	}
 	public DefaultTaskExecutor(int threadSize) {
 		this.executor = new DefaultEventLoopGroup(threadSize, new GGXThreadFactory("GGXTaskExecutor-", false));
 	}

@@ -26,6 +26,10 @@ public class SingleThreadTaskExecutor extends DefaultTaskExecutor{
 	public SingleThreadTaskExecutor(String threadNamePrefix) {
 		super(new DefaultEventLoop(new GGXThreadFactory(threadNamePrefix, false)));
 	}
+	
+	public SingleThreadTaskExecutor(String threadNamePrefix, boolean deamon) {
+		super(new DefaultEventLoop(new GGXThreadFactory(threadNamePrefix, deamon)));
+	}
 
 	public SingleThreadTaskExecutor(ThreadFactory threadFactory) {
 		super(new DefaultEventLoop(threadFactory));
