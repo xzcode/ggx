@@ -49,6 +49,9 @@ public class RpcClientConfig {
 	//是否输出包信息
 	protected boolean printEventbusPackLog = false;
 	
+	//如果目标服务丢失，选择一个随机服务
+	protected boolean choseRandomServiceIfTargetServiceLost = true;
+	
 	//共享线程组
 	protected EventLoopGroup sharedEventLoopGroup;
 	
@@ -283,5 +286,16 @@ public class RpcClientConfig {
 	public void setRpcServiceGroupId(String serviceGroupId) {
 		this.rpcServiceGroupId = serviceGroupId;
 	}
+
+
+	public boolean isChoseRandomServiceIfTargetServiceLost() {
+		return choseRandomServiceIfTargetServiceLost;
+	}
+
+
+	public void setChoseRandomServiceIfTargetServiceLost(boolean choseRandomServiceIfTargetServiceLost) {
+		this.choseRandomServiceIfTargetServiceLost = choseRandomServiceIfTargetServiceLost;
+	}
+	
 	
 }

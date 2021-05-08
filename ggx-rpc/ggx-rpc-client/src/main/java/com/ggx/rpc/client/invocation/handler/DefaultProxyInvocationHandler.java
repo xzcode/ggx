@@ -21,7 +21,6 @@ import com.ggx.rpc.client.service.callback.RpcMethodCallback;
 import com.ggx.rpc.client.service.callback.RpcMethodCallbackManager;
 import com.ggx.rpc.client.service.group.RpcServiceCrossGroup;
 import com.ggx.rpc.client.service.group.RpcServiceGroup;
-import com.ggx.rpc.client.service.loadbalancer.RpcServiceLoadbalancer;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfo;
 import com.ggx.rpc.common.Interfaceinfo.InterfaceInfoParser;
 import com.ggx.rpc.common.message.req.RpcReq;
@@ -31,6 +30,11 @@ import com.ggx.util.exception.GGXNoStackTraceRuntimeException;
 import com.ggx.util.id.GGXRandomIdUtil;
 import com.ggx.util.logger.GGXLogUtil;
 
+/**
+ * 默认RPC代理调用处理器
+ * @author zai
+ *
+ */
 public class DefaultProxyInvocationHandler implements InvocationHandler {
 
 	private RpcClientConfig config;
@@ -106,21 +110,31 @@ public class DefaultProxyInvocationHandler implements InvocationHandler {
 			RpcService rpcService = null;
 			String serviceId = null;
 			if (group != null) {
+				// 判断是否指定目标服务
+				boolean targeted = false;
 				Integer targetServiceParamIndex = interfaceInfo.getMethodTargetServiceParamIndexes().get(method);
 				if (targetServiceParamIndex != null) {
 					serviceId = String.valueOf(args[targetServiceParamIndex]);
 					rpcService = group.get(serviceId);
+					targeted = true;
 				} else {
 					Integer targetHashServiceParamIndex = interfaceInfo.getMethodTargetHashedServiceParamIndexes().get(method);
 					if(targetHashServiceParamIndex != null) {
 						String hashKey = String.valueOf(args[targetHashServiceParamIndex]);
 						HashedRpcServiceCache hashedRpcServiceCache = group.getHashedRpcServiceCache();
 						rpcService = hashedRpcServiceCache.getService(hashKey);
+						targeted = true;
 					}
 				}
 				
 				if(rpcService == null){
-					rpcService = group.getRandomOne();
+					if(targeted) {
+						if (this.config.isChoseRandomServiceIfTargetServiceLost()) {
+							rpcService = group.getRandomOne();
+						}
+					}else {
+						rpcService = group.getRandomOne();
+					}
 				}
 			}
 	
