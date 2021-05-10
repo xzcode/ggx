@@ -115,7 +115,7 @@ public class GGXCoreConfig {
 
 	protected boolean useSSL = false;
 
-	protected int soBacklog = 1024;
+	protected int soBacklog = 10240;
 
 	protected boolean soReuseaddr = true;
 
