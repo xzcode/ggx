@@ -20,6 +20,8 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 	private String host;
 
 	private int port;
+	
+	private int connectTimeoutMills = 5 * 1000;
 
 	@Override
 	public void init() {
@@ -55,6 +57,14 @@ public class GGXCoreClientConfig extends GGXCoreConfig {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+	
+	public int getConnectTimeoutMills() {
+		return connectTimeoutMills;
+	}
+	
+	public void setConnectTimeoutMills(int connectTimeoutMills) {
+		this.connectTimeoutMills = connectTimeoutMills;
 	}
 
 }

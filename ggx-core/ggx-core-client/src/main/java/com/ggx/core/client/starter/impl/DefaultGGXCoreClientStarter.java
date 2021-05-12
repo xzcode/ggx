@@ -57,6 +57,7 @@ public class DefaultGGXCoreClientStarter implements GGXCoreClientStarter {
 		}
         
         boot.option(ChannelOption.TCP_NODELAY, true);  
+        boot.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, config.getConnectTimeoutMills());
         
       
 	}

@@ -116,6 +116,8 @@ public class GGXCoreConfig {
 	protected boolean useSSL = false;
 
 	protected int soBacklog = 10240;
+	
+	protected int soTimeout = 30 * 1000;
 
 	protected boolean soReuseaddr = true;
 
@@ -749,5 +751,13 @@ public class GGXCoreConfig {
 	
 	public void setEnableNetFlowAnalyze(boolean enableNetFlowAnalyze) {
 		this.enableNetFlowAnalyze = enableNetFlowAnalyze;
+	}
+	
+	public int getSoTimeout() {
+		return soTimeout;
+	}
+	
+	public void setSoTimeout(int soTimeout) {
+		this.soTimeout = soTimeout;
 	}
 }

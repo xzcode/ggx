@@ -72,6 +72,7 @@ public class DefaultGGXCoreServerStarter implements GGXCoreServerStarter {
             }
             
             boot.option(ChannelOption.SO_BACKLOG, config.getSoBacklog()); 
+            boot.option(ChannelOption.SO_TIMEOUT, config.getSoTimeout()); 
             boot.option(ChannelOption.SO_REUSEADDR, true); 
             
             boot.childOption(ChannelOption.SO_REUSEADDR, config.isSoReuseaddr()); 
