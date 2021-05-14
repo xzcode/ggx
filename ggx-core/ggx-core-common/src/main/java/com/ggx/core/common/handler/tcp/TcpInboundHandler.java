@@ -129,7 +129,7 @@ public class TcpInboundHandler extends ByteToMessageDecoder{
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		if (cause instanceof java.io.IOException) {
-			GGXLogUtil.getLogger(this).error("Inbound ERROR! {}", cause.getMessage());
+			GGXLogUtil.getLogger(this).warn("Inbound ERROR! {}", cause.getMessage());
 			return;
 		}
 		GGXLogUtil.getLogger(this).error("Inbound ERROR! ", cause);

@@ -148,7 +148,9 @@ public class RpcServiceManager  extends ListenableMapDataManager<String, RpcServ
 					
 					for (InterfaceInfoModel info : interfaceInfos) {
 						Class<?> interfaceClass = classCache.get(info.getInterfaceName());
-						interfaceServiceCache.remove(interfaceClass);
+						if (interfaceClass != null) {
+							interfaceServiceCache.remove(interfaceClass);
+						}
 						
 						
 						String crossGroup = info.getCrossGroup();
