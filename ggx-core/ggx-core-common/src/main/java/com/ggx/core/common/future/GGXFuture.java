@@ -42,6 +42,8 @@ public interface GGXFuture<T> extends Future<T> {
 					}
 				});
 			});
+		}else {
+			this.addListener(listener);
 		}
 		return this;
 	};
